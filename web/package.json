@@ -1,0 +1,33 @@
+{
+  "name": "unicorn-web",
+  "version": "0.0.0",
+  "description": "Initial insta posting",
+  "scripts": {
+    "start": "ENV=test next -p 8080",
+    "build": "next build",
+    "export": "next export",
+    "serve": "serve ./out -p 8080",
+    "static": "npm run build && npm run export && npm run serve"
+  },
+  "dependencies": {
+    "pack": "0.0.0",
+    "@react-native-async-storage/async-storage": "1.13.2",
+    "actheme": "0.0.34",
+    "actstore": "0.0.34",
+    "crypto-js": "^4.0.0",
+    "fetchier": "0.0.36",
+    "next": "^10.0.3",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "rnwc": "^0.13.0"
+  },
+  "babel": {
+    "presets": [
+      "next/babel"
+    ]
+  },
+  "devDependencies": {
+    "next-transpile-modules": "^6.0.0",
+    "serve": "^11.3.2"
+  }
+}

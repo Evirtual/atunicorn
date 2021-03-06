@@ -1,0 +1,18 @@
+{
+  "name": "unicorn",
+  "version": "0.0.0",
+  "private": true,
+  "description": "monorepo for unicorn project",
+  "main": "index.js",
+  "workspaces": {
+    "packages": [
+      "web",
+      "@packs/**"
+    ]
+  },
+  "scripts": {
+    "start": "(cd web && npm start)"
+  },
+  "author": "",
+  "license": "ISC"
+}
