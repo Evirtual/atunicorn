@@ -1,6 +1,6 @@
 const withTM = require('next-transpile-modules')(['pack'])
 
-const { NODE_ENV, __CFBundleIdentifier, __CF_USER_TEXT_ENCODING, __NEXT_PROCESSED_ENV, ...env } = process.env
+const { NODE_ENV, __CFBundleIdentifier, __CF_USER_TEXT_ENCODING, __NEXT_PROCESSED_ENV, NODE_EXE, ...env } = process.env
 
 module.exports = withTM({
   env: { ...env, ENV: NODE_ENV },
