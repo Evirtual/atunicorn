@@ -20,12 +20,13 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "rnwc": "^0.13.0",
-    "@fortawesome/fontawesome-svg-core": "^1.2.34",
-    "@fortawesome/pro-duotone-svg-icons": "^5.15.2",
-    "@fortawesome/pro-light-svg-icons": "^5.15.2",
-    "@fortawesome/pro-regular-svg-icons": "^5.15.2",
-    "@fortawesome/pro-solid-svg-icons": "^5.15.2",
-    "@fortawesome/react-fontawesome": "^0.1.14"
+    "@fortawesome/fontawesome-svg-core": "1.2.34",
+    "@fortawesome/pro-duotone-svg-icons": "5.15.2",
+    "@fortawesome/pro-light-svg-icons": "5.15.2",
+    "@fortawesome/pro-regular-svg-icons": "5.15.2",
+    "@fortawesome/pro-solid-svg-icons": "5.15.2",
+    "@fortawesome/react-fontawesome": "0.1.14",
+    "firebase": "8.2.10"
   },
   "babel": {
     "presets": [

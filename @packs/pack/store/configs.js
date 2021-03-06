@@ -15,6 +15,14 @@ const configs = {
     trade: API_URL + '/trade',
     cancel: API_URL + '/cancel',
     orders: API_URL + '/orders'
+  },
+  firebase: {
+    apiKey: 'AIzaSyDlYnz7SakCLC_xZsfyVWkRau-B9_LfdXo',
+    authDomain: 'unicorn-ee877.firebaseapp.com',
+    projectId: 'unicorn-ee877',
+    storageBucket: 'unicorn-ee877.appspot.com',
+    appId: '1:741151279266:web:fdbbd6f71a54a7d712effb',
+    databaseUrl: 'https://unicorn-ee877-default-rtdb.firebaseio.com/'
   }
 }
 
