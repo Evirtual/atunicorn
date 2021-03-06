@@ -1,7 +1,6 @@
 import React from 'react'
 import { Actheme } from '../theme'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Svg from 'react-native-svg'
 // import * as All from './../resources/svg'
 
 export const Link = ({ href, prefetch, replace, scroll, shallow, assetPrefix = process.env.assetPrefix, ...rest }) => (
@@ -15,7 +14,7 @@ const Styled = Actheme.create({
 	Link: 'Link'
 })
 
-const Icon = ({ svg, ...props }) => <FontAwesomeIcon {...props} alt={props.alt} icon={[ (props.solid ? 'fas' : 'fal'), props.icon]} solid={(props.solid?.toString())} />
+const Icon = ({ svg, ...props }) => <FontAwesomeIcon {...props} alt={props.alt} icon={[ (props.solid ? 'fas' : 'fal'), props.icon || props.name]} solid={(props.solid?.toString())} />
 
 export default {
 	Link,

@@ -1,1 +1,1 @@
-export { default } from 'pack/screens/alternate'
+export { default } from 'pack/screens/alt'

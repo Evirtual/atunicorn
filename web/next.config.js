@@ -5,7 +5,10 @@ const { NODE_ENV, __CFBundleIdentifier, __CF_USER_TEXT_ENCODING, __NEXT_PROCESSE
 module.exports = withTM({
   env: { ...env, ENV: NODE_ENV },
   webpack: config => {
-    config.resolve.alias = {...(config.resolve.alias || {}), 'react-native$': 'rnwc' }
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      'react-native$': 'rnwc'
+    }
     config.resolve.extensions = [ '.web.js', ...config.resolve.extensions ]
     return config
   }

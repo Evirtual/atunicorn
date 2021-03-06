@@ -9,10 +9,11 @@ function MainScreen(props) {
     <Styled.Wrap>
       <Styled.Text>{process.env.description}</Styled.Text>
       <Elems.Link href="/alternate" fustyle="ta:c">
-        Go to Alternate Screen
+        Go to Alternate Screen and see heart
       </Elems.Link>
+      <Elems.Icon style={Actheme.style('c:black')} icon="heart" />
       <Styled.Cont>
-        <Styled.Button onPress={action('MAIN_COUNT')}>Click Me to increase number {store.get('count')}</Styled.Button>
+        <Styled.Button onPress={action('MAIN_COUNT')}>Click Me Please to increase number {store.get('count')}</Styled.Button>
         <Styled.Text small aria-level="2">
           {process.env.name} {process.env.version}
         </Styled.Text>

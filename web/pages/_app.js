@@ -6,10 +6,12 @@ import Settings from 'pack/store'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/pro-solid-svg-icons'
 import { fal } from '@fortawesome/pro-light-svg-icons'
+import { far } from '@fortawesome/pro-regular-svg-icons'
+import { fad } from '@fortawesome/pro-duotone-svg-icons'
+import { fas } from '@fortawesome/pro-solid-svg-icons'
 
-library.add(fas, fal)
+library.add(fal, far, fad, fas)
 
 /** Install pro
   npm config set "@fortawesome:registry" https://npm.fontawesome.com/
