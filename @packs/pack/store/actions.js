@@ -8,17 +8,17 @@ const actions = ({ store, cookies, configs, act }) => ({
     !firebase.apps.length && await firebase.initializeApp(configs.firebase)
     const user = await new Promise(resolve => firebase.auth().onAuthStateChanged(resolve))
 
-    let posts = []
-
     firebase.database().ref('posts').on('value', snapshot => {
+      let posts = []
       snapshot.forEach(child => {
         // const { key } = child
-        posts = posts.concat(Object.values(child.val()))
+        const list = child.val()
+        posts = posts.concat(Object.values({ ...list }))
       })
+      store.set({ posts })
     })
 
-    const data = await store.set({
-      posts,
+    await store.set({
       user: {
         name: user.displayName,
         email: user.email,
@@ -26,10 +26,12 @@ const actions = ({ store, cookies, configs, act }) => ({
         id: user.uid
       }
     })
+    //
 
-    // console.log(data)
+    // console.log('INIT', data, posts)
     // if(user) return await act('APP_POST')
   },
+
 
   APP_LOGIN: async () => {
     const provider = new firebase.auth.GoogleAuthProvider()

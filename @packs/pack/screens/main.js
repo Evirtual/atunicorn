@@ -4,7 +4,11 @@ import Actstore from 'actstore'
 import { GET } from 'fetchier'
 
 function MainScreen(props) {
-  const { store, action, act, handle } = Actstore({}, ['update', 'info'])
+  const { store, action, act, handle } = Actstore({}, ['user', 'posts'])
+  const { user, posts, } = store.get('user', 'posts')
+
+  console.log({ user, posts })
+  if(!posts) return null
 
   return <Inner.Container>
     <Inner.Wrap>
