@@ -18,6 +18,9 @@ function MainScreen(props) {
         <Button.Comp tab text="Videos" />
       </Inner.Tabs>
     </Inner.Wrap>
+    <Inner.Content>
+      {!!posts && posts.map((post, index) => <Post.Comp key={index} post={post} />)}
+    </Inner.Content>
     <Inner.Footer>
       <Button.Comp icon="info-circle" iconColor="black" iconSize="s10" info onPress={action('APP_LOGIN')} />
     </Inner.Footer>
@@ -28,12 +31,13 @@ export default MainScreen
 const Inner = Actheme.create({
   Container: ['View', 'f:1 bg:black50'],
   Wrap: ['View', 'w:100% ai:c p:s5', { md: 'fd:row jc:sb' }],
-  Tabs: ['View', 'fd:row jc:c mv:s5', { md: 'mv:0' }],
-  Footer: ['View', 'fd:row jc:c ps:ab b,l,r:0 p:s5', { md: 'jc:fs' }]
+  Tabs: ['View', 'fd:row jc:c mt:s5', { md: 'mt:0' }],
+  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 jc:c fd:row fw:wrap ph:s5') }]],
+  Footer: ['View', 'ps:ab b,l:0 p:s5 z:2']
 })
 
 const Button = Actheme.create({
-  Touch: ['TouchableOpacity', 'jc,ai:c', { tab: 'mh:s5 p:s5 fs:s20' }],
+  Touch: ['TouchableOpacity', 'jc,ai:c', { tab: 'mh:s5 p:s5 fs:s20', info: 'bg:#e5e5e5 br:s20' }],
   Text: ['Text', ['ta:c c:black fb:500 w:100%', { numberOfLines: 1 }], { tab: 'fs:s5' }],
   Image: ['Image', 'w,h:100%'],
   Comp: ({text, source, info, logo, size, icon, iconColor, iconSize, tab, ...props}) => {
@@ -42,5 +46,16 @@ const Button = Actheme.create({
       {icon && <Elems.Icon color={Actheme.value(iconColor, 'color')} style={Actheme.style(`fs:${iconSize}`)} icon={icon} />}
       {text && <Button.Text tab={tab}>{text}</Button.Text>}
     </Button.Touch>
+  }
+})
+
+const Post = Actheme.create({
+  Touch: ['TouchableOpacity', 'w:100% xw,h:s100 jc,ai:c bw:1 bc:blacka2 br:s5 of:hd m:s5'],
+  Image: ['Image', 'w,h:100%'],
+  Comp: ({post, ...props}) => {
+    return <Post.Touch {...props}>
+      <Post.Image source={post.url} />
+      {console.log(post)}
+    </Post.Touch>
   }
 })
