@@ -11,7 +11,7 @@ function MainScreen(props) {
       <Elems.Link href="/alternate" fustyle="ta:c">
         Go to Alternate Screen and see heart
       </Elems.Link>
-      <Elems.Icon style={Actheme.style('c:black')} icon="heart" />
+      <Styled.Upload action={action('APP_UPLOAD')} />
       <Styled.Cont>
         <Styled.Button onPress={action('MAIN_COUNT')}>Click Me Please to increase number {store.get('count')}</Styled.Button>
         <Styled.Text small aria-level="2">
@@ -25,10 +25,15 @@ function MainScreen(props) {
 export default MainScreen
 
 const Styled = Actheme.create({
+  File: 'Upload',
+  Touch: ['TouchableOpacity', 'bg:pink'],
   Wrap: 'ai,jc:c fg:1',
   Cont: 'mt:s4',
   Text: ['Text', 'fs,mb:s6 ta:c', { small: 'fs:s3'}],
-  Button: 'fs,mb:s6 c:green'
+  Button: 'fs,mb:s6 c:green',
+  Upload: props => <Styled.File {...props}>
+    <Elems.Icon style={Actheme.style('c:black')} icon="heart"/>
+  </Styled.File>
 })
 
 const actions = ({ store }) => ({
