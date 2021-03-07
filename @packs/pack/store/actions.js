@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/messaging'
 import 'firebase/auth'
 import 'firebase/database'
+import 'firebase/storage'
 
 const actions = ({ store, cookies, configs, act }) => ({
   APP_INIT: async () => {
@@ -48,7 +49,7 @@ const actions = ({ store, cookies, configs, act }) => ({
   },
 
   APP_POST: async (post = {}) => {
-    const { user, database } = store.get('user', 'database') || {}
+    const { user } = store.get('user') || {}
     if(!user) return console.warn('PLEASE LOGIN BEFORE POSTING')
 
     const id = new Date().getTime()
@@ -59,6 +60,13 @@ const actions = ({ store, cookies, configs, act }) => ({
       url: post.url || 'https://data.lostrelics.io/Items/AbyssalPyre.jpg',
       desc: post.desc || 'testing posts'
     })
+  },
+
+  APP_UPLOAD: async ([ file ]) => {
+    const user = store.get('user') || {}
+    const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)
+    const url = await snap.ref.getDownloadURL()
+    console.log(url)
   },
 
 	APP_COUNT: () => store.set({ count: store.get('count') + 1 }),
