@@ -19,7 +19,7 @@ function MainScreen(props) {
       </Inner.Tabs>
     </Inner.Wrap>
     <Inner.Footer>
-      <Button.Comp icon="info-circle" iconColor="black" iconSize="s10" info />
+      <Button.Comp icon="info-circle" iconColor="black" iconSize="s10" info onPress={action('APP_LOGIN')} />
     </Inner.Footer>
   </Inner.Container>
 }
@@ -36,8 +36,8 @@ const Button = Actheme.create({
   Touch: ['TouchableOpacity', 'jc,ai:c', { tab: 'mh:s5 p:s5 fs:s20' }],
   Text: ['Text', ['ta:c c:black fb:500 w:100%', { numberOfLines: 1 }], { tab: 'fs:s5' }],
   Image: ['Image', 'w,h:100%'],
-  Comp: ({text, source, info, logo, size, icon, iconColor, iconSize, tab}) => {
-    return <Button.Touch info={info} logo={logo} tab={tab} style={Actheme.style(`w,h:${size || 'auto'}`)}>
+  Comp: ({text, source, info, logo, size, icon, iconColor, iconSize, tab, ...props}) => {
+    return <Button.Touch info={info} logo={logo} tab={tab} style={Actheme.style(`w,h:${size || 'auto'}`)} {...props}>
       {source && <Button.Image source={source} />}
       {icon && <Elems.Icon color={Actheme.value(iconColor, 'color')} style={Actheme.style(`fs:${iconSize}`)} icon={icon} />}
       {text && <Button.Text tab={tab}>{text}</Button.Text>}

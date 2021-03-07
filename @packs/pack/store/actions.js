@@ -18,7 +18,7 @@ const actions = ({ store, cookies, configs, act }) => ({
       store.set({ posts })
     })
 
-    await store.set({
+    user && await store.set({
       user: {
         name: user.displayName,
         email: user.email,
@@ -26,7 +26,6 @@ const actions = ({ store, cookies, configs, act }) => ({
         id: user.uid
       }
     })
-    //
 
     // console.log('INIT', data, posts)
     // if(user) return await act('APP_POST')
@@ -37,7 +36,15 @@ const actions = ({ store, cookies, configs, act }) => ({
     const provider = new firebase.auth.GoogleAuthProvider()
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
     const { credential, user } = await firebase.auth().signInWithPopup(provider)
-    console.log('login', user, credential.accessToken)
+    user && await store.set({
+      user: {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        id: user.uid
+      }
+    })
+    // console.log('login', user, credential.accessToken)
   },
 
   APP_POST: async (post = {}) => {
