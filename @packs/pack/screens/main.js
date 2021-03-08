@@ -80,12 +80,12 @@ const Upload = Actheme.create({
   Comp: props => { 
   const [active, setActive] = React.useState()
   return <Upload.Wrap>
-    <Upload.Touch>
-      <Upload.File {...props}>
+    <Upload.File {...props}>
+      <Upload.Touch>
         <Elems.Icon style={Actheme.style('c:black fs:s20')} icon="plus-circle"/>
-      </Upload.File>
-      <Upload.Text>Upload Picture</Upload.Text>
-    </Upload.Touch>
+        <Upload.Text>Upload Picture</Upload.Text>
+      </Upload.Touch>
+    </Upload.File>
     <Upload.Input placeholder="Type your description" underlineColorAndroid="transparent" active={active} onFocus={() => setActive(true)} onBlur={() => setActive(false)} />
     <Button.Comp text="Post" post />
   </Upload.Wrap>
