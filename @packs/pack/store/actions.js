@@ -49,24 +49,26 @@ const actions = ({ store, cookies, configs, act }) => ({
   },
 
   APP_POST: async (post = {}) => {
-    const { user } = store.get('user') || {}
+    const user = store.get('user')
     if(!user) return console.warn('PLEASE LOGIN BEFORE POSTING')
 
     const id = new Date().getTime()
     const key = ['posts', user.id, id].join('/')
 
+    console.log({ post })
+
     return firebase.database().ref(key).set({
       id, userId: user.id,
       url: post.url || 'https://data.lostrelics.io/Items/AbyssalPyre.jpg',
       desc: post.desc || 'testing posts'
-    })
+    }, console.log)
   },
 
   APP_UPLOAD: async ([ file ]) => {
     const user = store.get('user') || {}
     const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)
     const url = await snap.ref.getDownloadURL()
-    console.log(url)
+    return url
   },
 
 	APP_COUNT: () => store.set({ count: store.get('count') + 1 }),

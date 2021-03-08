@@ -8,7 +8,6 @@ function MainScreen(props) {
   const { user, posts, } = store.get('user', 'posts')
 
   console.log({ user, posts })
-  // if(!posts) return null
 
   return <Inner.Container>
     <Inner.Wrap>
@@ -28,6 +27,7 @@ function MainScreen(props) {
     <Inner.Footer>
       <Button.Comp icon="info-circle" iconColor="black" iconSize="s10" info onPress={action('APP_LOGIN')} />
     </Inner.Footer>
+    {!!user && <Upload.Comp action={files => act('APP_UPLOAD', files).then(url => act('APP_POST', { url, desc: 'new automated post' }))} />}
   </Inner.Container>
 }
 export default MainScreen
@@ -52,6 +52,13 @@ const Button = Actheme.create({
       {text && <Button.Text tab={tab}>{text}</Button.Text>}
     </Button.Touch>
   }
+})
+
+const Upload = Actheme.create({
+  File: 'Upload',
+  Comp: props => <Upload.File {...props} style={Actheme.style('ps:ab r,b:0 mr:s10 mb:s5')}>
+    <Elems.Icon style={Actheme.style('c:black fs:s10')} icon="plus-circle"/>
+  </Upload.File>
 })
 
 const Post = Actheme.create({
