@@ -19,15 +19,23 @@ function MainScreen(props) {
     <Inner.Content>
       {!posts
         ? <Button.Comp icon="spinner-third" spin />
-        : (mode != 'post' && mode != 'profile') && posts.map((post, index) => <Post.Comp key={index} post={post} />)}
+        : (mode != 'post' && mode != 'profileView' && mode != 'profileEdit') && posts.map((post, index) => <Post.Comp key={index} post={post} />)}
       {mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
-      {mode === 'profile' && <Profile.Comp />}
+      {mode === 'profileView' && <ProfileView.Comp />}
+      {mode === 'profileEdit' && <ProfileEdit.Comp />}
     </Inner.Content>
-    <Button.Comp
-      icon={mode === 'profile' ? 'times-circle' : 'cog'}
-      iconColor={mode === 'profile' ? 'red' : 'blue'}
-      onPress={() => setMode(mode !== 'profile' && 'profile')}
-      info />
+    {!user 
+      ? <Button.Comp 
+        icon={mode === 'profileView' ? 'times-circle' : 'info-circle'}
+        iconColor={mode === 'profileView' ? 'red' : 'black'}
+        onPress={mode === 'profileView' ? () => setMode() : () => setMode('profileView')}
+        info />
+      : <Button.Comp
+        icon={mode === 'profileEdit' ? 'times-circle' : 'cog'}
+        iconColor={mode === 'profileEdit' ? 'red' : 'blue'}
+        onPress={mode === 'profileEdit' ? () => setMode() : () => setMode('profileEdit')}
+        info />
+      }
     {!user
       ? <Button.Comp icon="user-circle" user onPress={action('APP_LOGIN')} />
       : <Button.Comp
@@ -45,7 +53,7 @@ const Inner = Actheme.create({
   Container: ['View', 'f:1 bg:black50'],
   Menu: ['View', 'bbw:1 bbc:black50', { md: 'fd:row jc:sb' }],
   Tabs: ['View', 'fd:row jc:c p:s5'],
-  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 ai,jc:c fd:row fw:wrap p:s5'), showsVerticalScrollIndicator: false }]],
+  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 ai,jc:c fd:row fw:wrap p:s5 w:100% xw:s400 as:c'), showsVerticalScrollIndicator: false }]],
 })
 
 const Button = Actheme.create({
@@ -100,10 +108,16 @@ const Upload = Actheme.create({
   }
 })
 
-const Profile = Actheme.create({
+const ProfileView = Actheme.create({
   Wrap: ['View', 'fd:col w:100% xw:s100'],
-  Comp: props => <Profile.Wrap>
-  </Profile.Wrap>
+  Comp: props => <ProfileView.Wrap>
+  </ProfileView.Wrap>
+})
+
+const ProfileEdit = Actheme.create({
+  Wrap: ['View', 'fd:col w:100% xw:s100'],
+  Comp: props => <ProfileEdit.Wrap>
+  </ProfileEdit.Wrap>
 })
 
 const Post = Actheme.create({
