@@ -87,7 +87,7 @@ const Upload = Actheme.create({
   Input: ['TextInput', ['c:black fs:s4 mb:s5 p:s5 bw:1 bc:black50 bg:white200 br:s5', { multiline: true, numberOfLines: 2 }], {
     active: 'bc:green'
   }],
-  Image: ['Image', 'w:100% xw,h:s100 bw:1 bc:black100 br:s5 of:hd mb:s5'],
+  Image: ['Image', 'w:100% xw,h:s100 bw:1 bc:black100 br:s5 of:hd mb:s5 bg:white200'],
   Comp: props => {
     const { action, act } = Actstore({}, [])
     const [active, setActive] = React.useState()
