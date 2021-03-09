@@ -20,17 +20,17 @@ function MainScreen(props) {
       {!posts
         ? <Button.Comp icon="spinner-third" spin />
         : (mode != 'post' && mode != 'profile') && posts.map((post, index) => <Post.Comp key={index} post={post} />)}
-      {mode === 'post' && <Upload.Comp action={files => act('APP_UPLOAD', files).then(url => act('APP_POST', { url, desc: 'new automated post' }))} />}
+      {mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
       {mode === 'profile' && <Profile.Comp />}
     </Inner.Content>
     <Button.Comp
       icon={mode === 'profile' ? 'times-circle' : 'cog'}
       iconColor={mode === 'profile' ? 'red' : 'blue'}
-      onPress={mode === 'profile' ? () => setMode() : () => setMode('profile')}
+      onPress={() => setMode(mode !== 'profile' && 'profile')}
       info />
     {!user
       ? <Button.Comp icon="user-circle" user onPress={action('APP_LOGIN')} />
-      : <Button.Comp 
+      : <Button.Comp
           icon={mode === 'post' ? 'times-circle' : 'plus-circle'}
           iconColor={mode === 'post' ? 'red' : 'green'}
           onPress={mode === 'post' ? () => setMode() : () => setMode('post')}
@@ -54,14 +54,16 @@ const Button = Actheme.create({
     info: 'bg:#e5e5e5 br:s20 ps:ab b,l:s5 z:2',
     user: 'bg:#e5e5e5 br:s20 ps:ab b,r:s5 z:2',
     logo: 'as:c m:s5 w,h:s15',
-    post: 'bc:black100 br:s10 bw:2 bc:green h:s15'}],
+    post: 'bc:black100 br:s10 bw:2 bc:green h:s15',
+    disabled: 'op:0.5'
+  }],
   Text: ['Text', ['ta:c c:black fb:500 w:100%', { numberOfLines: 1 }], {
     tab: 'fs:s5',
     logo: 'c:pink',
     post: 'c:green fs:s5' }],
   Image: ['Image', 'w,h:100%'],
-  Comp: ({text, source, info, logo, size, icon, iconColor, iconSize, spin, tab, post, ...props}) => {
-    return <Button.Touch info={info} logo={logo} tab={tab} logo={logo} post={post} {...props}>
+  Comp: ({text, source, info, logo, size, icon, iconColor, iconSize, spin, tab, post, disabled, onPress, ...props}) => {
+    return <Button.Touch info={info} logo={logo} tab={tab} logo={logo} post={post} disabled={disabled} onPress={!disabled ? onPress : null} {...props}>
       {source && <Button.Image source={source} />}
       {icon && <Elems.Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's10'}`)} icon={icon} spin={spin} />}
       {text && <Button.Text tab={tab} logo={logo} post={post} {...props}>{text}</Button.Text>}
@@ -77,19 +79,26 @@ const Upload = Actheme.create({
   Input: ['TextInput', ['c:black fs:s5 mb:s10 bw:1 bc:black100 p:s5 br:s2 bg:ts', { multiline: true, numberOfLines: 3 }], {
     active: 'bc:orange'
   }],
-  Comp: props => { 
-  const [active, setActive] = React.useState()
-  return <Upload.Wrap>
-    <Upload.File {...props}>
-      <Upload.Touch>
-        <Elems.Icon style={Actheme.style('c:black fs:s20')} icon="plus-circle"/>
-        <Upload.Text>Upload Picture</Upload.Text>
-      </Upload.Touch>
-    </Upload.File>
-    <Upload.Input placeholder="Type your description" underlineColorAndroid="transparent" active={active} onFocus={() => setActive(true)} onBlur={() => setActive(false)} />
-    <Button.Comp text="Post" post />
-  </Upload.Wrap>
-}})
+  Comp: props => {
+    const { action, act } = Actstore({}, [])
+    const [active, setActive] = React.useState()
+    const [url, setUrl] = React.useState()
+    const [desc, setDesc] = React.useState()
+
+    console.log({ url, desc })
+
+    return <Upload.Wrap>
+      <Upload.File action={files => act('APP_UPLOAD', files).then(setUrl)}>
+        <Upload.Touch>
+          <Elems.Icon style={Actheme.style('c:black fs:s20')} icon="plus-circle"/>
+          <Upload.Text>Upload Picture</Upload.Text>
+        </Upload.Touch>
+      </Upload.File>
+      <Upload.Input onChangeText={setDesc} placeholder="Type your description" underlineColorAndroid="transparent" active={active} onFocus={() => setActive(true)} onBlur={() => setActive(false)} />
+      <Button.Comp disabled={!Boolean(desc) || !Boolean(url)} onPress={() => act('APP_POST', { url, desc }).then(props.onClose)} text="Post" post />
+    </Upload.Wrap>
+  }
+})
 
 const Profile = Actheme.create({
   Wrap: ['View', 'fd:col w:100% xw:s100'],
