@@ -7,7 +7,8 @@
     "build": "next build",
     "export": "next export",
     "serve": "serve ./out -p 8080",
-    "static": "npm run build && npm run export && npm run serve"
+    "static": "npm run build && npm run export && npm run serve",
+    "deploy": "npm run build && npm run export && firebase deploy --project unicorn-ee877"
   },
   "dependencies": {
     "pack": "0.0.0",

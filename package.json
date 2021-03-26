@@ -11,7 +11,8 @@
     ]
   },
   "scripts": {
-    "start": "(cd web && npm start)"
+    "start": "(cd web && npm start)",
+    "deploy": "(cd web && npm run deploy)"
   },
   "author": "",
   "license": "ISC"

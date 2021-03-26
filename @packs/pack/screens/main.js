@@ -5,8 +5,10 @@ import { GET } from 'fetchier'
 
 function MainScreen(props) {
   const { store, action, act, handle } = Actstore({}, ['user', 'posts'])
+  const router = handle.useRouter()
   const { user, posts} = store.get('user', 'posts')
   const [ mode, setMode ] = React.useState()
+  const { id } = router.query
 
   return <Inner.Container>
     <Inner.Menu>
@@ -19,21 +21,22 @@ function MainScreen(props) {
     <Inner.Content>
       {!posts
         ? <Button.Comp icon="spinner-third" spin />
-        : (mode != 'post' && mode != 'profileView' && mode != 'profileEdit') && posts.map((post, index) => <Post.Comp key={index} post={post} />).reverse()}
-      {mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
-      {mode === 'profileView' && <ProfileView.Comp />}
-      {mode === 'profileEdit' && <ProfileEdit.Comp user={user} />}
+        : (!id && mode !== 'post' && mode !== 'profileView' && mode != 'profileEdit') && posts.map((post, index) => <Post.Comp key={index} post={post} />).reverse()}
+      {!id && mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
+      {id && <ProfileView.Comp />}
+      {!id && mode === 'profileEdit' && <ProfileEdit.Comp user={user} />}
     </Inner.Content>
-    {!user 
-      ? <Button.Comp 
+    {!user
+      ? <Button.Comp
         icon={mode === 'profileView' ? 'times-circle' : 'info-circle'}
         iconColor={mode === 'profileView' ? 'red' : 'black'}
         onPress={mode === 'profileView' ? () => setMode() : () => setMode('profileView')}
         info />
       : <Button.Comp
-        icon={mode === 'profileEdit' ? 'times-circle' : 'cog'}
-        iconColor={mode === 'profileEdit' ? 'red' : 'blue'}
-        onPress={mode === 'profileEdit' ? () => setMode() : () => setMode('profileEdit')}
+        icon={!!id ? 'times-circle' : 'cog'}
+        iconColor={id ? 'red' : 'blue'}
+        onPress={() => router.push(id ? '/' : '/' + user.id)}
+        // onPress={mode === 'profileEdit' ? () => setMode() : () => setMode('profileEdit')}
         info />
       }
     {!user
@@ -102,7 +105,7 @@ const Upload = Actheme.create({
 
     return <Upload.Wrap>
       <Upload.File action={files => act('APP_UPLOAD', files).then(setUrl)}>
-        {!url 
+        {!url
           ? <Upload.Touch>
               <Elems.Icon style={Actheme.style('c:pink fs:s20 mb:s5')} icon="plus-circle"/>
               <Upload.Text>Upload Picture</Upload.Text>
@@ -128,7 +131,7 @@ const ProfileView = Actheme.create({
   Text: ['Text', 'fs:s5 w:100% mb:s5', { pink: 'c:pink fb:bold' }],
 
   Comp: props => {
-  
+
     return <ProfileView.Wrap>
       <Elems.Icon icon="alicorn" style={Actheme.style('c:pink fs:s25 mb:s10')} />
       <ProfileView.Text>
@@ -167,7 +170,7 @@ const ProfileEdit = Actheme.create({
 
     return <ProfileEdit.Wrap>
       <ProfileEdit.File action={files => act('APP_UPLOAD', files).then(setUrl)}>
-        {!url 
+        {!url
           ? <ProfileEdit.Touch>
               <Elems.Icon style={Actheme.style('c:pink fs:s20 mb:s5')} icon="plus-circle"/>
               <ProfileEdit.Text center>Upload Unique Avatar or Logo</ProfileEdit.Text>

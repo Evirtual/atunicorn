@@ -12,11 +12,10 @@ const actions = ({ store, cookies, configs, act }) => ({
     firebase.database().ref('posts').on('value', snapshot => {
       let posts = []
       snapshot.forEach(child => {
-        // const { key } = child
         const list = child.val()
         posts = posts.concat(Object.values({ ...list }))
       })
-      store.set({ posts })
+      store.set({ posts: posts.sort((a, b) => a.id - b.id) })
     })
 
     user && await store.set({
@@ -27,6 +26,8 @@ const actions = ({ store, cookies, configs, act }) => ({
         id: user.uid
       }
     })
+
+    console.log(store.get('user'))
 
     // console.log('INIT', data, posts)
     // if(user) return await act('APP_POST')
