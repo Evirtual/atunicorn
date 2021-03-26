@@ -6,25 +6,26 @@ import { GET } from 'fetchier'
 function MainScreen(props) {
   const { store, action, act, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
-  const { user, posts} = store.get('user', 'posts')
+  const { user, users } = store.get('user', 'users')
   const [ mode, setMode ] = React.useState()
-  const { id } = router.query
+  const { id } = router?.query || {}
+  const posts = id ? (store.get('posts') || []).filter(post => post.userId === id) : store.get('posts')
 
   return <Inner.Container>
     <Inner.Menu>
-      <Button.Comp icon="alicorn" text="Unicorn" iconColor="pink" logo />
+      <Button.Comp icon="alicorn" text="Unicorn" iconColor="pink" logo onPress={() => router.push('/')} />
       <Inner.Tabs>
         <Button.Comp tab text="Images" />
         <Button.Comp tab text="Videos" />
       </Inner.Tabs>
     </Inner.Menu>
     <Inner.Content>
+      {mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
+      {id && mode !== 'post' && <ProfileView.Comp profile={users?.find(item => item.id === user.id)} />}
+      {id && mode !== 'post' && id === user?.id && <ProfileEdit.Comp user={user} />}
       {!posts
         ? <Button.Comp icon="spinner-third" spin />
-        : (!id && mode !== 'post' && mode !== 'profileView' && mode != 'profileEdit') && posts.map((post, index) => <Post.Comp key={index} post={post} />).reverse()}
-      {!id && mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
-      {id && <ProfileView.Comp />}
-      {!id && mode === 'profileEdit' && <ProfileEdit.Comp user={user} />}
+        : (mode !== 'post' && mode !== 'profileView' && mode !== 'profileEdit') && posts.map((post, index) => <Post.Comp key={index} post={post} />)}
     </Inner.Content>
     {!user
       ? <Button.Comp
@@ -131,13 +132,16 @@ const ProfileView = Actheme.create({
   Text: ['Text', 'fs:s5 w:100% mb:s5', { pink: 'c:pink fb:bold' }],
 
   Comp: props => {
-
+    const { desc, url } = props.profile || {}
     return <ProfileView.Wrap>
-      <Elems.Icon icon="alicorn" style={Actheme.style('c:pink fs:s25 mb:s10')} />
+      {!url
+        ? <Elems.Icon url={url} icon="alicorn" style={Actheme.style('c:pink fs:s25 mb:s10')} />
+        : <ProfileEdit.Image source={url} />
+      }
       <ProfileView.Text>
-        A Unicorn is a mythical creature, someone amazing who is hard to catch or simply a very rare find.
+        {desc || `A Unicorn is a mythical creature, someone amazing who is hard to catch or simply a very rare find.
         <br/><br/>
-        The term is often describing someone who is remarkably attractive, but not at all batshit crazy, amazing at sex, and has a great personality.
+        The term is often describing someone who is remarkably attractive, but not at all batshit crazy, amazing at sex, and has a great personality.`}
       </ProfileView.Text>
       <ProfileView.Text pink>You may be a Unicorn!</ProfileView.Text>
     </ProfileView.Wrap>
@@ -183,7 +187,7 @@ const ProfileEdit = Actheme.create({
         active={active}
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)} />}
-      {url && desc && <Button.Comp disabled={!Boolean(desc) || !Boolean(url)} onPress={() => act('APP_POST', { url, desc }).then(props.onClose)} text="Are you ready to be unicorn?" post />}
+      {url && desc && <Button.Comp disabled={!Boolean(desc) || !Boolean(url)} onPress={() => act('APP_USER', { url, desc }).then(props.onClose)} text="Are you ready to update?" post />}
     </ProfileEdit.Wrap>
   }
 

@@ -10,27 +10,22 @@ const actions = ({ store, cookies, configs, act }) => ({
     const user = await new Promise(resolve => firebase.auth().onAuthStateChanged(resolve))
 
     firebase.database().ref('posts').on('value', snapshot => {
-      let posts = []
-      snapshot.forEach(child => {
-        const list = child.val()
-        posts = posts.concat(Object.values({ ...list }))
-      })
-      store.set({ posts: posts.sort((a, b) => a.id - b.id) })
+      const posts = Object.values(snapshot?.val())
+        .reduce((arr, items) => arr.concat(Object.values(items)), [])
+        .sort((a, b) => b.id - a.id)
+      store.set({ posts })
     })
 
-    user && await store.set({
-      user: {
+    firebase.database().ref('users').on('value', snapshot => {
+      const users = snapshot?.val() && Object.values(snapshot?.val()) || []
+      store.set({ users, user: user && {
         name: user.displayName,
         email: user.email,
         photo: user.photoURL,
-        id: user.uid
-      }
+        id: user.uid,
+        ...users.find(item => item.id === user.id)
+      } })
     })
-
-    console.log(store.get('user'))
-
-    // console.log('INIT', data, posts)
-    // if(user) return await act('APP_POST')
   },
 
 
@@ -70,6 +65,20 @@ const actions = ({ store, cookies, configs, act }) => ({
     const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)
     const url = await snap.ref.getDownloadURL()
     return url
+  },
+
+  APP_USER: async data => {
+    const user = store.get('user')
+    if(!user) return console.warn('PLEASE LOGIN BEFORE UPDATING PROFILE')
+
+    const key = ['users', user.id].join('/')
+
+    return firebase.database().ref(key).set({
+      id: user.id,
+      updated: new Date().getTime(),
+      url: data.url || 'https://data.lostrelics.io/Items/AbyssalPyre.jpg',
+      desc: data.desc || 'test description'
+    }, console.log)
   },
 
 	APP_COUNT: () => store.set({ count: store.get('count') + 1 }),
