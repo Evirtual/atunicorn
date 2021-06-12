@@ -25,7 +25,7 @@ function MainScreen(props) {
       {id && mode !== 'post' && id === user?.id && <ProfileEdit.Comp user={user} />}
       {!posts
         ? <Button.Comp icon="spinner-third" spin />
-        : (mode !== 'post' && mode !== 'profileView' && mode !== 'profileEdit') && posts.map((post, index) => <Post.Comp key={index} post={post} />)}
+        : mode !== 'post' && posts.map((post, index) => <Post.Comp key={index} post={post} profile={users?.find(item => item.id === post.userId)} />)}
     </Inner.Content>
     {!user
       ? <Button.Comp
@@ -199,8 +199,14 @@ const Post = Actheme.create({
   Image: ['Image', 'w,h:100%'],
 
   Comp: ({post, ...props}) => {
+    const { handle } = Actstore({}, [])
+    const router = handle.useRouter()
 
-    return <Post.Touch {...props}>
+    //() => router.push('profile/' + post.userId)
+    return <Post.Touch {...props} 
+      onPress={() => router.push('profile/' + post.userId)}
+      // onPress={() => router.push('post/' + post.id)}
+    >
       <Post.Image source={post.url} />
     </Post.Touch>
   }
