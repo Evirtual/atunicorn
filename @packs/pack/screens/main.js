@@ -1,5 +1,5 @@
 import React from 'react'
-import { Elems, Actheme } from 'pack'
+import { Elems, Actheme, Comps } from 'pack'
 import Actstore from 'actstore'
 import { GET } from 'fetchier'
 
@@ -12,28 +12,22 @@ function MainScreen(props) {
   const posts = id ? (store.get('posts') || []).filter(post => post.userId === id) : store.get('posts')
 
   return <Inner.Container>
-    <Inner.Menu>
-      <Button.Comp icon="alicorn" text="Unicorn" iconColor="pink" logo onPress={() => router.push('/')} />
-      <Inner.Tabs>
-        <Button.Comp tab text="Images" />
-        <Button.Comp tab text="Videos" />
-      </Inner.Tabs>
-    </Inner.Menu>
+    <Comps.Menu />
     <Inner.Content>
       {mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
       {id && mode !== 'post' && <ProfileView.Comp profile={users?.find(item => item.id === user.id)} />}
       {id && mode !== 'post' && id === user?.id && <ProfileEdit.Comp user={user} />}
       {!posts
-        ? <Button.Comp icon="spinner-third" spin />
+        ? <Elems.Button icon="spinner-third" spin />
         : mode !== 'post' && posts.map((post, index) => <Post.Comp key={index} post={post} profile={users?.find(item => item.id === post.userId)} />)}
     </Inner.Content>
     {!user
-      ? <Button.Comp
+      ? <Elems.Button
         icon={mode === 'profileView' ? 'times-circle' : 'info-circle'}
         iconColor={mode === 'profileView' ? 'red' : 'black'}
         onPress={mode === 'profileView' ? () => setMode() : () => setMode('profileView')}
         info />
-      : <Button.Comp
+      : <Elems.Button
         icon={!!id ? 'times-circle' : 'cog'}
         iconColor={id ? 'red' : 'blue'}
         onPress={() => router.push(id ? '/' : '/' + user.id)}
@@ -41,8 +35,8 @@ function MainScreen(props) {
         info />
       }
     {!user
-      ? <Button.Comp icon="user-circle" user onPress={action('APP_LOGIN')} />
-      : <Button.Comp
+      ? <Elems.Button icon="user-circle" user onPress={action('APP_LOGIN')} />
+      : <Elems.Button
           icon={mode === 'post' ? 'times-circle' : 'plus-circle'}
           iconColor={mode === 'post' ? 'red' : 'green'}
           onPress={mode === 'post' ? () => setMode() : () => setMode('post')}
@@ -58,32 +52,6 @@ const Inner = Actheme.create({
   Menu: ['View', 'bbw:1 bbc:black50 bg:white100', { md: 'fd:row jc:sb' }],
   Tabs: ['View', 'fd:row jc:c p:s5'],
   Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 ai,jc:c fd:row fw:wrap pv:s5 ph:s10 w:100% xw:s400 as:c'), showsVerticalScrollIndicator: false }]],
-})
-
-const Button = Actheme.create({
-
-  Touch: ['TouchableOpacity', 'jc,ai:c', {
-    tab: 'mh:s5 fs:s20',
-    info: 'bg:#e5e5e5 br:s20 ps:ab b,l:s5 z:2',
-    user: 'bg:#e5e5e5 br:s20 ps:ab b,r:s5 z:2',
-    logo: 'as:c m:s5 w,h:s15',
-    post: 'bc:black100 br:s5 bw:2 bc:pink bg:pink h:s15',
-    disabled: 'op:0.25'
-  }],
-  Text: ['Text', ['ta:c c:black fb:500 w:100%', { numberOfLines: 1 }], {
-    tab: 'fs:s5',
-    logo: 'c:pink',
-    post: 'c:white fs:s5' }],
-  Image: ['Image', 'w,h:100%'],
-
-  Comp: ({text, source, info, logo, size, icon, iconColor, iconSize, spin, tab, post, disabled, onPress, ...props}) => {
-    return <Button.Touch info={info} logo={logo} tab={tab} logo={logo} post={post} disabled={disabled} onPress={!disabled ? onPress : null} {...props}>
-      {source && <Button.Image source={source} />}
-      {icon && <Elems.Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's10'}`)} icon={icon} spin={spin} />}
-      {text && <Button.Text tab={tab} logo={logo} post={post} {...props}>{text}</Button.Text>}
-    </Button.Touch>
-  }
-
 })
 
 const Upload = Actheme.create({
@@ -119,7 +87,7 @@ const Upload = Actheme.create({
         active={active}
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)} />}
-      {url && desc && <Button.Comp disabled={!Boolean(desc) || !Boolean(url)} onPress={() => act('APP_POST', { url, desc }).then(props.onClose)} text="Ready to make it public?" post />}
+      {url && desc && <Elems.Button disabled={!Boolean(desc) || !Boolean(url)} onPress={() => act('APP_POST', { url, desc }).then(props.onClose)} text="Ready to make it public?" post />}
     </Upload.Wrap>
   }
 
@@ -187,7 +155,7 @@ const ProfileEdit = Actheme.create({
         active={active}
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)} />}
-      {url && desc && <Button.Comp disabled={!Boolean(desc) || !Boolean(url)} onPress={() => act('APP_USER', { url, desc }).then(props.onClose)} text="Are you ready to update?" post />}
+      {url && desc && <Elems.Button disabled={!Boolean(desc) || !Boolean(url)} onPress={() => act('APP_USER', { url, desc }).then(props.onClose)} text="Are you ready to update?" post />}
     </ProfileEdit.Wrap>
   }
 
