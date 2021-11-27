@@ -21,20 +21,20 @@ const Button = Actheme.create({
     tab: 'mh:s5 fs:s20',
     info: 'bg:#e5e5e5 br:s20 ps:ab b,l:s5 z:2',
     user: 'bg:#e5e5e5 br:s20 ps:ab b,r:s5 z:2',
-    logo: 'as:c m:s5 w,h:s15',
+    logo: 'as:c m:s5 h:s8 fd:row',
     post: 'bc:black100 br:s5 bw:2 bc:pink bg:pink h:s15',
-    disabled: 'op:0.25'
+    disabled: 'op:0.25',
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100%', { numberOfLines: 1 }], {
     tab: 'fs:s5',
-    logo: 'c:pink',
+    logo: 'c:pink mt:s4 ml:-s2',
     post: 'c:white fs:s5' }],
   Image: ['Image', 'w,h:100%'],
 
   Elem: ({text, source, info, logo, size, icon, iconColor, iconSize, spin, tab, post, disabled, onPress, ...props}) => {
     return <Button.Touch info={info} logo={logo} tab={tab} logo={logo} post={post} disabled={disabled} onPress={!disabled ? onPress : null} {...props}>
       {source && <Button.Image source={source} />}
-      {icon && <Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's10'}`)} icon={icon} spin={spin} />}
+      {icon && <Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's8'}`)} icon={icon} spin={spin} />}
       {text && <Button.Text tab={tab} logo={logo} post={post} {...props}>{text}</Button.Text>}
     </Button.Touch>
   }

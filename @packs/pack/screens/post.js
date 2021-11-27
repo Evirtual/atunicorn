@@ -1,5 +1,5 @@
 import React from 'react'
-import { Elems, Actheme } from 'pack'
+import { Comps, Actheme } from 'pack'
 import Actstore from 'actstore'
 
 export default function PostScreen(props) {
@@ -12,26 +12,29 @@ export default function PostScreen(props) {
   const profile = users?.find(item => item.id === post.userId) || {}
 
   return (
-    <Styled.Container>
-      <Styled.Content>
-        <Styled.Wrap profile>
-          <Styled.Profile>
-            <Styled.Image source={profile.url} />
+    <>
+      <Comps.Menu />
+      <Styled.Container>
+        <Styled.Content>
+          <Styled.Wrap profile>
+            <Styled.Profile>
+              <Styled.Image source={profile.url} />
+              <Styled.Text>{profile?.desc}</Styled.Text>
+            </Styled.Profile>
             <Styled.Text>{profile?.desc}</Styled.Text>
-          </Styled.Profile>
-          <Styled.Text>{profile?.desc}</Styled.Text>
-        </Styled.Wrap>
-        <Styled.Wrap image>
-          <Styled.Image source={post.url} />
-        </Styled.Wrap>
-        <Styled.Text>{post?.desc}</Styled.Text>
-      </Styled.Content>
-    </Styled.Container>
+          </Styled.Wrap>
+          <Styled.Wrap image>
+            <Styled.Image source={post.url} />
+          </Styled.Wrap>
+          <Styled.Text>{post?.desc}</Styled.Text>
+        </Styled.Content>
+      </Styled.Container>
+    </>
   )
 }
 
 const Styled = Actheme.create({
-  Container: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 p:s5 ai,jc:c fd:row fw:wrap jc,ai:c nh:100vh bg:black25'), showsVerticalScrollIndicator: false }]],
+  Container: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 p:s5 ai,jc:c fd:row fw:wrap jc,ai:c bg:black25'), showsVerticalScrollIndicator: false }]],
   Image: ['Image', 'w,h:100%'],
   Content: 'w:100% xw:s160 bw:1 bc:black50 br:s5 bg:white of:hd',
   Text: ['Text', 'fs:s5 p:s5'],
