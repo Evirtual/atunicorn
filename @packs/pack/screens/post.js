@@ -12,35 +12,37 @@ export default function PostScreen(props) {
   const profile = users?.find(item => item.id === post.userId) || {}
 
   return (
-    <Styled.Wrap>
-      <Styled.Text>POST with desc {post?.desc} and {post?.url}</Styled.Text>
-      <Styled.Text>And the user desc {profile?.desc}</Styled.Text>
-      {/* <Elems.Link href="/alternate" fustyle="ta:c">
-        POSTS
-      </Elems.Link>
-      <Styled.Upload action={action('APP_UPLOAD')} />
-      <Styled.Cont>
-        <Styled.Button onPress={action('MAIN_COUNT')}>Click Me Please to increase number {store.get('count')}</Styled.Button>
-        <Styled.Text small aria-level="2">
-          {process.env.name} {process.env.version}
-        </Styled.Text>
-      </Styled.Cont> */}
-    </Styled.Wrap>
+    <Styled.Container>
+      <Styled.Content>
+        <Styled.Wrap profile>
+          <Styled.Profile>
+            <Styled.Image source={profile.url} />
+            <Styled.Text>{profile?.desc}</Styled.Text>
+          </Styled.Profile>
+          <Styled.Text>{profile?.desc}</Styled.Text>
+        </Styled.Wrap>
+        <Styled.Wrap image>
+          <Styled.Image source={post.url} />
+        </Styled.Wrap>
+        <Styled.Text>{post?.desc}</Styled.Text>
+      </Styled.Content>
+    </Styled.Container>
   )
 }
 
 const Styled = Actheme.create({
-  File: 'Upload',
-  Touch: ['TouchableOpacity', 'bg:pink'],
-  Wrap: 'ai,jc:c fg:1',
-  Cont: 'mt:s4',
-  Text: ['Text', 'fs,mb:s6 ta:c', { small: 'fs:s3'}],
-  Button: 'fs,mb:s6 c:green',
-  Upload: props => <Styled.File {...props}>
-    <Elems.Icon style={Actheme.style('c:black')} icon="heart"/>
-  </Styled.File>
+  Container: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 p:s5 ai,jc:c fd:row fw:wrap jc,ai:c nh:100vh bg:black25'), showsVerticalScrollIndicator: false }]],
+  Image: ['Image', 'w,h:100%'],
+  Content: 'w:100% xw:s160 bw:1 bc:black50 br:s5 bg:white of:hd',
+  Text: ['Text', 'fs:s5 p:s5'],
+  Wrap: ['View', 'w:100%', {
+    image: 'h:s160 btw:1 bbw:1 bc:black50',
+    profile: 'fd:row ai:c p:s5'}],
+  Profile: ['View', 'w,h:s15 br:s5 of:hd'],
 })
 
 const actions = ({ store }) => ({
   MAIN_COUNT: () => store.set({ count: store.get('count') + 2 })
 })
+
+
