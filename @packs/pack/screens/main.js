@@ -7,41 +7,22 @@ function MainScreen(props) {
   const { store, action, act, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
   const { user, users } = store.get('user', 'users')
+  const { desc, url } = props.profile || {}
   const [ mode, setMode ] = React.useState()
   const { id } = router?.query || {}
   const posts = id ? (store.get('posts') || []).filter(post => post.userId === id) : store.get('posts')
 
   return <Inner.Container>
-    <Comps.Menu />
     <Inner.Content>
+      <Comps.Logo desc={desc} mode={mode} setMode={setMode} onPress={() => router.push(id ? '/' : '/' + user.id)} />
       {mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
-      {id && mode !== 'post' && <ProfileView.Comp profile={users?.find(item => item.id === user.id)} />}
-      {id && mode !== 'post' && id === user?.id && <ProfileEdit.Comp user={user} />}
+      {/* {id && mode !== 'post' && <ProfileView.Comp profile={users?.find(item => item.id === user.id)} />}
+      {id && mode !== 'post' && id === user?.id && <ProfileEdit.Comp user={user} />} */}
       {!posts
         ? <Elems.Button icon="spinner-third" spin />
         : mode !== 'post' && posts.map((post, index) => <Post.Comp key={index} post={post} profile={users?.find(item => item.id === post.userId)} />)}
     </Inner.Content>
-    {!user
-      ? <Elems.Button
-        icon={mode === 'profileView' ? 'times-circle' : 'info-circle'}
-        iconColor={mode === 'profileView' ? 'red' : 'black'}
-        onPress={mode === 'profileView' ? () => setMode() : () => setMode('profileView')}
-        info />
-      : <Elems.Button
-        icon={!!id ? 'times-circle' : 'cog'}
-        iconColor={id ? 'red' : 'blue'}
-        onPress={() => router.push(id ? '/' : '/' + user.id)}
-        // onPress={mode === 'profileEdit' ? () => setMode() : () => setMode('profileEdit')}
-        info />
-      }
-    {!user
-      ? <Elems.Button icon="user-circle" user onPress={action('APP_LOGIN')} />
-      : <Elems.Button
-          icon={mode === 'post' ? 'times-circle' : 'plus-circle'}
-          iconColor={mode === 'post' ? 'red' : 'green'}
-          onPress={mode === 'post' ? () => setMode() : () => setMode('post')}
-          user />
-    }
+    {console.log(users)}
   </Inner.Container>
 }
 
@@ -49,9 +30,7 @@ export default MainScreen
 
 const Inner = Actheme.create({
   Container: ['View', 'f:1 bg:black25'],
-  Menu: ['View', 'bbw:1 bbc:black50 bg:white100', { md: 'fd:row jc:sb' }],
-  Tabs: ['View', 'fd:row jc:c p:s5'],
-  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 ai,jc:c fd:row fw:wrap pv:s5 ph:s10 w:100% xw:s400 as:c'), showsVerticalScrollIndicator: false }]],
+  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 jc:c fd:row fw:wrap w:100% xw:s400 as:c'), showsVerticalScrollIndicator: false }]],
 })
 
 const Upload = Actheme.create({

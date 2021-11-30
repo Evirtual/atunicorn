@@ -1,5 +1,5 @@
 import React from 'react'
-import { Elems, Actheme } from 'pack'
+import { Comps, Elems, Actheme } from 'pack'
 import Actstore from 'actstore'
 
 export default function ProfileScreen(props) {
@@ -15,17 +15,8 @@ export default function ProfileScreen(props) {
 
   return (
     <Styled.Wrap>
+      <Comps.Logo />
       <Styled.Text>PROFILE {id} {profile.desc} and we have {posts.length} posts and its {me ? 'My Profile' : 'Random Profile'}</Styled.Text>
-      {/* <Elems.Link href="/alternate" fustyle="ta:c">
-        Go to Alternate Screen and see heart
-      </Elems.Link>
-      <Styled.Upload action={action('APP_UPLOAD')} />
-      <Styled.Cont>
-        <Styled.Button onPress={action('MAIN_COUNT')}>Click Me Please to increase number {store.get('count')}</Styled.Button>
-        <Styled.Text small aria-level="2">
-          {process.env.name} {process.env.version}
-        </Styled.Text>
-      </Styled.Cont> */}
     </Styled.Wrap>
   )
 }
