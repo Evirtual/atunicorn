@@ -44,6 +44,15 @@ const actions = ({ store, cookies, configs, act }) => ({
     // console.log('login', user, credential.accessToken)
   },
 
+  APP_LOGOUT: async () => {
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      window.location.reload();
+    }).catch(function(error) {
+      // An error happened.
+    });
+  },
+
   APP_POST: async (post = {}) => {
     const user = store.get('user')
     if(!user) return console.warn('PLEASE LOGIN BEFORE POSTING')

@@ -30,7 +30,7 @@ export default MainScreen
 
 const Inner = Actheme.create({
   Container: ['View', 'f:1 bg:black25'],
-  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 jc:c fd:row fw:wrap w:100% xw:s400 as:c'), showsVerticalScrollIndicator: false }]],
+  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('jc:c fd:row fw:wrap w:100% xw:s400 as:c'), showsVerticalScrollIndicator: false }]],
 })
 
 const Upload = Actheme.create({
