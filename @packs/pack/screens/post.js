@@ -3,17 +3,16 @@ import { Comps, Elems, Actheme } from 'pack'
 import Actstore from 'actstore'
 
 export default function PostScreen(props) {
-  const { store, action, act, handle } = Actstore({}, ['user', 'posts'])
+  const { store, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
   const { id } = router?.query || {}
   const { user, users } = store.get('user', 'users')
-  // const profile = users?.find(item => item.id === id)
   const post = (store.get('posts') || []).find(post => String(post.id) === id) || {}
   const profile = users?.find(item => item.id === post.userId) || {}
 
   return (<Styled.Container>
     <Styled.Wrap>
-      <Elems.Button text="Back" icon="arrow-left" inline onPress={() => router?.push('/')} />
+      <Elems.Button text="Back" icon="arrow-left" inline onPress={() => router.push(id ? '/' : '/' + user.id)} />
     </Styled.Wrap>
     <Styled.Content>
       <Styled.Profile onPress={() => router.push('/profile/' + post.userId)}>

@@ -12,10 +12,9 @@ export default function ProfileScreen(props) {
   const posts = (store.get('posts') || []).filter(post => post.userId === id)
   const me = user.id === id
 
-
   return (
     <Styled.Wrap>
-      <Comps.Logo />
+      <Comps.Nav />
       <Styled.Text>PROFILE {id} {profile.desc} and we have {posts.length} posts and its {me ? 'My Profile' : 'Random Profile'}</Styled.Text>
     </Styled.Wrap>
   )
