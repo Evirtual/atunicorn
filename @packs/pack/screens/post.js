@@ -13,15 +13,15 @@ export default function PostScreen(props) {
 
   return (<Styled.Container>
     <Styled.Wrap>
-      <Elems.Button text="Back" icon="arrow-left" iconSize="s4" fontSize="s4" inline onPress={() => router?.push('/')} />
+      <Elems.Button text="Back" icon="arrow-left" inline onPress={() => router?.push('/')} />
     </Styled.Wrap>
     <Styled.Content>
-      <Styled.Wrap profile>
-        <Styled.Profile>
+      <Styled.Profile onPress={() => router.push('/profile/' + post.userId)}>
+        <Styled.Wrap profile>
           <Styled.Image source={profile.url} />
-        </Styled.Profile>
-        <Elems.Button text={profile?.desc} onPress={() => router.push('../profile/' + post.userId)} />
-      </Styled.Wrap>
+        </Styled.Wrap>
+        <Styled.Name>{profile?.desc}</Styled.Name>
+      </Styled.Profile>
       <Styled.Wrap image>
         <Styled.Image source={post.url} />
       </Styled.Wrap>
@@ -35,11 +35,12 @@ const Styled = Actheme.create({
   Container: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 p:s5 ai,jc:c bg:black25'), showsVerticalScrollIndicator: false }]],
   Image: ['Image', 'w,h:100%'],
   Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd mt:s5',
-  Text: ['Text', 'fs:s5 p:s5'],
+  Text: ['Text', 'fs:s4 p:s5'],
   Wrap: ['View', 'w:100% xw:s150', {
     image: 'h:s150 btw:1 bbw:1 bc:black50',
-    profile: 'fd:row ai:c p:s5',}],
-  Profile: ['View', 'w,h,br:s15 of:hd mr:s2'],
+    profile: 'fd:row ai:c w,h,br:s15 of:hd',}],
+  Profile: ['TouchableOpacity', 'fd:row ai:c m:s5'],
+  Name: ['Text', 'fs:s4 fb:500 ml:s2'],
 })
 
 const actions = ({ store }) => ({

@@ -14,13 +14,13 @@ function MainScreen(props) {
 
   return <Inner.Container>
     <Inner.Content>
-      <Comps.Logo desc={desc} mode={mode} setMode={setMode} onPress={() => router.push(id ? '/' : '/' + user.id)} />
+      <Comps.Logo id={id} desc={desc} mode={mode} setMode={setMode} onPress={() => router.push(id ? '/' : '/' + user.id)} />
       {mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
       {/* {id && mode !== 'post' && <ProfileView.Comp profile={users?.find(item => item.id === user.id)} />}
       {id && mode !== 'post' && id === user?.id && <ProfileEdit.Comp user={user} />} */}
       {!posts
         ? <Elems.Button icon="spinner-third" spin />
-        : mode !== 'post' && posts.map((post, index) => <Post.Comp key={index} post={post} profile={users?.find(item => item.id === post.userId)} />)}
+        : mode !== 'post' && posts.map((post, index) => <Post.Comp key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
     </Inner.Content>
     {console.log(users)}
   </Inner.Container>
@@ -34,15 +34,14 @@ const Inner = Actheme.create({
 })
 
 const Upload = Actheme.create({
-
-  Wrap: ['View', 'fd:col w:100% xw:s100'],
+  Wrap: ['View', 'fd:col w:100% xw:s100 m:s5'],
   File: 'Upload',
-  Input: ['TextInput', ['c:black fs:s4 mb:s5 p:s5 bw:1 bc:black50 bg:white200 br:s5', { multiline: true, numberOfLines: 2 }], {
+  Input: ['TextInput', ['c:black fs:s4 mt:s5 p:s5 bw:1 bc:black50 bg:white200 br:s5', { multiline: true, numberOfLines: 2 }], {
     active: 'bc:green'
   }],
   Text: ['Text', ['ta:c c:pink w:100% fs:s4 fb:bold', { numberOfLines: 1 }]],
-  Touch: ['TouchableOpacity', 'w:100% xw,h:s100 jc,ai:c bw:1 bc:black50 bg:white200 br:s5 of:hd mb:s5'],
-  Image: ['Image', 'w:100% xw,h:s100 bw:1 bc:black100 br:s5 of:hd mb:s5 bg:white200'],
+  Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bw:1 bc:black50 bg:white200 br:s5 of:hd'],
+  Image: ['Image', 'w:100% xw,h:s100 bw:1 bc:black100 br:s5 of:hd bg:white200'],
 
   Comp: props => {
 
@@ -66,7 +65,7 @@ const Upload = Actheme.create({
         active={active}
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)} />}
-      {url && desc && <Elems.Button disabled={!Boolean(desc) || !Boolean(url)} onPress={() => act('APP_POST', { url, desc }).then(props.onClose)} text="Ready to make it public?" post />}
+      {url && desc && <Elems.Button post onPress={() => act('APP_POST', { url, desc }).then(props.onClose)} text="Ready to make it public?" textColor="white" />}
     </Upload.Wrap>
   }
 
@@ -144,16 +143,18 @@ const Post = Actheme.create({
 
   Touch: ['TouchableOpacity', 'w:100% xw,h:s80 jc,ai:c bw:1 bc:black50 br:s5 of:hd m:s5 bg:white200', { md: 'xw,h:s100' }],
   Image: ['Image', 'w,h:100%'],
+  Profile: ['TouchableOpacity', 'w,h,br:s10 of:hd ps:ab t,l:s2 z:2'],
 
-  Comp: ({post, ...props}) => {
+  Comp: ({post, profile, id, ...props}) => {
     const { handle } = Actstore({}, [])
     const router = handle.useRouter()
 
-    //() => router.push('profile/' + post.userId)
     return <Post.Touch {...props} 
-      // onPress={() => router.push('profile/' + post.userId)}
       onPress={() => router.push('post/' + post.id)}
     >
+      {!id && <Post.Profile onPress={() => router.push('/profile/' + post.userId)}>
+        <Post.Image source={profile && profile.url} />
+      </Post.Profile>}
       <Post.Image source={post.url} />
     </Post.Touch>
   }

@@ -17,14 +17,14 @@ const Icon = ({ svg, ...props }) => <FontAwesomeIcon {...props} alt={props.alt} 
 
 const Button = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'jc,ai:c', {
+  Touch: ['TouchableOpacity', 'jc,ai:c nw:s15', {
     info: 'br:s20 ps:ab b,l:s5 z:2',
     user: 'br:s20 ps:ab b,r:s5 z:2',
-    post: 'bc:black100 br:s5 bw:2 bc:pink bg:pink h:s15',
+    post: 'bc:black100 br:s5 bw:2 bc:pink bg:pink h:s15 mt:s5',
     disabled: 'op:0.25',
     inline: 'fd:row'
   }],
-  Text: ['Text', ['ta:l c:black fb:500 w:100%', { numberOfLines: 1 }], {
+  Text: ['Text', ['ta:c c:black fb:500 w:100%', { numberOfLines: 1 }], {
     post: 'c:white fs:s5',
     inline: 'ml:s2' }],
   Image: ['Image', 'w,h:100%'],
@@ -32,8 +32,8 @@ const Button = Actheme.create({
   Elem: ({text, source, info, size, icon, iconColor, iconSize, fontSize, textColor, spin, post, disabled, inline, onPress, ...props}) => {
     return <Button.Touch info={info} post={post} inline={inline} disabled={disabled} onPress={!disabled ? onPress : null} {...props}>
       {source && <Button.Image source={source} />}
-      {icon && <Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's10'}`)} icon={icon} spin={spin} {...props} />}
-      {text && <Button.Text post={post} inline={inline} style={Actheme.style(`c:${textColor || 'black'} fs:${fontSize || 's4'}`)} {...props}>{text}</Button.Text>}
+      {icon && <Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's4'}`)} icon={icon} spin={spin} {...props} />}
+      {text && <Button.Text style={Actheme.style(`fs:${fontSize || 's4'} c:${textColor || 'black'} ${icon && 'ta:l'}`)} post={post} inline={inline}>{text}</Button.Text>}
     </Button.Touch>
   }
 
