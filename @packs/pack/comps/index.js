@@ -18,11 +18,11 @@ const Styled = Actheme.create({
     const router = handle.useRouter()
     const { user, users } = store.get('user', 'users')
     const { id } = router?.query || {}
-    const profile = users?.find(item => item.id === user.id)
+    const profile = users?.find(item => item.id === id) || { url: !!id ? "https://c.tenor.com/xD2H2paGBt4AAAAC/prizzzle-unicorn.gif" : 'https://cdn.dribbble.com/users/61660/screenshots/4409254/unicorn_03.gif', desc: !!id ? id : 'unicorn' }
     
     return <Styled.Container>
       <Styled.Wrap row>
-        <Elems.Button icon="user-circle" iconSize="s5" onPress={() => router.push('/' + user.id)} />
+        {user &&  <Elems.Button icon="user-circle" iconSize="s5" onPress={() => router.push('/profile/' + user.id)} />}
         <Elems.Button icon="home" iconSize="s5" onPress={() => router?.push('/')} />
         {user && <Elems.Button icon="power-off" iconSize="s5" color="purple"  onPress={action('APP_LOGOUT')} />}
       </Styled.Wrap>
@@ -35,16 +35,11 @@ const Styled = Actheme.create({
               onPress={props.mode === 'post' ? () => props.setMode() : () => props.setMode('post')} />
         }
         <Styled.Wrap image>
-          <Styled.Image source={id && user && profile.url || "https://cdn.dribbble.com/users/61660/screenshots/4409254/unicorn_03.gif"} />
-          {/* <Styled.Image source={id && user && profile.url || "https://c.tenor.com/xD2H2paGBt4AAAAC/prizzzle-unicorn.gif"} /> */}
-          {/* <Styled.Image source={props.id && user && props.profile.url || "https://cur.glitter-graphics.net/pub/3709/3709367wye5xujeqk.gif"} /> */}
-          {/* <Styled.Image source={props.id && user && props.profile.url || "https://jeffdarchuk.files.wordpress.com/2019/12/unicornn.gif"} />
-          <Styled.Image source={props.id && user && props.profile.url || "https://cdn.dribbble.com/users/2255934/screenshots/6222338/uni.gif"} />
-          <Styled.Image source={props.id && user && props.profile.url || "https://c.tenor.com/MpvS2TCmTi8AAAAC/unicorn-dab.gif"} /> */}
+          <Styled.Image source={profile.url} />
         </Styled.Wrap>
         <Elems.Button text="Search" />
       </Styled.Wrap>
-      <Elems.Button text={id && user && '@' +  profile.desc || "@unicorn"} onPress={() => router.push(id ? '/' : '/' + user.id)} />
+      <Elems.Button text={'@' + profile.desc} />
     </Styled.Container>
   }
 

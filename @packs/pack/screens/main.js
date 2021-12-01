@@ -2,16 +2,16 @@ import React from 'react'
 import { Elems, Actheme, Comps } from 'pack'
 import Actstore from 'actstore'
 
-function MainScreen(props) {
+function MainScreen() {
   const { store, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
   const { users } = store.get('user', 'users')
   const [ mode, setMode ] = React.useState()
   const { id } = router?.query || {}
-  const posts = id ? (store.get('posts') || []).filter(post => post.userId === id) : store.get('posts')
+  const posts = store.get('posts')
 
-  return <Inner.Container>
-    <Inner.Content>
+  return <Styled.Container>
+    <Styled.Content>
       <Comps.Nav mode={mode} setMode={setMode} />
       {mode === 'post' && <Upload.Comp onClose={() => setMode()} />}
       {/* {id && mode !== 'post' && <ProfileView.Comp profile={users?.find(item => item.id === user.id)} />}
@@ -19,13 +19,13 @@ function MainScreen(props) {
       {!posts
         ? <Elems.Button icon="spinner-third" spin />
         : mode !== 'post' && posts.map((post, index) => <Post.Comp key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
-    </Inner.Content>
-  </Inner.Container>
+    </Styled.Content>
+  </Styled.Container>
 }
 
 export default MainScreen
 
-const Inner = Actheme.create({
+const Styled = Actheme.create({
   Container: ['View', 'f:1 bg:black25'],
   Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('jc:c fd:row fw:wrap w:100% xw:s400 as:c ph:s5'), showsVerticalScrollIndicator: false }]],
 })
@@ -148,7 +148,7 @@ const Post = Actheme.create({
 
     return <Post.Touch {...props} onPress={() => router.push('post/' + post.id)}>
       {!id && <Post.Profile onPress={() => router.push('/profile/' + post.userId)}>
-        <Post.Image source={profile && profile.url} />
+        <Post.Image source={profile && profile.url || 'https://c.tenor.com/xD2H2paGBt4AAAAC/prizzzle-unicorn.gif'} />
       </Post.Profile>}
       <Post.Image source={post.url} />
     </Post.Touch>

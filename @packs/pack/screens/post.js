@@ -6,9 +6,9 @@ export default function PostScreen(props) {
   const { store, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
   const { id } = router?.query || {}
-  const { user, users } = store.get('user', 'users')
+  const { users } = store.get('user', 'users')
   const post = (store.get('posts') || []).find(post => String(post.id) === id) || {}
-  const profile = users?.find(item => item.id === post.userId) || {}
+  const profile = users?.find(item => item.id === post.userId) || { url:'https://c.tenor.com/xD2H2paGBt4AAAAC/prizzzle-unicorn.gif', desc: post.userId }
 
   return (<Styled.Container>
     <Styled.Wrap>
