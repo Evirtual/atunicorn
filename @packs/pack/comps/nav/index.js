@@ -28,10 +28,12 @@ const Nav = Actheme.create({
       <Nav.Wrap row>
         {!user
           ? <Elems.Button text="Login" onPress={action('APP_LOGIN')} />
-          : <Elems.Button
-              text={props.mode === 'post' ? 'Back' : 'Upload'}
-              textColor={props.mode === 'post' ? 'red' : 'green'}
-              onPress={props.mode === 'post' ? () => props.setMode() : () => props.setMode('post')} />
+          : id === user.id || window.location.pathname === '/'
+            ? <Elems.Button
+                text={props.mode === 'post' ? 'Back' : 'Upload'}
+                textColor={props.mode === 'post' ? 'red' : 'green'}
+                onPress={props.mode === 'post' ? () => props.setMode() : () => props.setMode('post')} />
+            : <Elems.Button text="Back" textColor="red" onPress={() => router.push('/')} />
         }
         <Nav.Wrap image>
           <Nav.Image source={profile.url} />
