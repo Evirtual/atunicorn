@@ -9,13 +9,13 @@ const Upload = Actheme.create({
   Input: ['TextInput', ['c:black fs:s4 mt:s5 p:s5 bw:1 bc:black50 bg:white200 br:s5', { multiline: true, numberOfLines: 2 }], {
     active: 'bc:green'
   }],
-  Text: ['Text', ['ta:c c:pink w:100% fs:s4 fb:bold', { numberOfLines: 1 }]],
+  Text: ['Text', ['ta:c c:green w:100% fs:s4 fb:bold', { numberOfLines: 1 }]],
   Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bw:1 bc:black50 bg:white200 br:s5 of:hd'],
   Image: ['Image', 'w:100% xw,h:s100 bw:1 bc:black100 br:s5 of:hd bg:white200'],
 
   Comp: props => {
 
-    const { action, act } = Actstore({}, [])
+    const { act } = Actstore({}, [])
     const [active, setActive] = React.useState()
     const [url, setUrl] = React.useState()
     const [desc, setDesc] = React.useState()
@@ -24,17 +24,15 @@ const Upload = Actheme.create({
       <Upload.File action={files => act('APP_UPLOAD', files).then(setUrl)}>
         {!url
           ? <Upload.Touch>
-              <Elems.Icon style={Actheme.style('c:pink fs:s20 mb:s5')} icon="plus-circle"/>
+              <Elems.Icon style={Actheme.style('fs:s20 mb:s5 c:green')} icon="plus-circle"/>
               <Upload.Text>Upload Picture</Upload.Text>
             </Upload.Touch>
           : <Upload.Image source={url} />}
+          {/* {!url && active && <Elems.Button icon="spinner-third" spin iconSize="s20" />} */}
       </Upload.File>
       {url && <Upload.Input
         onChangeText={setDesc}
-        placeholder="Type your description"
-        active={active}
-        onFocus={() => setActive(true)}
-        onBlur={() => setActive(false)} />}
+        placeholder="Type your description"/>}
       {url && desc && <Elems.Button post onPress={() => act('APP_POST', { url, desc }).then(props.onClose)} text="Ready to make it public?" textColor="white" />}
     </Upload.Wrap>
   }

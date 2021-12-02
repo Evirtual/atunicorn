@@ -20,7 +20,7 @@ const Button = Actheme.create({
   Touch: ['TouchableOpacity', 'jc,ai:c nw:s15', {
     info: 'br:s20 ps:ab b,l:s5 z:2',
     user: 'br:s20 ps:ab b,r:s5 z:2',
-    post: 'bc:black100 br:s5 bw:2 bc:pink bg:pink h:s15 mt:s5',
+    post: 'bc:black100 br:s5 bg:green h:s15 mt:s5',
     disabled: 'op:0.25',
     inline: 'fd:row'
   }],
