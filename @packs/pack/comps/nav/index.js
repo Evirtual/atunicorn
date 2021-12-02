@@ -7,7 +7,7 @@ const Nav = Actheme.create({
 
   Container: ['View', 'w:100% jc,ai:c z:2 mv:s10'],
   Wrap: ['View', 'jc,ai:c', {
-    image: 'w,h,br:s25 bg:white of:hd mh:s10 mv:s5',
+    image: 'w,h,br:s25 bg:white of:hd mh:s7 mv:s5',
     row: 'fd:row'
   }],
   Image: ['Image', 'w,h:100%'],
@@ -23,7 +23,7 @@ const Nav = Actheme.create({
       <Nav.Wrap row>
         {user &&  <Elems.Button icon="user-circle" iconSize="s5" onPress={() => router.push('/profile/' + user.id)} />}
         <Elems.Button icon="home" iconSize="s5" onPress={() => router?.push('/')} />
-        {user && <Elems.Button icon="power-off" iconSize="s5" color="purple"  onPress={action('APP_LOGOUT')} />}
+        {user && <Elems.Button icon="power-off" iconSize="s5"  onPress={action('APP_LOGOUT')} />}
       </Nav.Wrap>
       <Nav.Wrap row>
         {!user

@@ -69,6 +69,10 @@ const actions = ({ store, cookies, configs, act }) => ({
     }, console.log)
   },
 
+  APP_DELETEPOST: async ( post ) => {
+    return firebase.database().ref(`posts/${post.userId}/${post.postId}/`).remove()
+  },
+
   APP_UPLOAD: async ([ file ]) => {
     const user = store.get('user') || {}
     const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)

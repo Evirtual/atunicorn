@@ -6,7 +6,7 @@ export default function ProfileScreen() {
   const { store, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
   const { id } = router?.query || {}
-  const { users } = store.get('user', 'users')
+  const { user, users } = store.get('user', 'users')
   const [ mode, setMode ] = React.useState()
   const posts = (store.get('posts') || []).filter(post => post.userId === id)
 
@@ -16,7 +16,7 @@ export default function ProfileScreen() {
       {mode === 'post' && <Comps.Upload onClose={() => setMode()} />}
       {!posts
         ? <Elems.Button icon="spinner-third" spin />
-        : mode !== 'post' && posts.map((post, index) => <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
+        : mode !== 'post' && posts.map((post, index) => <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} />)}
     </Profile.Content>
   </Profile.Container>
   )

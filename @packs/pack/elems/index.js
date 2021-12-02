@@ -29,10 +29,10 @@ const Button = Actheme.create({
     inline: 'ml:s2' }],
   Image: ['Image', 'w,h:100%'],
 
-  Elem: ({text, source, info, size, icon, iconColor, iconSize, fontSize, textColor, spin, post, disabled, inline, onPress, ...props}) => {
+  Elem: ({text, source, info, size, icon, solid, iconColor, iconSize, fontSize, textColor, spin, post, disabled, inline, onPress, ...props}) => {
     return <Button.Touch info={info} post={post} inline={inline} disabled={disabled} onPress={!disabled ? onPress : null} {...props}>
       {source && <Button.Image source={source} />}
-      {icon && <Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's4'}`)} icon={icon} spin={spin} {...props} />}
+      {icon && <Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's4'}`)} icon={icon} spin={spin} solid={solid} {...props} />}
       {text && <Button.Text style={Actheme.style(`fs:${fontSize || 's4'} c:${textColor || 'black'} ${icon && 'ta:l'}`)} post={post} inline={inline}>{text}</Button.Text>}
     </Button.Touch>
   }

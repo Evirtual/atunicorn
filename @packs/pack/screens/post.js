@@ -3,12 +3,14 @@ import { Comps, Elems, Actheme } from 'pack'
 import Actstore from 'actstore'
 
 export default function PostScreen(props) {
-  const { store, handle } = Actstore({}, ['user', 'posts'])
+  const { act, store, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
   const { id } = router?.query || {}
-  const { users } = store.get('user', 'users')
+  const { user, users } = store.get('user', 'users')
   const post = (store.get('posts') || []).find(post => String(post.id) === id) || {}
   const profile = users?.find(item => item.id === post.userId) || { url:'https://c.tenor.com/xD2H2paGBt4AAAAC/prizzzle-unicorn.gif', desc: post.userId }
+  const postId = post.id
+  const userId = user && user.id
 
   return <Post.Container>
     <Post.Wrap>
@@ -20,6 +22,9 @@ export default function PostScreen(props) {
           <Post.Image source={profile.url} />
         </Post.Wrap>
         <Post.Name>{'@' + profile?.desc}</Post.Name>
+        {user && user.id === post.userId && <Post.Delete>
+          <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={() => act('APP_DELETEPOST', { userId, postId }).then(router.back())} />
+        </Post.Delete>}
       </Post.Profile>
       <Post.Wrap image>
         <Post.Image source={post.url} />
@@ -39,4 +44,5 @@ const Post = Actheme.create({
     profile: 'fd:row ai:c w,h,br:s15 of:hd',}],
   Profile: ['TouchableOpacity', 'fd:row ai:c m:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
+  Delete: ['View', 'w,h,br:s8 of:hd bg:black200 ai,jc:c ml:auto'],
 })
