@@ -36,7 +36,7 @@ const Nav = Actheme.create({
             { user && <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setActive(false)} /> }
           </Nav.Wrap>
           <Nav.Input
-            placeholder={path !== '/' ? `Search @${profile.desc} content` : 'Search unicorns'}
+            placeholder={path !== '/' ? `Search @${profile.desc} content` : 'Search @unicorn'}
             focus={focus}
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}  />
