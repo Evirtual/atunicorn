@@ -90,7 +90,7 @@ const actions = ({ store, cookies, configs, act }) => ({
       id: user.id,
       updated: new Date().getTime(),
       url: data.url || 'https://data.lostrelics.io/Items/AbyssalPyre.jpg',
-      desc: data.desc || 'test description'
+      desc: data.desc || user.id
     }, console.log)
   },
 

@@ -13,7 +13,7 @@ const Styled = Actheme.create({
 	Link: 'Link'
 })
 
-const Icon = ({ svg, ...props }) => <FontAwesomeIcon {...props} alt={props.alt} icon={[ (props.solid ? 'fas' : 'fal'), props.icon || props.name]} solid={(props.solid?.toString())} />
+const Icon = ({ svg, ...props }) => <FontAwesomeIcon {...props} alt={props.alt} icon={[ (props.solid ? 'fas' : 'fal'), props.icon || props.name]} solid={(props.solid?.toString())} light={(props.light?.toString())} />
 
 const Button = Actheme.create({
 

@@ -23,7 +23,10 @@ const Post = Actheme.create({
     return <Post.Touch {...props} onPress={() => router.push('../post/' + post.id)}>
       <Post.Wrap>
         {!id && <Post.Profile onPress={() => setActive(!active)}>
-          <Post.Image source={profile && profile.url || 'https://c.tenor.com/xD2H2paGBt4AAAAC/prizzzle-unicorn.gif'} />
+          {profile && profile.url 
+            ? <Post.Image source={profile.url} />
+            : <Elems.Icon style={Actheme.style('c:grey fs:s12')} icon="user-circle" solid />
+          }
         </Post.Profile>}
         { active && <Post.User onPress={() => router.push('/profile/' + post.userId)}>
           <Post.Name>@{profile && profile?.desc || post.userId}</Post.Name>
