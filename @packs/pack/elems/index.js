@@ -17,7 +17,7 @@ const Icon = ({ svg, ...props }) => <FontAwesomeIcon {...props} alt={props.alt} 
 
 const Button = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'jc,ai:c nw:s15', {
+  Touch: ['TouchableOpacity', 'jc,ai:c nw:s15 nh:s9.75', {
     info: 'br:s20 ps:ab b,l:s5 z:2',
     user: 'br:s20 ps:ab b,r:s5 z:2',
     post: 'bc:black100 br:s5 bg:green h:s15 mt:s5',
