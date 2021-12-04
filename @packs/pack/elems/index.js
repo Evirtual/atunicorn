@@ -26,7 +26,7 @@ const Button = Actheme.create({
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100%', { numberOfLines: 1 }], {
     post: 'c:white fs:s5',
-    inline: 'ml:s2' }],
+    inline: 'ml:s2', }],
   Image: ['Image', 'w,h:100%'],
 
   Elem: ({text, source, info, size, icon, solid, iconColor, iconSize, fontSize, textColor, spin, post, disabled, inline, onPress, ...props}) => {

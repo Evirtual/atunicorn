@@ -28,7 +28,7 @@ const Upload = Actheme.create({
               <Upload.Text>Upload Picture</Upload.Text>
             </Upload.Touch>
           : <Upload.Image source={url} />}
-          {/* {!url && active && <Elems.Button icon="spinner-third" spin iconSize="s20" />} */}
+          {!url && active && <Elems.Button icon="spinner-third" spin iconSize="s20" />}
       </Upload.File>
       {url && <Upload.Input
         onChangeText={setDesc}

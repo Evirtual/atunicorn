@@ -60,12 +60,10 @@ const actions = ({ store, cookies, configs, act }) => ({
     const id = new Date().getTime()
     const key = ['posts', user.id, id].join('/')
 
-    console.log({ post })
-
     return firebase.database().ref(key).set({
       id, userId: user.id,
-      url: post.url || 'https://data.lostrelics.io/Items/AbyssalPyre.jpg',
-      desc: post.desc || 'testing posts'
+      url: post.url,
+      desc: post.desc
     }, console.log)
   },
 
@@ -89,8 +87,8 @@ const actions = ({ store, cookies, configs, act }) => ({
     return firebase.database().ref(key).set({
       id: user.id,
       updated: new Date().getTime(),
-      url: data.url || 'https://data.lostrelics.io/Items/AbyssalPyre.jpg',
-      desc: data.desc || user.id
+      url: data.url || '',
+      username: data.username || user.id
     }, console.log)
   },
 

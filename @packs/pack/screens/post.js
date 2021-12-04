@@ -21,10 +21,10 @@ export default function PostScreen(props) {
         <Post.Wrap profile>
           { profile.url
             ? <Post.Image source={profile.url} />
-            : <Elems.Icon style={Actheme.style('c:grey fs:s15')} icon="user-circle" solid />
+            : <Elems.Icon style={Actheme.style('c:black100 fs:s15')} icon="user-circle" solid />
           }
         </Post.Wrap>
-        <Post.Name>{'@' + (profile?.desc || post.userId)}</Post.Name>
+        <Post.Name>{'@' + (profile.username || post.userId)}</Post.Name>
         {user && user.id === post.userId && <Post.Delete>
           <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={() => act('APP_DELETEPOST', { userId, postId }).then(router.back())} />
         </Post.Delete>}
@@ -40,7 +40,7 @@ export default function PostScreen(props) {
 const Post = Actheme.create({
   Container: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 p:s5 ai,jc:c bg:black25'), showsVerticalScrollIndicator: false }]],
   Image: ['Image', 'w,h:100%'],
-  Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd mt:s5',
+  Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd mt:s3',
   Text: ['Text', 'fs:s4 p:s5'],
   Wrap: ['View', 'w:100% xw:s150', {
     image: 'h:s150 btw:1 bbw:1 bc:black50',
