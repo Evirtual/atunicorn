@@ -7,7 +7,6 @@ export default function AboutScreen() {
   const router = handle.useRouter()
   const { id } = router?.query || {}
   const { user, users } = store.get('user', 'users')
-  const posts = (store.get('posts') || []).filter(post => post.userId === id)
   const profile = users?.find(item => item.id === id) || {}
 
   return (<About.Container>
@@ -15,6 +14,7 @@ export default function AboutScreen() {
     <Comps.Nav />
     <About.Wrap>
       <About.Text>{id ? `welcome to @${profile.username || id}` : 'Welcome to @unicorn'}</About.Text>
+      <About.Text>{id ? '(Maximum 500 letters)' : 'Enjoy your stay'}</About.Text>
     </About.Wrap>
     </About.Content>
   </About.Container>
