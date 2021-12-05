@@ -88,7 +88,8 @@ const actions = ({ store, cookies, configs, act }) => ({
       id: user.id,
       updated: new Date().getTime(),
       url: data.url || '',
-      username: data.username || user.id
+      username: data.username || user.id,
+      about: data.about || `Welcome to @${data.username || user.id}`
     }, console.log)
   },
 

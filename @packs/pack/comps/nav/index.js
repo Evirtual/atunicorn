@@ -42,11 +42,14 @@ const Nav = Actheme.create({
             { user && <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setActive(false)} /> }
           </Nav.Wrap>
           <Nav.Input
-            placeholder={path !== '/' ? `Search @${profile.username || id} content` : 'Search @unicorn'}
+            placeholder={path !== '/' && path !== '/about' ? `Search @${profile.username || id}` : 'Search @unicorn'}
             focus={focus}
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}  />
-          </Nav.Wrap>
+          {!user && path !== '/' && <Nav.Wrap save>
+            <Elems.Button icon="home" iconColor="grey" onPress={() => router?.push('/')} />
+          </Nav.Wrap>}
+        </Nav.Wrap>
         }
         {user && <Elems.Button icon="home" iconSize="s5" onPress={() => router?.push('/')} />}
         {user && id !== user.id && <Elems.Button icon="user-circle" iconSize="s5" onPress={() => router.push('/profile/' + user.id)} />}
