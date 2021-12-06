@@ -16,7 +16,7 @@ export default function AboutScreen() {
       <Comps.Nav />
       <About.Wrap about={profile.about && !editAbout}>
         {profile.about && user && id === user.id && !editAbout && <About.Edit>
-          <Elems.Button icon="pencil" iconSize="s4" color="white" onPress={() => setEditAbout(true)} />
+          <Elems.Button icon="pencil" iconSize="s4" color="white" onPress={() => setEditAbout(!editAbout)} />
         </About.Edit>}
         {profile.about && !editAbout
           ? <About.Text>{profile.about}</About.Text>
@@ -29,7 +29,7 @@ export default function AboutScreen() {
             : <About.Text>{id ? `welcome to @${profile.username || id}` : 'Welcome to @unicorn'}</About.Text>
         }
       </About.Wrap>
-      {((user && id === user.id && about && !profile.about) || (about && editAbout)) && <About.Save>
+      {((user && id === user.id && about && !profile.about) || (user && id === user.id && editAbout)) && <About.Save>
         <Elems.Button post onPress={() => act('APP_USER', { about }).then(setEditAbout(false))} text="ready to save?" textColor="white" />
       </About.Save>}
     </About.Content>
@@ -40,13 +40,13 @@ export default function AboutScreen() {
 const About = Actheme.create({
   Container: ['View', 'f:1 bg:black25'],
   Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('ai:c fw:wrap w:100% xw:s400 as:c'), showsVerticalScrollIndicator: false }]],
-  Wrap: ['View', 'p:s5 bg:white br:s5 w:100% nh,xw:s100 ai,jc:c mt:s5', {
-    about: 'p:s10'
+  Wrap: ['View', 'bg:white200 br:s5 w:100% nh,xw:s100 ai,jc:c mt:s5', {
+    about: 'p:s10 bw:1 bc:black50'
   }],
   Form: ['View', 'h,w:100%'],
   Save: ['View', 'w:100% xw:s100'],
   Text: ['Text', 'fs:s4 ta:c'],
-  Input: ['TextInput', ['c:black fs:s4 p:s5 bw:1 bc:black50 bg:white200 br:s5', { multiline: true, numberOfLines:15 }], {
+  Input: ['TextInput', ['c:black fs:s4 p:s5 bw:1 bc:black50 bg:white200 br:s5', { multiline: true, numberOfLines:17 }], {
     active: 'bc:green'
   }],
   Edit: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:2 bg:black200 ai,jc:c'],
