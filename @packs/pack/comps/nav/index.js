@@ -22,9 +22,9 @@ const Nav = Actheme.create({
   Image: ['Image', 'w,h:s25'],
 
   Comp: (props) => {
-    const { act, store, action, handle } = Actstore({}, ['user', 'posts'])
+    const { act, store, action, handle } = Actstore({}, ['user', 'posts', 'uploading'])
     const router = handle.useRouter()
-    const { user, users } = store.get('user', 'users')
+    const { user, users, uploading } = store.get('user', 'users', 'uploading')
     const { id } = router?.query || {}
     const [focus, setFocus] = React.useState()
     const [active, setActive] = React.useState()
@@ -33,16 +33,20 @@ const Nav = Actheme.create({
     const profile = users?.find(item => item.id === id) || {}
     const path = typeof window !== "undefined" && window.location.pathname
 
+    console.log({ uploading })
+
     return <Nav.Container>
       <Nav.Wrap row>
         {user && <Elems.Button icon="search" iconSize="s5" onPress={() => setActive(true)} /> }
         {(!user || active) && <Nav.Wrap input={user}>
           <Nav.Wrap search>
-            { !user && <Elems.Button icon="search" iconColor="grey" />}
-            { user && <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setActive(false)} /> }
+            { !user 
+              ? <Elems.Button icon="search" iconColor="grey" />
+              : <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setActive(false)} /> 
+            }
           </Nav.Wrap>
           <Nav.Input
-            placeholder={path !== '/' && path !== '/about' ? `Search @${profile.username || id}` : 'Search @unicorn'}
+            placeholder={path !== '/' && path !== '/about' && !!profile.id ? `Search @${profile?.username || id}` : 'Search @unicorn'}
             focus={focus}
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}  />
@@ -52,8 +56,10 @@ const Nav = Actheme.create({
         </Nav.Wrap>
         }
         {user && <Elems.Button icon="home" iconSize="s5" onPress={() => router?.push('/')} />}
-        {user && id !== user.id && <Elems.Button icon="user-circle" iconSize="s5" onPress={() => router.push('/profile/' + user.id)} />}
-        {user && id === user.id && <Elems.Button icon="power-off" iconSize="s5"  onPress={action('APP_LOGOUT')} />}
+        {user && id !== user.id 
+          ? <Elems.Button icon="user-circle" iconSize="s5" onPress={() => router.push('/profile/' + user.id)} />
+          : user && <Elems.Button icon="power-off" iconSize="s5"  onPress={action('APP_LOGOUT')} />
+        }
       </Nav.Wrap>
       <Nav.Wrap row>
         {!user && path === '/'
@@ -67,14 +73,13 @@ const Nav = Actheme.create({
         }
         <Nav.Wrap image>
           {user && id === user.id
-            ? <Nav.File action={files => act('APP_UPLOAD', files)}>
-              {!profile.url
-                ? <Nav.Touch>
-                    <Elems.Icon style={Actheme.style('c:grey fs:s10')} icon="camera" solid />
-                  </Nav.Touch>
-                : <Nav.Touch>
-                    <Nav.Image source={profile.url} />
-                  </Nav.Touch>}
+            ? <Nav.File action={files => act('APP_UPLOAD', files).then(url => act('APP_USER', { url }))}>
+                <Nav.Touch>
+                  {!profile.url 
+                    ? <Elems.Icon style={Actheme.style('c:grey fs:s10')} icon="camera" solid />
+                    : <Nav.Image source={profile.url} />
+                  }
+                </Nav.Touch>
               </Nav.File>
             : path !== '/' && path !== '/about' && !profile.url
               ? <Elems.Icon style={Actheme.style('c:black100 fs:s20')} icon="user-circle" solid />
@@ -96,7 +101,7 @@ const Nav = Actheme.create({
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)} />  
           <Nav.Wrap save>
-            <Elems.Button icon="save" iconColor="green" iconSize="s5" onPress={() => act('APP_USER', { username }, setEditUsername(false))} />
+            <Elems.Button icon="save" iconColor="green" iconSize="s5" onPress={() => act('APP_USER', { username }).then(() => setEditUsername(false))} />
           </Nav.Wrap>
         </Nav.Wrap>}
         {user && id === user.id && !editUsername && !profile.username && path !== '/' && <Elems.Button icon="pencil" iconSize="s5" onPress={() => setEditUsername(true)} />}
