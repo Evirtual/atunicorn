@@ -14,7 +14,7 @@ function MainScreen() {
     <Styled.Content>
       <Comps.Nav mode={mode} setMode={setMode} />
       {mode === 'post' && <Comps.Upload onClose={() => setMode()} />}
-      {!posts
+      {!posts.length
         ? <Elems.Button icon="spinner-third" spin />
         : mode !== 'post' && posts.map((post, index) => <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
     </Styled.Content>

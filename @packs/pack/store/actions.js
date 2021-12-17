@@ -10,7 +10,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     !firebase.apps.length && await firebase.initializeApp(configs.firebase)
 
     firebase.database().ref('posts').on('value', snapshot => {
-      const posts = Object.values(snapshot?.val())
+      const posts = snapshot?.val() &&  Object.values(snapshot?.val())
         .reduce((arr, items) => arr.concat(Object.values(items)), [])
         .sort((a, b) => b.id - a.id)
       store.set({ posts })
@@ -94,7 +94,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
       updated: new Date().getTime(),
       url: data.url || user.url || '',
       username: data.username || user.username || '',
-      about: data.about || user.about || `Welcome to @${user.username || id}`
+      about: data.about || user.about || ''
     }, console.log)
   },
 

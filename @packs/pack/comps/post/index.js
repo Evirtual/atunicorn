@@ -5,7 +5,7 @@ import { Elems } from '../..'
 
 const Post = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'w:100% xw,h:s100 jc,ai:c bw:1 bc:black50 br:s5 of:hd m:s5 bg:white200', { md: 'xw,h:s100' }],
+  Touch: ['TouchableOpacity', 'w:100% xw,h:s100 jc,ai:c bw:1 bc:black50 br:s5 of:hd m:s5 bg:white'],
   Image: ['Image', 'w,h:100%'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black100'],

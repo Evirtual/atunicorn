@@ -33,80 +33,83 @@ const Nav = Actheme.create({
     const profile = users?.find(item => item.id === id) || {}
     const path = typeof window !== "undefined" && window.location.pathname
 
-    console.log({ uploading })
-
-    return <Nav.Container>
-      <Nav.Wrap row>
-        {user && <Elems.Button icon="search" iconSize="s5" onPress={() => setActive(true)} /> }
-        {(!user || active) && <Nav.Wrap input={user}>
-          <Nav.Wrap search>
-            { !user 
-              ? <Elems.Button icon="search" iconColor="grey" />
-              : <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setActive(false)} /> 
-            }
+    return (
+      <Nav.Container>
+        <Nav.Wrap row>
+          {user && <Elems.Button icon="search" iconSize="s5" onPress={() => setActive(true)} /> }
+          {(!user || active) && <Nav.Wrap input={user}>
+            <Nav.Wrap search>
+              { !user 
+                ? <Elems.Button icon="search" iconColor="grey" />
+                : <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setActive(false)} /> 
+              }
+            </Nav.Wrap>
+            <Nav.Input
+              placeholder={path !== '/' && path !== '/about' && !!profile.id ? `Search @${profile?.username || id}` : 'Search @unicorn'}
+              focus={focus}
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}  />
+            {!user && path !== '/' && <Nav.Wrap save>
+              <Elems.Button icon="home" iconColor="grey" onPress={() => router?.push('/')} />
+            </Nav.Wrap>}
           </Nav.Wrap>
-          <Nav.Input
-            placeholder={path !== '/' && path !== '/about' && !!profile.id ? `Search @${profile?.username || id}` : 'Search @unicorn'}
-            focus={focus}
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}  />
-          {!user && path !== '/' && <Nav.Wrap save>
-            <Elems.Button icon="home" iconColor="grey" onPress={() => router?.push('/')} />
-          </Nav.Wrap>}
-        </Nav.Wrap>
-        }
-        {user && <Elems.Button icon="home" iconSize="s5" onPress={() => router?.push('/')} />}
-        {user && id !== user.id 
-          ? <Elems.Button icon="user-circle" iconSize="s5" onPress={() => router.push('/profile/' + user.id)} />
-          : user && <Elems.Button icon="power-off" iconSize="s5"  onPress={action('APP_LOGOUT')} />
-        }
-      </Nav.Wrap>
-      <Nav.Wrap row>
-        {!user && path === '/'
-          ? <Elems.Button text="login" onPress={action('APP_LOGIN')} />
-          : path === '/' || user && id === user.id && (path !== '/profile/' + user.id + '/about')
-            ? <Elems.Button
-                text={props.mode === 'post' ? 'back' : 'upload'}
-                textColor={props.mode === 'post' ? 'red' : 'green'}
-                onPress={props.mode === 'post' ? () => props.setMode() : () => props.setMode('post')} />
-            :  <Elems.Button text="back" textColor="red" onPress={() => router.back()} />
-        }
-        <Nav.Wrap image>
-          {user && id === user.id
-            ? <Nav.File action={files => act('APP_UPLOAD', files).then(url => act('APP_USER', { url }))}>
-                <Nav.Touch>
-                  {!profile.url 
-                    ? <Elems.Icon style={Actheme.style('c:grey fs:s10')} icon="camera" solid />
-                    : <Nav.Image source={profile.url} />
-                  }
-                </Nav.Touch>
-              </Nav.File>
-            : path !== '/' && path !== '/about' && !profile.url
-              ? <Elems.Icon style={Actheme.style('c:black100 fs:s20')} icon="user-circle" solid />
-              : <Nav.Image source={profile.url ? profile.url : 'https://cdn.dribbble.com/users/61660/screenshots/4409254/unicorn_03.gif'} />
+          }
+          {user && <Elems.Button icon="home" iconSize="s5" onPress={() => router?.push('/')} />}
+          {user && id !== user.id 
+            ? <Elems.Button icon="user-circle" iconSize="s5" onPress={() => router.push('/profile/' + user.id)} />
+            : user && <Elems.Button icon="power-off" iconSize="s5"  onPress={action('APP_LOGOUT')} />
           }
         </Nav.Wrap>
-        <Elems.Button text="about" onPress={path === '/' ? () => router.push('/about/') : () => router.push('/profile/' + id + '/about/')} />
-      </Nav.Wrap>
-      <Nav.Wrap row>
-        {!editUsername && <Elems.Button text={'@' + (profile.username ? profile.username : id ? id : 'unicorn')} onPress={ user && id === user.id ? () => setEditUsername(true) : null} /> }
-        {user && id === user.id && editUsername && <Nav.Wrap row>
-          <Nav.Wrap search>
-            <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setEditUsername(false)} />
+        <Nav.Wrap row>
+          {!user && path === '/'
+            ? <Elems.Button text="login" onPress={action('APP_LOGIN')} />
+            : path === '/' || user && id === user.id && (path !== '/profile/' + user.id + '/about')
+              ? <Elems.Button
+                  text={props.mode === 'post' ? 'back' : 'upload'}
+                  textColor={props.mode === 'post' ? 'black' : 'green'}
+                  onPress={props.mode === 'post' ? () => props.setMode() : () => props.setMode('post')} />
+              :  <Elems.Button text="back" textColor="black" onPress={() => router.back()} />
+          }
+          <Nav.Wrap image>
+            {user && id === user.id
+              ? <Nav.File action={files => act('APP_UPLOAD', files).then(url => act('APP_USER', { url }))}>
+                  <Nav.Touch>
+                    {uploading
+                        ? <Elems.Button iconSize="s10" icon="spinner-third" spin />
+                        : !profile.url
+                          ? <Elems.Icon style={Actheme.style('c:grey fs:s10')} icon="camera" solid />
+                          : <Nav.Image source={profile.url} />
+                    }
+                  </Nav.Touch>
+                </Nav.File>
+              : path !== '/' && path !== '/about' && !profile.url
+                ? <Elems.Icon style={Actheme.style('c:black100 fs:s20')} icon="user-circle" solid />
+                : <Nav.Image source={profile.url ? profile.url : 'https://cdn.dribbble.com/users/61660/screenshots/4409254/unicorn_03.gif'} />
+            }
           </Nav.Wrap>
-          <Nav.Input
-            onChangeText={setUsername}
-            placeholder={profile.username || "set username"}
-            focus={focus}
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)} />  
-          <Nav.Wrap save>
-            <Elems.Button icon="save" iconColor="green" iconSize="s5" onPress={() => act('APP_USER', { username }).then(() => setEditUsername(false))} />
-          </Nav.Wrap>
-        </Nav.Wrap>}
-        {user && id === user.id && !editUsername && !profile.username && path !== '/' && <Elems.Button icon="pencil" iconSize="s5" onPress={() => setEditUsername(true)} />}
-      </Nav.Wrap>
-    </Nav.Container>
+          <Elems.Button text="about" onPress={path === '/' ? () => router.push('/about/') : () => router.push('/profile/' + id + '/about/')} />
+        </Nav.Wrap>
+        <Nav.Wrap row>
+          {!editUsername && <Elems.Button text={'@' + (profile.username ? profile.username : id ? id : 'unicorn')} onPress={ user && id === user.id ? () => setEditUsername(true) : null} /> }
+          {user && id === user.id && editUsername && <Nav.Wrap row>
+            <Nav.Wrap search>
+              <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setEditUsername(false)} />
+            </Nav.Wrap>
+            <Nav.Input
+              defaultValue={profile.username || ''}
+              onChangeText={setUsername}
+              placeholder={profile.username || "set username"}
+              focus={focus}
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)} />  
+            <Nav.Wrap save>
+              <Elems.Button icon="save" iconColor="green" iconSize="s5" onPress={() => act('APP_USER', { username }).then(() => setEditUsername(false))} />
+            </Nav.Wrap>
+          </Nav.Wrap>}
+          {user && id === user.id && !editUsername && !profile.username && path !== '/' && <Elems.Button icon="pencil" iconSize="s5" onPress={() => setEditUsername(true)} />}
+        </Nav.Wrap>
+      </Nav.Container>
+    )
   }
 })
 

@@ -23,10 +23,18 @@ export default function AboutScreen() {
           : user && id === user.id && !profile.about || editAbout
             ? <About.Form>
                 <About.Input
+                  defaultValue={profile.about || ''}
                   onChangeText={setAbout}
                   placeholder={profile.about || 'What makes you tick?'}/>
               </About.Form>
-            : <About.Text>{id ? `welcome to @${profile.username || id}` : 'Welcome to @unicorn'}</About.Text>
+            : <About.Text>
+                {id
+                  ? profile.username
+                    ? `welcome to @${profile?.username}`
+                    : `welcome to @${id}`
+                  : 'Welcome to @unicorn'
+                }
+              </About.Text>
         }
       </About.Wrap>
       {((user && id === user.id && about && !profile.about) || (user && id === user.id && editAbout)) && <About.Save>
@@ -40,13 +48,13 @@ export default function AboutScreen() {
 const About = Actheme.create({
   Container: ['View', 'f:1 bg:black25'],
   Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('ai:c fw:wrap w:100% xw:s400 as:c'), showsVerticalScrollIndicator: false }]],
-  Wrap: ['View', 'bg:white200 br:s5 w:100% nh,xw:s100 ai,jc:c mt:s5', {
-    about: 'p:s10 bw:1 bc:black50'
+  Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s100 ai,jc:c mt:s5 bw:1 bc:black50', {
+    about: 'p:s10'
   }],
   Form: ['View', 'h,w:100%'],
   Save: ['View', 'w:100% xw:s100'],
   Text: ['Text', 'fs:s4 ta:c'],
-  Input: ['TextInput', ['c:black fs:s4 p:s5 bw:1 bc:black50 bg:white200 br:s5', { multiline: true, numberOfLines:17 }], {
+  Input: ['TextInput', ['c:black fs:s4 p:s5 bg:white200 br:s5', { multiline: true, numberOfLines:17 }], {
     active: 'bc:green'
   }],
   Edit: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:2 bg:black200 ai,jc:c'],

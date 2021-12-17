@@ -10,15 +10,16 @@ export default function ProfileScreen() {
   const [ mode, setMode ] = React.useState()
   const posts = (store.get('posts') || []).filter(post => post.userId === id)
 
-  return (<Profile.Container>
-    <Profile.Content>
-      <Comps.Nav mode={mode} setMode={setMode} />
-      {(mode === 'post' || !posts.length) && <Comps.Upload onClose={() => setMode()} />}
-      {!posts
-        ? <Elems.Button icon="spinner-third" spin />
-        : mode !== 'post' && posts.map((post, index) => <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} />)}
-    </Profile.Content>
-  </Profile.Container>
+  return (
+    <Profile.Container>
+      <Profile.Content>
+        <Comps.Nav mode={mode} setMode={setMode} />
+        {(mode === 'post' || !posts.length) && <Comps.Upload onClose={() => setMode()} />}
+        {!posts
+          ? <Elems.Button icon="spinner-third" spin />
+          : mode !== 'post' && posts.map((post, index) => <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} />)}
+      </Profile.Content>
+    </Profile.Container>
   )
 }
 
