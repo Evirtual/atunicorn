@@ -27,8 +27,8 @@ const Button = Actheme.create({
     nsfw: 'fd:row p:s2 bg:white200 mt:s5 br:s5 bw:1 bc:black50'
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100% fs:s4', { numberOfLines: 1 }], {
-    post: 'c:white fs:s5',
-    seeMore: 'c:steelblue fs:s5',
+    post: 'c:white',
+    seeMore: 'c:steelblue',
     inline: 'ml:s2',
     nsfw: 'ml:s2',
     icon: 'ta:l' 
