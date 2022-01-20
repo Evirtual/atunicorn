@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Comps, Elems, Actheme } from 'pack'
 import Actstore from 'actstore'
 
@@ -9,6 +9,7 @@ export default function ProfileScreen() {
   const { user, users } = store.get('user', 'users')
   const [ mode, setMode ] = React.useState()
   const posts = (store.get('posts') || []).filter(post => post.userId === id)
+  const [visible, setVisible] = useState(9)
 
   return (
     <Profile.Container>
@@ -17,7 +18,13 @@ export default function ProfileScreen() {
         {(mode === 'post' || !posts.length) && <Comps.Upload onClose={() => setMode()} />}
         {!posts
           ? <Elems.Button icon="spinner-third" spin />
-          : mode !== 'post' && posts.map((post, index) => <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} />)}
+          : mode !== 'post' && <>
+            {posts.slice(0, visible).map((post, index) => <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} />)}
+            {(posts.length > visible) && <Styled.Wrap>
+              <Elems.Button seeMore text="see more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
+            </Styled.Wrap>}
+          </>
+        }
       </Profile.Content>
     </Profile.Container>
   )
@@ -27,4 +34,5 @@ const Profile = Actheme.create({
   Container: ['View', 'f:1 bg:black25'],
   Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('jc:c fd:row fw:wrap w:100% xw:s400 as:c ph:s5'), showsVerticalScrollIndicator: false }]],
   Text: ['Text', 'fs,mb:s6 ta:c', { small: 'fs:s3'}],
+  Wrap: ['View', 'w:100% ai:c']
 })

@@ -20,13 +20,15 @@ const Button = Actheme.create({
   Touch: ['TouchableOpacity', 'jc,ai:c nw:s15 nh:s9.75', {
     info: 'br:s20 ps:ab b,l:s5 z:2',
     user: 'br:s20 ps:ab b,r:s5 z:2',
-    post: 'bc:black100 br:s5 bg:green h:s15 mt:s5',
+    post: 'bc:black100 br:s5 bg:mediumseagreen h:s15 mt:s5',
+    seeMore : 'mt:s5 mb:s10 w:s50',
     disabled: 'op:0.25',
     inline: 'fd:row',
     nsfw: 'fd:row p:s2 bg:white200 mt:s5 br:s5 bw:1 bc:black50'
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100% fs:s4', { numberOfLines: 1 }], {
     post: 'c:white fs:s5',
+    seeMore: 'c:steelblue fs:s5',
     inline: 'ml:s2',
     nsfw: 'ml:s2',
     icon: 'ta:l' 
@@ -40,7 +42,7 @@ const Button = Actheme.create({
       {text && <Button.Text icon={icon} post={post} nsfw={nsfw} inline={inline} style={Actheme.style([
         fontSize && `fs:${fontSize}`, 
         textColor && `c:${textColor}`
-      ].filter(item => item).join(' '))}>{text}</Button.Text>}
+      ].filter(item => item).join(' '))} {...props}>{text}</Button.Text>}
     </Button.Touch>
   }
 

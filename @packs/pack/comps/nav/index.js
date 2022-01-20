@@ -15,7 +15,7 @@ const Nav = Actheme.create({
   }],
   Image: ['Image', 'w,h:100%'],
   Input: ['TextInput', ['c:black fs:s4 p:s2 pl:s10 pr:s10 bw:1 bc:black50 bg:white br:s5 ta:c w:s70', { multiline: false, numberOfLines: 1 }], {
-    focus: 'bc:green'
+    focus: 'bc:mediumseagreen'
   }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 br:s5 of:hd'],
@@ -66,7 +66,7 @@ const Nav = Actheme.create({
             : path === '/' || user && id === user.id && (path !== '/profile/' + user.id + '/about')
               ? <Elems.Button
                   text={props.mode === 'post' ? 'back' : 'upload'}
-                  textColor={props.mode === 'post' ? 'black' : 'green'}
+                  textColor={props.mode === 'post' ? 'black' : 'mediumseagreen'}
                   onPress={props.mode === 'post' ? () => props.setMode() : () => props.setMode('post')} />
               :  <Elems.Button text="back" textColor="black" onPress={() => router.back()} />
           }
@@ -103,7 +103,7 @@ const Nav = Actheme.create({
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)} />  
             <Nav.Wrap save>
-              <Elems.Button icon="save" iconColor="green" iconSize="s5" onPress={() => act('APP_USER', { username }).then(() => setEditUsername(false))} />
+              <Elems.Button icon="save" iconColor="mediumseagreen" iconSize="s5" onPress={() => act('APP_USER', { username }).then(() => setEditUsername(false))} />
             </Nav.Wrap>
           </Nav.Wrap>}
           {user && id === user.id && !editUsername && !profile.username && path !== '/' && <Elems.Button icon="pencil" iconSize="s5" onPress={() => setEditUsername(true)} />}
