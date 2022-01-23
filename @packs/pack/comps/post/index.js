@@ -8,7 +8,7 @@ const Post = Actheme.create({
   Touch: ['TouchableOpacity', 'w:100% xw,h:s100 jc,ai:c bw:1 bc:black50 br:s5 of:hd m:s5 bg:white'],
   Image: ['Image', 'w,h:100%'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
-  Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black100'],
+  Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200'],
   User: ['TouchableOpacity', 'fb:500 ml:s2 bg:black200 pv:s2 ph:s3 br:s5'],
   Name: ['Text', 'c:white'],
   Delete: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
