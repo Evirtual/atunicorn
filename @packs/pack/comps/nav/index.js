@@ -65,6 +65,7 @@ const Nav = Actheme.create({
             ? <Elems.Button text="login" onPress={action('APP_LOGIN')} />
             : path === '/' || user && id === user.id && (path !== '/profile/' + user.id + '/about')
               ? <Elems.Button
+                  disabled={!user.approved}
                   text={props.mode === 'post' ? 'back' : 'upload'}
                   textColor={props.mode === 'post' ? 'black' : 'mediumseagreen'}
                   onPress={props.mode === 'post' ? () => props.setMode() : () => props.setMode('post')} />
@@ -72,9 +73,9 @@ const Nav = Actheme.create({
           }
           <Nav.Wrap image>
             {user && id === user.id
-              ? <Nav.File action={files => act('APP_UPLOAD', files).then(url => act('APP_USER', { url }))}>
+              ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
                   <Nav.Touch>
-                    {uploading
+                    {uploading == 'profile'
                         ? <Elems.Button iconSize="s10" icon="spinner-third" spin />
                         : !profile.url
                           ? <Elems.Icon style={Actheme.style('c:grey fs:s10')} icon="camera" solid />

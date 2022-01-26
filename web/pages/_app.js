@@ -2,6 +2,7 @@ import React from 'react'
 import Actstore from 'actstore'
 import Head from 'next/head'
 import Settings from 'pack/store'
+import Info from 'pack/comps/info'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
@@ -34,6 +35,7 @@ const App = ({ Component, pageProps }) => {
 			  }
 			`}</style>
 		</Head>
+		<Info />
 		<Component {...pageProps} />
 	</React.Fragment>
 }

@@ -25,7 +25,7 @@ export default function PostScreen(props) {
         <Post.Name>{'@' + (profile.username || post.userId)}</Post.Name>
       </Post.Profile>
       <Post.Wrap image>
-        <Post.Image source={post.url} />
+        <Post.Image source={[post.url, 'image'].join('#')} alt="WTF" style={Actheme.style('w,h:100%')} className="wtf" />
       </Post.Wrap>
       <Post.Text>{post?.desc || post?.userId}</Post.Text>
     </Post.Content>
@@ -34,7 +34,7 @@ export default function PostScreen(props) {
 
 const Post = Actheme.create({
   Container: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 p:s5 ai,jc:c bg:black25'), showsVerticalScrollIndicator: false }]],
-  Image: ['Image', 'w,h:100%'],
+  Image: 'Image',
   Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd mt:s3',
   Text: ['Text', 'fs:s4 p:s5'],
   Wrap: ['View', 'w:100% xw:s150', {

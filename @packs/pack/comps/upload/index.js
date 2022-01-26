@@ -24,9 +24,9 @@ const Upload = Actheme.create({
 
     return (
       <Upload.Wrap>
-        <Upload.File action={files => act('APP_UPLOAD', files).then(setUrl)}>
+        <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
           <Upload.Touch>
-            {uploading
+            {uploading == 'post'
               ? <Elems.Button iconSize="s20" icon="spinner-third" spin />
               : !url
                 ? <>

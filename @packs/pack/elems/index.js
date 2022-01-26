@@ -28,7 +28,6 @@ const Button = Actheme.create({
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100% fs:s4', { numberOfLines: 1 }], {
     post: 'c:white',
-    seeMore: 'c:steelblue',
     inline: 'ml:s2',
     nsfw: 'ml:s2',
     icon: 'ta:l' 

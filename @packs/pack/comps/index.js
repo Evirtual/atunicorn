@@ -1,4 +1,5 @@
 import Nav from './nav'
 import Post from './post'
 import Upload from './upload'
-export default { Nav, Post, Upload }
+import Info from './info'
+export default { Nav, Post, Upload, Info }

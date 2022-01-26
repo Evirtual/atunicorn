@@ -20,14 +20,13 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
       const users = snapshot?.val() && Object.values(snapshot?.val()) || []
       const user = await new Promise(resolve => firebase.auth().onAuthStateChanged(resolve))
       console.log('NEW USERS updated')
-      const u = await store.set({ users, user: user && {
+      await store.set({ users, user: user && {
         name: user.displayName,
         email: user.email,
         photo: user.photoURL,
         id: user.uid,
-        ...(users.find(item => item.id === user.id) || {})
+        ...(users.find(item => item.id === user.uid) || {})
       } })
-      console.log(u)
     })
   },
 
@@ -36,12 +35,14 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     const provider = new firebase.auth.GoogleAuthProvider()
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
     const { credential, user } = await firebase.auth().signInWithPopup(provider)
+    const users = store.get('users')
     user && await store.set({
       user: {
         name: user.displayName,
         email: user.email,
         photo: user.photoURL,
-        id: user.uid
+        id: user.uid,
+        ...(users.find(item => item.id === user.uid) || {})
       }
     })
     Router?.push('/profile/' + user.uid)
@@ -56,8 +57,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
   APP_POST: async (post = {}) => {
     const user = store.get('user')
-    if(!user) return console.warn('PLEASE LOGIN BEFORE POSTING')
-
+    if(!user) return store.set({ error: { type: 'post', message: 'Please Login Before Posting' }})
     const id = new Date().getTime()
     const key = ['posts', user.id, id].join('/')
 
@@ -66,20 +66,30 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
       url: post.url,
       desc: post.desc,
       nsfw: post.nsfw || false
-    }, console.log)
+    }).catch(error => store.set({ error: { type: 'post', message: error.message } }))
   },
 
   APP_DELETEPOST: async ( post ) => {
-    return firebase.database().ref(`posts/${post.userId}/${post.postId}/`).remove()
+    const fileId = post.url.split('%2F').pop().split('?alt=media').shift()
+    await firebase.database().ref(`posts/${post.userId}/${post.postId}/`).remove()
+    await firebase.storage().ref().child([post.userId, fileId].join('/')).delete()
   },
 
-  APP_UPLOAD: async ([ file ]) => {
-    store.set({ uploading: true })
-    const user = store.get('user') || {}
-    const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)
-    const url = await snap.ref.getDownloadURL()
-    store.set({ uploading: null })
-    return url
+  APP_UPLOAD: async ([ file ], uploading = true) => {
+    store.set({ uploading })
+    try {
+      if(file.size > 2 * 1024 * 1024) throw new Error('file is too big')
+      if(!file.type.includes('image/')) throw new Error('file type is not an image')
+      
+      const user = store.get('user') || {}
+      const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)
+      const url = await snap.ref.getDownloadURL()
+      store.set({ uploading: null })
+      return url
+    } catch(error) {
+      store.set({  uploading: null, error: { type: 'upload', message: error.message } })
+      return null
+    }
   },
 
   APP_USER: async data => {

@@ -36,7 +36,7 @@ const Post = Actheme.create({
         </Post.User> }
       </Post.Wrap>
       {user && user.id === id && <Post.Delete>
-        <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={() => act('APP_DELETEPOST', { userId, postId }).then(props.onClose)} />
+        <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={() => act('APP_DELETEPOST', { userId, postId, url: post.url }).then(props.onClose)} />
       </Post.Delete>}
       <Post.Image source={post.url} />
       {!!post.nsfw && !nsfw && <Post.Nsfw onPress={() => setNsfw(true)}>
