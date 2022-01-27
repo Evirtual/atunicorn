@@ -1,7 +1,7 @@
 {
-  "name": "unicorn-web",
+  "name": "unicorn.io",
   "version": "0.0.0",
-  "description": "Initial insta posting",
+  "description": "quick and simple way to share",
   "scripts": {
     "start": "ENV=test next -p 8080",
     "build": "next build",

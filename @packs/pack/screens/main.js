@@ -18,11 +18,11 @@ function MainScreen() {
       {!posts.length
         ? <Elems.Button icon="spinner-third" spin />
         : mode !== 'post' && <>
-            {posts.slice(0, visible).map((post, index) => <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
-            {(posts.length > visible) && <Styled.Wrap>
-              <Elems.Button seeMore text="see more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
-            </Styled.Wrap>}
-          </>
+          {posts.slice(0, visible).map((post, index) => <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
+          {(posts.length > visible) && <Styled.Wrap>
+            <Elems.Button seeMore text="see more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
+          </Styled.Wrap>}
+        </>
       }
     </Styled.Content>
   </Styled.Container>
