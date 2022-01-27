@@ -24,7 +24,8 @@ const Button = Actheme.create({
     seeMore : 'mt:s5 mb:s10 w:s50',
     disabled: 'op:0.25',
     inline: 'fd:row',
-    nsfw: 'fd:row p:s2 bg:white200 mt:s5 br:s5 bw:1 bc:black50'
+    nsfw: 'fd:row p:s2 bg:white mt:s5 br:s5 bw:1 bc:black50',
+    spin: 'w:100% xw,h:s100 jc,ai:c bw:1 bc:black50 br:s5 of:hd m:s5 bg:white'
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100% fs:s4', { numberOfLines: 1 }], {
     post: 'c:white',
@@ -35,7 +36,7 @@ const Button = Actheme.create({
   Image: ['Image', 'w,h:100%'],
 
   Elem: ({text, source, info, size, icon, solid, iconColor, iconSize, fontSize, textColor, spin, post, disabled, nsfw, inline, onPress, ...props}) => {
-    return <Button.Touch info={info} post={post} nsfw={nsfw} inline={inline} disabled={disabled} onPress={!disabled ? onPress : null} {...props}>
+    return <Button.Touch info={info} post={post} nsfw={nsfw} inline={inline} disabled={disabled} spin={spin} onPress={!disabled ? onPress : null} {...props}>
       {source && <Button.Image source={source} />}
       {icon && <Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's4'}`)} icon={icon} spin={spin} solid={solid} {...props} />}
       {text && <Button.Text icon={icon} post={post} nsfw={nsfw} inline={inline} style={Actheme.style([

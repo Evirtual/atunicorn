@@ -14,15 +14,16 @@ function MainScreen() {
   return <Styled.Container>
     <Styled.Content>
       <Comps.Nav mode={mode} setMode={setMode} />
-      {mode === 'post' && <Comps.Upload onClose={() => setMode()} />}
-      {!posts.length
-        ? <Elems.Button icon="spinner-third" spin />
-        : mode !== 'post' && <>
-          {posts.slice(0, visible).map((post, index) => <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
-          {(posts.length > visible) && <Styled.Wrap>
-            <Elems.Button seeMore text="see more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
-          </Styled.Wrap>}
-        </>
+      {mode === 'post'
+        ? <Comps.Upload onClose={() => setMode()} />
+        : !posts.length
+          ? <Elems.Button icon="ring" style={Actheme.style('fs:s50 c:gainsboro')} spin />
+          : mode !== 'post' && <>
+            {posts.slice(0, visible).map((post, index) => <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
+            {(posts.length > visible) && <Styled.Wrap>
+              <Elems.Button seeMore text="see more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
+            </Styled.Wrap>}
+          </>
       }
     </Styled.Content>
   </Styled.Container>

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Comps, Elems, Actheme } from 'pack'
+import { Elems, Actheme } from 'pack'
 import Actstore from 'actstore'
 
-export default function PostScreen(props) {
+export default function PostScreen() {
   const { store, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
   const { id } = router?.query || {}
@@ -17,7 +17,7 @@ export default function PostScreen(props) {
     <Post.Content>
       <Post.Profile onPress={() => router.push('/profile/' + post.userId)}>
         <Post.Wrap profile>
-          { profile.url
+          {profile.url
             ? <Post.Image source={profile.url} />
             : <Elems.Icon style={Actheme.style('c:black100 fs:s15')} icon="user-circle" solid />
           }
@@ -25,7 +25,7 @@ export default function PostScreen(props) {
         <Post.Name>{'@' + (profile.username || post.userId)}</Post.Name>
       </Post.Profile>
       <Post.Wrap image>
-        <Post.Image source={[post.url, 'image'].join('#')} alt="WTF" style={Actheme.style('w,h:100%')} className="wtf" />
+        <Post.Image source={[post.url, 'image'].join('#')} style={Actheme.style('w,h:100%')} />
       </Post.Wrap>
       <Post.Text>{post?.desc || post?.userId}</Post.Text>
     </Post.Content>
@@ -34,11 +34,11 @@ export default function PostScreen(props) {
 
 const Post = Actheme.create({
   Container: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 p:s5 ai,jc:c bg:black25'), showsVerticalScrollIndicator: false }]],
-  Image: 'Image',
+  Image: ['Image', 'w,h:s25'],
   Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd mt:s3',
   Text: ['Text', 'fs:s4 p:s5'],
   Wrap: ['View', 'w:100% xw:s150', {
-    image: 'h:s150 btw:1 bbw:1 bc:black50',
+    image: 'btw:1 bbw:1 bc:black50',
     profile: 'fd:row jc,ai:c w,h,br:s15 of:hd',}],
   Profile: ['TouchableOpacity', 'fd:row ai:c m:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],

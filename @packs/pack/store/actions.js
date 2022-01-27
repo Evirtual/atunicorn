@@ -19,7 +19,6 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     firebase.database().ref('users').on('value', async snapshot => {
       const users = snapshot?.val() && Object.values(snapshot?.val()) || []
       const user = await new Promise(resolve => firebase.auth().onAuthStateChanged(resolve))
-      console.log('NEW USERS updated')
       await store.set({ users, user: user && {
         name: user.displayName,
         email: user.email,
@@ -50,7 +49,6 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
   },
 
   APP_LOGOUT: async () => firebase.auth().signOut().then(async data => {
-    console.log(data)
     await store.set({ user: null })
     Router?.push('/')
   }).catch(console.log),
@@ -78,8 +76,8 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
   APP_UPLOAD: async ([ file ], uploading = true) => {
     store.set({ uploading })
     try {
-      if(file.size > 2 * 1024 * 1024) throw new Error('file is too big')
-      if(!file.type.includes('image/')) throw new Error('file type is not an image')
+      if(file.size > 3.14159 * 1024 * 1024) throw new Error('file size is too big. please compress or convert to jpeg/PNG (max size: 3MB)')
+      if(!file.type.includes('image/')) throw new Error('file type is not an image (recommended format jpeg/PNG)')
       
       const user = store.get('user') || {}
       const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)
@@ -104,7 +102,8 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
       updated: new Date().getTime(),
       url: data.url || user.url || '',
       username: data.username || user.username || '',
-      about: data.about || user.about || ''
+      about: data.about || user.about || '',
+      approved: data.approved || user.approved || false
     }, console.log)
   },
 
@@ -113,7 +112,6 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
   APP_LOADING: () => console.log('loading'),
 
   APP_INFO: (info, type = 'info', duration = 1250) => {
-    console.log(info, type)
     store.set({ info: info ? { info, type } : null })
     info && setTimeout(() => store.set({ info: null }), duration)
   },

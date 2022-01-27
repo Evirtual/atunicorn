@@ -6,12 +6,12 @@ import Actstore from 'actstore'
 const Upload = Actheme.create({
   Wrap: ['View', 'fd:col w:100% xw:s100 m:s5'],
   File: 'Upload',
-  Input: ['TextInput', ['c:black fs:s4 mt:s5 p:s5 bw:1 bc:black50 bg:white200 br:s5', { multiline: true, numberOfLines: 2 }], {
+  Input: ['TextInput', ['c:black fs:s4 mt:s5 p:s5 bw:1 bc:black50 bg:white br:s5', { multiline: true, numberOfLines: 2 }], {
     active: 'bc:mediumseagreen'
   }],
   Checkbox: ['Checkbox', ''],
   Text: ['Text', ['ta:c c:mediumseagreen w:100% fs:s4 fb:bold', { numberOfLines: 1 }]],
-  Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bw:1 bc:black50 bg:white br:s5 of:hd'],
+  Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bw:1 bc:black50 bg:white br:s5 of:hd', { disabled: 'op:.25' }],
   Image: ['Image', 'w:100% xw,h:100%'],
 
   Comp: props => {
@@ -24,19 +24,25 @@ const Upload = Actheme.create({
 
     return (
       <Upload.Wrap>
-        <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
-          <Upload.Touch>
-            {uploading == 'post'
-              ? <Elems.Button iconSize="s20" icon="spinner-third" spin />
-              : !url
-                ? <>
-                    <Elems.Icon style={Actheme.style('fs:s20 mb:s5 c:mediumseagreen')} icon="plus-circle"/>
-                    <Upload.Text>Upload Picture</Upload.Text>
-                  </>
-                : <Upload.Image source={url} />
-            }
-          </Upload.Touch>
-        </Upload.File>
+        {!props.disabled
+          ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
+              <Upload.Touch>
+                {uploading == 'post'
+                  ? <Elems.Button icon="ring" style={Actheme.style('fs:s50 c:gainsboro')} spin />
+                  : !url
+                    ? <>
+                        <Elems.Icon style={Actheme.style('fs:s20 mb:s5 c:mediumseagreen')} icon="plus-circle"/>
+                        <Upload.Text>Upload Picture</Upload.Text>
+                      </>
+                    : <Upload.Image source={url} />
+                }
+              </Upload.Touch>
+            </Upload.File>
+          : <Upload.Touch disabled>
+              <Elems.Icon style={Actheme.style('fs:s20 mb:s5 c:mediumseagreen')} icon="plus-circle"/>
+              <Upload.Text>Upload Picture</Upload.Text>
+            </Upload.Touch>
+        }
         {url && <Upload.Input
           onChangeText={setDesc}
           placeholder="Type your description"/>}
