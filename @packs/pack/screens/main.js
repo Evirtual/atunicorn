@@ -17,7 +17,7 @@ function MainScreen() {
       {mode === 'post'
         ? <Comps.Upload onClose={() => setMode()} />
         : !posts.length
-          ? <Elems.Button icon="ring" style={Actheme.style('fs:s50 c:gainsboro')} spin />
+          ? <Elems.Button icon="atom-alt" style={Actheme.style('fs:s55 c:gainsboro')} spin />
           : mode !== 'post' && <>
             {posts.slice(0, visible).map((post, index) => <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
             {(posts.length > visible) && <Styled.Wrap>
