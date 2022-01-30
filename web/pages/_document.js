@@ -22,7 +22,7 @@ export default class MyDocument extends Document {
       <style dangerouslySetInnerHTML={{ __html: [nextStyle, Actheme.mediaRules()].join('\n') }} />
     ]
     console.log('rendered style length', StyleElements.props.dangerouslySetInnerHTML.__html.length)
-    return { styles: React.Children.toArray(styles), ...page };
+    return { ...page, styles: React.Children.toArray(styles) };
   }
 
   render() {
