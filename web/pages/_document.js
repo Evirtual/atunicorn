@@ -7,6 +7,8 @@ const nextStyle = `
   #__next { display: flex; flex-direction: column; height: 100%; }
   img[class^="css-"][src*="#image"] { opacity: 1 !important; position: relative !important; height: auto !important; align-self:center; }
   div[class*="r-backgroundSize-"][class*="r-backgroundPosition-"][style*="#image"] { opacity: 0; }
+  textarea:focus:not(.focus-visible) {outline: none;}
+  input:focus:not(.focus-visible) {outline: none;}
 `
 
 export default class MyDocument extends Document {
@@ -20,7 +22,7 @@ export default class MyDocument extends Document {
       <style dangerouslySetInnerHTML={{ __html: [nextStyle, Actheme.mediaRules()].join('\n') }} />
     ]
     console.log('rendered style length', StyleElements.props.dangerouslySetInnerHTML.__html.length)
-    return { ...page, styles: React.Children.toArray(styles) };
+    return { styles: React.Children.toArray(styles), ...page };
   }
 
   render() {

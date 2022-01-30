@@ -29,12 +29,6 @@ const App = ({ Component, pageProps }) => {
 			{/* <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico" /> */}
 			{/* <link rel="icon" type="image/x-icon" href="./static/favicon.ico" /> */}
 			{/* <link font-src="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700" href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700" rel="stylesheet" /> */}
-			<style type="text/css">{`
-				textarea:focus:not(.focus-visible),
-			  input:focus:not(.focus-visible) {
-			    outline: none;
-			  }
-			`}</style>
 		</Head>
 		<Info />
 		<Component {...pageProps} />
