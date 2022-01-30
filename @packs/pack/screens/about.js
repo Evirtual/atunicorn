@@ -6,6 +6,7 @@ export default function AboutScreen() {
   const { store, handle, act } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
   const { id } = router?.query || {}
+  const [focus, setFocus] = React.useState()
   const { user, users } = store.get('user', 'users')
   const profile = users?.find(item => item.id === id) || {}
   const [about, setAbout] = React.useState()
@@ -23,9 +24,12 @@ export default function AboutScreen() {
           : user && id === user.id && !profile.about || editAbout
             ? <About.Form>
                 <About.Input
+                  focus={focus}
                   defaultValue={profile.about || ''}
                   onChangeText={setAbout}
-                  placeholder={profile.about || 'What makes you tick?'}/>
+                  placeholder={profile.about || 'What makes you tick?'}
+                  onFocus={() => setFocus(true)}
+                  onBlur={() => setFocus(false)} />
               </About.Form>
             : <About.Text>
                 {id
@@ -54,8 +58,8 @@ const About = Actheme.create({
   Form: ['View', 'h,w:100%'],
   Save: ['View', 'w:100% xw:s100'],
   Text: ['Text', 'fs:s4 ta:c'],
-  Input: ['TextInput', ['c:black fs:s4 p:s5 bg:white200 br:s5', { multiline: true, numberOfLines:17 }], {
-    active: 'bc:green'
+  Input: ['TextInput', ['c:black fs:s4 p:s5 bg:white200 br:s5 bw:1 bc:ts', { multiline: true, numberOfLines:17 }], {
+    focus: 'bc:mediumseagreen'
   }],
   Edit: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:2 bg:black200 ai,jc:c'],
 })
