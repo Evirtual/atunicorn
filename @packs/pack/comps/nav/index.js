@@ -85,7 +85,7 @@ const Nav = Actheme.create({
                 </Nav.File>
               : path !== '/' && path !== '/about' && !profile.url
                 ? <Elems.Icon style={Actheme.style('c:black100 fs:s20')} icon="user-circle" solid />
-                : <Nav.Image source={profile.url ? profile.url : 'https://i.imgur.com/oss3wZ3.gif'} />
+                : <Nav.Image source={profile.url ? profile.url : 'https://i.imgur.com/sp8gB2x.gif'} />
             }
           </Nav.Wrap>
           <Elems.Button text="about" onPress={path === '/' ? () => router.push('/about/') : () => router.push('/profile/' + id + '/about/')} />
