@@ -31,9 +31,9 @@ const Post = Actheme.create({
             : <Elems.Icon style={Actheme.style('c:white400 fs:s12')} icon="user-circle" solid />
           }
         </Post.Profile>}
-        { active && <Post.User onPress={() => router.push('/profile/' + post.userId)}>
+        {active && <Post.User onPress={() => router.push('/profile/' + post.userId)}>
           <Post.Name>@{profile && profile.username || post.userId}</Post.Name>
-        </Post.User> }
+        </Post.User>}
       </Post.Wrap>
       {user && user.id === id && <Post.Delete>
         <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={() => act('APP_DELETEPOST', { userId, postId, url: post.url }).then(props.onClose)} />
