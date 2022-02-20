@@ -58,7 +58,7 @@ const About = Actheme.create({
   Form: ['View', 'h,w:100%'],
   Save: ['View', 'w:100% xw:s100'],
   Text: ['Text', 'fs:s4 ta:c'],
-  Input: ['TextInput', ['c:black fs:s4 p:s5 bg:white200 br:s5 bw:1 bc:ts', { multiline: true, numberOfLines:17 }], {
+  Input: ['TextInput', ['c:black fs:s4 p:s5 bg:white200 br:s5 bw:1 bc:ts nh:s100', { multiline: true, numberOfLines:10 }], {
     focus: 'bc:mediumseagreen'
   }],
   Edit: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:2 bg:black200 ai,jc:c'],
