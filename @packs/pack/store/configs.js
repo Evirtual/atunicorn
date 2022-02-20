@@ -18,7 +18,7 @@ const configs = {
   },
   firebase: {
     apiKey: 'AIzaSyDlYnz7SakCLC_xZsfyVWkRau-B9_LfdXo',
-    authDomain: 'unicorn-ee877.firebaseapp.com',
+    authDomain: 'atunicorn.io',
     projectId: 'unicorn-ee877',
     storageBucket: 'unicorn-ee877.appspot.com',
     appId: '1:741151279266:web:fdbbd6f71a54a7d712effb',
