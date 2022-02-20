@@ -88,7 +88,15 @@ const Nav = Actheme.create({
                 : <Nav.Image source={profile.url ? profile.url : '/static/unicorn-io.gif' } />
             }
           </Nav.Wrap>
-          <Elems.Button text="about" onPress={path === '/' ? () => router.push('/about/') : () => router.push('/profile/' + id + '/about/')} />
+          <Elems.Button
+            text="about"
+            onPress={
+              path === '/'
+                ? () => router.push('/about/')
+                : path === '/about/'
+                  ? null
+                  : () => router.push('/profile/' + id + '/about/')
+            } />
         </Nav.Wrap>
         <Nav.Wrap row>
           {!editUsername && <Elems.Button text={'@' + (profile.username ? profile.username : id ? id : 'unicorn')} onPress={ user && id === user.id ? () => setEditUsername(true) : null} /> }
