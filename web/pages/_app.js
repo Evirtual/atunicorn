@@ -1,4 +1,5 @@
 import React from 'react'
+import Router from 'next/router'
 import Actstore from 'actstore'
 import Head from 'next/head'
 import Settings from 'pack/store'
@@ -21,7 +22,12 @@ library.add(fal, far, fad, fas)
 
 const App = ({ Component, pageProps }) => {
 	const { store, act } = Actstore(Settings, ['ready'])
-	React.useEffect(() => { act('APP_INIT') }, [])
+
+	React.useEffect(() => {
+		((window?.location?.pathname || '/') !== (Router?.router?.route || '/')) && Router.push(Router.router.asPath) 
+		act('APP_INIT')
+	}, [])
+
   return <React.Fragment>
 		<Head>
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,6 +41,14 @@ const App = ({ Component, pageProps }) => {
 		<Layout />
 		<Component {...pageProps} />
 	</React.Fragment>
+}
+
+App.getInitialProps = async ({ Component, router, ctx }) => {
+  const pageProps = Component.getInitialProps && await Component.getInitialProps(ctx) || {}
+  const { asPath } = ctx
+
+  const { route, query } = router
+  return { pageProps, route, query, asPath }
 }
 
 export default App

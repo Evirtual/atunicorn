@@ -97,8 +97,8 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
     const key = ['users', id].join('/')
 
-    if(data.username && !data.username.match(/\^\[a-z0-9\]\{3,15\}\+\$/)) 
-      return store.set({ error: { type: 'username', message: 'Follow the rules motherfucker' } })
+    if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/)) 
+      return store.set({ error: { type: 'username', message: 'username should have only letters, numbers, no spaces and 3 - 15 characters long' } })
 
     return firebase.database().ref(key).update({
       id,

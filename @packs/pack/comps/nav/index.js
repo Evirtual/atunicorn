@@ -83,7 +83,7 @@ const Nav = Actheme.create({
                     }
                   </Nav.Touch>
                 </Nav.File>
-              : path !== '/' && path !== '/about' && !profile.url
+              : path !== '/' && path !== '/about/' && !profile.url
                 ? <Elems.Icon style={Actheme.style('c:black100 fs:s20')} icon="user-circle" solid />
                 : <Nav.Image source={profile.url ? profile.url : '/static/unicorn-io.gif' } />
             }

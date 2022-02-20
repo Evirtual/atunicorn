@@ -31,13 +31,13 @@ export default Info.Comp
 const Loader = Actheme.create({
 
   Wrap: 'View',
+  Image: 'Image',
 
   Comp: () => {
     const { store } = Actstore({}, ['error', 'user'])
 
     return <Loader.Wrap style={Actheme.style('display:flex justify-content:center align-items:center ps:ab l,r,t,b:0 z:999 bg:white')}>
-      {/* <Elems.Button icon="atom-alt" style={Actheme.style('fs:s55 c:gainsboro bw:0')} spin /> */}
-      <Elems.Icon style={Actheme.style('fs:s55 c:gainsboro')} icon="atom-alt" spin />
+      <Loader.Image style={Actheme.style('w,h:s50')} source={'/static/unicorn-io.gif'} />
     </Loader.Wrap>
   }
 

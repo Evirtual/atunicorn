@@ -3,8 +3,7 @@ import { Comps, Elems, Actheme } from 'pack'
 import Actstore from 'actstore'
 
 export default function ProfileScreen() {
-  console.log('PROFILE')
-  return null
+
   const { store, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
   const { id } = router?.query || {}
@@ -12,8 +11,6 @@ export default function ProfileScreen() {
   const [ mode, setMode ] = React.useState()
   const posts = (store.get('posts') || []).filter(post => post.userId === id)
   const [visible, setVisible] = useState(9)
-
-  // console.log('PROFILE', router?.query)
 
   return (
     <Profile.Container>
