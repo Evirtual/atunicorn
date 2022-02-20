@@ -19,7 +19,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     firebase.database().ref('users').on('value', async snapshot => {
       const users = snapshot?.val() && Object.values(snapshot?.val()) || []
       const user = await new Promise(resolve => firebase.auth().onAuthStateChanged(resolve))
-      await store.set({ users, ready: false, user: user && {
+      await store.set({ users, ready: true, user: user && {
         name: user.displayName,
         email: user.email,
         photo: user.photoURL,
@@ -97,6 +97,9 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
     const key = ['users', id].join('/')
 
+    if(data.username && !data.username.match(/\^\[a-z0-9\]\{3,15\}\+\$/)) 
+      return store.set({ error: { type: 'username', message: 'Follow the rules motherfucker' } })
+
     return firebase.database().ref(key).update({
       id,
       updated: new Date().getTime(),
@@ -104,7 +107,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
       username: data.username || user.username || '',
       about: data.about || user.about || '',
       approved: data.approved || user.approved || false
-    }, console.log)
+    }, console.log).catch(error => store.set({ error: { type: 'username', message: error.message }}))
   },
 
 	APP_COUNT: () => store.set({ count: store.get('count') + 1 }),
