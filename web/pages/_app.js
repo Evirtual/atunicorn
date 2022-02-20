@@ -26,8 +26,10 @@ const App = ({ Component, pageProps }) => {
 		<Head>
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 			<title>{process.env.name}</title>
-			{/* <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico" /> */}
-			{/* <link rel="icon" type="image/x-icon" href="./static/favicon.ico" /> */}
+			<link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico" />
+			<link rel="icon" type="image/x-icon" href="./static/favicon.ico" />
+			<link rel="icon" type="image/png" href="./static/favicon-32x32.png" sizes="32x32" />
+			<link rel="icon" type="image/png" href="./static/favicon-16x16.png" sizes="16x16" />
 			{/* <link font-src="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700" href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700" rel="stylesheet" /> */}
 		</Head>
 		<Info />

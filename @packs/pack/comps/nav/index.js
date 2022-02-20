@@ -85,7 +85,7 @@ const Nav = Actheme.create({
                 </Nav.File>
               : path !== '/' && path !== '/about' && !profile.url
                 ? <Elems.Icon style={Actheme.style('c:black100 fs:s20')} icon="user-circle" solid />
-                : <Nav.Image source={profile.url ? profile.url : 'https://firebasestorage.googleapis.com/v0/b/unicorn-ee877.appspot.com/o/unicorn-io.gif?alt=media&token=5612f449-9fe6-45f7-aac2-0380def4c444' } />
+                : <Nav.Image source={profile.url ? profile.url : './static/unicorn-io.gif' } />
             }
           </Nav.Wrap>
           <Elems.Button text="about" onPress={path === '/' ? () => router.push('/about/') : () => router.push('/profile/' + id + '/about/')} />
