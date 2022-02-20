@@ -9,7 +9,7 @@ function MainScreen() {
   const [ mode, setMode ] = React.useState()
   const { id } = router?.query || {}
   const posts = store.get('posts') || []
-  const [visible, setVisible] = useState(9)
+  const [visible, setVisible] = useState(12)
 
   return <Styled.Container>
     <Styled.Content>

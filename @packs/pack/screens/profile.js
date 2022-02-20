@@ -10,7 +10,7 @@ export default function ProfileScreen() {
   const { user, users } = store.get('user', 'users')
   const [ mode, setMode ] = React.useState()
   const posts = (store.get('posts') || []).filter(post => post.userId === id)
-  const [visible, setVisible] = useState(9)
+  const [visible, setVisible] = useState(12)
 
   return (
     <Profile.Container>
