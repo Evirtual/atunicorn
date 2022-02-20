@@ -2,7 +2,7 @@ import React from 'react'
 import Actstore from 'actstore'
 import Head from 'next/head'
 import Settings from 'pack/store'
-import Info from 'pack/comps/info'
+import Layout from 'pack/comps/layout'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
@@ -32,7 +32,7 @@ const App = ({ Component, pageProps }) => {
 			<link rel="icon" type="image/png" href="./static/favicon-16x16.png" sizes="16x16" />
 			{/* <link font-src="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700" href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700" rel="stylesheet" /> */}
 		</Head>
-		<Info />
+		<Layout />
 		<Component {...pageProps} />
 	</React.Fragment>
 }

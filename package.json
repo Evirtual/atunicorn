@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start": "(cd web && npm start)",
+    "static": "(cd web && npm run static)",
     "deploy": "(cd web && npm run deploy)"
   },
   "author": "",

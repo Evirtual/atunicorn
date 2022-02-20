@@ -19,7 +19,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     firebase.database().ref('users').on('value', async snapshot => {
       const users = snapshot?.val() && Object.values(snapshot?.val()) || []
       const user = await new Promise(resolve => firebase.auth().onAuthStateChanged(resolve))
-      await store.set({ users, user: user && {
+      await store.set({ users, ready: false, user: user && {
         name: user.displayName,
         email: user.email,
         photo: user.photoURL,
