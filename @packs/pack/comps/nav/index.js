@@ -140,9 +140,9 @@ const Login = Actheme.create({
   Image: 'Image',
 
   Comp: (props) => {
-    const { act, store, action } = Actstore({}, [])
+    const { act } = Actstore({}, [])
     const [focus, setFocus] = React.useState()
-    const [email, setEmail] = React.useState('bislokanas3@gmail.com')
+    const [email, setEmail] = React.useState()
     const [auth, setAuth] = React.useState()
 
     return <Login.Wrap style={Actheme.style('display:flex justify-content:center align-items:center ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5')}>
@@ -154,7 +154,6 @@ const Login = Actheme.create({
         <Login.Text>we hope you will enjoy the stay</Login.Text>
         {!auth && <>
           <Login.Input
-          defaultValue={email}
           placeholder={'enter email address'}
           focus={focus}
           onChangeText={setEmail}
@@ -175,6 +174,7 @@ const Login = Actheme.create({
           <Login.Image style={Actheme.style('w,h:s50')} source={'/static/unicorn-io.gif'} />
           <Login.Text>authenticating...</Login.Text>
           <Login.Text>please check your email and confirm</Login.Text>
+          <Login.Text>(check spam folder as well)</Login.Text>
         </>}
       </Login.Content>
     </Login.Wrap>
