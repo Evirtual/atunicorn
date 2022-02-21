@@ -29,7 +29,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     })
 
     firebase.auth().onAuthStateChanged(async user => {
-      await new Promise(r => setTimeout(r, 1000))
+      await new Promise(r => setTimeout(r, 500))
       user && await store.set({
         user: {
           name: user.displayName,
@@ -39,7 +39,6 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
           ...((store.get('users') || []).find(item => item.id === user.uid) || {})
         }
       })
-      user && Router?.push('/profile/' + user.uid)
     })
   },
 

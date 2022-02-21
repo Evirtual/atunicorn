@@ -36,7 +36,7 @@ const Nav = Actheme.create({
 
     return (
       <>
-        {login && <Login.Comp onClose={() => setLogin(!login)} />}
+        {!user && login && <Login.Comp onClose={() => setLogin(!login)} />}
         <Nav.Container>
           <Nav.Wrap row>
             {user && <Elems.Button icon="search" iconSize="s5" onPress={() => setActive(true)} /> }
