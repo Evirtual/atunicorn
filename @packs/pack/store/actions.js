@@ -48,7 +48,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
       var email = window.localStorage.getItem('emailForSignIn')
-      if (!email) email = window.prompt('Please provide your email for confirmation')
+      // if (!email) email = window.prompt('Please provide your email for confirmation')
       // The client SDK will parse the code from the link for you.
       firebase.auth().signInWithEmailLink(email, window.location.href)
         .then((result) => {
@@ -141,8 +141,8 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
     const key = ['users', id].join('/')
 
-    if(data.username && !data.username.match(/^[A-Za-z0-9]{3,15}$/))
-      return store.set({ error: { type: 'username', message: 'username should have only letters, numbers, no spaces and 3 - 15 characters long' } })
+    if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/))
+      return store.set({ error: { type: 'username', message: 'username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long' } })
 
     // url: data.url || user.url || '',
     // username: data.username || user.username || '',
