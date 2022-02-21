@@ -132,7 +132,7 @@ const Login = Actheme.create({
 
   Wrap: 'View',
   Content: ['View', 'bg:white br:s5 w:100% nh,xw:s100 ai,jc:c bw:1 bc:black50'],
-  Text: ['Text', 'fs:s4 ta:c mb:s5'],
+  Text: ['Text', 'fs:s4 ta:c mb:s3'],
   Input: ['TextInput', ['c:black fs:s4 p:s2 pl:s10 pr:s10 bw:1 bc:black50 bg:white br:s5 ta:c w:s70 mt:s5', { multiline: false, numberOfLines: 1 }], {
     focus: 'bc:mediumseagreen'
   }],
@@ -145,7 +145,7 @@ const Login = Actheme.create({
     const [email, setEmail] = React.useState()
     const [auth, setAuth] = React.useState()
 
-    return <Login.Wrap style={Actheme.style('display:flex justify-content:center align-items:center ps:ab l,r,t,b:0 z:99 bg:black300 p:s5')}>
+    return <Login.Wrap style={Actheme.style('display:flex justify-content:center align-items:center ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5')}>
       <Login.Content>
         <Login.Close>
           <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={props.onClose} />
@@ -170,6 +170,7 @@ const Login = Actheme.create({
         {auth && <>
           <Login.Image style={Actheme.style('w,h:s50')} source={'/static/unicorn-io.gif'} />
           <Login.Text>authenticating...</Login.Text>
+          <Login.Text>please check your email and confirm</Login.Text>
         </>}
       </Login.Content>
     </Login.Wrap>
