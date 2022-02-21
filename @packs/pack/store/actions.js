@@ -33,7 +33,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
   APP_LOGIN: async () => {
     const provider = new firebase.auth.GoogleAuthProvider()
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-    const { credential, user } = await firebase.auth().signInWithPopup(provider)
+    const { credential, user } = await firebase.auth().signInWithRedirect(provider)
     const users = store.get('users')
     user && await store.set({
       user: {
@@ -76,7 +76,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
   APP_UPLOAD: async ([ file ], uploading = true) => {
     store.set({ uploading })
     try {
-      if(file.size > 3.14159 * 1024 * 1024) throw new Error('file size is too big. please compress or convert to jpeg/PNG (max size: 3MB)')
+      if(file.size > 10 * 1024 * 1024) throw new Error('file size is too big. please compress or convert to jpeg/PNG (max size: 3MB)')
       if(!file.type.includes('image/')) throw new Error('file type is not an image (recommended format jpeg/PNG)')
       
       const user = store.get('user') || {}
@@ -97,7 +97,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
     const key = ['users', id].join('/')
 
-    if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/)) 
+    if(data.username && !data.username.match(/^[A-Za-z0-9]{3,15}$/)) 
       return store.set({ error: { type: 'username', message: 'username should have only letters, numbers, no spaces and 3 - 15 characters long' } })
 
     return firebase.database().ref(key).update({
