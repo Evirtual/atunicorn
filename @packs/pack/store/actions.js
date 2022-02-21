@@ -29,7 +29,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     })
 
     firebase.auth().onAuthStateChanged(async user => {
-      await new Promise(r => setTimeout(r, 500))
+      await new Promise(r => setTimeout(r, 1000))
       user && await store.set({
         user: {
           name: user.displayName,
@@ -52,7 +52,8 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
       firebase.auth().signInWithEmailLink(email, window.location.href)
         .then((result) => {
           window.localStorage.removeItem('emailForSignIn')
-          window.close()
+          // window.close()
+          Router?.push('/')
           // console.log(result)
           // You can access the new user via result.user
           // Additional user info profile not available via:
