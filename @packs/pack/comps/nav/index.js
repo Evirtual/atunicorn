@@ -42,9 +42,9 @@ const Nav = Actheme.create({
             {user && <Elems.Button icon="search" iconSize="s5" onPress={() => setActive(true)} /> }
             {(!user || active) && <Nav.Wrap input={user}>
               <Nav.Wrap search>
-                { !user 
+                { !user
                   ? <Elems.Button icon="search" iconColor="grey" />
-                  : <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setActive(false)} /> 
+                  : <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setActive(false)} />
                 }
               </Nav.Wrap>
               <Nav.Input
@@ -58,7 +58,7 @@ const Nav = Actheme.create({
             </Nav.Wrap>
             }
             {user && <Elems.Button icon="home" iconSize="s5" onPress={() => router?.push('/')} />}
-            {user && id !== user.id 
+            {user && id !== user.id
               ? <Elems.Button icon="user-circle" iconSize="s5" onPress={() => router.push('/profile/' + user.id)} />
               : user && <Elems.Button icon="power-off" iconSize="s5"  onPress={action('APP_LOGOUT')} />
             }
@@ -113,7 +113,7 @@ const Nav = Actheme.create({
                 placeholder={profile.username || "set username"}
                 focus={focus}
                 onFocus={() => setFocus(true)}
-                onBlur={() => setFocus(false)} />  
+                onBlur={() => setFocus(false)} />
               <Nav.Wrap save>
                 <Elems.Button icon="save" iconColor="mediumseagreen" iconSize="s5" onPress={() => act('APP_USER', { username }).then(() => setEditUsername(false))} />
               </Nav.Wrap>
@@ -140,9 +140,9 @@ const Login = Actheme.create({
   Image: 'Image',
 
   Comp: (props) => {
-
+    const { act, store, action } = Actstore({}, [])
     const [focus, setFocus] = React.useState()
-    const [email, setEmail] = React.useState()
+    const [email, setEmail] = React.useState('bislokanas3@gmail.com')
     const [auth, setAuth] = React.useState()
 
     return <Login.Wrap style={Actheme.style('display:flex justify-content:center align-items:center ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5')}>
@@ -154,6 +154,7 @@ const Login = Actheme.create({
         <Login.Text>we hope you will enjoy the stay</Login.Text>
         {!auth && <>
           <Login.Input
+          defaultValue={email}
           placeholder={'enter email address'}
           focus={focus}
           onChangeText={setEmail}
@@ -162,7 +163,10 @@ const Login = Actheme.create({
           <Elems.Button
             disabled={!email}
             post
-            onPress={setAuth}
+            onPress={() => {
+              setAuth(true)
+              act('APP_LOGIN', email).catch(() => setAuth(false))
+            }}
             text="join @unicorn"
             textColor="white"
             style={Actheme.style('w:s70')} />

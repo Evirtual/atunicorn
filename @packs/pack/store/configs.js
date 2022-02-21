@@ -1,7 +1,5 @@
-// const DOMAIN = 'test.project.com'
-const API_URL = process.env.host || 'http://localhost:5001/bico-24df1/asia-east2'
-
-console.log(API_URL)
+const DOMAIN = process.env.ENV === 'development' ? 'http://localhost:8080' : 'https://atunicorn.io'
+const API_URL = process.env.host || 'http://localhost:5001/unicorn-ee877/asia-east2'
 
 const configs = {
   VER: process.env.version,
@@ -16,6 +14,7 @@ const configs = {
     cancel: API_URL + '/cancel',
     orders: API_URL + '/orders'
   },
+  auth: DOMAIN + '/auth',
   firebase: {
     apiKey: 'AIzaSyDlYnz7SakCLC_xZsfyVWkRau-B9_LfdXo',
     authDomain: 'atunicorn.io',

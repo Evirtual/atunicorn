@@ -27,24 +27,68 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
         ...(users.find(item => item.id === user.uid) || {})
       } })
     })
+
+    firebase.auth().onAuthStateChanged(async user => {
+      await new Promise(r => setTimeout(r, 1000))
+      user && await store.set({
+        user: {
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+          id: user.uid,
+          ...((store.get('users') || []).find(item => item.id === user.uid) || {})
+        }
+      })
+      user && Router?.push('/profile/' + user.uid)
+    })
+  },
+
+  APP_AUTH: async () => {
+    !firebase.apps.length && await firebase.initializeApp(configs.firebase)
+
+    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+      var email = window.localStorage.getItem('emailForSignIn')
+      if (!email) email = window.prompt('Please provide your email for confirmation')
+      // The client SDK will parse the code from the link for you.
+      firebase.auth().signInWithEmailLink(email, window.location.href)
+        .then((result) => {
+          window.localStorage.removeItem('emailForSignIn')
+          window.close()
+          // console.log(result)
+          // You can access the new user via result.user
+          // Additional user info profile not available via:
+          // result.additionalUserInfo.profile == null
+          // You can check if the user is new or existing:
+          // result.additionalUserInfo.isNewUser
+        })
+        .catch((error) => console.log(error))
+    }
   },
 
 
-  APP_LOGIN: async () => {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-    const { credential, user } = await firebase.auth().signInWithRedirect(provider)
-    const users = store.get('users')
-    user && await store.set({
-      user: {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-        id: user.uid,
-        ...(users.find(item => item.id === user.uid) || {})
-      }
-    })
-    Router?.push('/profile/' + user.uid)
+  APP_LOGIN: async email => {
+    const { hostname, port, protocol } = window.location
+    const url = [protocol + '//', hostname, port ? (':' + port) : '', '/auth'].join('')
+    return firebase.auth().sendSignInLinkToEmail(email, { url, handleCodeInApp: true })
+      .then(() => window.localStorage.setItem('emailForSignIn', email))
+      .catch((error) => store.set({ error: { type: 'auth', message: error.message }}))
+
+    // GOOGLE OLD AUTH
+
+    // const provider = new firebase.auth.GoogleAuthProvider()
+    // provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+    // const { credential, user } = await firebase.auth().signInWithRedirect(provider)
+    // const users = store.get('users')
+    // user && await store.set({
+    //   user: {
+    //     name: user.displayName,
+    //     email: user.email,
+    //     photo: user.photoURL,
+    //     id: user.uid,
+    //     ...(users.find(item => item.id === user.uid) || {})
+    //   }
+    // })
+    // Router?.push('/profile/' + user.uid)
     // console.log('login', user, credential.accessToken)
   },
 
@@ -78,7 +122,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     try {
       if(file.size > 10 * 1024 * 1024) throw new Error('file size is too big. please compress or convert to jpeg/PNG (max size: 3MB)')
       if(!file.type.includes('image/')) throw new Error('file type is not an image (recommended format jpeg/PNG)')
-      
+
       const user = store.get('user') || {}
       const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)
       const url = await snap.ref.getDownloadURL()
@@ -97,7 +141,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
     const key = ['users', id].join('/')
 
-    if(data.username && !data.username.match(/^[A-Za-z0-9]{3,15}$/)) 
+    if(data.username && !data.username.match(/^[A-Za-z0-9]{3,15}$/))
       return store.set({ error: { type: 'username', message: 'username should have only letters, numbers, no spaces and 3 - 15 characters long' } })
 
     return firebase.database().ref(key).update({
