@@ -66,7 +66,7 @@ const Nav = Actheme.create({
           <Nav.Wrap row>
             {!user && path === '/'
               ? <Elems.Button text="login" onPress={() => setLogin(!login)} />
-              : path === '/' || user && id === user.id && (path !== '/profile/' + user.id + '/about')
+              : path === '/' || user && id === user.id && (path !== '/profile/' + user.id + '/about/')
                 ? <Elems.Button
                     disabled={!user.approved}
                     text={props.mode === 'post' ? 'back' : 'upload'}
