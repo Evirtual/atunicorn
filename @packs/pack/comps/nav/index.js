@@ -144,6 +144,7 @@ const Login = Actheme.create({
     const [focus, setFocus] = React.useState()
     const [email, setEmail] = React.useState()
     const [auth, setAuth] = React.useState()
+    const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     return <Login.Wrap style={Actheme.style('display:flex justify-content:center align-items:center ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5')}>
       <Login.Content>
@@ -154,17 +155,16 @@ const Login = Actheme.create({
         <Login.Text>we hope you will enjoy the stay</Login.Text>
         {!auth && <>
           <Login.Input
-          placeholder={'enter email address'}
-          focus={focus}
-          onChangeText={setEmail}
-          onFocus={() => setFocus(true)}
-          onBlur={() => setFocus(false)}  />
+            placeholder={'enter email address'}
+            focus={focus}
+            onChangeText={setEmail}
+            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)} />
           <Elems.Button
             disabled={!email}
             post
             onPress={() => {
-              setAuth(true)
-              act('APP_LOGIN', email).catch(() => setAuth(false))
+              act('APP_LOGIN', email).then(() => setAuth(email.match(regexp) && true))
             }}
             text="join @unicorn"
             textColor="white"

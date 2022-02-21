@@ -8,6 +8,7 @@ const Info = Actheme.create({
   Touch: ['TouchableOpacity', 'w:100% jc,ai:c p:s3 bg:salmon z:1', {
     update: 'bg:skyblue' }],
   Text: ['Text', 'c:black fb:500 fs:s4'],
+  Close: ['View', 'w,h,br:s6 of:hd ps:ab t,r:s2.5 z:3 bg:black200 ai,jc:c'],
 
   Comp: ({message = 'something went wrong'}) => {
     const { store } = Actstore({}, ['error', 'user', 'ready'])
@@ -19,6 +20,9 @@ const Info = Actheme.create({
         <Info.Text>account is pending for approval. meanwhile you can upload profile picture, change nickname/id and edit about section.</Info.Text>
       </Info.Touch>}
       {error && <Info.Touch onPress={() => store.set({ error: null })}>
+        <Info.Close>
+          <Elems.Button icon="times-circle" iconSize="s6" color="white" onPress={() => store.set({ error: null })} />
+        </Info.Close>
         <Info.Text>{error?.message || message}</Info.Text>
       </Info.Touch>}
     </>

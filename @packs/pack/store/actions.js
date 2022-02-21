@@ -69,6 +69,10 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
   APP_LOGIN: async email => {
     const { hostname, port, protocol } = window.location
     const url = [protocol + '//', hostname, port ? (':' + port) : '', '/auth'].join('')
+
+    if(email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
+      return store.set({ error: { type: 'auth', message: 'please check if your email is written correctly' } })
+
     return firebase.auth().sendSignInLinkToEmail(email, { url, handleCodeInApp: true })
       .then(() => window.localStorage.setItem('emailForSignIn', email))
       .catch((error) => store.set({ error: { type: 'auth', message: error.message }}))
