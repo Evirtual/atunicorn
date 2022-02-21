@@ -144,14 +144,17 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     if(data.username && !data.username.match(/^[A-Za-z0-9]{3,15}$/))
       return store.set({ error: { type: 'username', message: 'username should have only letters, numbers, no spaces and 3 - 15 characters long' } })
 
+    // url: data.url || user.url || '',
+    // username: data.username || user.username || '',
+    // about: data.about || user.about || '',
+
     return firebase.database().ref(key).update({
       id,
       updated: new Date().getTime(),
-      url: data.url || user.url || '',
-      username: data.username || user.username || '',
-      about: data.about || user.about || '',
+      ...data,
       approved: data.approved || user.approved || false
-    }, console.log).catch(error => store.set({ error: { type: 'username', message: error.message }}))
+    }, console.log)
+    .catch(error => store.set({ error: { type: 'username', message: error.message }}))
   },
 
 	APP_COUNT: () => store.set({ count: store.get('count') + 1 }),
