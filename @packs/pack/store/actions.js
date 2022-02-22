@@ -76,23 +76,23 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     return firebase.auth().sendSignInLinkToEmail(email, { url, handleCodeInApp: true })
       .then(() => window.localStorage.setItem('emailForSignIn', email))
       .catch((error) => store.set({ error: { type: 'auth', message: error.message }}))
+  },
 
-    // GOOGLE OLD AUTH
-
-    // const provider = new firebase.auth.GoogleAuthProvider()
-    // provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-    // const { credential, user } = await firebase.auth().signInWithRedirect(provider)
-    // const users = store.get('users')
-    // user && await store.set({
-    //   user: {
-    //     name: user.displayName,
-    //     email: user.email,
-    //     photo: user.photoURL,
-    //     id: user.uid,
-    //     ...(users.find(item => item.id === user.uid) || {})
-    //   }
-    // })
-    // Router?.push('/profile/' + user.uid)
+  APP_LOGIN_GOOGLE: async () => {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+    const { credential, user } = await firebase.auth().signInWithRedirect(provider)
+    const users = store.get('users')
+    user && await store.set({
+      user: {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        id: user.uid,
+        ...(users.find(item => item.id === user.uid) || {})
+      }
+    })
+    Router?.push('/profile/' + user.uid)
     // console.log('login', user, credential.accessToken)
   },
 

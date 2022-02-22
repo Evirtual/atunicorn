@@ -5,15 +5,17 @@ import Actstore from 'actstore'
 function MainScreen() {
   const { store, handle } = Actstore({}, ['user', 'posts'])
   const router = handle.useRouter()
-  const { users } = store.get('user', 'users')
+  const {user, users } = store.get('user', 'users')
   const [ mode, setMode ] = React.useState()
+  const [login, setLogin] = React.useState()
   const { id } = router?.query || {}
   const posts = store.get('posts') || []
   const [visible, setVisible] = useState(12)
 
   return <Styled.Container>
+    {!user && login && <Comps.Login onClose={() => setLogin(!login)} />}
     <Styled.Content>
-      <Comps.Nav mode={mode} setMode={setMode} />
+      <Comps.Nav mode={mode} setMode={setMode} login={login} setLogin={setLogin} />
       {mode === 'post'
         ? <Comps.Upload onClose={() => setMode()} />
         : !posts.length

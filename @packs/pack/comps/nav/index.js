@@ -30,13 +30,11 @@ const Nav = Actheme.create({
     const [active, setActive] = React.useState()
     const [editUsername, setEditUsername] = React.useState()
     const [username, setUsername] = React.useState()
-    const [login, setLogin] = React.useState()
     const profile = users?.find(item => item.id === id) || {}
     const path = typeof window !== "undefined" && window.location.pathname
 
     return (
       <>
-        {!user && login && <Login.Comp onClose={() => setLogin(!login)} />}
         <Nav.Container>
           <Nav.Wrap row>
             {user && <Elems.Button icon="search" iconSize="s5" onPress={() => setActive(true)} /> }
@@ -65,7 +63,7 @@ const Nav = Actheme.create({
           </Nav.Wrap>
           <Nav.Wrap row>
             {!user && path === '/'
-              ? <Elems.Button text="login" onPress={() => setLogin(!login)} />
+              ? <Elems.Button text="login" onPress={() => props.setLogin(!props.login)} />
               : path === '/' || user && id === user.id && (path !== '/profile/' + user.id + '/about/')
                 ? <Elems.Button
                     disabled={!user.approved}
@@ -127,57 +125,3 @@ const Nav = Actheme.create({
 })
 
 export default Nav.Comp
-
-const Login = Actheme.create({
-
-  Wrap: 'View',
-  Content: ['View', 'bg:white br:s5 w:100% nh,xw:s100 ai,jc:c bw:1 bc:black50'],
-  Text: ['Text', 'fs:s4 ta:c mb:s3'],
-  Input: ['TextInput', ['c:black fs:s4 p:s2 pl:s10 pr:s10 bw:1 bc:black50 bg:white br:s5 ta:c w:s70 mt:s5', { multiline: false, numberOfLines: 1 }], {
-    focus: 'bc:mediumseagreen'
-  }],
-  Close: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
-  Image: 'Image',
-
-  Comp: (props) => {
-    const { act } = Actstore({}, [])
-    const [focus, setFocus] = React.useState()
-    const [email, setEmail] = React.useState()
-    const [auth, setAuth] = React.useState()
-    const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    return <Login.Wrap style={Actheme.style('display:flex justify-content:center align-items:center ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5')}>
-      <Login.Content>
-        <Login.Close>
-          <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={props.onClose} />
-        </Login.Close>
-        <Login.Text>welcome to @unicorn</Login.Text>
-        <Login.Text>we hope you will enjoy the stay</Login.Text>
-        {!auth && <>
-          <Login.Input
-            placeholder={'enter email address'}
-            focus={focus}
-            onChangeText={setEmail}
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)} />
-          <Elems.Button
-            disabled={!email}
-            post
-            onPress={() => {
-              act('APP_LOGIN', email).then(() => setAuth(email.match(regexp) && true))
-            }}
-            text="join @unicorn"
-            textColor="white"
-            style={Actheme.style('w:s70')} />
-        </>}
-        {auth && <>
-          <Login.Image style={Actheme.style('w,h:s50')} source={'/static/unicorn-io.gif'} />
-          <Login.Text>authenticating...</Login.Text>
-          <Login.Text>please check your email and confirm</Login.Text>
-          <Login.Text>(check spam folder as well)</Login.Text>
-        </>}
-      </Login.Content>
-    </Login.Wrap>
-  }
-
-})

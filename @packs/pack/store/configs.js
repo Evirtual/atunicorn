@@ -14,7 +14,7 @@ const configs = {
     cancel: API_URL + '/cancel',
     orders: API_URL + '/orders'
   },
-  auth: DOMAIN + '/auth',
+  // auth: DOMAIN + '/auth',
   firebase: {
     apiKey: 'AIzaSyDlYnz7SakCLC_xZsfyVWkRau-B9_LfdXo',
     authDomain: 'atunicorn.io',
