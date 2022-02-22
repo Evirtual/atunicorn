@@ -36,7 +36,7 @@ export default function AboutScreen() {
                   ? profile.username
                     ? `welcome to @${profile?.username}`
                     : `welcome to @${id}`
-                  : 'Welcome to @unicorn'
+                  : "Welcome to @unicorn\n\nIt's a place to express your uniqueness\nin ways that inspire us to feel more confident\nin our everyday life"
                 }
               </About.Text>
         }
