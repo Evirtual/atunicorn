@@ -20,11 +20,11 @@ const Button = Actheme.create({
   Touch: ['TouchableOpacity', 'jc,ai:c nw:s15 nh:s9.75', {
     info: 'br:s20 ps:ab b,l:s5 z:2',
     user: 'br:s20 ps:ab b,r:s5 z:2',
-    post: 'bc:black100 br:s5 bg:mediumseagreen h:s12',
+    post: 'bc:black100 br:s5 bg:mediumseagreen h:s12 mt:s5',
     seeMore : 'mt:s5 mb:s10 w:s50',
     disabled: 'op:0.25',
     inline: 'fd:row',
-    nsfw: 'fd:row p:s2 bg:white mv:s5 br:s5 bw:1 bc:black50',
+    nsfw: 'fd:row p:s2 bg:white mt:s5 br:s5 bw:1 bc:black50',
     spin: 'w:100% xw,h:s100 jc,ai:c bw:1 bc:black50 br:s5 of:hd m:s5 bg:white',
     google: 'h:s12 bw:1 bc:black50 br:s5 mt:s5 w:s70 ph:s3'
   }],
