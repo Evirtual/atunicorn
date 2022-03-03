@@ -11,7 +11,9 @@ const Upload = Actheme.create({
   }],
   Checkbox: ['Checkbox', ''],
   Text: ['Text', ['ta:c c:mediumseagreen w:100% fs:s4 fb:bold', { numberOfLines: 1 }]],
-  Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bw:1 bc:black50 bg:white br:s5 of:hd', { disabled: 'op:.25' }],
+  Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bg:white br:s5 of:hd', {
+    disabled: 'op:.25',
+    border: 'bw:1 bc:black50' }],
   Image: ['Image', 'w:100% xw,h:100%'],
 
   Comp: props => {
@@ -26,7 +28,7 @@ const Upload = Actheme.create({
       <Upload.Wrap>
         {!props.disabled
           ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
-              <Upload.Touch>
+              <Upload.Touch border={uploading != 'post'}>
                 {uploading == 'post'
                   ? <Elems.Button icon="atom-alt" style={Actheme.style('fs:s55 c:gainsboro')} spin />
                   : !url

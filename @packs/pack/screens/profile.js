@@ -10,7 +10,7 @@ export default function ProfileScreen() {
   const { user, users } = store.get('user', 'users')
   const [ mode, setMode ] = React.useState()
   const posts = (store.get('posts') || []).filter(post => post.userId === id)
-  const [visible, setVisible] = useState(12)
+  const [visible, setVisible] = useState(9)
 
   return (
     <Profile.Container>
@@ -21,9 +21,9 @@ export default function ProfileScreen() {
           ? <Elems.Button icon="atom-alt" style={Actheme.style('fs:s55 c:gainsboro')} spin />
           : mode !== 'post' && <>
             {posts.slice(0, visible).map((post, index) => <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} />)}
-            {(posts.length > visible) && <Styled.Wrap>
-              <Elems.Button seeMore text="see more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
-            </Styled.Wrap>}
+            {(posts.length > visible) && <Profile.Wrap>
+              <Elems.Button seeMore text="show more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
+            </Profile.Wrap>}
           </>
         }
       </Profile.Content>

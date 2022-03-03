@@ -35,7 +35,7 @@ export default function PostScreen() {
 const Post = Actheme.create({
   Container: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('fg:1 p:s5 ai,jc:c bg:black25'), showsVerticalScrollIndicator: true }]],
   Image: ['Image', 'w,h:100%'],
-  Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd mt:s3',
+  Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd mt:s3 mb:s5',
   Text: ['Text', 'fs:s4 p:s5'],
   Wrap: ['View', 'w:100% xw:s150', {
     image: 'btw:1 bbw:1 bc:black50',

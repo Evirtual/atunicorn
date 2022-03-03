@@ -10,7 +10,7 @@ function MainScreen() {
   const [login, setLogin] = React.useState()
   const { id } = router?.query || {}
   const posts = store.get('posts') || []
-  const [visible, setVisible] = useState(12)
+  const [visible, setVisible] = useState(9)
 
   return <Styled.Container>
     {!user && login && <Comps.Login onClose={() => setLogin(!login)} />}
@@ -23,7 +23,7 @@ function MainScreen() {
           : mode !== 'post' && <>
             {posts.slice(0, visible).map((post, index) => <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />)}
             {(posts.length > visible) && <Styled.Wrap>
-              <Elems.Button seeMore text="see more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
+              <Elems.Button seeMore text="show more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
             </Styled.Wrap>}
           </>
       }
