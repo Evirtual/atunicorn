@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Comps, Elems, Actheme } from 'pack'
 import Actstore from 'actstore'
 
@@ -12,6 +12,10 @@ export default function ProfileScreen() {
   const data = (store.get('posts') || []).filter(post => post.userId === id)
   const [posts, setPosts] = useState(data)
   const [visible, setVisible] = useState(9)
+
+  useEffect(() => {
+    setPosts(data)
+  }, [user])
 
   return (
     <Profile.Container>

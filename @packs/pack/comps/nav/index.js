@@ -57,7 +57,7 @@ const Nav = Actheme.create({
                   props.setPosts(filter);
                   setSearch(e.target.value);
                 }}
-                value={search} />
+                value={search || ''} />
               {!user && path !== '/' && <Nav.Wrap save>
                 <Elems.Button icon="home" iconColor="grey" onPress={() => router?.push('/')} />
               </Nav.Wrap>}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Elems, Actheme, Comps } from 'pack'
 import Actstore from 'actstore'
 
@@ -12,6 +12,10 @@ function MainScreen() {
   const data = store.get('posts') || []
   const [posts, setPosts] = useState(data)
   const [visible, setVisible] = useState(9)
+
+  useEffect(() => {
+    setPosts(data)
+  }, [user])
 
   return <Styled.Container>
     {!user && login && <Comps.Login onClose={() => setLogin(!login)} />}
