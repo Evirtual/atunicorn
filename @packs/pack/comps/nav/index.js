@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Elems from '../../elems'
 import { Actheme } from '../../theme'
 import Actstore from 'actstore'
@@ -32,6 +32,7 @@ const Nav = Actheme.create({
     const [username, setUsername] = React.useState()
     const profile = users?.find(item => item.id === id) || {}
     const path = typeof window !== "undefined" && window.location.pathname
+    const [search, setSearch] = useState()
 
     return (
       <>
@@ -49,7 +50,14 @@ const Nav = Actheme.create({
                 placeholder={path !== '/' && path !== '/about' && !!profile.id ? `Search @${profile?.username || id}` : 'Search @unicorn'}
                 focus={focus}
                 onFocus={() => setFocus(true)}
-                onBlur={() => setFocus(false)}  />
+                onBlur={() => setFocus(false)}
+                onChange={e => {
+                  const filter = props.data.filter(post => post.desc.toLowerCase().includes(e.target.value.toLowerCase()))
+                  // console.log("test: ", filter);
+                  props.setPosts(filter);
+                  setSearch(e.target.value);
+                }}
+                value={search} />
               {!user && path !== '/' && <Nav.Wrap save>
                 <Elems.Button icon="home" iconColor="grey" onPress={() => router?.push('/')} />
               </Nav.Wrap>}

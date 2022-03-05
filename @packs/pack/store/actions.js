@@ -109,6 +109,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
     return firebase.database().ref(key).set({
       id, userId: user.id,
+      username: user.username,
       url: post.url,
       desc: post.desc,
       nsfw: post.nsfw || false

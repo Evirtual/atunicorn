@@ -8,19 +8,22 @@ export default function ProfileScreen() {
   const router = handle.useRouter()
   const { id } = router?.query || {}
   const { user, users } = store.get('user', 'users')
-  const [ mode, setMode ] = React.useState()
-  const posts = (store.get('posts') || []).filter(post => post.userId === id)
+  const [ mode, setMode ] = useState()
+  const data = (store.get('posts') || []).filter(post => post.userId === id)
+  const [posts, setPosts] = useState(data)
   const [visible, setVisible] = useState(9)
 
   return (
     <Profile.Container>
       <Profile.Content>
-        <Comps.Nav mode={mode} setMode={setMode} />
+        <Comps.Nav mode={mode} setMode={setMode} data={data} posts={posts} setPosts={setPosts} />
         {(mode === 'post' || !posts.length) && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode()} />}
         {!posts
           ? <Elems.Button icon="atom-alt" style={Actheme.style('fs:s55 c:gainsboro')} spin />
           : mode !== 'post' && <>
-            {posts.slice(0, visible).map((post, index) => <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} />)}
+            {posts.slice(0, visible).map((post, index) =>
+              <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} />
+            )}
             {(posts.length > visible) && <Profile.Wrap>
               <Elems.Button seeMore text="show more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
             </Profile.Wrap>}
