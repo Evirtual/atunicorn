@@ -14,7 +14,7 @@ const Nav = Actheme.create({
     save: 'ps:ab r:-s2',
   }],
   Image: ['Image', 'w,h:100%'],
-  Input: ['TextInput', ['c:black fs:s4 p:s2 pl:s10 pr:s10 bw:1 bc:black50 bg:white br:s5 ta:c w:s70', { multiline: false, numberOfLines: 1 }], {
+  Input: ['TextInput', ['c:black fs:s4 p:s2 ph:s10 bw:1 bc:black50 bg:white br:s5 ta:c w:s70', { multiline: false, numberOfLines: 1 }], {
     focus: 'bc:mediumseagreen'
   }],
   File: 'Upload',
