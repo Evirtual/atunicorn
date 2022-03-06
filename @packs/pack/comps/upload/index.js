@@ -30,7 +30,7 @@ const Upload = Actheme.create({
           ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
               <Upload.Touch border={uploading != 'post'}>
                 {uploading == 'post'
-                  ? <Elems.Button icon="atom-alt" style={Actheme.style('fs:s55 c:gainsboro')} spin />
+                  ? <Elems.Button icon="atom-alt" loadingpost spin style={Actheme.style('fs:s55 c:gainsboro')} />
                   : !url
                     ? <>
                         <Elems.Icon style={Actheme.style('fs:s20 mb:s5 c:mediumseagreen')} icon="plus-circle"/>

@@ -82,7 +82,7 @@ const Nav = Actheme.create({
               ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
                   <Nav.Touch>
                     {uploading == 'profile'
-                        ? <Elems.Button icon="atom-alt" style={Actheme.style('fs:s14 c:gainsboro')} spin />
+                        ? <Elems.Button icon="atom-alt" loadingprofile spin style={Actheme.style('fs:s14 c:gainsboro')} />
                         : !profile.url
                           ? <Elems.Icon style={Actheme.style('c:grey fs:s10')} icon="camera" solid />
                           : <Nav.Image source={profile.url} />
