@@ -44,27 +44,16 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
   APP_AUTH: async () => {
     !firebase.apps.length && await firebase.initializeApp(configs.firebase)
-
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
       var email = window.localStorage.getItem('emailForSignIn')
-      // if (!email) email = window.prompt('Please provide your email for confirmation')
-      // The client SDK will parse the code from the link for you.
       firebase.auth().signInWithEmailLink(email, window.location.href)
         .then((result) => {
           window.localStorage.removeItem('emailForSignIn')
-          // window.close()
           Router?.push('/')
-          // console.log(result)
-          // You can access the new user via result.user
-          // Additional user info profile not available via:
-          // result.additionalUserInfo.profile == null
-          // You can check if the user is new or existing:
-          // result.additionalUserInfo.isNewUser
         })
         .catch((error) => console.log(error))
     }
   },
-
 
   APP_LOGIN: async email => {
     const { hostname, port, protocol } = window.location
