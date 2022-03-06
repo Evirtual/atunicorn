@@ -50,6 +50,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
         .then((result) => {
           window.localStorage.removeItem('emailForSignIn')
           Router?.push('/')
+          // console.log(result)
         })
         .catch((error) => console.log(error))
     }
