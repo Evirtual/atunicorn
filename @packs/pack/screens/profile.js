@@ -8,30 +8,31 @@ export default function ProfileScreen() {
   const router = handle.useRouter()
   const { id } = router?.query || {}
   const { user, users } = store.get('user', 'users')
-  const [ mode, setMode ] = useState()
+  const [ mode, setMode ] = useState('posts')
   const data = (store.get('posts') || []).filter(post => post.userId === id)
   const [posts, setPosts] = useState(data)
   const [visible, setVisible] = useState(9)
 
   useEffect(() => {
     setPosts(data)
-  }, [user])
+  }, [user, mode])
 
   return (
     <Profile.Container>
       <Profile.Content>
         <Comps.Nav mode={mode} setMode={setMode} data={data} posts={posts} setPosts={setPosts} />
-        {(mode === 'post' || !posts.length) && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode()} />}
-        {!posts
-          ? <Elems.Button icon="atom-alt" style={Actheme.style('fs:s55 c:gainsboro')} spin />
-          : mode !== 'post' && <>
-            {posts.slice(0, visible).map((post, index) =>
-              <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} />
-            )}
-            {(posts.length > visible) && <Profile.Wrap>
-              <Elems.Button seeMore text="show more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
-            </Profile.Wrap>}
-          </>
+        {mode === 'upload' || user && user.id === id && !posts.length
+          ? <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode('posts')} />
+          : !posts.length
+            ? <Elems.Button icon="atom-alt" style={Actheme.style('fs:s55 c:gainsboro')} spin />
+            : mode !== 'post' && <>
+              {posts.slice(0, visible).map((post, index) => 
+                <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} onDelete={() => setMode('deleted')} />
+              )}
+              {(posts.length > visible) && <Profile.Wrap>
+                <Elems.Button seeMore text="show more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
+              </Profile.Wrap>}
+            </>
         }
       </Profile.Content>
     </Profile.Container>

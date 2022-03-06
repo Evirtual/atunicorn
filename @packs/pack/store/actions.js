@@ -81,7 +81,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
   APP_LOGIN_GOOGLE: async () => {
     const provider = new firebase.auth.GoogleAuthProvider()
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-    const { credential, user } = await firebase.auth().signInWithRedirect(provider)
+    const { credential, user } = await firebase.auth().signInWithPopup(provider)
     const users = store.get('users')
     user && await store.set({
       user: {
@@ -109,7 +109,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
 
     return firebase.database().ref(key).set({
       id, userId: user.id,
-      username: user.username,
+      username: user.username || user.id,
       url: post.url,
       desc: post.desc,
       nsfw: post.nsfw || false
