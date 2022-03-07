@@ -17,7 +17,7 @@ const Login = Actheme.create({
   Image: 'Image',
 
   Comp: (props) => {
-    const { act, action } = Actstore({}, [])
+    const { act } = Actstore({}, [])
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [disabled, setDisabled] = useState(true)

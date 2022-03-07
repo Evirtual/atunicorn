@@ -56,7 +56,7 @@ const actions = ({ store, configs }) => ({
       .then((credential) => {
         const user = credential.user
         user.sendEmailVerification()
-        store.set({ success: { type: 'auth', message: 'Congratulations! We sent you an email, please verify and log in' } })
+        store.set({ success: { message: 'Congratulations! We sent you an email, please verify and log in' } })
       })
       .catch((error) => store.set({ error: { message: error.message }}))
   },
@@ -71,7 +71,7 @@ const actions = ({ store, configs }) => ({
         if (user.emailVerified) {
           Router?.push('/profile/' + user.uid)
         } else {
-          store.set({ error: { type: 'auth', message: 'Please verify your email and try again (if you don\'t see an email, check spam folder)' } })
+          store.set({ error: { message: 'Please verify your email and try again (if you don\'t see an email, check spam folder)' } })
         }
       })
       .catch((error) => store.set({ error: { message: error.message }}))
@@ -80,7 +80,7 @@ const actions = ({ store, configs }) => ({
   APP_LOGOUT: async () => firebase.auth().signOut().then(async () => {
     await store.set({ user: null })
     Router?.push('/')
-  }).catch(console.log),
+  }).catch(),
 
   APP_POST: async (post = {}) => {
     const user = store.get('user')

@@ -7,7 +7,8 @@ const Info = Actheme.create({
 
   Touch: ['TouchableOpacity', 'w:100% jc,ai:c p:s3 bg:salmon z:1', {
     update: 'bg:skyblue',
-    success: 'bg:lightgreen' }],
+    success: 'bg:lightgreen',
+    error: 'bg:salmon' }],
   Text: ['Text', 'c:black fb:500 fs:s4'],
   Close: ['View', 'w,h,br:s6 of:hd ps:ab t,r:s2.5 z:3 bg:black200 ai,jc:c'],
 
@@ -15,7 +16,8 @@ const Info = Actheme.create({
     const { store } = Actstore({}, ['error', 'success', 'user', 'ready'])
     const { error, success, user, ready } = store.get('error', 'success', 'user', 'ready')
 
-    useEffect(() => {}, [error, success])
+    useEffect(() => {success && store.set({ error: null })}, [success])
+    useEffect(() => {error && store.set({ success: null })}, [error])
 
     return <>
       {!ready && <Loader.Comp />}
@@ -41,7 +43,7 @@ const Loader = Actheme.create({
   Image: 'Image',
 
   Comp: () => {
-    return <Loader.Wrap style={Actheme.style('display:flex justify-content:center align-items:center ps:fixed l,r,t,b:0 z:999 bg:white')}>
+    return <Loader.Wrap style={Actheme.style('display:flex justifyContent:center alignItems:center ps:fixed l,r,t,b:0 z:999 bg:white')}>
       <Loader.Image style={Actheme.style('w,h:s50')} source={'/static/unicorn-io.gif'} />
     </Loader.Wrap>
   }
