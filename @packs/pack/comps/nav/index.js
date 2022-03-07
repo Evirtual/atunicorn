@@ -68,14 +68,14 @@ const Nav = Actheme.create({
         </Nav.Wrap>
         <Nav.Wrap row>
           {!user && path === '/'
-            ? <Elems.Button text="login" onPress={() => props.setLogin(!props.login)} />
+            ? <Elems.Button text="Login" onPress={() => props.setLogin(!props.login)} />
             : path === '/' || user && id === user.id && (path !== '/profile/' + user.id + '/about/')
               ? <Elems.Button
                   disabled={!user.approved}
-                  text={props.mode === 'upload' ? 'back' : 'upload'}
+                  text={props.mode === 'upload' ? 'Back' : 'Upload'}
                   textColor={props.mode === 'upload' ? 'black' : 'mediumseagreen'}
                   onPress={props.mode === 'upload' ? () => props.setMode('posts') : () => props.setMode('upload')} />
-              :  <Elems.Button text="back" textColor="black" onPress={() => router.back()} />
+              :  <Elems.Button text="Back" textColor="black" onPress={() => router.back()} />
           }
           <Nav.Wrap image>
             {user && id === user.id
@@ -95,7 +95,7 @@ const Nav = Actheme.create({
             }
           </Nav.Wrap>
           <Elems.Button
-            text="about"
+            text="About"
             onPress={
               path === '/'
                 ? () => router.push('/about/')
@@ -113,7 +113,7 @@ const Nav = Actheme.create({
             <Nav.Input
               defaultValue={profile.username || ''}
               onChangeText={setUsername}
-              placeholder={profile.username || "set username"}
+              placeholder={profile.username || "Set username"}
               focus={focus}
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)} />

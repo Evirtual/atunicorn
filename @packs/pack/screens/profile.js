@@ -13,9 +13,7 @@ export default function ProfileScreen() {
   const [posts, setPosts] = useState(data)
   const [visible, setVisible] = useState(9)
 
-  useEffect(() => {
-    setPosts(data)
-  }, [user, mode])
+  useEffect(() => {setPosts(data)}, [user, mode])
 
   return (
     <Profile.Container>

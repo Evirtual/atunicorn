@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Elems from '../../elems'
+import Layout from '../..'
 import { Actheme } from '../../theme'
 import Actstore from 'actstore'
 
@@ -20,25 +21,22 @@ const Login = Actheme.create({
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [disabled, setDisabled] = useState(true)
-    const [auth, setAuth] = useState()
     const [login, setLogin] = useState()
-    const regexpEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    const regexpPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+    const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/
 
-    useEffect(() => {
-      (email && password) ? setDisabled(false) : setDisabled(true);
-    }, [email, password]);
+    useEffect(() => {(email && password) ? setDisabled(false) : setDisabled(true)}, [email, password])
 
-    return <Login.Wrap style={Actheme.style('display:flex justifyContent:center alignItems:center ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5')}>
-      <Login.Content>
-        <Login.Close>
-          <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={props.onClose} />
-        </Login.Close>
-        <Login.Wrap style={Actheme.style('mb:auto mt:s5')}>
-          <Login.Text space>welcome to @unicorn</Login.Text>
-          <Login.Text>{!login ? 'please login to you account' : 'we hope you will enjoy your stay'}</Login.Text>
-        </Login.Wrap>
-        {!auth && <>
+    return (
+      <Login.Wrap style={Actheme.style('display:flex justifyContent:center alignItems:center ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5')}>
+        <Login.Content>
+          <Login.Close>
+            <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={props.onClose} />
+          </Login.Close>
+          <Login.Wrap style={Actheme.style('mb:auto mt:s5')}>
+            <Login.Text space>Welcome to @unicorn</Login.Text>
+            <Login.Text>{!login ? 'Please login to you account' : 'We hope you will enjoy your stay'}</Login.Text>
+          </Login.Wrap>
           {/* <Elems.Button
             google
             inline
@@ -46,29 +44,29 @@ const Login = Actheme.create({
             text="Sign in with Google" onPress={action('APP_LOGIN_GOOGLE')} />
           <Login.Text>or</Login.Text> */}
           <Elems.Input
-            placeholder={'enter your email address'}
+            placeholder={'Enter your email address'}
             space
             onChangeText={setEmail}/>
           <Elems.Input
             password
-            placeholder={'enter your password'}
+            placeholder={'Enter your password'}
             onChangeText={setPassword} />
           <Elems.Button
             disabled={disabled}
             submit
             onPress={() => {
               act(!login ? 'APP_LOGIN_EMAIL_PASSWORD' : 'APP_SIGNUP_EMAIL_PASSWORD', email, password)
-                .then(() => email.match(regexpEmail) && password.match(regexpPassword))
+                .then(() => email.match(regexEmail) && password.match(regexPassword) && setLogin(false))
             }}
-            text={!login ? 'login @unicorn' : 'join @unicorn'}
+            text={!login ? 'Login @unicorn' : 'join @unicorn'}
             style={Actheme.style('w:s70')} />
           <Elems.Button
-            text={!login ? 'signup @unicorn' : 'login'}
+            text={!login ? 'Signup @unicorn' : 'login'}
             style={Actheme.style(`w:s70 mt:auto mb:s1 c:${!login ? 'lightsalmon' : 'black'}`)}
             onPress={() => !login ? setLogin(true) : setLogin(false) } />
-        </>}
-      </Login.Content>
-    </Login.Wrap>
+        </Login.Content>
+      </Login.Wrap>
+    )
   }
 
 })

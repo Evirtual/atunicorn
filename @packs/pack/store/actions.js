@@ -5,7 +5,7 @@ import 'firebase/database'
 import 'firebase/storage'
 import Router from 'next/router'
 
-const actions = ({ store, cookies, configs, act, handle }) => ({
+const actions = ({ store, configs }) => ({
   APP_INIT: async () => {
     !firebase.apps.length && await firebase.initializeApp(configs.firebase)
 
@@ -29,87 +29,55 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     })
 
     firebase.auth().onAuthStateChanged(async user => {
-      await new Promise(r => setTimeout(r, 1000))
-      user && await store.set({
-        user: {
-          name: user.displayName,
-          email: user.email,
-          photo: user.photoURL,
-          id: user.uid,
-          ...((store.get('users') || []).find(item => item.id === user.uid) || {})
-        }
-      })
-    })
-  },
-
-  APP_AUTH: async () => {
-    !firebase.apps.length && await firebase.initializeApp(configs.firebase)
-    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
-      var email = window.localStorage.getItem('emailForSignIn')
-      firebase.auth().signInWithEmailLink(email, window.location.href)
-        .then(() => {
-          window.localStorage.removeItem('emailForSignIn')
-          Router?.push('/')
+      // await new Promise(r => setTimeout(r, 1000))
+      if (user && user.emailVerified) {
+        user && await store.set({
+          user: {
+            name: user.displayName,
+            email: user.email,
+            photo: user.photoURL,
+            id: user.uid,
+            ...((store.get('users') || []).find(item => item.id === user.uid) || {})
+          }
         })
-        .catch((error) => console.log(error))
-    }
+      } else {
+        firebase.auth().signOut();
+      }
+    })
   },
 
   APP_SIGNUP_EMAIL_PASSWORD: async (email, password) => {
     if(email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
-      return store.set({ error: { type: 'auth', message: 'please check if your email is written correctly' } })
+      return store.set({ error: { type: 'auth', message: 'Please check if your email is written correctly' } })
+    if(password && !password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/))
+      return store.set({ error: { type: 'auth', message: 'Password is not strong enough (it should contain at least one capital letter and number)' } })
 
     return firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((credential) => {
-        const user = credential.user;
-        user.sendEmailVerification();
-        Router?.push('/profile/' + user.uid)
+        const user = credential.user
+        user.sendEmailVerification()
+        store.set({ success: { type: 'auth', message: 'Congratulations! We sent you an email, please verify and log in' } })
       })
       .catch((error) => store.set({ error: { message: error.message }}))
   },
 
   APP_LOGIN_EMAIL_PASSWORD: async (email, password) => {
     if(email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
-      return store.set({ error: { type: 'auth', message: 'please check if your email is written correctly' } })
+      return store.set({ error: { type: 'auth', message: 'Please check if your email is written correctly' } })
 
     return firebase.auth().signInWithEmailAndPassword(email, password)
       .then((credential) => {
-        const user = credential.user;
-        Router?.push('/profile/' + user.uid)
+        const user = credential.user
+        if (user.emailVerified) {
+          Router?.push('/profile/' + user.uid)
+        } else {
+          store.set({ error: { type: 'auth', message: 'Please verify your email and try again (if you don\'t see an email, check spam folder)' } })
+        }
       })
       .catch((error) => store.set({ error: { message: error.message }}))
   },
 
-    // APP_LOGIN_EMAIL: async email => {
-  //   const { hostname, port, protocol } = window.location
-  //   const url = [protocol + '//', hostname, port ? (':' + port) : '', '/auth'].join('')
-
-  //   if(email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
-  //     return store.set({ error: { type: 'auth', message: 'please check if your email is written correctly' } })
-
-  //   return firebase.auth().sendSignInLinkToEmail(email, { url, handleCodeInApp: true })
-  //     .then(() => window.localStorage.setItem('emailForSignIn', email))
-  //     .catch((error) => store.set({ error: { type: 'auth', message: error.message }}))
-  // },
-
-  // APP_LOGIN_GOOGLE: async () => {
-  //   const provider = new firebase.auth.GoogleAuthProvider()
-  //   provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-  //   const { credential, user } = await firebase.auth().signInWithPopup(provider)
-  //   const users = store.get('users')
-  //   user && await store.set({
-  //     user: {
-  //       name: user.displayName,
-  //       email: user.email,
-  //       photo: user.photoURL,
-  //       id: user.uid,
-  //       ...(users.find(item => item.id === user.uid) || {})
-  //     }
-  //   })
-  //   Router?.push('/profile/' + user.uid)
-  // },
-
-  APP_LOGOUT: async () => firebase.auth().signOut().then(async data => {
+  APP_LOGOUT: async () => firebase.auth().signOut().then(async () => {
     await store.set({ user: null })
     Router?.push('/')
   }).catch(console.log),
@@ -138,8 +106,8 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
   APP_UPLOAD: async ([ file ], uploading = true) => {
     store.set({ uploading })
     try {
-      if(file.size > 10 * 1024 * 1024) throw new Error('file size is too big. please compress or convert to jpeg/PNG (max size: 3MB)')
-      if(!file.type.includes('image/')) throw new Error('file type is not an image (recommended format jpeg/PNG)')
+      if(file.size > 10 * 1024 * 1024) throw new Error('File size is too big. Please compress or convert to jpeg/PNG (max size: 10MB)')
+      if(!file.type.includes('image/')) throw new Error('File type is not an image (recommended format jpeg/PNG)')
 
       const user = store.get('user') || {}
       const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)
@@ -160,7 +128,7 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     const key = ['users', id].join('/')
 
     if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/))
-      return store.set({ error: { type: 'username', message: 'username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long' } })
+      return store.set({ error: { type: 'username', message: 'Username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long' } })
 
     // url: data.url || user.url || '',
     // username: data.username || user.username || '',

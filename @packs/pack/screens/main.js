@@ -13,13 +13,11 @@ function MainScreen() {
   const [posts, setPosts] = useState(data)
   const [visible, setVisible] = useState(9)
 
-  useEffect(() => {
-    setPosts(data)
-  }, [user, mode])
+  useEffect(() => {setPosts(data)}, [user, mode])
 
   return (
     <Main.Container>
-      {!user && login && <Comps.Login onClose={() => setLogin(!login)} />}
+      {(!user?.emailVerified) && login && <Comps.Login onClose={() => setLogin(!login)} />}
       <Main.Content>
         <Comps.Nav mode={mode} setMode={setMode} login={login} setLogin={setLogin} data={data} posts={posts} setPosts={setPosts} />
         {mode === 'upload'
@@ -31,7 +29,7 @@ function MainScreen() {
                 <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />
               )}
               {(posts.length > visible) && <Main.Wrap>
-                <Elems.Button seeMore text="show more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
+                <Elems.Button seeMore text="Show more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />
               </Main.Wrap>}
             </>
         }
