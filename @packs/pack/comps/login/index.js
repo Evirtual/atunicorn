@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Elems from '../../elems'
 import { Actheme } from '../../theme'
 import Actstore from 'actstore'
@@ -6,58 +6,71 @@ import Actstore from 'actstore'
 const Login = Actheme.create({
 
   Wrap: 'View',
-  Content: ['View', 'bg:white br:s5 w:100% nh,xw:s100 ai,jc:c bw:1 bc:black50'],
-  Text: ['Text', 'fs:s4 ta:c mv:s2'],
-  Input: ['TextInput', ['c:black fs:s4 p:s2 pl:s10 pr:s10 bw:1 bc:black50 bg:white br:s5 ta:c w:s70', { multiline: false, numberOfLines: 1 }], {
-    focus: 'bc:mediumseagreen'
+  Content: ['View', 'bg:white br:s5 w:100% nh,xw:s100 ai,jc:c bw:1 bc:black50 p:s5'],
+  Text: ['Text', 'fs:s4 ta:c mb:s2'],
+  Input: ['TextInput', ['c:black fs:s4 pv:s2 ph:s10 bw:1 bc:black50 bg:white br:s5 ta:c w:s70', { multiline: false, numberOfLines: 1 }], {
+    focus: 'bc:mediumseagreen',
+    space: 'mb:s3'
   }],
   Close: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
   Image: 'Image',
 
   Comp: (props) => {
     const { act, action } = Actstore({}, [])
-    const [focus, setFocus] = React.useState()
-    const [email, setEmail] = React.useState()
-    const [auth, setAuth] = React.useState()
-    const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [disabled, setDisabled] = useState(true)
+    const [auth, setAuth] = useState()
+    const [login, setLogin] = useState()
+    const regexpEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const regexpPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+
+    useEffect(() => {
+      (email && password) ? setDisabled(false) : setDisabled(true);
+    }, [email, password]);
 
     return <Login.Wrap style={Actheme.style('display:flex justifyContent:center alignItems:center ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5')}>
       <Login.Content>
         <Login.Close>
           <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={props.onClose} />
         </Login.Close>
-        <Login.Text>welcome to @unicorn</Login.Text>
-        <Login.Text>we hope you will enjoy the stay</Login.Text>
+        <Login.Wrap style={Actheme.style('mb:auto mt:s5')}>
+          <Login.Text space>welcome to @unicorn</Login.Text>
+          <Login.Text>{!login ? 'please login to you account' : 'we hope you will enjoy your stay'}</Login.Text>
+        </Login.Wrap>
         {!auth && <>
-          <Elems.Button google inline source="/static/google.png" imageWidth="s6" imageHeight="s6" text="Sign in with Google" onPress={action('APP_LOGIN_GOOGLE')} />
-          <Login.Text>or</Login.Text>
-          <Login.Input
-            placeholder={'enter email address'}
-            focus={focus}
-            onChangeText={setEmail}
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)} />
+          {/* <Elems.Button
+            google
+            inline
+            source="/static/google.png" imageWidth="s6" imageHeight="s6"
+            text="Sign in with Google" onPress={action('APP_LOGIN_GOOGLE')} />
+          <Login.Text>or</Login.Text> */}
+          <Elems.Input
+            placeholder={'enter your email address'}
+            space
+            onChangeText={setEmail}/>
+          <Elems.Input
+            password
+            placeholder={'enter your password'}
+            onChangeText={setPassword} />
           <Elems.Button
-            disabled={!email}
-            post
+            disabled={disabled}
+            submit
             onPress={() => {
-              act('APP_LOGIN', email).then(() => setAuth(email.match(regexp) && true))
+              act(!login ? 'APP_LOGIN_EMAIL_PASSWORD' : 'APP_SIGNUP_EMAIL_PASSWORD', email, password)
+                .then(() => email.match(regexpEmail) && password.match(regexpPassword))
             }}
-            text="join @unicorn"
-            textColor="white"
+            text={!login ? 'login @unicorn' : 'join @unicorn'}
             style={Actheme.style('w:s70')} />
-        </>}
-        {auth && <>
-          <Login.Image style={Actheme.style('w,h:s50')} source={'/static/unicorn-io.gif'} />
-          <Login.Text>authenticating...</Login.Text>
-          <Login.Text>please check your email and confirm</Login.Text>
-          <Login.Text>(check spam folder as well)</Login.Text>
+          <Elems.Button
+            text={!login ? 'signup @unicorn' : 'login'}
+            style={Actheme.style(`w:s70 mt:auto mb:s1 c:${!login ? 'lightsalmon' : 'black'}`)}
+            onPress={() => !login ? setLogin(true) : setLogin(false) } />
         </>}
       </Login.Content>
     </Login.Wrap>
   }
 
 })
-
 
 export default Login.Comp

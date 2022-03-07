@@ -47,44 +47,67 @@ const actions = ({ store, cookies, configs, act, handle }) => ({
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
       var email = window.localStorage.getItem('emailForSignIn')
       firebase.auth().signInWithEmailLink(email, window.location.href)
-        .then((result) => {
+        .then(() => {
           window.localStorage.removeItem('emailForSignIn')
           Router?.push('/')
-          // console.log(result)
         })
         .catch((error) => console.log(error))
     }
   },
 
-  APP_LOGIN: async email => {
-    const { hostname, port, protocol } = window.location
-    const url = [protocol + '//', hostname, port ? (':' + port) : '', '/auth'].join('')
-
+  APP_SIGNUP_EMAIL_PASSWORD: async (email, password) => {
     if(email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
       return store.set({ error: { type: 'auth', message: 'please check if your email is written correctly' } })
 
-    return firebase.auth().sendSignInLinkToEmail(email, { url, handleCodeInApp: true })
-      .then(() => window.localStorage.setItem('emailForSignIn', email))
-      .catch((error) => store.set({ error: { type: 'auth', message: error.message }}))
+    return firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((credential) => {
+        const user = credential.user;
+        user.sendEmailVerification();
+        Router?.push('/profile/' + user.uid)
+      })
+      .catch((error) => store.set({ error: { message: error.message }}))
   },
 
-  APP_LOGIN_GOOGLE: async () => {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-    const { credential, user } = await firebase.auth().signInWithPopup(provider)
-    const users = store.get('users')
-    user && await store.set({
-      user: {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-        id: user.uid,
-        ...(users.find(item => item.id === user.uid) || {})
-      }
-    })
-    Router?.push('/profile/' + user.uid)
-    // console.log('login', user, credential.accessToken)
+  APP_LOGIN_EMAIL_PASSWORD: async (email, password) => {
+    if(email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
+      return store.set({ error: { type: 'auth', message: 'please check if your email is written correctly' } })
+
+    return firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((credential) => {
+        const user = credential.user;
+        Router?.push('/profile/' + user.uid)
+      })
+      .catch((error) => store.set({ error: { message: error.message }}))
   },
+
+    // APP_LOGIN_EMAIL: async email => {
+  //   const { hostname, port, protocol } = window.location
+  //   const url = [protocol + '//', hostname, port ? (':' + port) : '', '/auth'].join('')
+
+  //   if(email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
+  //     return store.set({ error: { type: 'auth', message: 'please check if your email is written correctly' } })
+
+  //   return firebase.auth().sendSignInLinkToEmail(email, { url, handleCodeInApp: true })
+  //     .then(() => window.localStorage.setItem('emailForSignIn', email))
+  //     .catch((error) => store.set({ error: { type: 'auth', message: error.message }}))
+  // },
+
+  // APP_LOGIN_GOOGLE: async () => {
+  //   const provider = new firebase.auth.GoogleAuthProvider()
+  //   provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+  //   const { credential, user } = await firebase.auth().signInWithPopup(provider)
+  //   const users = store.get('users')
+  //   user && await store.set({
+  //     user: {
+  //       name: user.displayName,
+  //       email: user.email,
+  //       photo: user.photoURL,
+  //       id: user.uid,
+  //       ...(users.find(item => item.id === user.uid) || {})
+  //     }
+  //   })
+  //   Router?.push('/profile/' + user.uid)
+  // },
 
   APP_LOGOUT: async () => firebase.auth().signOut().then(async data => {
     await store.set({ user: null })

@@ -49,7 +49,7 @@ const Upload = Actheme.create({
           onChangeText={setDesc}
           placeholder="Type your description"/>}
         {url && desc && <Elems.Button icon={nsfw ? 'check-circle': 'circle'} iconColor="red" textColor="red" iconSize="s6" nsfw onPress={() => setNsfw(!nsfw)} text="NSFW" />}
-        {url && desc && <Elems.Button post onPress={() => act('APP_POST', { url, desc, nsfw }).then(props.onClose)} text="Ready to make it public?" textColor="white" />}
+        {url && desc && <Elems.Button submit onPress={() => act('APP_POST', { url, desc, nsfw }).then(props.onClose)} text="Ready to make it public?" />}
       </Upload.Wrap>
   )}
 
