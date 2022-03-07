@@ -77,6 +77,17 @@ const actions = ({ store, configs }) => ({
       .catch((error) => store.set({ error: { message: error.message }}))
   },
 
+  APP_RESET_PASSWORD: async (email) => {
+    if(!email || email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
+      return store.set({ error: { type: 'auth', message: 'Please check if your email is written correctly' } })
+
+    return firebase.auth().sendPasswordResetEmail(email)
+      .then(function () {
+        store.set({ success: { message: 'Please check your email and folow the link to reset your password' } })
+      })
+      .catch((error) => store.set({ error: { message: error.message }}))
+  },
+
   APP_LOGOUT: async () => firebase.auth().signOut().then(async () => {
     await store.set({ user: null })
     Router?.push('/')

@@ -14,9 +14,6 @@ const Nav = Actheme.create({
     save: 'ps:ab r:-s2',
   }],
   Image: ['Image', 'w,h:100%'],
-  Input: ['TextInput', ['c:black fs:s4 p:s2 ph:s10 bw:1 bc:black50 bg:white br:s5 ta:c w:s70', { multiline: false, numberOfLines: 1 }], {
-    focus: 'bc:mediumseagreen'
-  }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 br:s5 of:hd'],
   Image: ['Image', 'w,h:s25'],
@@ -51,11 +48,8 @@ const Nav = Actheme.create({
                 : <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setActive(false)} />
               }
             </Nav.Wrap>
-            <Nav.Input
+            <Elems.Input
               placeholder={path !== '/' && path !== '/about' && !!profile.id ? `Search @${profile?.username || id}` : 'Search @unicorn'}
-              focus={focus}
-              onFocus={() => setFocus(true)}
-              onBlur={() => setFocus(false)}
               onChange={(e) => onSearch(e.target.value)}
               value={search || ''} />
           </Nav.Wrap>
