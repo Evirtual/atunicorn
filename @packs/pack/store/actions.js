@@ -124,7 +124,7 @@ const actions = ({ store, configs }) => ({
       if(file.size >= 2 * 1024 * 1024 && file.type.includes('image/gif')) throw new Error('GIF size is too big (maximum size: 2MB)')
 
       const resizeFile = (file) => new Promise(resolve => {
-        Compress.imageFileResizer(file, 1280, 1280, 'WEBP', 90, 0, uri => {resolve(uri)}, 'file')
+        Compress.imageFileResizer(file, 1280, 1280, 'JPEG', 75, 0, uri => {resolve(uri)}, 'file')
       })
 
       const resizedFile = await (!file.type.includes('image/gif') ? resizeFile(file) : file)
