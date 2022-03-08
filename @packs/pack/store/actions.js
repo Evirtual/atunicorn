@@ -117,7 +117,7 @@ const actions = ({ store, configs }) => ({
   APP_UPLOAD: async ([ file ], uploading = true) => {
     store.set({ uploading })
     try {
-      if(file.size > 10 * 1024 * 1024) throw new Error('File size is too big. Please compress or convert to jpeg/PNG (max size: 10MB)')
+      if(file.size >= 1 * 1024 * 1024) throw new Error('File size is too big. Please compress or convert to jpeg/PNG (max size: 10MB)')
       if(!file.type.includes('image/')) throw new Error('File type is not an image (recommended format jpeg/PNG)')
 
       const user = store.get('user') || {}

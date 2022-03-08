@@ -7,8 +7,9 @@ const nextStyle = `
   #__next { display: flex; flex-direction: column; height: 100%; }
   img[class^="css-"][src*="#image"] { opacity: 1 !important; position: relative !important; height: auto !important; align-self:center; }
   div[class*="r-backgroundSize-"][class*="r-backgroundPosition-"][style*="#image"] { opacity: 0; }
-  textarea:focus:not(.focus-visible) {outline: none;}
-  input:focus:not(.focus-visible) {outline: none;}
+  textarea:focus {outline: none; outlineStyle: none;}
+  input:focus {outline: none; outlineStyle: none;}
+  button:focus {outline: none; outlineStyle: none;}
 `
 
 export default class MyDocument extends Document {

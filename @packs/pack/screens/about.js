@@ -42,7 +42,7 @@ export default function AboutScreen() {
         }
       </About.Wrap>
       {((user && id === user.id && about && !profile.about) || (user && id === user.id && editAbout)) && <About.Save>
-        <Elems.Button submit onPress={() => act('APP_USER', { about }).then(setEditAbout(false))} text="ready to save?" />
+        <Elems.Button submit onPress={() => act('APP_USER', { about }).then(setEditAbout(false))} text="Ready to save?" />
       </About.Save>}
     </About.Content>
   </About.Container>

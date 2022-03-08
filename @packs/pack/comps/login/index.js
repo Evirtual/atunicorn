@@ -38,12 +38,6 @@ const Login = Actheme.create({
             <Login.Text space>Welcome to @unicorn</Login.Text>
             <Login.Text>{!login ? 'Please login to you account' : 'We hope you will enjoy your stay'}</Login.Text>
           </Login.Wrap>
-          {/* <Elems.Button
-            google
-            inline
-            source="/static/google.png" imageWidth="s6" imageHeight="s6"
-            text="Sign in with Google" onPress={action('APP_LOGIN_GOOGLE')} />
-          <Login.Text>or</Login.Text> */}
           <Login.Wrap>
             <Elems.Input
               placeholder={'Enter your email address'}
