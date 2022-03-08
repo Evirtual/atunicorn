@@ -12,6 +12,7 @@ const Input = Actheme.create({
     const [focus, setFocus] = React.useState()
 
     return <Input.TextInput
+      defaultValue={props.defaultValue}
       placeholder={props.placeholder || ''}
       focus={focus}
       space={props.space}

@@ -104,13 +104,11 @@ const Nav = Actheme.create({
             <Nav.Wrap search>
               <Elems.Button icon="times-circle" iconColor="grey" iconSize="s5" onPress={() => setEditUsername(false)} />
             </Nav.Wrap>
-            <Nav.Input
+            <Elems.Input
               defaultValue={profile.username || ''}
               onChangeText={setUsername}
               placeholder={profile.username || "Set username"}
-              focus={focus}
-              onFocus={() => setFocus(true)}
-              onBlur={() => setFocus(false)} />
+              focus={focus} />
             <Nav.Wrap save>
               <Elems.Button icon="save" iconColor="mediumseagreen" iconSize="s5" onPress={() => act('APP_USER', { username }).then(() => setEditUsername(false))} />
             </Nav.Wrap>
