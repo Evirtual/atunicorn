@@ -20,12 +20,12 @@ export default function ProfileScreen() {
       <Profile.Content>
         <Comps.Nav mode={mode} setMode={setMode} data={data} posts={posts} setPosts={setPosts} />
         {mode === 'upload' || user && user.id === id && !posts.length
-          ? <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode('posts')} />
+          ? <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />
           : !posts.length
             ? <Elems.Button icon="atom-alt" loadingpost spin style={Actheme.style('fs:s55 c:gainsboro')} />
             : mode !== 'post' && <>
               {posts.slice(0, visible).map((post, index) => 
-                <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} onDelete={() => setMode('deleted')} />
+                <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} onDelete={() => setMode(!mode)} />
               )}
               {(posts.length > visible) && <Profile.Wrap>
                 <Elems.Button seeMore text="show more" onPress={() => setVisible(prevVisible => prevVisible + 6)} />

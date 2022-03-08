@@ -45,9 +45,7 @@ const Upload = Actheme.create({
               <Upload.Text>Upload Picture</Upload.Text>
             </Upload.Touch>
         }
-        {url && <Upload.Input
-          onChangeText={setDesc}
-          placeholder="Type your description"/>}
+        {url && <Upload.Input onChangeText={setDesc} placeholder="Type your description"/>}
         {url && desc && <Elems.Button icon={nsfw ? 'check-circle': 'circle'} iconColor="red" textColor="red" iconSize="s6" nsfw onPress={() => setNsfw(!nsfw)} text="NSFW" />}
         {url && desc && <Elems.Button submit onPress={() => act('APP_POST', { url, desc, nsfw }).then(props.onClose)} text="Ready to make it public?" />}
       </Upload.Wrap>

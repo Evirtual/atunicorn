@@ -4,6 +4,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import 'firebase/storage'
 import Router from 'next/router'
+import Compress from "react-image-file-resizer"
 
 const actions = ({ store, configs }) => ({
   APP_INIT: async () => {
@@ -116,15 +117,23 @@ const actions = ({ store, configs }) => ({
 
   APP_UPLOAD: async ([ file ], uploading = true) => {
     store.set({ uploading })
-    try {
-      if(file.size >= 1 * 1024 * 1024) throw new Error('File size is too big. Please compress or convert to jpeg/PNG (max size: 10MB)')
-      if(!file.type.includes('image/')) throw new Error('File type is not an image (recommended format jpeg/PNG)')
 
+    try {
+      if(!file.type.includes('image/')) throw new Error('File that you are uploading is not an image')
+      if(file.size >= 5 * 1024 * 1024 && !file.type.includes('image/gif')) throw new Error('File size is too big (maximum size: 5MB)')
+      if(file.size >= 2 * 1024 * 1024 && file.type.includes('image/gif')) throw new Error('GIF size is too big (maximum size: 2MB)')
+
+      const resizeFile = (file) => new Promise(resolve => {
+        Compress.imageFileResizer(file, 1280, 1280, 'WEBP', 95, 0, uri => {resolve(uri)}, 'file')
+      })
+
+      const resizedFile = await (!file.type.includes('image/gif') ? resizeFile(file) : file)
       const user = store.get('user') || {}
-      const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(file)
+      const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(resizedFile)
       const url = await snap.ref.getDownloadURL()
       store.set({ uploading: null })
       return url
+
     } catch(error) {
       store.set({  uploading: null, error: { type: 'upload', message: error.message } })
       return null
