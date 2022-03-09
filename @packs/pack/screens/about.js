@@ -12,46 +12,48 @@ export default function AboutScreen() {
   const [about, setAbout] = React.useState()
   const [editAbout, setEditAbout] = React.useState()
 
-  return (<About.Container>
-    <About.Content>
-      <Comps.Nav />
-      <About.Wrap about={profile.about && !editAbout}>
-        {profile.about && user && id === user.id && !editAbout && <About.Edit>
-          <Elems.Button icon="pencil" iconSize="s4" color="white" onPress={() => setEditAbout(!editAbout)} />
-        </About.Edit>}
-        {profile.about && !editAbout
-          ? <About.Text>{profile.about}</About.Text>
-          : user && id === user.id && !profile.about || editAbout
-            ? <About.Form>
-                <About.Input
-                  focus={focus}
-                  defaultValue={profile.about || ''}
-                  onChangeText={setAbout}
-                  placeholder={profile.about || 'What makes you tick?'}
-                  onFocus={() => setFocus(true)}
-                  onBlur={() => setFocus(false)} />
-              </About.Form>
-            : <About.Text>
-                {id
-                  ? profile.username
-                    ? `Welcome to @${profile?.username}`
-                    : `Welcome to @${id}`
-                  : "Welcome to @unicorn\n\nIt's a place to express your uniqueness\nin ways that inspire us to feel more confident\nin our everyday life"
-                }
-              </About.Text>
-        }
-      </About.Wrap>
-      {((user && id === user.id && about && !profile.about) || (user && id === user.id && editAbout)) && <About.Save>
-        <Elems.Button submit onPress={() => act('APP_USER', { about }).then(setEditAbout(false))} text="Ready to save?" />
-      </About.Save>}
-    </About.Content>
-  </About.Container>
+  return (
+    <About.Container>
+      <About.Content>
+        <Comps.Nav />
+        <About.Wrap about={profile.about && !editAbout}>
+          {profile.about && user && id === user.id && !editAbout && <About.Edit>
+            <Elems.Button icon="pencil" iconSize="s4" color="white" onPress={() => setEditAbout(!editAbout)} />
+          </About.Edit>}
+          {profile.about && !editAbout
+            ? <About.Text>{profile.about}</About.Text>
+            : user && id === user.id && !profile.about || editAbout
+              ? <About.Form>
+                  <About.Input
+                    focus={focus}
+                    defaultValue={profile.about || ''}
+                    onChangeText={setAbout}
+                    placeholder={profile.about || 'What makes you tick?'}
+                    onFocus={() => setFocus(true)}
+                    onBlur={() => setFocus(false)} />
+                </About.Form>
+              : <About.Text>
+                  {id
+                    ? profile.username
+                      ? `Welcome to @${profile?.username}`
+                      : `Welcome to @${id}`
+                    : "Welcome to @unicorn\n\nIt's a place to express your uniqueness\nin ways that inspire us to feel more confident\nin our everyday life"
+                  }
+                </About.Text>
+          }
+        </About.Wrap>
+        {((user && id === user.id && about && !profile.about) || (user && id === user.id && editAbout)) && <About.Save>
+          <Elems.Button submit onPress={() => act('APP_USER', { about }).then(setEditAbout(false))} text="Ready to save?" />
+        </About.Save>}
+      </About.Content>
+    </About.Container>
   )
 }
 
 const About = Actheme.create({
   Container: ['View', 'f:1 bg:black25'],
-  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('ai:c fw:wrap w:100% xw:s400 as:c ph:s5 pb:s15'), showsVerticalScrollIndicator: true }]],
+  Content: ['ScrollView', ['f:1', {
+    contentContainerStyle: Actheme.style('ai:c fw:wrap w:100% xw:s400 as:c ph:s5 pb:s15'), showsVerticalScrollIndicator: true }]],
   Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s100 ai,jc:c mt:s5 bw:1 bc:black50', {
     about: 'p:s10'
   }],

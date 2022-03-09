@@ -39,7 +39,9 @@ export default function ProfileScreen() {
 
 const Profile = Actheme.create({
   Container: ['View', 'f:1 bg:black25'],
-  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('jc:c fd:row fw:wrap w:100% xw:s400 as:c ph:s5 pb:s15'), showsVerticalScrollIndicator: true }]],
-  Text: ['Text', 'fs,mb:s6 ta:c', { small: 'fs:s3'}],
+  Content: ['ScrollView', ['f:1', {
+    contentContainerStyle: Actheme.style('jc:c fd:row fw:wrap w:100% xw:s400 as:c ph:s5 pb:s15'), showsVerticalScrollIndicator: true }]],
+  Text: ['Text', 'fs,mb:s6 ta:c', {
+    small: 'fs:s3'}],
   Wrap: ['View', 'w:100% ai:c']
 })

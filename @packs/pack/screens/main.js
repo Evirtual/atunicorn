@@ -42,6 +42,7 @@ export default MainScreen
 
 const Main = Actheme.create({
   Container: ['View', 'f:1 bg:black25'],
-  Content: ['ScrollView', ['f:1', { contentContainerStyle: Actheme.style('jc:c fd:row fw:wrap w:100% xw:s400 as:c ph:s5 pb:s15'), showsVerticalScrollIndicator: true }]],
+  Content: ['ScrollView', ['f:1', {
+    contentContainerStyle: Actheme.style('nh:100vh jc:c fd:row fw:wrap w:100% xw:s400 as:c ph:s5 pb:s15'), showsVerticalScrollIndicator: true }]],
   Wrap: ['View', 'w:100% ai:c']
 })
