@@ -19,7 +19,7 @@ export default function PostScreen() {
         <Post.Wrap profile>
           {profile.url
             ? <Post.Image source={profile.url} />
-            : <Elems.Icon style={Actheme.style('c:black100 fs:s15')} icon="user-circle" solid />
+            : <Elems.Icon style={Actheme.style('c:lightgray fs:s15')} icon="user-circle" solid />
           }
         </Post.Wrap>
         <Post.Name>{'@' + (profile.username || post.userId)}</Post.Name>

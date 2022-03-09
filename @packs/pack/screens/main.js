@@ -23,7 +23,7 @@ function MainScreen() {
         {mode === 'upload'
           ? <Comps.Upload onClose={() => setMode('posts')} />
           : !posts.length
-            ? <Elems.Button icon="atom-alt" loadingpost spin style={Actheme.style('fs:s55 c:gainsboro')} />
+            ? <Elems.Button icon="yin-yang" loadingpost spin style={Actheme.style('fs:s35 c:lightgray')} />
             : mode !== 'post' && <>
               {posts.slice(0, visible).map((post, index) => 
                 <Comps.Post key={index} id={id} post={post} profile={users?.find(item => item.id === post.userId)} />

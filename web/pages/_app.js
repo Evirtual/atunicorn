@@ -22,7 +22,7 @@ library.add(fal, far, fad, fas, fab)
 */
 
 const App = ({ Component, pageProps }) => {
-	const { store, act } = Actstore(Settings, ['ready'])
+	const { act } = Actstore(Settings, ['ready'])
 
 	React.useEffect(() => {
 		((window?.location?.pathname || '/') !== (Router?.router?.route || '/')) && Router.push(Router.router.asPath) 

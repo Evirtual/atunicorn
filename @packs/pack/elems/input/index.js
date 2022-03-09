@@ -3,9 +3,10 @@ import { Actheme } from '../../theme'
 
 const Input = Actheme.create({
 
-  TextInput: ['TextInput', ['c:black fs:s4 nh:s10 ph:s5 bw:1 bc:black50 bg:white br:s5 ta:c w:s70', { multiline: false, numberOfLines: 1 }], {
+  TextInput: ['TextInput', 'c:black fs:s4 nh:s10 ph:s5 bw:1 bc:black50 bg:white br:s5 ta:c w:s70', {
     focus: 'bc:mediumseagreen',
-    space: 'mb:s3'
+    space: 'mb:s3',
+    multiline: 'w:auto ta:l pv:s2.5'
   }],
 
   Elem: (props) => {
@@ -21,7 +22,10 @@ const Input = Actheme.create({
       onChangeText={props.onChangeText}
       value={props.value}
       onFocus={() => setFocus(true)}
-      onBlur={() => setFocus(false)} />
+      onBlur={() => setFocus(false)}
+      multiline={props.multiline ? true : false}
+      numberOfLines={props.numberOfLine ? props.numberOfLine : 1}
+      style={props.style} />
   }
 
 })

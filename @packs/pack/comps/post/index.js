@@ -12,8 +12,8 @@ const Post = Actheme.create({
   User: ['TouchableOpacity', 'fb:500 ml:s2 bg:black200 pv:s2 ph:s3 br:s5'],
   Name: ['Text', 'c:white'],
   Delete: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
-  Nsfw: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
-  Text: ['Text', 'c:black100 fb:500 fs:s6'],
+  Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
+  Text: ['Text', 'c:lightgray fb:bold fs:s7 mt:s2'],
 
   Comp: ({post, profile, id, user, ...props}) => {
     const { act, handle } = Actstore({}, [])
@@ -22,6 +22,7 @@ const Post = Actheme.create({
     const userId = user && user.id
     const [active, setActive] = React.useState()
     const [nsfw, setNsfw] = React.useState()
+    const [removing, setRemoving] = React.useState()
 
     return <Post.Touch {...props} onPress={() => router.push('../post/' + post.id)}>
       <Post.Wrap>
@@ -35,14 +36,27 @@ const Post = Actheme.create({
           <Post.Name>@{profile && profile.username || post.userId}</Post.Name>
         </Post.User>}
       </Post.Wrap>
-      {user && user.id === id && <Post.Delete>
-        <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={() => act('APP_DELETEPOST', { userId, postId, url: post.url }).then(props.onDelete)} />
-      </Post.Delete>}
+      {user && user.id === id &&
+        <Post.Delete>
+          <Elems.Button
+            icon="times-circle"
+            iconSize="s8"
+            color="white"
+            onPress={() => act('APP_DELETEPOST', { userId, postId, url: post.url }).then(props.onDelete, setRemoving(true))} />
+        </Post.Delete>
+      }
       <Post.Image source={post.url} />
-      {!!post.nsfw && !nsfw && <Post.Nsfw onPress={() => setNsfw(true)}>
-        <Elems.Icon style={Actheme.style('c:black100 fs:s15')} icon="eye-slash" solid />
-        <Post.Text>NSFW</Post.Text>
-      </Post.Nsfw>
+      {!!post.nsfw && !nsfw &&
+        <Post.Cover onPress={() => setNsfw(true)}>
+          <Elems.Icon style={Actheme.style('c:lightgray fs:s35')} icon="eye-slash" />
+          <Post.Text>NSFW</Post.Text>
+        </Post.Cover>
+      }
+      {removing &&
+        <Post.Cover>
+          <Elems.Icon style={Actheme.style('c:lightgray fs:s35')} icon="yin-yang" spin />
+          <Post.Text>Removing</Post.Text>
+        </Post.Cover>
       }
     </Post.Touch>
   }

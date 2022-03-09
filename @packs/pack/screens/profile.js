@@ -22,7 +22,7 @@ export default function ProfileScreen() {
         {mode === 'upload' || user && user.id === id && !posts.length
           ? <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />
           : !posts.length
-            ? <Elems.Button icon="atom-alt" loadingpost spin style={Actheme.style('fs:s55 c:gainsboro')} />
+            ? <Elems.Button icon="yin-yang" loadingpost spin style={Actheme.style('fs:s35 c:lightgray')} />
             : mode !== 'post' && <>
               {posts.slice(0, visible).map((post, index) => 
                 <Comps.Post key={index} id={id} post={post} user={user} profile={users?.find(item => item.id === post.userId)} onDelete={() => setMode(!mode)} />

@@ -6,14 +6,10 @@ import Actstore from 'actstore'
 const Upload = Actheme.create({
   Wrap: ['View', 'fd:col w:100% xw:s100 m:s5'],
   File: 'Upload',
-  Input: ['TextInput', ['c:black fs:s4 mt:s5 p:s5 bw:1 bc:black50 bg:white br:s5', { multiline: true, numberOfLines: 2 }], {
-    active: 'bc:mediumseagreen'
-  }],
   Checkbox: ['Checkbox', ''],
-  Text: ['Text', ['ta:c c:mediumseagreen w:100% fs:s4 fb:bold', { numberOfLines: 1 }]],
+  Text: ['Text', 'ta:c c:lightgray w:100% fs:s7 fb:bold mt:s2'],
   Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bg:white br:s5 of:hd', {
-    disabled: 'op:.25',
-    border: 'bw:1 bc:black50' }],
+    disabled: 'op:.25' }],
   Image: ['Image', 'w:100% xw,h:100%'],
 
   Comp: props => {
@@ -28,24 +24,27 @@ const Upload = Actheme.create({
       <Upload.Wrap>
         {!props.disabled
           ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
-              <Upload.Touch border={uploading != 'post'}>
+              <Upload.Touch>
                 {uploading == 'post'
-                  ? <Elems.Button icon="atom-alt" loadingpost spin style={Actheme.style('fs:s55 c:gainsboro')} />
+                  ? <>
+                      <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="yin-yang" spin />
+                      <Upload.Text>Uploading</Upload.Text>
+                    </>
                   : !url
                     ? <>
-                        <Elems.Icon style={Actheme.style('fs:s20 mb:s5 c:mediumseagreen')} icon="plus-circle"/>
-                        <Upload.Text>Upload Picture</Upload.Text>
+                        <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="image"/>
+                        <Upload.Text>Upload Image</Upload.Text>
                       </>
                     : <Upload.Image source={url} />
                 }
               </Upload.Touch>
             </Upload.File>
           : <Upload.Touch disabled>
-              <Elems.Icon style={Actheme.style('fs:s20 mb:s5 c:mediumseagreen')} icon="plus-circle"/>
-              <Upload.Text>Upload Picture</Upload.Text>
+              <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="image"/>
+              <Upload.Text>Upload Image</Upload.Text>
             </Upload.Touch>
         }
-        {url && <Upload.Input onChangeText={setDesc} placeholder="Type your description"/>}
+        {url && <Elems.Input multiline numberOfLine={2} onChangeText={setDesc} placeholder="Type your description" style={Actheme.style('mt:s5')} />}
         {url && desc && <Elems.Button icon={nsfw ? 'check-circle': 'circle'} iconColor="red" textColor="red" iconSize="s6" nsfw onPress={() => setNsfw(!nsfw)} text="NSFW" />}
         {url && desc && <Elems.Button submit onPress={() => act('APP_POST', { url, desc, nsfw }).then(props.onClose)} text="Ready to make it public?" />}
       </Upload.Wrap>

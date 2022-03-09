@@ -71,6 +71,7 @@ const actions = ({ store, configs }) => ({
         const user = credential.user
         if (user.emailVerified) {
           Router?.push('/profile/' + user.uid)
+          store.set({ success: { message: 'Done! You successfully logged in' } })
         } else {
           store.set({ error: { message: 'Please verify your email and try again (if you don\'t see an email, check spam folder)' } })
         }
@@ -92,7 +93,11 @@ const actions = ({ store, configs }) => ({
   APP_LOGOUT: async () => firebase.auth().signOut().then(async () => {
     await store.set({ user: null })
     Router?.push('/')
-  }).catch(),
+  })
+  .then(function () {
+    store.set({ success: { message: 'Done! You successfully logged out' } })
+  })
+  .catch(),
 
   APP_POST: async (post = {}) => {
     const user = store.get('user')
@@ -106,13 +111,18 @@ const actions = ({ store, configs }) => ({
       url: post.url,
       desc: post.desc,
       nsfw: post.nsfw || false
-    }).catch(error => store.set({ error: { type: 'post', message: error.message } }))
+    })
+    .then(function () {
+      store.set({ success: { message: 'Done! You successfully uploaded a new image' } })
+    })
+    .catch(error => store.set({ error: { type: 'post', message: error.message } }))
   },
 
   APP_DELETEPOST: async ( post ) => {
     const fileId = post.url.split('%2F').pop().split('?alt=media').shift()
     await firebase.database().ref(`posts/${post.userId}/${post.postId}/`).remove()
     await firebase.storage().ref().child([post.userId, fileId].join('/')).delete()
+    store.set({ success: { message: 'Done! Your image was successfully removed' } })
   },
 
   APP_UPLOAD: async ([ file ], uploading = true) => {
@@ -159,7 +169,10 @@ const actions = ({ store, configs }) => ({
       updated: new Date().getTime(),
       ...data,
       approved: data.approved || user.approved || false
-    }, console.log)
+    })
+    .then(function () {
+      store.set({ success: { message: 'Done! Your profile was successfully updated' } })
+    })
     .catch(error => store.set({ error: { type: 'username', message: error.message }}))
   },
 
