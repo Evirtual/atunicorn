@@ -6,7 +6,7 @@ import Actstore from 'actstore'
 const Upload = Actheme.create({
   Wrap: ['View', 'fd:col w:100% xw:s100 m:s5'],
   File: 'Upload',
-  Checkbox: ['Checkbox', ''],
+  Checkbox: 'Checkbox',
   Text: ['Text', 'ta:c c:lightgray w:100% fs:s7 fb:bold mt:s2'],
   Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bg:white br:s5 of:hd', {
     disabled: 'op:.25' }],
@@ -32,7 +32,7 @@ const Upload = Actheme.create({
                     </>
                   : !url
                     ? <>
-                        <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="image"/>
+                        <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="plus-circle" />
                         <Upload.Text>Upload Image</Upload.Text>
                       </>
                     : <Upload.Image source={url} />
@@ -40,7 +40,7 @@ const Upload = Actheme.create({
               </Upload.Touch>
             </Upload.File>
           : <Upload.Touch disabled>
-              <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="image"/>
+              <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="plus-circle" />
               <Upload.Text>Upload Image</Upload.Text>
             </Upload.Touch>
         }
