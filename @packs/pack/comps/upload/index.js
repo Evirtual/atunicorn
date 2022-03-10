@@ -1,16 +1,21 @@
 import React from 'react'
+import { useWindowDimensions } from 'react-native'
 import Elems from '../../elems'
 import { Actheme } from '../../theme'
 import Actstore from 'actstore'
 
 const Upload = Actheme.create({
-  Wrap: ['View', 'fd:col w:100% xw:s100'],
-  File: 'Upload',
+  Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5', {
+    contentContainerStyle: Actheme.style('fg:1 ai,jc:c')}]],
+  Content: ['View', 'xw:s100 p:s5 bg:#F2F2F2 bw:1 bc:black50 br:s5'],
+  File: ['Upload', ['w,h:100%']],
   Checkbox: 'Checkbox',
-  Text: ['Text', 'ta:c c:lightgray w:100% fs:s7 fb:bold mt:s2'],
-  Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bg:white br:s5 of:hd bw:1 bc:black50', {
-    disabled: 'op:.25' }],
-  Image: ['Image', 'w:100% xw,h:100%'],
+  Text: ['Text', 'ta:c c:lightgray w:100% fs:s5 fb:500 mt:s5'],
+  Touch: ['TouchableOpacity', 'w,h:80vw jc,ai:c bg:white br:s5 of:hd bw:1 bc:black50', {
+    disabled: 'op:.25',
+    medium: 'w,h:s90'}],
+  Image: ['Image', 'w,h:100%'],
+  Close: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
 
   Comp: props => {
 
@@ -19,53 +24,59 @@ const Upload = Actheme.create({
     const [url, setUrl] = React.useState()
     const [desc, setDesc] = React.useState()
     const [nsfw, setNsfw] = React.useState()
+    const { width } = useWindowDimensions()
 
     return (
-      <Upload.Wrap>
-        {!props.disabled
-          ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
-              <Upload.Touch>
-                {uploading == 'post'
-                  ? <>
-                      <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="yin-yang" spin />
-                      <Upload.Text>Uploading</Upload.Text>
-                    </>
-                  : !url
+      <Upload.Container>
+        <Upload.Content>
+          <Upload.Close>
+            <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={props.onClose} />
+          </Upload.Close>
+          {!props.disabled
+            ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
+                <Upload.Touch medium={width > 767}>
+                  {uploading == 'post'
                     ? <>
-                        <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="plus-circle" />
-                        <Upload.Text>Upload Image</Upload.Text>
+                        <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="yin-yang" spin />
+                        <Upload.Text>Uploading</Upload.Text>
                       </>
-                    : <Upload.Image source={url} />
-                }
+                    : !url
+                      ? <>
+                          <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="plus-circle" />
+                          <Upload.Text>Upload Image</Upload.Text>
+                        </>
+                      : <Upload.Image source={url} />
+                  }
+                </Upload.Touch>
+              </Upload.File>
+            : <Upload.Touch medium={width > 767} disabled>
+                <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="plus-circle" />
+                <Upload.Text>Upload Image</Upload.Text>
               </Upload.Touch>
-            </Upload.File>
-          : <Upload.Touch disabled>
-              <Elems.Icon style={Actheme.style('fs:s35 c:lightgray')} icon="plus-circle" />
-              <Upload.Text>Upload Image</Upload.Text>
-            </Upload.Touch>
-        }
-        {url &&
-          <Elems.Input
-            multiline
-            numberOfLine={2}
-            onChangeText={setDesc}
-            placeholder="Type your description"
-            style={Actheme.style('mt:s5')} />}
-        {url && desc &&
-          <Elems.Button
-            icon={nsfw ? 'check-circle': 'circle'} 
-            iconColor="red" textColor="red" 
-            iconSize="s6" 
-            nsfw onPress={() => setNsfw(!nsfw)} 
-            text="NSFW" />}
-        {url && desc &&
-          <Elems.Button 
-            submit 
-            onPress={() => act('APP_POST', { url, desc, nsfw }).then(props.onClose)} 
-            text="Ready to make it public?" />}
-      </Upload.Wrap>
-  )}
-
+          }
+          {url &&
+            <Elems.Input
+              multiline
+              numberOfLine={2}
+              onChangeText={setDesc}
+              placeholder="Type your description"
+              style={Actheme.style('mt:s5')} />}
+          {url && desc &&
+            <Elems.Button
+              icon={nsfw ? 'check-circle': 'circle'} 
+              iconColor="red" textColor="red" 
+              iconSize="s6" 
+              nsfw onPress={() => setNsfw(!nsfw)} 
+              text="NSFW" />}
+          {url && desc &&
+            <Elems.Button 
+              submit 
+              onPress={() => act('APP_POST', { url, desc, nsfw }).then(props.onClose)} 
+              text="Ready to make it public?" />}
+        </Upload.Content>
+      </Upload.Container>
+    )
+  }
 })
 
 export default Upload.Comp

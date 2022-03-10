@@ -18,8 +18,9 @@ export default function ProfileScreen() {
 
   return (
     <Profile.Container>
+      {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
       <Profile.Content 
-        data={mode === 'upload' ? [] : posts}
+        data={posts}
         renderItem={({item}) =>
           <Comps.Post
             medium={width > 767}
@@ -31,16 +32,12 @@ export default function ProfileScreen() {
             onDelete={() => setMode(!mode)} />
         }
         keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={
-          mode === 'upload'
-            ? <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />
-            : <Elems.Button icon="yin-yang" loadingpost spin style={Actheme.style('fs:s35 c:lightgray')} />
-        }
+        ListEmptyComponent={<Elems.Button icon="yin-yang" loadingpost spin style={Actheme.style('fs:s35 c:lightgray')} />}
         key={width}
         initialNumToRender={4}
         maxToRenderPerBatch={3}
         windowSize={4}
-        numColumns={(width < 768 ) ? 1 : (width < 1280) ? 2 : 3 }
+        numColumns={(width < 768 ) ? 1 : (width < 1280) ? 2 : 3}
         ListHeaderComponent={
           <Comps.Nav
             mode={mode}
@@ -54,7 +51,7 @@ export default function ProfileScreen() {
 }
 
 const Profile = Actheme.create({
-  Container: ['View', 'f:1 bg:#F2F2F2'],
+  Container: ['SafeAreaView', 'f:1 bg:#F2F2F2'],
   Content: ['FlatList', ['f:1', {
     contentContainerStyle: Actheme.style('ai,jc:c ph:s5 pb:s15')}]],
   Text: ['Text', 'fs,mb:s6 ta:c', {

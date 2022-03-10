@@ -18,9 +18,10 @@ function MainScreen() {
 
   return (
     <Main.Container>
-      {(!user?.emailVerified) && login && <Comps.Login onClose={() => setLogin(!login)} />}
+      {!user?.emailVerified && login && <Comps.Login onClose={() => setLogin(!login)} />}
+      {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
       <Main.Content 
-        data={mode === 'upload' ? [] : posts}
+        data={posts}
         renderItem={({item}) => 
           <Comps.Post
             medium={width > 767}
@@ -30,11 +31,7 @@ function MainScreen() {
             profile={users?.find(i => i.id === item.userId)} />
         }
         keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={
-          mode === 'upload'
-            ? <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />
-            : <Elems.Button icon="yin-yang" loadingpost spin style={Actheme.style('fs:s35 c:lightgray')} />
-        }
+        ListEmptyComponent={<Elems.Button icon="yin-yang" loadingpost spin style={Actheme.style('fs:s30 c:lightgray')} />}
         key={width}
         initialNumToRender={4}
         maxToRenderPerBatch={3}

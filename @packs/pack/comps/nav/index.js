@@ -5,9 +5,9 @@ import Actstore from 'actstore'
 
 const Nav = Actheme.create({
 
-  Container: ['View', 'w:100% jc,ai:c z:2 mv:s10'],
+  Container: ['View', 'w:100% jc,ai:c z:2 p:s10'],
   Wrap: ['View', 'jc,ai:c', {
-    image: 'w,h,br:s25 bg:white of:hd mh:s7 mt:s5 mb:s3',
+    image: 'w,h,br:s25 bg:white of:hd mh:s6 mt:s4 mb:s2',
     row: 'fd:row',
     input: 'ps:ab z:2',
     search: 'ps:ab l:-s2',
