@@ -21,7 +21,14 @@ export default function ProfileScreen() {
       <Profile.Content 
         data={mode === 'upload' ? [] : posts}
         renderItem={({item}) =>
-          <Comps.Post medium={width > 767} large={width > 1279} id={id} post={item} user={user} profile={users?.find(i => i.id === item.userId)} onDelete={() => setMode(!mode)} />
+          <Comps.Post
+            medium={width > 767}
+            large={width > 1279}
+            id={id}
+            post={item}
+            user={user}
+            profile={users?.find(i => i.id === item.userId)}
+            onDelete={() => setMode(!mode)} />
         }
         keyExtractor={item => item.id.toString()}
         ListEmptyComponent={
