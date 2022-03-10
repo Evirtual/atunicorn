@@ -4,11 +4,11 @@ import { Actheme } from '../../theme'
 import Actstore from 'actstore'
 
 const Upload = Actheme.create({
-  Wrap: ['View', 'fd:col w:100% xw:s100 m:s5'],
+  Wrap: ['View', 'fd:col w:100% xw:s100'],
   File: 'Upload',
   Checkbox: 'Checkbox',
   Text: ['Text', 'ta:c c:lightgray w:100% fs:s7 fb:bold mt:s2'],
-  Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bg:white br:s5 of:hd', {
+  Touch: ['TouchableOpacity', 'w:100% h:s100 jc,ai:c bg:white br:s5 of:hd bw:1 bc:black50', {
     disabled: 'op:.25' }],
   Image: ['Image', 'w:100% xw,h:100%'],
 
@@ -44,9 +44,25 @@ const Upload = Actheme.create({
               <Upload.Text>Upload Image</Upload.Text>
             </Upload.Touch>
         }
-        {url && <Elems.Input multiline numberOfLine={2} onChangeText={setDesc} placeholder="Type your description" style={Actheme.style('mt:s5')} />}
-        {url && desc && <Elems.Button icon={nsfw ? 'check-circle': 'circle'} iconColor="red" textColor="red" iconSize="s6" nsfw onPress={() => setNsfw(!nsfw)} text="NSFW" />}
-        {url && desc && <Elems.Button submit onPress={() => act('APP_POST', { url, desc, nsfw }).then(props.onClose)} text="Ready to make it public?" />}
+        {url &&
+          <Elems.Input
+            multiline
+            numberOfLine={2}
+            onChangeText={setDesc}
+            placeholder="Type your description"
+            style={Actheme.style('mt:s5')} />}
+        {url && desc &&
+          <Elems.Button
+            icon={nsfw ? 'check-circle': 'circle'} 
+            iconColor="red" textColor="red" 
+            iconSize="s6" 
+            nsfw onPress={() => setNsfw(!nsfw)} 
+            text="NSFW" />}
+        {url && desc &&
+          <Elems.Button 
+            submit 
+            onPress={() => act('APP_POST', { url, desc, nsfw }).then(props.onClose)} 
+            text="Ready to make it public?" />}
       </Upload.Wrap>
   )}
 

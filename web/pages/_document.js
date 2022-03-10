@@ -1,6 +1,6 @@
 import Document, { Head, Main, NextScript, Html } from 'next/document'
 import React from 'react'
-import { AppRegistry } from 'rnwc'
+import { AppRegistry, View } from 'rnwc'
 import Actheme from 'actheme'
 
 const nextStyle = `
@@ -28,9 +28,9 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html style={{ height: "100vh" }}>
+      <Html style={{ width: "100vw", height: "100vh", backgroundColor: "#F2F2F2" }}>
         <Head />
-        <body style={{ height: "100vh", overflow: "hidden" }}>
+        <body style={{ width: "100vw",  height: "100vh", overflow: "hidden", backgroundColor: "#F2F2F2" }}>
           <Main />
           <NextScript />
         </body>

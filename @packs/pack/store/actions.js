@@ -30,7 +30,6 @@ const actions = ({ store, configs }) => ({
     })
 
     firebase.auth().onAuthStateChanged(async user => {
-      // await new Promise(r => setTimeout(r, 1000))
       if (user && user.emailVerified) {
         user && await store.set({
           user: {
@@ -108,6 +107,7 @@ const actions = ({ store, configs }) => ({
     return firebase.database().ref(key).set({
       id, userId: user.id,
       username: user.username || user.id,
+      avatar: user.url || false,
       url: post.url,
       desc: post.desc,
       nsfw: post.nsfw || false
