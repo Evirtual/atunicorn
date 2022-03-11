@@ -5,7 +5,7 @@ import Actstore from 'actstore'
 
 const Nav = Actheme.create({
 
-  Container: ['View', 'w:100% jc,ai:c z:2 p:s10'],
+  Container: ['View', 'w:100% jc,ai:c z:2 mb:s5'],
   Wrap: ['View', 'jc,ai:c', {
     image: 'w,h,br:s25 bg:white of:hd mh:s6 mt:s4 mb:s2',
     row: 'fd:row',

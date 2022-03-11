@@ -22,26 +22,25 @@ export default function ProfileScreen() {
       : document.body.style.overflow = 'visible'
     : null
 
+  const renderItem = ({item}) => 
+    <Comps.Post id={id}
+      post={item}
+      user={user}
+      profile={users?.find(i => i.id === item.userId)}
+      onDelete={() => setMode(!mode)} />
+
   return (
     <Profile.Container>
       {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
       <Profile.Content 
         data={posts}
-        renderItem={({item}) =>
-          <Comps.Post
-            medium={width > 767}
-            id={id}
-            post={item}
-            user={user}
-            profile={users?.find(i => i.id === item.userId)}
-            onDelete={() => setMode(!mode)} />
-        }
+        renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
         ListEmptyComponent={<Elems.Button icon="yin-yang" loadingpost spin style={Actheme.style('fs:s35 c:lightgray')} />}
         key={width}
-        initialNumToRender={4}
-        maxToRenderPerBatch={3}
-        windowSize={4}
+        initialNumToRender={6}
+        maxToRenderPerBatch={6}
+        windowSize={6}
         numColumns={(width < 768 ) ? 1 : (width < 1280) ? 2 : 3}
         ListHeaderComponent={
           <Comps.Nav
@@ -58,7 +57,7 @@ export default function ProfileScreen() {
 const Profile = Actheme.create({
   Container: ['View', 'f:1 bg:#F2F2F2'],
   Content: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('ai,jc:c ph:s5 pb:s10')}]],
+    contentContainerStyle: Actheme.style('ai,jc:c ph:s5 pv:s10')}]],
   Text: ['Text', 'fs,mb:s6 ta:c', {
     small: 'fs:s3'}],
   Wrap: ['View', 'w:100% ai:c']

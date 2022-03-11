@@ -4,7 +4,7 @@ import { AppRegistry } from 'rnwc'
 import Actheme from 'actheme'
 
 const nextStyle = `
-  #__next { display: flex; flex-direction: column; min-height: 100vh; }
+  #__next { display: flex; flex-direction: column; height:100vh; }
   img[class^="css-"][src*="#image"] { opacity: 1 !important; position: relative !important; height: auto !important; align-self:center; }
   div[class*="r-backgroundSize-"][class*="r-backgroundPosition-"][style*="#image"] { opacity: 0; }
   textarea:focus {outline: none; outlineStyle: none;}
@@ -28,9 +28,9 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html style={{backgroundColor: "#F2F2F2", minHeight: "100vh"}}>
+      <Html style={{backgroundColor: "#F2F2F2", height: "100vh"}}>
         <Head />
-        <body style={{backgroundColor: "#F2F2F2", minHeight: "100vh"}}>
+        <body style={{backgroundColor: "#F2F2F2", height: "100vh"}}>
           <Main />
           <NextScript />
         </body>
