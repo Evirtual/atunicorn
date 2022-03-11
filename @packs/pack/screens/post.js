@@ -13,7 +13,7 @@ export default function PostScreen() {
   return (
     <Post.Container>
       <Post.Wrap>
-        <Elems.Button text="Back" icon="arrow-left" inline onPress={() => router.back()} />
+        <Elems.Button text="Back" icon="arrow-left" inline onPress={() => router?.back()} />
       </Post.Wrap>
       <Post.Content>
         <Post.Profile onPress={() => router.push('/profile/' + post.userId)}>
