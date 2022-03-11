@@ -1,5 +1,4 @@
 import React from 'react'
-import { useWindowDimensions } from 'react-native'
 import Elems from '../../elems'
 import { Actheme } from '../../theme'
 import Actstore from 'actstore'
@@ -11,9 +10,8 @@ const Upload = Actheme.create({
   File: ['Upload', ['w,h:100%']],
   Checkbox: 'Checkbox',
   Text: ['Text', 'ta:c c:lightgray w:100% fs:s5 fb:500 mt:s5'],
-  Touch: ['TouchableOpacity', 'w,h:80vw jc,ai:c bg:white br:s5 of:hd bw:1 bc:black50', {
-    disabled: 'op:.25',
-    medium: 'w,h:s90'}],
+  Touch: ['TouchableOpacity', 'w,h:80vw xw,xh:s90 jc,ai:c bg:white br:s5 of:hd bw:1 bc:black50', {
+    disabled: 'op:.25'}],
   Image: ['Image', 'w,h:100%'],
   Close: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
 
@@ -24,7 +22,6 @@ const Upload = Actheme.create({
     const [url, setUrl] = React.useState()
     const [desc, setDesc] = React.useState()
     const [nsfw, setNsfw] = React.useState()
-    const { width } = useWindowDimensions()
 
     return (
       <Upload.Container>
@@ -34,7 +31,7 @@ const Upload = Actheme.create({
           </Upload.Close>
           {!props.disabled
             ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
-                <Upload.Touch medium={width > 767}>
+                <Upload.Touch>
                   {uploading == 'post'
                     ? <>
                         <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="yin-yang" spin />
@@ -49,7 +46,7 @@ const Upload = Actheme.create({
                   }
                 </Upload.Touch>
               </Upload.File>
-            : <Upload.Touch medium={width > 767} disabled>
+            : <Upload.Touch disabled>
                 <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="plus-circle" />
                 <Upload.Text>Upload Image</Upload.Text>
               </Upload.Touch>

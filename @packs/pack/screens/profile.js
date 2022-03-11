@@ -30,7 +30,6 @@ export default function ProfileScreen() {
         renderItem={({item}) =>
           <Comps.Post
             medium={width > 767}
-            large={width > 1279}
             id={id}
             post={item}
             user={user}

@@ -43,9 +43,11 @@ const Loader = Actheme.create({
   Image: 'Image',
 
   Comp: () => {
-    return <Loader.Wrap style={Actheme.style('ai,jc:c ps:fixed l,r,t,b:0 z:999 bg:white p:s5')}>
-      <Loader.Image style={Actheme.style('w,h:s50')} source={'/static/unicorn-io.gif'} />
-    </Loader.Wrap>
+    return (
+      <Loader.Wrap style={Actheme.style('ai,jc:c ps:fixed l,r,t,b:0 z:999 bg:white p:s5')}>
+        <Loader.Image style={Actheme.style('w,h:s50')} source={'/static/unicorn-io.gif'} />
+      </Loader.Wrap>
+    )
   }
 
 })

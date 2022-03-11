@@ -31,7 +31,6 @@ function MainScreen() {
         renderItem={({item}) => 
           <Comps.Post
             medium={width > 767}
-            large={width > 1279}
             id={id}
             post={item}
             profile={users?.find(i => i.id === item.userId)} />

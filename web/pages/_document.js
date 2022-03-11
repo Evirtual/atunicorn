@@ -1,6 +1,6 @@
 import Document, { Head, Main, NextScript, Html } from 'next/document'
 import React from 'react'
-import { AppRegistry, View } from 'rnwc'
+import { AppRegistry } from 'rnwc'
 import Actheme from 'actheme'
 
 const nextStyle = `

@@ -5,9 +5,8 @@ import { Elems } from '../..'
 
 const Post = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'w,h:90vw m:s2.5 jc,ai:c bw:1 bc:black50 br:s5 of:hd bg:white', {
-    medium: 'w,h:45vw',
-    large: 'w,h:s100'}],
+  Touch: ['TouchableOpacity', 'w,h:90vw xw,xh:s100 m:s2.5 jc,ai:c bw:1 bc:black50 br:s5 of:hd bg:white', {
+    medium: 'w,h:45vw'}],
   Image: ['Image', 'w,h:100%'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200'],
@@ -15,7 +14,7 @@ const Post = Actheme.create({
   Name: ['Text', 'c:white'],
   Delete: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
-  Text: ['Text', 'c:lightgray fb:bold fs:s5 mt:s5'],
+  Text: ['Text', 'c:lightgray fb:500 fs:s5 mt:s5'],
 
   Comp: ({post, profile, id, user, ...props}) => {
     const { act, handle } = Actstore({}, [])
