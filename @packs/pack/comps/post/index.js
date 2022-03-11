@@ -16,7 +16,9 @@ const Post = Actheme.create({
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
   Text: ['Text', 'c:lightgray fb:500 fs:s5 mt:s5'],
 
-  Comp: ({post, profile, id, user, ...props}) => {
+  Comp: (props) => {
+
+    const {post, profile, id, user, ...rest} = props
     const { act, handle } = Actstore({}, [])
     const router = handle.useRouter()
     const postId = post.id
@@ -26,7 +28,7 @@ const Post = Actheme.create({
     const [removing, setRemoving] = React.useState()
 
     return (
-      <Post.Touch {...props} onPress={() => router.push('../post/' + post.id)}>
+      <Post.Touch {...rest} onPress={() => router.push('../post/' + post.id)}>
         <Post.Wrap>
           {!id && <Post.Profile onPress={() => setActive(!active)}>
             {profile && profile.url 

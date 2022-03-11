@@ -16,7 +16,16 @@ const Info = Actheme.create({
     const { store } = Actstore({}, ['error', 'success', 'user', 'ready'])
     const { error, success, user, ready } = store.get('error', 'success', 'user', 'ready')
 
-    useEffect(() => {success && store.set({ error: null })}, [success])
+    useEffect(() => {
+      success && store.set({ error: null })
+
+      const removeNotification = setTimeout(() => {
+        store.set({ success: null })
+      }, 3000)
+
+      return () => clearTimeout(removeNotification)
+    }, [success])
+
     useEffect(() => {error && store.set({ success: null })}, [error])
 
     return <>

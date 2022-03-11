@@ -20,18 +20,71 @@ const Button = Actheme.create({
   }],
   Image: ['Image', 'w,h:100%'],
   
-  Elem: ({nsfw, text, source, size, icon, solid, iconColor, iconSize, imageWidth, imageHeight, fontSize, textColor, submit, disabled, inline, onPress, loadingpost, loadingprofile, ...props}) => {
-    return <Button.Touch nsfw={nsfw} submit={submit} inline={inline} disabled={disabled} loadingpost={loadingpost} loadingprofile={loadingprofile} onPress={!disabled ? onPress : null} {...props}>
-      {source && <Button.Image source={source} style={Actheme.style([
-        imageWidth && `w:${imageWidth}`, 
-        imageHeight && `h:${imageHeight}`
-      ].filter(item => item).join(' '))} />}
-      {icon && <Elems.Icon color={Actheme.value(iconColor, 'color') || 'black'} style={Actheme.style(`fs:${iconSize || 's4'}`)} icon={icon} solid={solid} {...props} />}
-      {text && <Button.Text icon={icon} submit={submit} inline={inline} nsfw={nsfw} style={Actheme.style([
-        fontSize && `fs:${fontSize}`, 
-        textColor && `c:${textColor}`
-      ].filter(item => item).join(' '))} {...props}>{text}</Button.Text>}
-    </Button.Touch>
+  Elem: (props) => {
+
+    const {
+      nsfw,
+      text,
+      source,
+      size,
+      icon,
+      solid,
+      regular,
+      iconColor,
+      iconSize,
+      imageWidth,
+      imageHeight,
+      fontSize,
+      textColor,
+      submit,
+      disabled,
+      inline,
+      onPress, 
+      loadingpost,
+      ...rest} = props
+    
+    return (
+      <Button.Touch
+        nsfw={nsfw}
+        submit={submit}
+        inline={inline}
+        disabled={disabled}
+        loadingpost={loadingpost}
+        onPress={!disabled ? onPress : null}
+        {...rest}>
+        {source && 
+          <Button.Image 
+            source={source} 
+            style={Actheme.style([
+              imageWidth && `w:${imageWidth}`, 
+              imageHeight && `h:${imageHeight}`
+            ].filter(item => item).join(' '))} />
+        }
+        {icon && 
+          <Elems.Icon
+            color={Actheme.value(iconColor, 'color') || 'black'}
+            style={Actheme.style(`fs:${iconSize || 's4'}`)}
+            icon={icon}
+            solid={solid}
+            regular={regular}
+            {...rest} />
+        }
+        {text &&
+          <Button.Text
+            icon={icon} 
+            submit={submit} 
+            inline={inline} 
+            nsfw={nsfw} 
+            style={Actheme.style([
+              fontSize && `fs:${fontSize}`, 
+              textColor && `c:${textColor}`
+            ].filter(item => item).join(' '))}
+            {...rest}>
+              {text}
+          </Button.Text>
+        }
+      </Button.Touch>
+    )
   }
 
 })
