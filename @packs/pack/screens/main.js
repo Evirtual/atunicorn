@@ -16,6 +16,12 @@ function MainScreen() {
 
   useEffect(() => {setPosts(data)}, [user, mode])
 
+  typeof window !== "undefined"
+    ? login || mode == 'upload'
+      ? document.body.style.overflow = 'hidden'
+      : document.body.style.overflow = 'visible'
+    : null
+
   return (
     <Main.Container>
       {!user?.emailVerified && login && <Comps.Login onClose={() => setLogin(!login)} />}
@@ -56,6 +62,6 @@ export default MainScreen
 const Main = Actheme.create({
   Container: ['View', 'f:1 bg:#F2F2F2'],
   Content: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('ai,jc:c ph:s5 pb:s15')}]],
+    contentContainerStyle: Actheme.style('ai,jc:c ph:s5 pb:s10')}]],
   Wrap: ['View', 'w:100% ai:c']
 })

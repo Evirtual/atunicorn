@@ -28,9 +28,9 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html style={{ width: "100vw", height: "100vh", backgroundColor: "#F2F2F2" }}>
+      <Html style={{backgroundColor: "#F2F2F2"}}>
         <Head />
-        <body style={{ width: "100vw",  height: "100vh", overflow: "hidden", backgroundColor: "#F2F2F2" }}>
+        <body style={{backgroundColor: "#F2F2F2"}}>
           <Main />
           <NextScript />
         </body>

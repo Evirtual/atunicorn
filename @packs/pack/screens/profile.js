@@ -16,6 +16,12 @@ export default function ProfileScreen() {
 
   useEffect(() => {setPosts(data)}, [user, mode])
 
+  typeof window !== "undefined"
+    ? mode == 'upload'
+      ? document.body.style.overflow = 'hidden'
+      : document.body.style.overflow = 'visible'
+    : null
+
   return (
     <Profile.Container>
       {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
@@ -51,9 +57,9 @@ export default function ProfileScreen() {
 }
 
 const Profile = Actheme.create({
-  Container: ['SafeAreaView', 'f:1 bg:#F2F2F2'],
+  Container: ['View', 'f:1 bg:#F2F2F2'],
   Content: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('ai,jc:c ph:s5 pb:s15')}]],
+    contentContainerStyle: Actheme.style('ai,jc:c ph:s5 pb:s10')}]],
   Text: ['Text', 'fs,mb:s6 ta:c', {
     small: 'fs:s3'}],
   Wrap: ['View', 'w:100% ai:c']

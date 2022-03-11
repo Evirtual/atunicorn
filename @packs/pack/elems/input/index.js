@@ -12,20 +12,22 @@ const Input = Actheme.create({
   Elem: (props) => {
     const [focus, setFocus] = React.useState()
 
-    return <Input.TextInput
-      defaultValue={props.defaultValue}
-      placeholder={props.placeholder || ''}
-      focus={focus}
-      space={props.space}
-      secureTextEntry={props.password}
-      onChange={props.onChange}
-      onChangeText={props.onChangeText}
-      value={props.value}
-      onFocus={() => setFocus(true)}
-      onBlur={() => setFocus(false)}
-      multiline={props.multiline ? true : false}
-      numberOfLines={props.numberOfLine ? props.numberOfLine : 1}
-      style={props.style} />
+    return (
+      <Input.TextInput
+        defaultValue={props.defaultValue}
+        placeholder={props.placeholder || ''}
+        focus={focus}
+        space={props.space}
+        secureTextEntry={props.password}
+        onChange={props.onChange}
+        onChangeText={props.onChangeText}
+        value={props.value}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        multiline={props.multiline ? true : false}
+        numberOfLines={props.numberOfLine ? props.numberOfLine : 1}
+        style={props.style} />
+    )
   }
 
 })
