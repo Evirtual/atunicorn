@@ -11,7 +11,7 @@ const Post = Actheme.create({
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200'],
   User: ['TouchableOpacity', 'fb:500 ml:s2 bg:black200 pv:s2 ph:s3 br:s5'],
   Name: ['Text', 'c:white'],
-  Delete: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
+  Remove: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
   Text: ['Text', 'c:lightgray fb:500 fs:s5 mt:s5'],
 
@@ -40,13 +40,14 @@ const Post = Actheme.create({
           </Post.User>}
         </Post.Wrap>
         {user && user.id === id &&
-          <Post.Delete>
+          <Post.Remove>
             <Elems.Button
-              icon="times-circle"
-              iconSize="s8"
-              color="white"
-              onPress={() => act('APP_DELETEPOST', { userId, postId, url: post.url }).then(props.onDelete, setRemoving(true))} />
-          </Post.Delete>
+            remove
+            icon="times"
+            iconSize="s5"
+            color="white"
+            onPress={() => act('APP_DELETEPOST', { userId, postId, url: post.url }).then(props.onDelete, setRemoving(true))} />
+          </Post.Remove>
         }
         <Post.Image source={post.url} />
         {!!post.nsfw && !nsfw &&

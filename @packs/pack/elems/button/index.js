@@ -6,7 +6,7 @@ const Button = Actheme.create({
 
   Touch: ['TouchableOpacity', 'jc,ai:c nw:s15 nh:s10', {
     submit: 'bc:lightgray br:s5 bg:mediumseagreen h:s12 mt:s5',
-    seeMore : 'mt:s5 mb:s10 w:s50',
+    remove: 'w,h,nh,nw,br:s7.5 bw:1.5 bc:white',
     disabled: 'op:0.25',
     inline: 'fd:row',
     nsfw: 'fd:row p:s2 bg:white mt:s5 br:s5 bw:1 bc:black50',
@@ -37,6 +37,7 @@ const Button = Actheme.create({
       fontSize,
       textColor,
       submit,
+      remove,
       disabled,
       inline,
       onPress, 
@@ -47,6 +48,7 @@ const Button = Actheme.create({
       <Button.Touch
         nsfw={nsfw}
         submit={submit}
+        remove={remove}
         inline={inline}
         disabled={disabled}
         loadingpost={loadingpost}

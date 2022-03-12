@@ -13,7 +13,7 @@ const Upload = Actheme.create({
   Touch: ['TouchableOpacity', 'w,h:80vw xw,xh:s90 jc,ai:c bg:white br:s5 of:hd bw:1 bc:black50', {
     disabled: 'op:.25'}],
   Image: ['Image', 'w,h:100%'],
-  Close: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
+  Close: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
 
   Comp: props => {
 
@@ -27,7 +27,12 @@ const Upload = Actheme.create({
       <Upload.Container>
         <Upload.Content>
           <Upload.Close>
-            <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={props.onClose} />
+            <Elems.Button
+              remove
+              icon="times"
+              iconSize="s5"
+              color="white"
+              onPress={props.onClose} />
           </Upload.Close>
           {!props.disabled
             ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>

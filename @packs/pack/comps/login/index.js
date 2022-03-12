@@ -14,7 +14,7 @@ const Login = Actheme.create({
     focus: 'bc:mediumseagreen',
     space: 'mb:s3'
   }],
-  Close: ['View', 'w,h,br:s8 of:hd ps:ab t,r:s2 z:3 bg:black200 ai,jc:c'],
+  Close: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
   Image: 'Image',
 
   Comp: (props) => {
@@ -33,7 +33,12 @@ const Login = Actheme.create({
       <Login.Container>
         <Login.Content>
           <Login.Close>
-            <Elems.Button icon="times-circle" iconSize="s8" color="white" onPress={props.onClose} />
+            <Elems.Button
+              remove 
+              icon="times" 
+              iconSize="s5" 
+              color="white" 
+              onPress={props.onClose} />
           </Login.Close>
           <Login.Wrap style={Actheme.style('mt:s5 mb:s8')}>
             <Login.Text space>Welcome to @unicorn</Login.Text>
