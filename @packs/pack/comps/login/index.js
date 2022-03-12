@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Elems from '../../elems'
-import Layout from '../..'
 import { Actheme } from '../../theme'
 import Actstore from 'actstore'
 
@@ -8,12 +7,8 @@ const Login = Actheme.create({
 
   Wrap: 'View',
   Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5'],
-  Content: ['View', 'bg:white br:s5 w:100% nh,xw:s100 ai,jc:c bw:1 bc:black50 p:s5'],
+  Content: ['View', 'bg:white br:s5 w:100% nh,xw:s100 ai,jc:c bw:1 bc:black50 p:s4'],
   Text: ['Text', 'fs:s4 ta:c mb:s2'],
-  Input: ['TextInput', ['c:black fs:s4 pv:s2 ph:s10 bw:1 bc:black50 bg:white br:s5 ta:c w:s70', { multiline: false, numberOfLines: 1 }], {
-    focus: 'bc:mediumseagreen',
-    space: 'mb:s3'
-  }],
   Close: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
   Image: 'Image',
 

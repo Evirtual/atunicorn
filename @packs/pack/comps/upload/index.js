@@ -4,9 +4,9 @@ import { Actheme } from '../../theme'
 import Actstore from 'actstore'
 
 const Upload = Actheme.create({
-  Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5', {
-    contentContainerStyle: Actheme.style('fg:1 ai,jc:c')}]],
-  Content: ['View', 'xw:s100 p:s5 bg:#F2F2F2 bw:1 bc:black50 br:s5'],
+  Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300', {
+    contentContainerStyle: Actheme.style('fg:1 ai,jc:c p:s5')}]],
+  Content: ['View', 'xw:s100 p:s4 bg:#F2F2F2 bw:1 bc:black50 br:s5'],
   File: ['Upload', ['w,h:100%']],
   Checkbox: 'Checkbox',
   Text: ['Text', 'ta:c c:lightgray w:100% fs:s5 fb:500 mt:s5'],
