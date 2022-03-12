@@ -16,12 +16,6 @@ export default function ProfileScreen() {
 
   useEffect(() => {setPosts(data)}, [user, mode])
 
-  typeof window !== "undefined"
-    ? mode == 'upload'
-      ? document.body.style.overflow = 'hidden'
-      : document.body.style.overflow = 'visible'
-    : null
-
   const renderItem = ({item}) => 
     <Comps.Post id={id}
       post={item}
