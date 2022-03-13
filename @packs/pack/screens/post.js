@@ -17,7 +17,7 @@ export default function PostScreen() {
           text="Back"
           icon="arrow-left"
           inline
-          onPress={() => router.length ? router?.back() : router.push('/')} />
+          onPress={() =>  router?.back()} />
       </Post.Wrap>
       <Post.Content>
         <Post.Profile onPress={() => router.push('/profile/' + post.userId)}>
