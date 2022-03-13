@@ -183,16 +183,6 @@ const actions = ({ store, configs }) => ({
       return null
     }
   },
-    // if(data.username !== 'undefined' && !data.username)
-    //   return store.set({ success: { type: 'username', message: 'Yay! You kept the same username' } })
-    // if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/))
-    //   return store.set({ error: { type: 'username', message: 'Username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long' } })
-    // if(data.username && (store.get('users').find(user => user.username === data.username)) || data.username === 'unicorn')
-    //   return store.set({ error: { type: 'username', message: 'Username already taken' } })
-
-    // .then(function () {
-    //   store.set({ success: { message: 'Done! Your profile was successfully updated' } })
-    // })
 
 	APP_COUNT: () => store.set({ count: store.get('count') + 1 }),
 
