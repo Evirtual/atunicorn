@@ -89,14 +89,16 @@ const actions = ({ store, configs }) => ({
       .catch((error) => store.set({ error: { message: error.message }}))
   },
 
-  APP_LOGOUT: async () => firebase.auth().signOut().then(async () => {
-    await store.set({ user: null })
-    Router?.push('/')
-  })
-  .then(function () {
-    store.set({ success: { message: 'Done! You successfully logged out' } })
-  })
-  .catch(),
+  APP_LOGOUT: async () => {
+    return firebase.auth().signOut().then(async () => {
+      await store.set({ user: null })
+      Router?.push('/')
+    })
+    .then(function () {
+      store.set({ success: { message: 'Done! You successfully logged out' } })
+    })
+    .catch((error) => store.set({ error: { message: error.message }}))
+},
 
   APP_POST: async (post = {}) => {
     const user = store.get('user')
@@ -129,9 +131,12 @@ const actions = ({ store, configs }) => ({
     store.set({ uploading })
 
     try {
-      if(!file.type.includes('image/')) throw new Error('File that you are uploading is not an image')
-      if(file.size >= 7 * 1024 * 1024 && !file.type.includes('image/gif')) throw new Error('File size is too big (maximum size: 7MB)')
-      if(file.size >= 2 * 1024 * 1024 && file.type.includes('image/gif')) throw new Error('GIF size is too big (maximum size: 2MB)')
+      if(!file.type.includes('image/'))
+        throw new Error('File that you are uploading is not an image')
+      if(file.size >= 7 * 1024 * 1024 && !file.type.includes('image/gif'))
+        throw new Error('File size is too big (maximum size: 7MB)')
+      if(file.size >= 2 * 1024 * 1024 && file.type.includes('image/gif'))
+        throw new Error('GIF size is too big (maximum size: 2MB)')
 
       const resizeFile = (file) => new Promise(resolve => {
         Compress.imageFileResizer(file, 1280, 1280, 'JPEG', 75, 0, uri => {resolve(uri)}, 'file')
@@ -151,29 +156,43 @@ const actions = ({ store, configs }) => ({
   },
 
   APP_USER: async data => {
-    const { id } = store.get('user')
-    if(!id) return console.warn('Please login before updating profile')
-    const user = store.get('users').find(user => user.id === id) || {}
-    const key = ['users', id].join('/')
+    const { id, username } = store.get('user')
+    try {
+      if(!data.username || data.username == 'undefiend')
+        return store.set({ success: { type: 'username', message: 'Yay! You kept the same username' } })
+      if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/))
+        throw new Error('Username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long')
+      if(data.username && data.username !== username && (store.get('users').find(user => user.username === data.username)) || data.username === 'unicorn')
+        throw new Error('Username already taken')
 
-    if(data.username !== 'undefined' && !data.username)
-      return store.set({ success: { type: 'username', message: 'Yay! You kept the same username' } })
-    if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/))
-      return store.set({ error: { type: 'username', message: 'Username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long' } })
-    if(data.username && (store.get('users').find(user => user.username === data.username)) || data.username === 'unicorn')
-      return store.set({ error: { type: 'username', message: 'Username already taken' } })
+      const user = store.get('users').find(user => user.id === id) || {}
+      const key = ['users', id].join('/')
 
-    return firebase.database().ref(key).update({
-      id,
-      updated: new Date().getTime(),
-      ...data,
-      approved: data.approved || user.approved || false,
-    })
-    .then(function () {
-      store.set({ success: { message: 'Done! Your profile was successfully updated' } })
-    })
-    .catch(error => store.set({ error: { type: 'username', message: error.message }}))
+      return firebase.database().ref(key).update({
+        id,
+        updated: new Date().getTime(),
+        ...data,
+        approved: data.approved || user.approved || false,
+      })
+      .then(function () {
+        store.set({ success: { message: 'Done! Your profile was successfully updated' } })
+        return data.username
+      })
+    } catch(error) {
+      store.set({ error: { type: 'username', message: error.message }})
+      return null
+    }
   },
+    // if(data.username !== 'undefined' && !data.username)
+    //   return store.set({ success: { type: 'username', message: 'Yay! You kept the same username' } })
+    // if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/))
+    //   return store.set({ error: { type: 'username', message: 'Username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long' } })
+    // if(data.username && (store.get('users').find(user => user.username === data.username)) || data.username === 'unicorn')
+    //   return store.set({ error: { type: 'username', message: 'Username already taken' } })
+
+    // .then(function () {
+    //   store.set({ success: { message: 'Done! Your profile was successfully updated' } })
+    // })
 
 	APP_COUNT: () => store.set({ count: store.get('count') + 1 }),
 

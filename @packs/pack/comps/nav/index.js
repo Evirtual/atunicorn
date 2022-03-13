@@ -139,26 +139,28 @@ const Nav = Actheme.create({
               text={'@' + (profile.username ? profile.username : id ? id : 'unicorn')}
               onPress={ user && id === user.id ? () => setEditUsername(true) : null} />
           }
-          {user && id === user.id && editUsername && <Nav.Wrap row>
-            <Nav.Wrap search>
-              <Elems.Button
-                icon="times-circle"
-                iconColor="grey"
-                iconSize="s5"
-                onPress={() => setEditUsername(false)} />
+          {user && id === user.id && editUsername &&
+            <Nav.Wrap row>
+              <Nav.Wrap search>
+                <Elems.Button
+                  icon="times-circle"
+                  iconColor="grey"
+                  iconSize="s5"
+                  onPress={() => setEditUsername(false)} />
+              </Nav.Wrap>
+              <Elems.Input
+                defaultValue={profile.username || ''}
+                onChangeText={setUsername}
+                placeholder={profile.username || "Set username"} />
+              <Nav.Wrap save>
+                <Elems.Button
+                  icon="save"
+                  iconColor="mediumseagreen"
+                  iconSize="s5"
+                  onPress={() => act('APP_USER', { username }).then((username) => !!username && setEditUsername(false))} />
+              </Nav.Wrap>
             </Nav.Wrap>
-            <Elems.Input
-              defaultValue={profile.username || ''}
-              onChangeText={setUsername}
-              placeholder={profile.username || "Set username"} />
-            <Nav.Wrap save>
-              <Elems.Button
-                icon="save"
-                iconColor="mediumseagreen"
-                iconSize="s5"
-                onPress={() => act('APP_USER', { username }).then(() => setEditUsername(false))} />
-            </Nav.Wrap>
-          </Nav.Wrap>}
+          }
           {user && id === user.id && !editUsername && !profile.username && path !== '/' &&
             <Elems.Button
               icon="pencil"
