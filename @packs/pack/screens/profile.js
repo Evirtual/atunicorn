@@ -17,7 +17,8 @@ export default function ProfileScreen() {
   useEffect(() => {setPosts(data)}, [user, mode])
 
   const renderItem = ({item}) => 
-    <Comps.Post id={id}
+    <Comps.Post
+      id={id}
       post={item}
       user={user}
       profile={users?.find(i => i.id === item.userId)}
