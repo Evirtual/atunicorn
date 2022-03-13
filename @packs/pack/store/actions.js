@@ -152,23 +152,22 @@ const actions = ({ store, configs }) => ({
 
   APP_USER: async data => {
     const { id } = store.get('user')
-    if(!id) return console.warn('PLEASE LOGIN BEFORE UPDATING PROFILE')
+    if(!id) return console.warn('Please login before updating profile')
     const user = store.get('users').find(user => user.id === id) || {}
-
     const key = ['users', id].join('/')
 
+    if(data.username !== 'undefined' && !data.username)
+      return store.set({ success: { type: 'username', message: 'Yay! You kept the same username' } })
     if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/))
       return store.set({ error: { type: 'username', message: 'Username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long' } })
-
-    // url: data.url || user.url || '',
-    // username: data.username || user.username || '',
-    // about: data.about || user.about || '',
+    if(data.username && (store.get('users').find(user => user.username === data.username)) || data.username === 'unicorn')
+      return store.set({ error: { type: 'username', message: 'Username already taken' } })
 
     return firebase.database().ref(key).update({
       id,
       updated: new Date().getTime(),
       ...data,
-      approved: data.approved || user.approved || false
+      approved: data.approved || user.approved || false,
     })
     .then(function () {
       store.set({ success: { message: 'Done! Your profile was successfully updated' } })
