@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 import Actstore from 'actstore'
 import { Elems } from '../..'
@@ -13,7 +13,7 @@ const Post = Actheme.create({
   Name: ['Text', 'c:white'],
   Remove: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
-  Text: ['Text', 'c:lightgray fb:500 fs:s5 mt:s5'],
+  Text: ['Text', 'c:lightgray fb:500 fs:s6 mt:s4'],
 
   Comp: (props) => {
 
@@ -22,9 +22,9 @@ const Post = Actheme.create({
     const router = handle.useRouter()
     const postId = post.id
     const userId = user && user.id
-    const [active, setActive] = React.useState()
-    const [nsfw, setNsfw] = React.useState()
-    const [removing, setRemoving] = React.useState()
+    const [active, setActive] = useState()
+    const [nsfw, setNsfw] = useState()
+    const [removing, setRemoving] = useState()
 
     return (
       <Post.Touch {...rest} onPress={() => router.push('../post/' + post.id)}>

@@ -30,7 +30,10 @@ export default function PostScreen() {
           <Post.Name>{'@' + (profile.username || post.userId)}</Post.Name>
         </Post.Profile>
         <Post.Wrap image>
-          <Post.Image source={[post.url, 'image'].join('#')} style={Actheme.style('w,h:100%')} />
+          {!!post?.url
+            ? <Post.Image source={[post.url, 'image'].join('#')} />
+            : <Elems.Icon style={Actheme.style('fs:s40 p:s20 c:lightgray')} spin icon="yin-yang" />
+          }
         </Post.Wrap>
         <Post.Text>{post?.desc || post?.userId}</Post.Text>
       </Post.Content>
@@ -40,12 +43,12 @@ export default function PostScreen() {
 
 const Post = Actheme.create({
   Container: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('fg:1 ai,jc:c p:s5 pv:s10')}]],
+    contentContainerStyle: Actheme.style('ai,jc:c p:s5 pv:s10')}]],
   Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd mt:s3 mb:s5',
   Image: ['Image', 'w,h:100%'],
   Text: ['Text', 'fs:s4 p:s5'],
   Wrap: ['View', 'w:100% xw:s150', {
-    image: 'btw:1 bbw:1 bc:black50',
+    image: 'btw:1 bbw:1 bc:black50 ai,jc:c nh:s100',
     profile: 'fd:row jc,ai:c w,h,br:s15 of:hd',}],
   Profile: ['TouchableOpacity', 'fd:row ai:c m:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],

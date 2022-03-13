@@ -64,8 +64,10 @@ const Button = Actheme.create({
         }
         {icon && 
           <Elems.Icon
-            color={Actheme.value(iconColor, 'color') || 'black'}
-            style={Actheme.style(`fs:${iconSize || 's4'}`)}
+            style={Actheme.style([
+              iconSize && `fs:${iconSize || 's4'}`,
+              iconColor && `c:${iconColor || 'black'}`
+            ].filter(item => item).join(' '))}
             icon={icon}
             solid={solid}
             regular={regular}
