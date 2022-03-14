@@ -9,8 +9,9 @@ const About = Actheme.create({
   Content: ['View', 'w:100% xw:s100 p:s4 bg:#F2F2F2 bw:1 bc:black50 br:s5'],
   Close: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
 
-  Comp: props => {
+  Comp: (props) => {
 
+    const { profile } = props
     const { act } = Actstore({}, ['user'])
     const [about, setAbout] = React.useState()
 
@@ -28,10 +29,10 @@ const About = Actheme.create({
           <Elems.Input
             multiline
             numberOfLine={15}
-            defaultValue={props.profile?.about || ''}
+            defaultValue={profile?.about || ''}
             onChangeText={setAbout}
-            placeholder={props.profile?.about || 'What makes you tick?'} />
-          {about && props.profile?.about &&
+            placeholder={profile?.about || 'What makes you tick?'} />
+          {about &&
             <Elems.Button 
               submit
               onPress={() => act('APP_USER', { about }).then(props.onClose)}
