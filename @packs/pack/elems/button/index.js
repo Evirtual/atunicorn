@@ -10,7 +10,7 @@ const Button = Actheme.create({
     disabled: 'op:0.25',
     inline: 'fd:row',
     nsfw: 'fd:row p:s2 bg:white mt:s5 br:s5 bw:1 bc:black50',
-    loadingpost: 'w,h:90vw xw,xh:s100 jc,ai:c bw:1 bc:black50 br:s5 of:hd bg:white',
+    loadingpost: 'w,h:90vw xw,xh:s100 jc,ai:c bw:1 bc:black50 br:s5 of:hd bg:white m:s2.5',
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100% fs:s4', { numberOfLines: 1 }], {
     submit: 'c:white',

@@ -21,8 +21,8 @@ export default function ProfileScreen() {
       id={id}
       post={item}
       user={user}
-      profile={users?.find(i => i.id === item.userId)}
-      onDelete={() => setMode(!mode)} />
+      profile={users?.find(user => user.id === item.userId)}
+      onRemove={() => setMode(!mode)} />
 
   return (
     <Profile.Container>

@@ -4,12 +4,10 @@ import { Actheme, Elems, Comps } from 'pack'
 import Actstore from 'actstore'
 
 function MainScreen() {
-  const { store, handle } = Actstore({}, ['user', 'posts'])
-  const router = handle.useRouter()
+  const { store } = Actstore({}, ['user', 'posts'])
   const {user, users } = store.get('user', 'users')
   const [ mode, setMode ] = useState('posts')
   const [login, setLogin] = useState()
-  const { id } = router?.query || {}
   const data = store.get('posts') || []
   const [posts, setPosts] = useState(data)
   const { width } = useWindowDimensions()
@@ -17,11 +15,9 @@ function MainScreen() {
   useEffect(() => {setPosts(data)}, [user, mode])
 
   const renderItem = ({item}) => 
-    <Comps.Post id={id}
+    <Comps.Post
       post={item}
-      user={user}
-      profile={users?.find(i => i.id === item.userId)}
-      onDelete={() => setMode(!mode)} />
+      profile={users?.find(user => user.id === item.userId)} />
 
   return (
     <Main.Container>

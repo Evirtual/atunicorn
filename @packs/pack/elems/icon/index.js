@@ -3,23 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Icon = (props) => {
 
-  const { svg, onLayout, ...rest } = props
+  const { svg, onLayout, alt, regular, solid, brands, icon, name, ...rest } = props
 
   return (
     <FontAwesomeIcon
-    {...rest}
-    alt={props.alt}
+    alt={alt}
     icon={[(
-      props.regular
+      regular
         ? 'far'
-        : props.brands
+        : brands
           ? 'fab'
-          : props.solid
+          : solid
             ? 'fas'
             : 'fal'),
-      props.icon || props.name]}
-    regular={(props.regular?.toString())}
-    solid={(props.solid?.toString())} />
+      icon || name]}
+    regular={(regular?.toString())}
+    solid={(solid?.toString())}
+    {...rest} />
   )
 }
 

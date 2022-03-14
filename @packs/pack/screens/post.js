@@ -1,5 +1,5 @@
 import React from 'react'
-import { Elems, Actheme } from 'pack'
+import { Elems, Comps, Actheme } from 'pack'
 import Actstore from 'actstore'
 
 export default function PostScreen() {
@@ -8,10 +8,11 @@ export default function PostScreen() {
   const { id } = router?.query || {}
   const { users } = store.get('user', 'users')
   const post = (store.get('posts') || []).find(post => String(post.id) === id) || {}
-  const profile = users?.find(item => item.id === post.userId) || {}
+  const profile = users?.find(user => user.id === post.userId) || {}
 
   return (
     <Post.Container>
+      {/* <Comps.Nav /> */}
       <Post.Wrap>
         <Elems.Button
           text="Back"
@@ -44,11 +45,11 @@ export default function PostScreen() {
 const Post = Actheme.create({
   Container: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('ai,jc:c p:s5 pv:s10')}]],
-  Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd mt:s3 mb:s5',
+  Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd',
   Image: ['Image', 'w,h:100%'],
   Text: ['Text', 'fs:s4 p:s5'],
   Wrap: ['View', 'w:100% xw:s150', {
-    image: 'btw:1 bbw:1 bc:black50 ai,jc:c nh:s100',
+    image: 'btw:1 bbw:1 bc:black50 ai,jc:c',
     profile: 'fd:row jc,ai:c w,h,br:s15 of:hd',}],
   Profile: ['TouchableOpacity', 'fd:row ai:c m:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],

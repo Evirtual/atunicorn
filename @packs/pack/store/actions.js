@@ -120,7 +120,7 @@ const actions = ({ store, configs }) => ({
     .catch(error => store.set({ error: { type: 'post', message: error.message } }))
   },
 
-  APP_DELETEPOST: async ( post ) => {
+  APP_DELETEPOST: async post => {
     const fileId = post.url.split('%2F').pop().split('?alt=media').shift()
     await firebase.database().ref(`posts/${post.userId}/${post.postId}/`).remove()
     await firebase.storage().ref().child([post.userId, fileId].join('/')).delete()
@@ -158,8 +158,6 @@ const actions = ({ store, configs }) => ({
   APP_USER: async data => {
     const { id, username } = store.get('user')
     try {
-      if(!data.username || data.username == 'undefiend')
-        return store.set({ success: { type: 'username', message: 'Yay! You kept the same username' } })
       if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/))
         throw new Error('Username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long')
       if(data.username && data.username !== username && (store.get('users').find(user => user.username === data.username)) || data.username === 'unicorn')

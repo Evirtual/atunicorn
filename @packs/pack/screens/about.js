@@ -16,7 +16,7 @@ export default function AboutScreen() {
       <About.Content>
         <Comps.Nav />
         <About.Wrap>
-          {profile.about && user && id === user.id && !editAbout && 
+          {user && user?.id === ( profile?.id || id ) && 
             <About.Edit>
               <Elems.Button
                 remove
@@ -26,13 +26,11 @@ export default function AboutScreen() {
                 onPress={() => setEditAbout(true)} />
             </About.Edit>
           }
-          {profile.about && !editAbout
-            ? <About.Text>{profile.about}</About.Text>
+          {profile?.about
+            ? <About.Text>{profile?.about}</About.Text>
             : <About.Text>
-              {id
-                ? profile.username
-                  ? `Welcome to @${profile?.username}`
-                  : `Welcome to @${id}`
+              {profile?.id || id
+                ? `Welcome to @${profile?.username || id}`
                 : "Welcome to @unicorn\n\nIt's a place to express\nyour uniqueness\n\nin ways that inspire us\nto feel more confident\nin our everyday life"
               }
             </About.Text>
