@@ -45,7 +45,7 @@ const About = Actheme.create({
   Container: ['View', 'f:1 bg:#F2F2F2'],
   Content: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('ai:c w:100% xw:s400 as:c ph:s5 pv:s10')}]],
-  Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s100 ai,jc:c bw:1 bc:black50 mt:s2.5 p:s10'],
+  Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 mt:s2.5 p:s10'],
   Text: ['Text', 'fs:s4 ta:c'],
   Edit: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
 })
