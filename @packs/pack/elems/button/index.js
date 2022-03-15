@@ -42,6 +42,7 @@ const Button = Actheme.create({
       inline,
       onPress, 
       loadingpost,
+      style,
       ...rest} = props
     
     return (
@@ -53,6 +54,7 @@ const Button = Actheme.create({
         disabled={disabled}
         loadingpost={loadingpost}
         onPress={!disabled ? onPress : null}
+        style={style}
         {...rest}>
         {source && 
           <Button.Image 
@@ -65,8 +67,8 @@ const Button = Actheme.create({
         {icon && 
           <Elems.Icon
             style={Actheme.style([
-              iconSize && `fs:${iconSize || 's4'}`,
-              iconColor && `c:${iconColor || 'black'}`
+              iconSize && `fs:${iconSize}`,
+              iconColor && `c:${iconColor}`
             ].filter(item => item).join(' '))}
             icon={icon}
             solid={solid}

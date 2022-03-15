@@ -11,38 +11,40 @@ export default function PostScreen() {
   const profile = users?.find(user => user.id === post.userId) || {}
 
   return (
-    <Post.Container>
-      <Comps.Meta
-        title={post.username}
-        desc={post.desc}
-        url={`https://atunicorn.io/post/${id}`}
-        cover={post.url} />
-      <Comps.Nav />
-      <Post.Content>
-        <Post.Profile onPress={() => router.push('/profile/' + post.userId)}>
-          <Post.Wrap profile>
-            {profile.url
-              ? <Post.Image source={profile.url} />
-              : <Elems.Icon style={Actheme.style('c:lightgray fs:s15')} icon="user-circle" solid />
+    <>
+      <Comps.Navalt />
+      <Post.Container>
+        <Comps.Meta
+          title={post.username}
+          desc={post.desc}
+          url={`https://atunicorn.io/post/${id}`}
+          cover={post.url} />
+        <Post.Content>
+          <Post.Profile onPress={() => router.push('/profile/' + post.userId)}>
+            <Post.Wrap profile>
+              {profile.url
+                ? <Post.Image source={profile.url} />
+                : <Elems.Icon style={Actheme.style('c:lightgray fs:s15')} icon="user-circle" solid />
+              }
+            </Post.Wrap>
+            <Post.Name>{`@${profile.username || post.userId}`}</Post.Name>
+          </Post.Profile>
+          <Post.Wrap image>
+            {!!post?.url
+              ? <Post.Image source={[post.url, 'image'].join('#')} />
+              : <Elems.Icon style={Actheme.style('fs:s40 p:s20 c:lightgray')} spin icon="yin-yang" />
             }
           </Post.Wrap>
-          <Post.Name>{`@${profile.username || post.userId}`}</Post.Name>
-        </Post.Profile>
-        <Post.Wrap image>
-          {!!post?.url
-            ? <Post.Image source={[post.url, 'image'].join('#')} />
-            : <Elems.Icon style={Actheme.style('fs:s40 p:s20 c:lightgray')} spin icon="yin-yang" />
-          }
-        </Post.Wrap>
-        <Post.Text>{post?.desc || post?.userId}</Post.Text>
-      </Post.Content>
-    </Post.Container>
+          <Post.Text>{post?.desc || post?.userId}</Post.Text>
+        </Post.Content>
+      </Post.Container>
+    </>
   )
 }
 
 const Post = Actheme.create({
   Container: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('ai,jc:c p:s5 pv:s10')}]],
+    contentContainerStyle: Actheme.style('fg:1 ai,jc:c p:s5 pt:s25 pb:s10')}]],
   Content: 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd',
   Image: ['Image', 'w,h:100%'],
   Text: ['Text', 'fs:s4 p:s5'],

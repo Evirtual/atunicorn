@@ -5,7 +5,9 @@ import Actstore from 'actstore'
 
 const Login = Actheme.create({
 
-  Wrap: 'View',
+  Wrap: ['View', 'w:100% ai,jc:c', {
+    max: 'xw:s70'
+  }],
   Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5'],
   Content: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s4'],
   Text: ['Text', 'fs:s4 ta:c mb:s2'],
@@ -39,7 +41,7 @@ const Login = Actheme.create({
             <Login.Text space>Welcome to @unicorn</Login.Text>
             <Login.Text>{!login ? 'Please login to you account' : 'We hope you will enjoy your stay'}</Login.Text>
           </Login.Wrap>
-          <Login.Wrap>
+          <Login.Wrap max>
             <Elems.Input
               placeholder={'Enter your email address'}
               space
@@ -52,7 +54,7 @@ const Login = Actheme.create({
               <Elems.Button
                 icon={passwordVisible ? 'eye' : 'eye-slash'}
                 onPress={() => {setPasswordVisible(!passwordVisible)}}
-                style={Actheme.style('ps:ab r:s2')} />
+                style={Actheme.style('ps:ab r:0')} />
             </Login.Wrap>
             <Elems.Button
               disabled={disabled}
@@ -62,15 +64,18 @@ const Login = Actheme.create({
                   .then(() => email.match(regexEmail) && password.match(regexPassword) && setLogin(false))
               }}
               text={!login ? 'Login @unicorn' : 'join @unicorn'}
-              style={Actheme.style('w:s70')} />
+              style={Actheme.style('w:100%')} />
             {!login && <Elems.Button
               onPress={() => {act('APP_RESET_PASSWORD', email)}}
               text="Forgot password? Enter email and press here"
-              style={Actheme.style('w:s70 c:grey fs:s3')} />}
+              textColor="grey"
+              fontSize="s3"
+              style={Actheme.style('w:100%')} />}
           </Login.Wrap>
           <Elems.Button
             text={!login ? 'Signup @unicorn' : 'Login'}
-            style={Actheme.style('w:s70 c:lightsalmon mt:auto mb:s1')}
+            textColor="lightsalmon"
+            style={Actheme.style('mt:auto mb:s1')}
             onPress={() => !login ? setLogin(true) : setLogin(false) } />
         </Login.Content>
       </Login.Container>

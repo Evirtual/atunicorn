@@ -21,6 +21,14 @@ function MainScreen() {
 
   return (
     <Main.Container>
+      <Comps.Navalt
+        mode={mode}
+        setMode={setMode} 
+        login={login} 
+        setLogin={setLogin} 
+        data={data} 
+        posts={posts} 
+        setPosts={setPosts} />
       <Comps.Meta />
       {!user?.emailVerified && login && <Comps.Login onClose={() => setLogin(!login)} />}
       {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}

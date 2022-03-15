@@ -14,6 +14,7 @@ export default function AboutScreen() {
 
   return (
     <About.Container>
+      <Comps.Navalt />
       <Comps.Meta
         title={path === profileAboutPath ? (profile?.username || id) : "unicorn - about"}
         desc={path === profileAboutPath && (profile?.about)}

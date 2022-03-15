@@ -27,6 +27,12 @@ export default function ProfileScreen() {
 
   return (
     <Profile.Container>
+      <Comps.Navalt
+        mode={mode}
+        setMode={setMode}
+        data={data} 
+        posts={posts} 
+        setPosts={setPosts} />
       <Comps.Meta
         title={profile.username || id}
         desc={profile.about}

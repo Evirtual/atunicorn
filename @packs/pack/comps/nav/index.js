@@ -12,11 +12,11 @@ const Nav = Actheme.create({
     user: 'ps:ab z:2',
     search: 'ps:ab l:-s2',
     save: 'ps:ab r:-s2',
+    max: 'w:s70'
   }],
-  Image: ['Image', 'w,h:100%'],
+  Image: ['Image', 'w,h:s25'],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 br:s5 of:hd'],
-  Image: ['Image', 'w,h:s25'],
   Text: ['Text', 'ta:c c:lightgray w:100% fs:s2.5 fb:bold mt:s1'],
 
   Comp: (props) => {
@@ -50,7 +50,7 @@ const Nav = Actheme.create({
               onPress={() => setActive(true)} />
           }
           {(!user || active) && (path === homePath || path === profilePath) &&
-            <Nav.Wrap user={user}>
+            <Nav.Wrap user={user} max>
               <Nav.Wrap search>
                 {!user
                   ? <Elems.Button
@@ -143,7 +143,7 @@ const Nav = Actheme.create({
         <Nav.Wrap row>
           {user && user?.id === (profile?.id || id)
             ? editUsername || !profile?.username 
-              ? <Nav.Wrap row>
+              ? <Nav.Wrap row max>
                   <Nav.Wrap search>
                     <Elems.Button
                       icon="times-circle"
