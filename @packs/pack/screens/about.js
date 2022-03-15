@@ -12,8 +12,6 @@ export default function AboutScreen() {
   const path = typeof window !== "undefined" && window.location.pathname
   const profileAboutPath = `/profile/${id}/about/`
 
-  console.log(profile)
-
   return (
     <About.Container>
       <Comps.Meta
