@@ -12,14 +12,12 @@ export default function PostScreen() {
 
   return (
     <Post.Container>
-      {/* <Comps.Nav /> */}
-      <Post.Wrap>
-        <Elems.Button
-          text="Back"
-          icon="arrow-left"
-          inline
-          onPress={() =>  router?.back()} />
-      </Post.Wrap>
+      <Comps.Meta
+        title={post.username}
+        desc={post.desc}
+        url={`https://atunicorn.io/post/${id}`}
+        cover={post.url} />
+      <Comps.Nav />
       <Post.Content>
         <Post.Profile onPress={() => router.push('/profile/' + post.userId)}>
           <Post.Wrap profile>
@@ -28,7 +26,7 @@ export default function PostScreen() {
               : <Elems.Icon style={Actheme.style('c:lightgray fs:s15')} icon="user-circle" solid />
             }
           </Post.Wrap>
-          <Post.Name>{'@' + (profile.username || post.userId)}</Post.Name>
+          <Post.Name>{`@${profile.username || post.userId}`}</Post.Name>
         </Post.Profile>
         <Post.Wrap image>
           {!!post?.url

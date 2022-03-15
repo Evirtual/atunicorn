@@ -9,9 +9,10 @@ export default function ProfileScreen() {
   const router = handle.useRouter()
   const { id } = router?.query || {}
   const { user, users } = store.get('user', 'users')
-  const [ mode, setMode ] = useState('posts')
+  const profile = users?.find(user => user.id === id) || {}
   const data = (store.get('posts') || []).filter(post => post.userId === id)
   const [posts, setPosts] = useState(data)
+  const [ mode, setMode ] = useState('posts')
   const { width } = useWindowDimensions()
 
   useEffect(() => {setPosts(data)}, [user, mode])
@@ -21,11 +22,16 @@ export default function ProfileScreen() {
       id={id}
       post={item}
       user={user}
-      profile={users?.find(user => user.id === item.userId)}
+      profile={profile}
       onRemove={() => setMode(!mode)} />
 
   return (
     <Profile.Container>
+      <Comps.Meta
+        title={profile.username || id}
+        desc={profile.about}
+        url={`https://atunicorn.io/profile/${id}`}
+        cover={profile.url} />
       {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
       <Profile.Content 
         data={posts}

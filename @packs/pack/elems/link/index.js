@@ -21,6 +21,7 @@ const Link = Actheme.create({
         shallow={shallow}
         style={props.style}>
         <Link.Text accessibilityRole="link" {...rest} />
+        { children }
       </Link.Link>
     )
   }

@@ -6,10 +6,10 @@ import Actstore from 'actstore'
 function MainScreen() {
   const { store } = Actstore({}, ['user', 'posts'])
   const {user, users } = store.get('user', 'users')
-  const [ mode, setMode ] = useState('posts')
-  const [login, setLogin] = useState()
   const data = store.get('posts') || []
   const [posts, setPosts] = useState(data)
+  const [ mode, setMode ] = useState('posts')
+  const [login, setLogin] = useState()
   const { width } = useWindowDimensions()
 
   useEffect(() => {setPosts(data)}, [user, mode])
@@ -21,6 +21,7 @@ function MainScreen() {
 
   return (
     <Main.Container>
+      <Comps.Meta />
       {!user?.emailVerified && login && <Comps.Login onClose={() => setLogin(!login)} />}
       {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
       <Main.Content 
