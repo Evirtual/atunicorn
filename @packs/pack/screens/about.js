@@ -15,7 +15,7 @@ export default function AboutScreen() {
   return (
     <About.Container>
       <Comps.Meta
-        title={path === profileAboutPath ? (profile?.username || id) : "@unicorn - about"}
+        title={path === profileAboutPath ? (profile?.username || id) : "unicorn - about"}
         desc={path === profileAboutPath && (profile?.about)}
         url={path === profileAboutPath && `https://atunicorn.io/profile/${id}`}
         cover={path === profileAboutPath && profile.url} />
