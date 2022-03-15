@@ -9,9 +9,18 @@ export default function AboutScreen() {
   const { user, users } = store.get('user', 'users')
   const profile = users?.find(item => item.id === id) || {}
   const [editAbout, setEditAbout] = useState()
+  const path = typeof window !== "undefined" && window.location.pathname
+  const profileAboutPath = `/profile/${id}/about/`
+
+  console.log(profile)
 
   return (
     <About.Container>
+      <Comps.Meta
+        title={path === profileAboutPath ? (profile?.username || id) : "@unicorn - about"}
+        desc={path === profileAboutPath && (profile?.about)}
+        url={path === profileAboutPath && `https://atunicorn.io/profile/${id}`}
+        cover={path === profileAboutPath && profile.url} />
       {editAbout && <Comps.About profile={profile} onClose={() => setEditAbout(false)} />}
       <About.Content>
         <Comps.Nav />

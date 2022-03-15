@@ -9,13 +9,13 @@ const Meta = (props) => {
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="author" content="@unicorn" />
-      <title>{desc ? `${title} - ${desc}` : title ? title : "@unicorn"}</title>
-      <meta name="title" content={desc ? `${title} - ${desc}` : title ? title : "@unicorn"} />
+      <title>{desc ? `@${title} - ${desc}` : title ? `@${title}` : "@unicorn"}</title>
+      <meta name="title" content={desc ? `@${title} - ${desc}` : title ? `@${title}` : "@unicorn"} />
       <meta name="description" content={desc ? desc : "It's a place to express your uniqueness in ways that inspire us to feel more confident in our everyday life"} />
       {/* facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:url" content={url ? url : "https://atunicorn.io/"} />
-      <meta property="og:title" content={title ? title : "@unicorn"} />
+      <meta property="og:title" content={title ? `@${title}` : "@unicorn"} />
       <meta property="og:description" content={desc ? desc : "It's a place to express your uniqueness in ways that inspire us to feel more confident in our everyday life"} />
       <meta property="og:image" content={cover ? `${cover}.png` : "https://atunicorn.io/static/cover.png"} />
       <meta property="og:image:type" content="image/png" /> 
@@ -24,7 +24,7 @@ const Meta = (props) => {
       {/* twitter */}
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={url ? url : "https://atunicorn.io/"} />
-      <meta property="twitter:title" content={title ? title : "@unicorn"} />
+      <meta property="twitter:title" content={title ? `@${title}` : "@unicorn"} />
       <meta property="twitter:description" content={desc ? desc : "It's a place to express your uniqueness in ways that inspire us to feel more confident in our everyday life"} />
       <meta property="twitter:image" content={cover ? `${cover}.png` : "https://atunicorn.io/static/cover.png"} />
       <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
