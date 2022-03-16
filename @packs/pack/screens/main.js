@@ -5,7 +5,7 @@ import Actstore from 'actstore'
 
 function MainScreen() {
   const { store } = Actstore({}, ['user', 'posts'])
-  const {   user, users } = store.get('user', 'users')
+  const { user, users } = store.get('user', 'users')
   const data = store.get('posts') || []
   const [posts, setPosts] = useState(data)
   const [ mode, setMode ] = useState('posts')
