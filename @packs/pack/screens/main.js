@@ -28,7 +28,7 @@ function MainScreen() {
 
   const handleNavalt = (e) => {
     const scrolled = e.nativeEvent.contentOffset.y
-    scrolled > 280 
+    scrolled > 260 
       ? setShowNavalt(true)
       : setShowNavalt(false)
   }
