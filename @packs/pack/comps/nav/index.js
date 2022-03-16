@@ -12,7 +12,7 @@ const Nav = Actheme.create({
     user: 'ps:ab z:2',
     search: 'ps:ab l:-s2',
     save: 'ps:ab r:-s2',
-    max: 'w:s70'
+    max: 'w:s65'
   }],
   Image: ['Image', 'w,h:s25'],
   File: 'Upload',

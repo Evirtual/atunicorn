@@ -13,6 +13,7 @@ export default function ProfileScreen() {
   const data = (store.get('posts') || []).filter(post => post.userId === id)
   const [posts, setPosts] = useState(data)
   const [ mode, setMode ] = useState('posts')
+  const [showNavalt, setShowNavalt] = useState()
   const { width } = useWindowDimensions()
 
   useEffect(() => {setPosts(data)}, [user, mode])
@@ -25,19 +26,28 @@ export default function ProfileScreen() {
       profile={profile}
       onRemove={() => setMode(!mode)} />
 
+  const handleNavalt = (e) => {
+    const scrolled = e.nativeEvent.contentOffset.y
+    scrolled > 280 
+      ? setShowNavalt(true)
+      : setShowNavalt(false)
+  }
+
   return (
     <Profile.Container>
-      <Comps.Navalt
-        mode={mode}
-        setMode={setMode}
-        data={data} 
-        posts={posts} 
-        setPosts={setPosts} />
       <Comps.Meta
         title={profile.username || id}
         desc={profile.about}
         url={`https://atunicorn.io/profile/${id}`}
         cover={profile.url} />
+      {showNavalt &&
+        <Comps.Navalt
+          mode={mode}
+          setMode={setMode}
+          data={data} 
+          posts={posts} 
+          setPosts={setPosts} />
+      }
       {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
       <Profile.Content 
         data={posts}
@@ -48,6 +58,7 @@ export default function ProfileScreen() {
         initialNumToRender={6}
         maxToRenderPerBatch={6}
         windowSize={6}
+        onScroll={handleNavalt}
         numColumns={(width < 768 ) ? 1 : (width < 1280) ? 2 : 3}
         ListHeaderComponent={
           <Comps.Nav

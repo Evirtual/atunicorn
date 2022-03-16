@@ -15,7 +15,7 @@ const Nav = Actheme.create({
     right: 'jc:end',
     search: 'ps:ab l:-s2',
     important: 'z:9',
-    max: 'w:s70'
+    max: 'w:s65'
   }],
   Image: ['Image', 'w,h:s10'],
   Text: ['Text', 'ta:c c:lightgray w:100% fs:s2.5 fb:bold mt:s1'],
@@ -56,7 +56,7 @@ const Nav = Actheme.create({
               <Nav.Wrap>
                 {path === profilePath
                   ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
-                  : <Elems.Button text="@unicorn" />
+                  : <Elems.Button text="@unicorn" onPress={() => router?.push('/')} />
                 }
               </Nav.Wrap>
             }
@@ -106,14 +106,14 @@ const Nav = Actheme.create({
                   icon="user-circle"
                   iconSize="s5"
                   onPress={() => props.setLogin(true)} />
-              :  user && (path === homePath || (path === profilePath && user?.id === (profile?.id || id)))
+              : user && (path === homePath || (path === profilePath && user?.id === (profile?.id || id)))
                 ? <Elems.Button
                     disabled={!user.approved}
                     icon="arrow-circle-up"
                     iconSize="s5"
                     iconColor="mediumseagreen"
                     onPress={() => props.setMode('upload')} />
-                :  <Elems.Button
+                : <Elems.Button
                     icon="arrow-left"
                     iconSize="s5"
                     onPress={() => router.back()} />

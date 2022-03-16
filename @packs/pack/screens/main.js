@@ -5,31 +5,47 @@ import Actstore from 'actstore'
 
 function MainScreen() {
   const { store } = Actstore({}, ['user', 'posts'])
-  const {user, users } = store.get('user', 'users')
+  const {   user, users } = store.get('user', 'users')
   const data = store.get('posts') || []
   const [posts, setPosts] = useState(data)
   const [ mode, setMode ] = useState('posts')
   const [login, setLogin] = useState()
+  const [showNavalt, setShowNavalt] = useState(0)
   const { width } = useWindowDimensions()
 
-  useEffect(() => {setPosts(data)}, [user, mode])
+  useEffect(() => {
+    setPosts(data)
+  }, [user, mode])
+
+  useEffect(() => {
+    setShowNavalt(false)
+  }, [width])
 
   const renderItem = ({item}) => 
     <Comps.Post
       post={item}
       profile={users?.find(user => user.id === item.userId)} />
 
+  const handleNavalt = (e) => {
+    const scrolled = e.nativeEvent.contentOffset.y
+    scrolled > 280 
+      ? setShowNavalt(true)
+      : setShowNavalt(false)
+  }
+
   return (
     <Main.Container>
-      <Comps.Navalt
-        mode={mode}
-        setMode={setMode} 
-        login={login} 
-        setLogin={setLogin} 
-        data={data} 
-        posts={posts} 
-        setPosts={setPosts} />
       <Comps.Meta />
+      {showNavalt &&
+        <Comps.Navalt
+          mode={mode}
+          setMode={setMode} 
+          login={login} 
+          setLogin={setLogin} 
+          data={data} 
+          posts={posts} 
+          setPosts={setPosts} />
+      }
       {!user?.emailVerified && login && <Comps.Login onClose={() => setLogin(!login)} />}
       {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
       <Main.Content 
@@ -41,6 +57,7 @@ function MainScreen() {
         initialNumToRender={6}
         maxToRenderPerBatch={6}
         windowSize={6}
+        onScroll={handleNavalt}
         numColumns={(width < 768 ) ? 1 : (width < 1280) ? 2 : 3 }
         ListHeaderComponent={
           <Comps.Nav

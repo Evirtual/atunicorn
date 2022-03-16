@@ -12,13 +12,13 @@ export default function PostScreen() {
 
   return (
     <>
+      <Comps.Meta
+        title={post.username}
+        desc={post.desc}
+        url={`https://atunicorn.io/post/${id}`}
+        cover={post.url} />
       <Comps.Navalt />
       <Post.Container>
-        <Comps.Meta
-          title={post.username}
-          desc={post.desc}
-          url={`https://atunicorn.io/post/${id}`}
-          cover={post.url} />
         <Post.Content>
           <Post.Profile onPress={() => router.push('/profile/' + post.userId)}>
             <Post.Wrap profile>
