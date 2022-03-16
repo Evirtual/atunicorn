@@ -16,7 +16,13 @@ export default function ProfileScreen() {
   const [showNavalt, setShowNavalt] = useState()
   const { width } = useWindowDimensions()
 
-  useEffect(() => {setPosts(data)}, [user, mode])
+  useEffect(() => {
+    setPosts(data)
+  }, [user, mode, id])
+
+  useEffect(() => {
+    setShowNavalt(false)
+  }, [width])
 
   const renderItem = ({item}) => 
     <Comps.Post
