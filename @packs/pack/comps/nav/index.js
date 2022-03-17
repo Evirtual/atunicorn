@@ -35,7 +35,9 @@ const Nav = Actheme.create({
     const profilePath = `/profile/${id}/`
     
     const onSearch = (result) => {
-      const filter = props.data.filter(post => post.username.toLowerCase().includes(result.toLowerCase()) || post.desc.toLowerCase().includes(result.toLowerCase()))
+      const filter = props.data.filter(post => 
+        post.username.toLowerCase().includes(result.toLowerCase()) ||
+        post.desc.toLowerCase().includes(result.toLowerCase()))
       props.setPosts(filter)
       setSearch(result)
     }
