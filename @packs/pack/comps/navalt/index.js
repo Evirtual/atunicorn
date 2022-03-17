@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useWindowDimensions } from 'react-native'
-import Elems from '../../elems'
 import { Actheme } from '../../theme'
+import Elems from '../../elems'
 import Actstore from 'actstore'
 
 const Nav = Actheme.create({

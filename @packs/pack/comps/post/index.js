@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Actheme } from '../../theme'
+import Elems from '../../elems'
 import Actstore from 'actstore'
-import { Elems } from '../..'
 
 const Post = Actheme.create({
 
@@ -29,7 +29,7 @@ const Post = Actheme.create({
     const [removing, setRemoving] = useState()
 
     return (
-      <Post.Touch {...rest} onPress={() => router.push('../post/' + post.id)}>
+      <Post.Touch {...rest} onPress={() => router.push(`../post/${post.id}`)}>
         {!id &&
           <Post.Wrap>
             <Post.Profile onPress={() => setActive(!active)}>
@@ -39,7 +39,7 @@ const Post = Actheme.create({
               }
             </Post.Profile>
             {active &&
-              <Post.User onPress={() => router.push('/profile/' + post.userId)}>
+              <Post.User onPress={() => router.push(`/profile/${post.userId}`)}>
                 <Post.Name>@{profile.username || post.userId}</Post.Name>
               </Post.User>
             }
