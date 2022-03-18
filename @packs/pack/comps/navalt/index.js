@@ -58,7 +58,7 @@ const Nav = Actheme.create({
               <Nav.Wrap>
                 {path === profilePath
                   ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
-                  : <Elems.Button text="@unicorn" onPress={() => router?.push('/')} />
+                  : <Elems.Link href="/" text="@unicorn" />
                 }
               </Nav.Wrap>
             }
@@ -107,10 +107,12 @@ const Nav = Actheme.create({
                   onPress={() => router.back()} />
             }
             {path !== homePath && 
-              <Elems.Button
-                icon="home"
-                iconSize="s5.5"
-                onPress={() => router?.push('/')} />
+              <Elems.Link href="/">
+                <Elems.Button
+                  accessibilityRole="link"
+                  icon="home"
+                  iconSize="s5.5" />
+              </Elems.Link>
             }
             {!user && path === homePath
               ? <Elems.Button
@@ -125,24 +127,30 @@ const Nav = Actheme.create({
                   iconColor="mediumseagreen"
                   onPress={() => props.setMode('upload')} />
             }
-            <Elems.Button
-              icon="info-circle"
-              iconSize="s5.5"
-              onPress={() => 
+            <Elems.Link
+              href={
                 path === profilePath
-                  ? router.push(`/profile/${profile ? profile.id : id}/about/`)
-                  : router.push('/about/')
-              } />
+                  ? `/profile/${profile?.id || id}/about/`
+                  : '/about/'
+              }
+            >
+              <Elems.Button
+                accessibilityRole="link"
+                icon="info-circle"
+                iconSize="s5.5" />
+            </Elems.Link>
             {user && user?.id === (profile?.id || id) 
               ? <Elems.Button
                   icon="power-off"
                   iconSize="s5.5"
                   onPress={action('APP_LOGOUT')} />
               : user &&
-                <Elems.Button
-                  icon="user-circle"
-                  iconSize="s5.5"
-                  onPress={() => router.push('/profile/' + user?.id)} />
+                <Elems.Link href={`/profile/${user?.id}`}>
+                  <Elems.Button
+                    accessibilityRole="link"
+                    icon="user-circle"
+                    iconSize="s5.5" />
+                </Elems.Link>
             }
           </Nav.Wrap>
         </Nav.Content>

@@ -78,10 +78,12 @@ const Nav = Actheme.create({
             </Nav.Wrap>
           }
           {(user || path !== homePath && path !== profilePath) && 
-            <Elems.Button
-              icon="home"
-              iconSize="s5.5"
-              onPress={() => router?.push('/')} />
+            <Elems.Link href="/">
+              <Elems.Button
+                accessibilityRole="link"
+                icon="home"
+                iconSize="s5.5" />
+            </Elems.Link>
           }
           {user && user?.id === (profile?.id || id) 
             ? <Elems.Button
@@ -89,10 +91,12 @@ const Nav = Actheme.create({
                 iconSize="s5.5"
                 onPress={action('APP_LOGOUT')} />
             : user &&
-              <Elems.Button
-                icon="user-circle"
-                iconSize="s5.5"
-                onPress={() => router.push('/profile/' + user?.id)} />
+              <Elems.Link href={`/profile/${user?.id}`}>
+                <Elems.Button
+                  accessibilityRole="link"
+                  icon="user-circle"
+                  iconSize="s5.5" />
+              </Elems.Link>
           }
         </Nav.Wrap>
         <Nav.Wrap row>
@@ -131,17 +135,15 @@ const Nav = Actheme.create({
                   ? <Nav.Image source={profile.url || null} />
                   : <Elems.Icon style={Actheme.style('c:lightgray fs:s20')} icon="user-circle" solid />
                 : <Nav.Image source="/static/unicorn-io.gif" />
-            }
+            } 
           </Nav.Wrap>
-          <Elems.Button
-            text="About"
-            onPress={() => 
-              path === homePath
-                ? router.push('/about/')
-                : path === profilePath
-                  ? router.push(`/profile/${profile ? profile.id : id}/about/`)
-                  : null
-            } />
+          <Elems.Link
+            href={
+              path === profilePath
+                ? `/profile/${profile?.id || id}/about/`
+                : '/about/'
+            }
+            text="About" />
         </Nav.Wrap>
         <Nav.Wrap row>
           {user && user?.id === (profile?.id || id)
@@ -172,12 +174,8 @@ const Nav = Actheme.create({
                 text={`@${profile?.username || profile?.id || id}`}
                 onPress={() => setEditUsername(true)} />
             : path === profilePath
-              ? <Elems.Button
-                  text={`@${profile?.username || profile?.id || id}`}
-                  onPress={null} />
-              : <Elems.Button
-                  text="@unicorn"
-                  onPress={null} />
+              ? <Elems.Button text={`@${profile?.username || profile?.id || id}`}  />
+              : <Elems.Button text="@unicorn" />
           }
         </Nav.Wrap>
       </Nav.Container>

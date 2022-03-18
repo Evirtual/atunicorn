@@ -3,7 +3,7 @@ import { Actheme } from '../../theme'
 
 const Styled = Actheme.create({
 
-  Text: ['Text', 'c:yellow fb:bold fs:s10'],
+  Text: ['Text', 'ta:c c:black fb:500 w:100% fs:s4'],
 	Link: 'Link',
 
   Elem: (props) => {
@@ -14,9 +14,9 @@ const Styled = Actheme.create({
       replace, 
       scroll, 
       shallow, 
-      assetPrefix = process.env.assetPrefix, 
-      style, 
-      ...rest } = props
+      assetPrefix = process.env.assetPrefix,
+      text, 
+      style } = props
 
     return (
       <Styled.Link
@@ -27,10 +27,11 @@ const Styled = Actheme.create({
         replace={replace}
         scroll={scroll}
         shallow={shallow}
-        style={style}
-        {...rest} >
-         {/* <Link.Text accessibilityRole="link" {...rest} /> */}
-        { props.children }
+        style={style}>
+        {text
+          ? <Styled.Text accessibilityRole="link">{text}</Styled.Text>
+          : props.children
+        }
       </Styled.Link>
     )
   }

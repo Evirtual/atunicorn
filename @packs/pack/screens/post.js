@@ -20,15 +20,17 @@ export default function PostScreen() {
       <Comps.Navalt />
       <Post.Container>
         <Post.Content>
-          <Post.Profile onPress={() => router.push('/profile/' + post?.userId)}>
-            <Post.Wrap profile>
-              {profile?.url
-                ? <Post.Image source={profile.url} />
-                : <Elems.Icon style={Actheme.style('c:lightgray fs:s15')} icon="user-circle" solid />
-              }
-            </Post.Wrap>
-            <Post.Name>{`@${profile?.username || post?.userId}`}</Post.Name>
-          </Post.Profile>
+          <Elems.Link href={`/profile/${post?.userId}`}>
+            <Post.Profile accessibilityRole="link">
+              <Post.Wrap profile>
+                {profile?.url
+                  ? <Post.Image source={profile.url} />
+                  : <Elems.Icon style={Actheme.style('c:lightgray fs:s15')} icon="user-circle" solid />
+                }
+              </Post.Wrap>
+              <Post.Name>{`@${profile?.username || post?.userId}`}</Post.Name>
+            </Post.Profile>
+          </Elems.Link>
           <Post.Wrap image>
             {post?.url
               ? <Post.Image source={[post.url, 'image'].join('#')} />
@@ -51,7 +53,7 @@ const Post = Actheme.create({
   Wrap: ['View', 'w:100% xw:s150', {
     image: 'btw:1 bbw:1 bc:black50 ai,jc:c',
     profile: 'fd:row jc,ai:c w,h,br:s15 of:hd',}],
-  Profile: ['TouchableOpacity', 'fd:row ai:c m:s5'],
+  Profile: ['View', 'fd:row ai:c m:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
   Delete: ['View', 'w,h,br:s8 of:hd bg:black200 ai,jc:c ml:auto'],
 })
