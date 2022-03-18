@@ -17,7 +17,7 @@ const Meta = (props) => {
       <meta property="og:url" content={url ? url : "https://atunicorn.io/"} />
       <meta property="og:title" content={title ? `@${title}` : "@unicorn"} />
       <meta property="og:description" content={desc ? desc : "It's a place to express your uniqueness in ways that inspire us to feel more confident in our everyday life"} />
-      <meta property="og:image" content={cover ? `${cover}.png` : "https://atunicorn.io/static/unicorn-cover.png"} />
+      <meta property="og:image" content={cover ? `${cover}.png` : "https://atunicorn.io/static/unicorn-io-cover.png"} />
       <meta property="og:image:type" content="image/png" /> 
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
@@ -26,7 +26,7 @@ const Meta = (props) => {
       <meta property="twitter:url" content={url ? url : "https://atunicorn.io/"} />
       <meta property="twitter:title" content={title ? `@${title}` : "@unicorn"} />
       <meta property="twitter:description" content={desc ? desc : "It's a place to express your uniqueness in ways that inspire us to feel more confident in our everyday life"} />
-      <meta property="twitter:image" content={cover ? `${cover}.png` : "https://atunicorn.io/static/unicorn-cover.png"} />
+      <meta property="twitter:image" content={cover ? `${cover}.png` : "https://atunicorn.io/static/unicorn-io-cover.png"} />
       <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
       <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
       <link rel="icon" type="image/png" href="/static/favicon-32x32.png" sizes="32x32" />
