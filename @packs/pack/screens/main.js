@@ -10,7 +10,7 @@ function MainScreen() {
   const [posts, setPosts] = useState(data)
   const [ mode, setMode ] = useState('posts')
   const [login, setLogin] = useState()
-  const [showNavalt, setShowNavalt] = useState(0)
+  const [showNavalt, setShowNavalt] = useState()
   const { width } = useWindowDimensions()
 
   useEffect(() => {
