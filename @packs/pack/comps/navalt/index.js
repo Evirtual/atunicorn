@@ -7,15 +7,17 @@ import Actstore from 'actstore'
 const Nav = Actheme.create({
 
   Container: ['View', 'bg:white ps:fixed l,r,t:0 z:99 jc,ai:c bbw:1 bbc:black50'],
-  Content: ['View', 'fd:row ai:c jc:sb pv:s3 w:100% xw:s290'],
+  Content: ['View', 'fd:row ai:c jc:sb pv:s3 ph:s5 w:100% xw:s300'],
   Wrap: ['View', 'jc,ai:c', {
-    image: 'w,h,br:s10 bg:white of:hd mh:s3',
+    image: 'w,h,br:s10 bg:white of:hd',
+    username: 'ml:s3',
     row: 'fd:row',
     left: 'jc:start',
     right: 'jc:end',
-    search: 'ps:ab l:-s2',
-    important: 'ps:ab l,r:0 z:9',
+    search: 'ps:ab l:s1',
+    important: 'ps:ab l,r:0 z:9 ph:s5',
     medium: 'w:33%',
+    full: 'w:100%',
     max: 'w:s65'
   }],
   Image: ['Image', 'w,h:s10'],
@@ -57,7 +59,7 @@ const Nav = Actheme.create({
               }
             </Nav.Wrap>
             {(width > 767) &&
-              <Nav.Wrap>
+              <Nav.Wrap username>
                 {path === profilePath
                   ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
                   : <Elems.Link href="/" text="@unicorn" />
@@ -67,17 +69,19 @@ const Nav = Actheme.create({
           </Nav.Wrap>
           {((width < 768) && active || (width > 767)) && (path === homePath || path === profilePath) &&
             <Nav.Wrap important={active}>
-              <Nav.Wrap max>
+              <Nav.Wrap full={(width < 767)} max={(width > 767)}>
                 <Nav.Wrap search>
                   {(width > 767)
                     ? <Elems.Button
+                        input
                         icon="search"
                         iconColor="grey"
                         iconSize="s4.5" />
                     : <Elems.Button 
+                        input
                         icon="times-circle" 
                         iconColor="grey"
-                        iconSize="s5"
+                        iconSize="s5.5"
                         onPress={() => setActive(false)} />
                   }
                 </Nav.Wrap>

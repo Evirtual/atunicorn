@@ -10,8 +10,8 @@ const Nav = Actheme.create({
     image: 'w,h,br:s25 bg:white of:hd mh:s6 mt:s4 mb:s3',
     row: 'fd:row',
     user: 'ps:ab z:2',
-    search: 'ps:ab l:-s2',
-    save: 'ps:ab r:-s2',
+    search: 'ps:ab l:s1',
+    save: 'ps:ab r:s1',
     max: 'w:s65'
   }],
   Image: ['Image', 'w,h:s25'],
@@ -53,19 +53,21 @@ const Nav = Actheme.create({
               iconSize="s5.5"
               onPress={() => setActive(true)} />
           }
-          {(!user || active) && (path === homePath || path === profilePath) &&
+          {(!user || active || search) && (path === homePath || path === profilePath) &&
             <Nav.Wrap user={user} max>
               <Nav.Wrap search>
                 {!user
                   ? <Elems.Button
+                      input
                       icon="search"
                       iconColor="grey"
                       iconSize="s4.5" />
                   : <Elems.Button 
+                      input
                       icon="times-circle" 
                       iconColor="grey"
-                      iconSize="s5"
-                      onPress={() => setActive(false)} />
+                      iconSize="s5.5"
+                      onPress={() => search ? onSearch('') : setActive(false)} />
                 }
               </Nav.Wrap>
               <Elems.Input
@@ -152,9 +154,10 @@ const Nav = Actheme.create({
               ? <Nav.Wrap row max>
                   <Nav.Wrap search>
                     <Elems.Button
+                      input
                       icon="times-circle"
                       iconColor="grey"
-                      iconSize="s5"
+                      iconSize="s5.5"
                       onPress={() => setEditUsername(false)} />
                   </Nav.Wrap>
                   <Elems.Input
@@ -164,9 +167,10 @@ const Nav = Actheme.create({
                   {username && 
                     <Nav.Wrap save>
                       <Elems.Button
+                        input
                         icon="save"
                         iconColor="mediumseagreen"
-                        iconSize="s5"
+                        iconSize="s5.5"
                         onPress={() => act('APP_USER', { username }).then(username => !!username && setEditUsername(false))} />
                     </Nav.Wrap>
                   }

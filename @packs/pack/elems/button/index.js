@@ -4,9 +4,11 @@ import Elems from '../../elems'
 
 const Button = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'jc,ai:c nw:s14 nh:s10', {
-    submit: 'bc:lightgray br:s5 bg:mediumseagreen h:s12 mt:s5',
+  Touch: ['TouchableOpacity', 'jc,ai:c nw:s12 nh:s10', {
+    submit: 'bc:lightgray br:s5 bg:mediumseagreen mt:s5',
     remove: 'w,h,nh,nw,br:s7.2 bw:s0.4 bc:white',
+    input: 'bg:white br:50% nw:s10',
+    text: 'nw:s15',
     disabled: 'op:0.25',
     inline: 'fd:row',
     nsfw: 'fd:row p:s2 bg:white mt:s5 br:s5 bw:1 bc:black50',
@@ -47,6 +49,7 @@ const Button = Actheme.create({
     
     return (
       <Button.Touch
+        text={text}
         nsfw={nsfw}
         submit={submit}
         remove={remove}
