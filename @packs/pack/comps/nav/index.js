@@ -76,7 +76,7 @@ const Nav = Actheme.create({
                     : 'Search @unicorn'
                 }
                 onChange={(e) => onSearch(e.target.value)}
-                value={search || props.search || ''}
+                value={props.search ? props.search : search || ''}
                 style={Actheme.style('pl:s10')} />
             </Nav.Wrap>
           }
