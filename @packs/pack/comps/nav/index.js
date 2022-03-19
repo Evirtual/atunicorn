@@ -21,6 +21,7 @@ const Nav = Actheme.create({
 
   Comp: (props) => {
     
+    const { data, search, setSearch, setPosts, setMode, setLogin } = props
     const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
     const router = handle.useRouter()
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
@@ -35,12 +36,12 @@ const Nav = Actheme.create({
     
     const onSearch = (result) => {
 
-      const filter = props.data.filter(post => 
+      const filter = data.filter(post => 
         post.username.toLowerCase().includes(result.toLowerCase()) ||
         post.desc.toLowerCase().includes(result.toLowerCase()))
 
-      props.setSearch(result)
-      props.setPosts(filter)
+      setSearch(result)
+      setPosts(filter)
     }
 
     return (
@@ -74,7 +75,7 @@ const Nav = Actheme.create({
                     : 'Search @unicorn'
                 }
                 onChange={(e) => onSearch(e.target.value)}
-                value={props.search || ''} />
+                value={search || ''} />
             </Nav.Wrap>
           }
           {(user || path !== homePath && path !== profilePath) && 
@@ -103,13 +104,13 @@ const Nav = Actheme.create({
           {!user && path === homePath
             ? <Elems.Button
                 text="Login"
-                onPress={() => props.setLogin(true)} />
+                onPress={() => setLogin(true)} />
             :  user && (path === homePath || path === profilePath)
               ? <Elems.Button
                   disabled={!user.approved}
                   text="Upload"
                   textColor="mediumseagreen"
-                  onPress={() => props.setMode('upload')} />
+                  onPress={() => setMode('upload')} />
               :  <Elems.Button
                   text="Back"
                   textColor="black"
