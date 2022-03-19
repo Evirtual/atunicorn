@@ -75,7 +75,7 @@ const Login = Actheme.create({
           <Elems.Button
             text={!login ? 'Signup @unicorn' : 'Login'}
             textColor="lightsalmon"
-            style={Actheme.style('mt:auto mb:s1')}
+            style={Actheme.style('mt:auto')}
             onPress={() => !login ? setLogin(true) : setLogin(false) } />
         </Login.Content>
       </Login.Container>

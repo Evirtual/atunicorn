@@ -7,12 +7,12 @@ const Nav = Actheme.create({
 
   Container: ['View', 'w:100% jc,ai:c z:2 mb:s5'],
   Wrap: ['View', 'jc,ai:c', {
-    image: 'w,h,br:s25 bg:white of:hd mh:s6 mt:s4 mb:s3',
+    image: 'w,h,br:s25 bg:white of:hd mh:s8 mv:s4',
     row: 'fd:row',
     user: 'ps:ab z:2',
     search: 'ps:ab l:s1',
     save: 'ps:ab r:s1',
-    max: 'w:s65'
+    max: 'w:s70'
   }],
   Image: ['Image', 'w,h:s25'],
   File: 'Upload',
