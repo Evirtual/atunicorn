@@ -28,7 +28,6 @@ const Nav = Actheme.create({
     const { id } = router?.query || {}
     const profile = users?.find(user => user.id === id)
     const [active, setActive] = useState()
-    const [search, setSearch] = useState()
     const path = typeof window !== "undefined" && window.location.pathname
     const homePath = '/'
     const profilePath = `/profile/${id}/`
@@ -40,7 +39,6 @@ const Nav = Actheme.create({
         post.username.toLowerCase().includes(result.toLowerCase()) ||
         post.desc.toLowerCase().includes(result.toLowerCase()))
         
-      setSearch(result)
       props.setSearch(result)
       props.setPosts(filter)
     }
@@ -89,8 +87,7 @@ const Nav = Actheme.create({
                       : 'Search @unicorn'
                   }
                   onChange={(e) => onSearch(e.target.value)}
-                  value={props.search ? props.search : search || ''}
-                  style={Actheme.style('pl:s10')} />
+                  value={props.search || ''} />
               </Nav.Wrap>
             </Nav.Wrap>
           }
