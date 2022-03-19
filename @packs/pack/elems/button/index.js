@@ -4,7 +4,7 @@ import Elems from '../../elems'
 
 const Button = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'jc,ai:c nw:s12 nh:s10', {
+  Touch: ['TouchableOpacity', 'jc,ai:c nw:s14 nh:s10', {
     submit: 'bc:lightgray br:s5 bg:mediumseagreen mt:s5',
     remove: 'w,h,nh,nw,br:s7.2 bw:s0.4 bc:white',
     input: 'bg:white br:50% nw:s10',

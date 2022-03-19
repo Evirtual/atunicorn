@@ -7,10 +7,10 @@ import Actstore from 'actstore'
 const Nav = Actheme.create({
 
   Container: ['View', 'bg:white ps:fixed l,r,t:0 z:99 jc,ai:c bbw:1 bbc:black50'],
-  Content: ['View', 'fd:row ai:c jc:sb pv:s3 ph:s5 w:100% xw:s300'],
+  Content: ['View', 'fd:row ai:c jc:sb pv:s3 pr:s3 pl:s5 w:100% xw:s300'],
   Wrap: ['View', 'jc,ai:c', {
-    image: 'w,h,br:s10 bg:white of:hd',
-    username: 'ml:s3',
+    image: 'w,h,br:s10 bg:white of:hd mh:s3',
+    logo: 'w,h,br:s12',
     row: 'fd:row',
     left: 'jc:start',
     right: 'jc:end',
@@ -20,7 +20,9 @@ const Nav = Actheme.create({
     full: 'w:100%',
     max: 'w:s65'
   }],
-  Image: ['Image', 'w,h:s10'],
+  Image: ['Image', 'w,h:s10', {
+    logo: 'w,h:s12'
+  }],
 
   Comp: (props) => {
     
@@ -50,16 +52,16 @@ const Nav = Actheme.create({
       <Nav.Container>
         <Nav.Content>
           <Nav.Wrap row left medium={width > 767}>
-            <Nav.Wrap image>
+            <Nav.Wrap image logo={!profile?.url}>
               {profile
                 ? profile?.url
                   ? <Nav.Image source={profile.url || null} />
                   : <Elems.Icon style={Actheme.style('c:lightgray fs:s20')} icon="user-circle" solid />
-                : <Nav.Image source="/static/unicorn-io.gif" />
+                : <Nav.Image logo source="/static/original.gif" />
               }
             </Nav.Wrap>
             {(width > 767) &&
-              <Nav.Wrap username>
+              <Nav.Wrap>
                 {path === profilePath
                   ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
                   : <Elems.Link href="/" text="@unicorn" />
