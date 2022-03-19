@@ -35,11 +35,14 @@ const Nav = Actheme.create({
     const profilePath = `/profile/${id}/`
     
     const onSearch = (result) => {
+
       const filter = props.data.filter(post => 
         post.username.toLowerCase().includes(result.toLowerCase()) ||
         post.desc.toLowerCase().includes(result.toLowerCase()))
-      props.setPosts(filter)
+
       setSearch(result)
+      props.setSearch(result)
+      props.setPosts(filter)
     }
 
     return (
@@ -73,7 +76,7 @@ const Nav = Actheme.create({
                     : 'Search @unicorn'
                 }
                 onChange={(e) => onSearch(e.target.value)}
-                value={search || ''}
+                value={search || props.search || ''}
                 style={Actheme.style('pl:s10')} />
             </Nav.Wrap>
           }

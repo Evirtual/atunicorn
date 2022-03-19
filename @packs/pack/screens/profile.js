@@ -12,7 +12,8 @@ export default function ProfileScreen() {
   const profile = users?.find(user => user.id === id) || {}
   const data = (store.get('posts') || []).filter(post => post.userId === id)
   const [posts, setPosts] = useState(data)
-  const [ mode, setMode ] = useState('posts')
+  const [mode, setMode] = useState('posts')
+  const [search, setSearch] = useState()
   const [showNavalt, setShowNavalt] = useState()
   const { width } = useWindowDimensions()
 
@@ -52,7 +53,9 @@ export default function ProfileScreen() {
           setMode={setMode}
           data={data} 
           posts={posts} 
-          setPosts={setPosts} />
+          setPosts={setPosts}
+          search={search}
+          setSearch={setSearch} />
       }
       {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
       <Profile.Content 
@@ -72,7 +75,9 @@ export default function ProfileScreen() {
             setMode={setMode}
             data={data} 
             posts={posts} 
-            setPosts={setPosts} />}
+            setPosts={setPosts}
+            search={search}
+            setSearch={setSearch} />}
       />
     </Profile.Container>
   )

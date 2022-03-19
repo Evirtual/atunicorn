@@ -8,7 +8,8 @@ function MainScreen() {
   const { user, users } = store.get('user', 'users')
   const data = store.get('posts') || []
   const [posts, setPosts] = useState(data)
-  const [ mode, setMode ] = useState('posts')
+  const [mode, setMode] = useState('posts')
+  const [search, setSearch] = useState()
   const [login, setLogin] = useState()
   const [showNavalt, setShowNavalt] = useState()
   const { width } = useWindowDimensions()
@@ -44,7 +45,9 @@ function MainScreen() {
           setLogin={setLogin} 
           data={data} 
           posts={posts} 
-          setPosts={setPosts} />
+          setPosts={setPosts}
+          search={search}
+          setSearch={setSearch} />
       }
       {!user?.emailVerified && login && <Comps.Login onClose={() => setLogin(!login)} />}
       {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
@@ -67,7 +70,9 @@ function MainScreen() {
             setLogin={setLogin} 
             data={data} 
             posts={posts} 
-            setPosts={setPosts} />}
+            setPosts={setPosts}
+            search={search}
+            setSearch={setSearch} />}
       />
     </Main.Container>
   )
