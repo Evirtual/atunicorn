@@ -57,7 +57,7 @@ const Nav = Actheme.create({
                 ? profile?.url
                   ? <Nav.Image source={profile.url || null} />
                   : <Elems.Icon style={Actheme.style('c:lightgray fs:s20')} icon="user-circle" solid />
-                : <Nav.Image logo source="/static/unicorn-logo.gif" />
+                : <Nav.Image logo source="/static/unilogo.gif" />
               }
             </Nav.Wrap>
             {(width > 767) &&
