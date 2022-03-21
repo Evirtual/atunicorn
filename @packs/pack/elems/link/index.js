@@ -52,7 +52,12 @@ const Styled = Actheme.create({
 const Component = React.forwardRef(({onClick, href, children}, ref) => {  
 
   return (
-    <a href={href} onClick={onClick} ref={ref} style={Actheme.style('display:flex jc,ai:c nw:s14 nh:s11')}>
+    <a 
+      href={href}
+      onClick={onClick}
+      ref={ref}
+      style={Actheme.style('display:flex jc,ai:c nw:s14 nh:s11')}
+    >
       {children}
     </a>
   )
