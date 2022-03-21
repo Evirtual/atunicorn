@@ -53,7 +53,7 @@ const Post = Actheme.create({
   Wrap: ['View', 'w:100% xw:s150', {
     image: 'btw:1 bbw:1 bc:black50 ai,jc:c',
     profile: 'fd:row jc,ai:c w,h,br:s15 of:hd',}],
-  Profile: ['View', 'fd:row ai:c m:s5'],
+  Profile: ['View', 'w:100% fd:row ai:c p:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
   Delete: ['View', 'w,h,br:s8 of:hd bg:black200 ai,jc:c ml:auto'],
 })

@@ -140,7 +140,7 @@ const Nav = Actheme.create({
                   : '/about/'
               }
             >
-              <Elems.Button
+              <Elems.Icon
                 icon="info-circle"
                 iconSize="s5.5" />
             </Elems.Link>
