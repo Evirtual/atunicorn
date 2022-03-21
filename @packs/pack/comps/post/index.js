@@ -12,7 +12,7 @@ const Post = Actheme.create({
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200'],
   User: ['View', 'fb:500 ml:s2 bg:black300 pv:s2 ph:s3 br:s5'],
   Name: ['Text', 'c:white'],
-  Option: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3', {
+  Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3', {
     edit: 'r:s12'
   }],
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
@@ -26,7 +26,7 @@ const Post = Actheme.create({
     const { act } = Actstore({}, [])
     const [active, setActive] = useState()
     const [nsfw, setNsfw] = useState()
-    const [removing, setRemoving] = useState()
+    const [recycling, setRecycling] = useState()
 
     return (
       <Post.Container>
@@ -34,15 +34,15 @@ const Post = Actheme.create({
           <>
             <Post.Option>
               <Elems.Button
-                remove
+                option
                 icon="recycle"
                 iconSize="s3.5"
                 color="white"
-                onPress={() => act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url }).then(onRemove, setRemoving(true))} />
+                onPress={() => act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url }).then(onRemove, setRecycling(true))} />
             </Post.Option>
             <Post.Option edit>
               <Elems.Button
-                remove
+                option
                 icon="pencil"
                 iconSize="s3"
                 color="white"
@@ -78,10 +78,10 @@ const Post = Actheme.create({
             {post.url &&
               <Post.Image source={post.url} />
             }
-            {removing &&
+            {recycling &&
               <Post.Cover>
-                <Elems.Icon style={Actheme.style('c:lightgray fs:s30')} icon="yin-yang" spin />
-                <Post.Text>Removing</Post.Text>
+                <Elems.Icon style={Actheme.style('c:lightgray fs:s30')} icon="recycle" spin />
+                <Post.Text>Recycling</Post.Text>
               </Post.Cover>
             }
           </Post.Content>

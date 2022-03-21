@@ -10,7 +10,7 @@ export default function PostScreen() {
   const post = (store.get('posts') || []).find(post => String(post.id) === id) || {}
   const profile = users?.find(user => user.id === post?.userId) || {}
   const [edit, setEdit] = useState()
-  const [removing, setRemoving] = useState()
+  const [recycling, setRecycling] = useState()
 
   return (
     <>
@@ -27,15 +27,15 @@ export default function PostScreen() {
             <>
               <Post.Option>
                 <Elems.Button
-                  remove
+                  option
                   icon="recycle"
-                  iconSize="s3.5"
+                  iconSize="s4"
                   color="white"
-                  onPress={() => act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url }).then(setRemoving(true), setTimeout(() => router.back(),1500))} />
+                  onPress={() => act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url }).then(setRecycling(true), setTimeout(() => router.back(),1500))} />
               </Post.Option>
               <Post.Option edit>
                 <Elems.Button
-                  remove
+                  option
                   icon="pencil"
                   iconSize="s3"
                   color="white"
@@ -43,7 +43,7 @@ export default function PostScreen() {
               </Post.Option>
             </>
           }
-          {removing 
+          {recycling 
             ? <Post.Wrap removing>
                 <Elems.Icon style={Actheme.style('c:lightgray fs:s30')} icon="yin-yang" spin />
                 <Post.Text removing>Removing</Post.Text>
@@ -93,7 +93,7 @@ const Post = Actheme.create({
     removing: 'ai,jc:c w,h:90vw xw,xh:s90'}],
   Profile: ['View', 'w:100% fd:row ai:c p:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
-  Option: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3', {
+  Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3', {
     edit: 'r:s12'
   }],
 })

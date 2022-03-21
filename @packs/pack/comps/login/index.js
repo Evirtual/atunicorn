@@ -9,9 +9,9 @@ const Login = Actheme.create({
     max: 'xw:s70'
   }],
   Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5'],
-  Content: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s4'],
+  Content: ['View', 'bg:#F2F2F2 br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s4'],
   Text: ['Text', 'fs:s4 ta:c mb:s2'],
-  Close: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
+  Close: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
   Image: 'Image',
 
   Comp: (props) => {
@@ -31,9 +31,9 @@ const Login = Actheme.create({
         <Login.Content>
           <Login.Close>
             <Elems.Button
-              remove 
+              option 
               icon="times" 
-              iconSize="s5" 
+              iconSize="s4"
               color="white" 
               onPress={props.onClose} />
           </Login.Close>

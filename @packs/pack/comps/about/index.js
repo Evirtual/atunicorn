@@ -7,7 +7,7 @@ const About = Actheme.create({
   Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300 of:hd', {
     contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c p:s5')}]],
   Content: ['View', 'w:100% xw:s90 p:s4 bg:#F2F2F2 bw:1 bc:black50 br:s5'],
-  Close: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
+  Close: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
 
   Comp: (props) => {
 
@@ -20,9 +20,9 @@ const About = Actheme.create({
         <About.Content>
           <About.Close>
             <Elems.Button
-              remove
+              option
               icon="times"
-              iconSize="s5"
+              iconSize="s4"
               color="white"
               onPress={props.onClose} />
           </About.Close>
