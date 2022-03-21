@@ -28,8 +28,8 @@ export default function PostScreen() {
               <Post.Option>
                 <Elems.Button
                   remove
-                  icon="times"
-                  iconSize="s5"
+                  icon="recycle"
+                  iconSize="s3.5"
                   color="white"
                   onPress={() => act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url }).then(setRemoving(true), setTimeout(() => router.back(),1500))} />
               </Post.Option>
