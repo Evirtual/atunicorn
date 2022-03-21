@@ -1,6 +1,5 @@
 import React from 'react'
 import { Actheme } from '../../theme'
-import Elems from '../../elems'
 
 const Styled = Actheme.create({
 
