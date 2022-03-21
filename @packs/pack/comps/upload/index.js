@@ -59,7 +59,7 @@ const Upload = Actheme.create({
           {url &&
             <Elems.Input
               multiline
-              numberOfLine={2}
+              numberOfLine={3}
               onChangeText={setDesc}
               placeholder="Type your description"
               style={Actheme.style('mt:s5')} />}

@@ -25,8 +25,18 @@ const Button = Actheme.create({
   Elem: (props) => {
 
     const {
-      nsfw,
       text,
+      nsfw,
+      submit,
+      input,
+      remove,
+      inline,
+      disabled,
+      loadingpost,
+      style,
+      onPress,
+      imageWidth,
+      imageHeight,
       source,
       size,
       icon,
@@ -34,17 +44,8 @@ const Button = Actheme.create({
       regular,
       iconColor,
       iconSize,
-      imageWidth,
-      imageHeight,
       fontSize,
       textColor,
-      submit,
-      remove,
-      disabled,
-      inline,
-      onPress, 
-      loadingpost,
-      style,
       ...rest} = props
     
     return (
@@ -52,6 +53,7 @@ const Button = Actheme.create({
         text={text}
         nsfw={nsfw}
         submit={submit}
+        input={input}
         remove={remove}
         inline={inline}
         disabled={disabled}
@@ -65,17 +67,16 @@ const Button = Actheme.create({
             style={Actheme.style([
               imageWidth && `w:${imageWidth}`, 
               imageHeight && `h:${imageHeight}`
-            ].filter(item => item).join(' '))} />
+            ].filter(item => item).join(' '))}
+            {...rest} />
         }
         {icon && 
           <Elems.Icon
-            style={Actheme.style([
-              iconSize && `fs:${iconSize}`,
-              iconColor && `c:${iconColor}`
-            ].filter(item => item).join(' '))}
             icon={icon}
             solid={solid}
             regular={regular}
+            iconColor={iconColor}
+            iconSize={iconSize}
             {...rest} />
         }
         {text &&

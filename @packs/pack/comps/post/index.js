@@ -6,7 +6,7 @@ import Actstore from 'actstore'
 const Post = Actheme.create({
 
   Container: ['View', 'm:s2.5 jc,ai:c bw:1 bc:black50 br:s5 of:hd bg:white'],
-  Anchor: ['View', 'w,h:90vw xw,xh:s90 jc,ai:c'],
+  Content: ['View', 'w,h:90vw xw,xh:s90 jc,ai:c'],
   Image: ['Image', 'w,h:100%'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200'],
@@ -46,7 +46,7 @@ const Post = Actheme.create({
             </Post.Profile>
             {active &&
               <Elems.Link href={`/profile/${post.userId}`}>
-                <Post.User accessibilityRole="link">
+                <Post.User>
                   <Post.Name>@{profile.username || post.userId}</Post.Name>
                 </Post.User>
               </Elems.Link>
@@ -64,7 +64,7 @@ const Post = Actheme.create({
           </Post.Remove>
         }
         <Elems.Link href={`../post/${post.id}`}>
-          <Post.Anchor accessibilityRole="link">
+          <Post.Content>
             {post.url &&
               <Post.Image source={post.url} />
             }
@@ -74,7 +74,7 @@ const Post = Actheme.create({
                 <Post.Text>Removing</Post.Text>
               </Post.Cover>
             }
-          </Post.Anchor>
+          </Post.Content>
         </Elems.Link>
       </Post.Container>
     )

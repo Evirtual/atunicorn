@@ -21,7 +21,7 @@ export default function PostScreen() {
       <Post.Container>
         <Post.Content>
           <Elems.Link href={`/profile/${post?.userId}`}>
-            <Post.Profile accessibilityRole="link">
+            <Post.Profile>
               <Post.Wrap profile>
                 {profile?.url
                   ? <Post.Image source={profile.url} />

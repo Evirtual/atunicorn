@@ -115,8 +115,7 @@ const Nav = Actheme.create({
             }
             {path !== homePath && 
               <Elems.Link href="/">
-                <Elems.Button
-                  accessibilityRole="link"
+                <Elems.Icon
                   icon="home"
                   iconSize="s5.5" />
               </Elems.Link>
@@ -142,7 +141,6 @@ const Nav = Actheme.create({
               }
             >
               <Elems.Button
-                accessibilityRole="link"
                 icon="info-circle"
                 iconSize="s5.5" />
             </Elems.Link>
@@ -153,8 +151,7 @@ const Nav = Actheme.create({
                   onPress={action('APP_LOGOUT')} />
               : user &&
                 <Elems.Link href={`/profile/${user?.id}`}>
-                  <Elems.Button
-                    accessibilityRole="link"
+                  <Elems.Icon
                     icon="user-circle"
                     iconSize="s5.5" />
                 </Elems.Link>

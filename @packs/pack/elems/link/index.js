@@ -1,5 +1,6 @@
 import React from 'react'
 import { Actheme } from '../../theme'
+import Elems from '../../elems'
 
 const Styled = Actheme.create({
 
@@ -15,8 +16,15 @@ const Styled = Actheme.create({
       scroll, 
       shallow, 
       assetPrefix = process.env.assetPrefix,
-      text, 
-      style } = props
+      text,
+      icon,
+      solid,
+      regular,
+      iconColor,
+      iconSize,
+      style,
+      children,
+      ...rest } = props
 
     return (
       <Styled.Link
@@ -27,15 +35,27 @@ const Styled = Actheme.create({
         replace={replace}
         scroll={scroll}
         shallow={shallow}
-        style={style}>
-        {text
-          ? <Styled.Text accessibilityRole="link">{text}</Styled.Text>
-          : props.children
-        }
+        style={style}
+        {...rest} >
+        <Component
+          children={
+            text
+              ? <Styled.Text>{text}</Styled.Text>
+              : children
+          } />
       </Styled.Link>
     )
   }
 
+})
+
+const Component = React.forwardRef(({onClick, href, children}, ref) => {  
+
+  return (
+    <a href={href} onClick={onClick} ref={ref} style={Actheme.style('display:flex jc,ai:c nw:s14 nh:s11')}>
+      {children}
+    </a>
+  )
 })
 
 export default Styled.Elem
