@@ -22,8 +22,8 @@ export default function PostScreen() {
       <Comps.Navalt />
       {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
       <Post.Container>
-        <Post.Content removing={removing}>
-          {(user && user?.id === ( profile?.id || post?.userId ) && !removing) && 
+        <Post.Content recycling={recycling}>
+          {(user && user?.id === ( profile?.id || post?.userId ) && !recycling) && 
             <>
               <Post.Option>
                 <Elems.Button
@@ -44,9 +44,9 @@ export default function PostScreen() {
             </>
           }
           {recycling 
-            ? <Post.Wrap removing>
+            ? <Post.Wrap recycling>
                 <Elems.Icon style={Actheme.style('c:lightgray fs:s30')} icon="yin-yang" spin />
-                <Post.Text removing>Removing</Post.Text>
+                <Post.Text recycling>Recycling</Post.Text>
               </Post.Wrap>
             : <>
                 <Elems.Link href={`/profile/${post?.userId}`}>
@@ -81,16 +81,16 @@ const Post = Actheme.create({
   Container: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('ai,jc:c p:s5 pt:s25 pb:s10')}]],
   Content: ['View', 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd', {
-    removing: 'xw:s90'
+    recycling: 'xw:s90'
   }],
   Image: ['Image', 'w,h:100%'],
   Text: ['Text', 'fs:s5 p:s5', {
-    removing: 'c:lightgray fb:500'
+    recycling: 'c:lightgray fb:500'
   }],
   Wrap: ['View', 'w:100%', {
     image: 'btw:1 bbw:1 bc:black50 ai,jc:c',
     profile: 'fd:row jc,ai:c w,h,br:s15 of:hd',
-    removing: 'ai,jc:c w,h:90vw xw,xh:s90'}],
+    recycling: 'ai,jc:c w,h:90vw xw,xh:s90'}],
   Profile: ['View', 'w:100% fd:row ai:c p:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
   Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3', {
