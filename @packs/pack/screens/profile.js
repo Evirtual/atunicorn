@@ -20,7 +20,7 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     setPosts(data)
-  }, [user, mode, id])
+  }, [user, mode, edit, id])
 
   useEffect(() => {
     setShowNavalt(false)
