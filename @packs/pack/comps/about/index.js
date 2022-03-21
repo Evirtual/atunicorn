@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Actstore from 'actstore'
@@ -13,7 +13,7 @@ const About = Actheme.create({
 
     const { profile } = props
     const { act } = Actstore({}, ['user'])
-    const [about, setAbout] = React.useState()
+    const [about, setAbout] = useState()
 
     return (
       <About.Container>

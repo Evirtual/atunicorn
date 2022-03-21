@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Actstore from 'actstore'
@@ -17,11 +17,12 @@ const Upload = Actheme.create({
 
   Comp: props => {
 
+    const { disabled, onClose, post } = props
     const { act, store } = Actstore({}, ['user', 'posts', 'uploading'])
     const { uploading } = store.get('user', 'users', 'uploading')
-    const [url, setUrl] = React.useState()
-    const [desc, setDesc] = React.useState()
-    const [nsfw, setNsfw] = React.useState()
+    const [url, setUrl] = useState(post?.url || null)
+    const [desc, setDesc] = useState(post?.desc || null)
+    const [nsfw, setNsfw] = useState(post?.nsfw || false)
 
     return (
       <Upload.Container>
@@ -32,22 +33,22 @@ const Upload = Actheme.create({
               icon="times"
               iconSize="s5"
               color="white"
-              onPress={props.onClose} />
+              onPress={onClose} />
           </Upload.Close>
-          {!props.disabled
+          {!disabled
             ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
                 <Upload.Touch>
-                  {uploading == 'post'
-                    ? <>
-                        <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="yin-yang" spin />
-                        <Upload.Text>Uploading</Upload.Text>
-                      </>
-                    : !url
+                  {url || post?.url
+                    ? <Upload.Image source={url || post?.url} />
+                    : uploading == 'post'
                       ? <>
+                          <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="yin-yang" spin />
+                          <Upload.Text>Uploading</Upload.Text>
+                        </>
+                      : <>
                           <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="plus-circle" />
                           <Upload.Text>Upload Image</Upload.Text>
                         </>
-                      : <Upload.Image source={url} />
                   }
                 </Upload.Touch>
               </Upload.File>
@@ -56,24 +57,26 @@ const Upload = Actheme.create({
                 <Upload.Text>Upload Image</Upload.Text>
               </Upload.Touch>
           }
-          {url &&
+          {(url || post?.url) &&
             <Elems.Input
               multiline
               numberOfLine={3}
+              defaultValue={post?.desc || ''}
               onChangeText={setDesc}
               placeholder="Type your description"
               style={Actheme.style('mt:s5')} />}
-          {url && desc &&
+          {(url || post?.url) && (desc) &&
             <Elems.Button
               icon={nsfw ? 'check-circle': 'circle'} 
               iconColor="red" textColor="red" 
               iconSize="s6" 
-              nsfw onPress={() => setNsfw(!nsfw)} 
+              nsfw
+              onPress={() => setNsfw(!nsfw)} 
               text="NSFW" />}
-          {url && desc &&
+          {(url || post?.url) && desc &&
             <Elems.Button 
               submit 
-              onPress={() => act('APP_POST', { url, desc, nsfw }).then(props.onClose)} 
+              onPress={() => act('APP_POST', { id: post?.id, url, desc, nsfw }).then(onClose)} 
               text="Ready to make it public?" />}
         </Upload.Content>
       </Upload.Container>

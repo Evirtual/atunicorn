@@ -8,7 +8,7 @@ export default function AboutScreen() {
   const { id } = router?.query || {}
   const { user, users } = store.get('user', 'users')
   const profile = users?.find(item => item.id === id) || {}
-  const [editAbout, setEditAbout] = useState()
+  const [edit, setEdit] = useState()
   const path = typeof window !== "undefined" && window.location.pathname
   const profileAboutPath = `/profile/${id}/about/`
 
@@ -19,7 +19,7 @@ export default function AboutScreen() {
         desc={path === profileAboutPath && (profile?.about)}
         url={path === profileAboutPath && `https://atunicorn.io/profile/${id}`}
         cover={path === profileAboutPath && profile.url} />
-      {editAbout && <Comps.About profile={profile} onClose={() => setEditAbout(false)} />}
+      {edit && <Comps.About profile={profile} onClose={() => setEdit(false)} />}
       <About.Content>
         <Comps.Nav />
         <About.Wrap>
@@ -30,7 +30,7 @@ export default function AboutScreen() {
                 icon="pencil"
                 iconSize="s3"
                 color="white"
-                onPress={() => setEditAbout(true)} />
+                onPress={() => setEdit(true)} />
             </About.Edit>
           }
           {profile?.about

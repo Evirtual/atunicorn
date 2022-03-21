@@ -12,7 +12,9 @@ const Post = Actheme.create({
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200'],
   User: ['View', 'fb:500 ml:s2 bg:black300 pv:s2 ph:s3 br:s5'],
   Name: ['Text', 'c:white'],
-  Remove: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
+  Option: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3', {
+    edit: 'r:s12'
+  }],
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
   Text: ['Text', 'c:lightgray fb:500 fs:s5 mt:s4', {
     nsfw: 'fs:s6'
@@ -20,16 +22,34 @@ const Post = Actheme.create({
 
   Comp: (props) => {
 
-    const {post, profile, id, user, onRemove} = props
+    const {post, profile, id, user, onRemove, onEdit} = props
     const { act } = Actstore({}, [])
-    const postId = post.id
-    const userId = user && user.id
     const [active, setActive] = useState()
     const [nsfw, setNsfw] = useState()
     const [removing, setRemoving] = useState()
 
     return (
       <Post.Container>
+        {user && user?.id === id &&
+          <>
+            <Post.Option>
+              <Elems.Button
+                remove
+                icon="times"
+                iconSize="s5"
+                color="white"
+                onPress={() => act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url }).then(onRemove, setRemoving(true))} />
+            </Post.Option>
+            <Post.Option edit>
+              <Elems.Button
+                remove
+                icon="pencil"
+                iconSize="s3"
+                color="white"
+                onPress={onEdit} />
+            </Post.Option>
+          </>
+        }
         {post.nsfw && !nsfw &&
           <Post.Cover onPress={() => setNsfw(true)}>
             <Elems.Icon style={Actheme.style('c:lightgray fs:s30')} icon="eye-slash" />
@@ -45,23 +65,13 @@ const Post = Actheme.create({
               }
             </Post.Profile>
             {active &&
-              <Elems.Link href={`/profile/${post.userId}`}>
+              <Elems.Link href={`/profile/${post?.userId}`}>
                 <Post.User>
-                  <Post.Name>@{profile.username || post.userId}</Post.Name>
+                  <Post.Name>@{profile.username || profile.id}</Post.Name>
                 </Post.User>
               </Elems.Link>
             }
           </Post.Wrap>
-        }
-        {user && user.id === id &&
-          <Post.Remove>
-            <Elems.Button
-              remove
-              icon="times"
-              iconSize="s5"
-              color="white"
-              onPress={() => act('APP_DELETEPOST', { userId, postId, url: post.url }).then(onRemove, setRemoving(true))} />
-          </Post.Remove>
         }
         <Elems.Link href={`../post/${post.id}`}>
           <Post.Content>

@@ -15,6 +15,7 @@ export default function ProfileScreen() {
   const [mode, setMode] = useState('posts')
   const [search, setSearch] = useState()
   const [showNavalt, setShowNavalt] = useState()
+  const [edit, setEdit] = useState()
   const { width } = useWindowDimensions()
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function ProfileScreen() {
       post={item}
       user={user}
       profile={profile}
+      onEdit={() => setEdit((posts.find(post => String(post.id) === String(item.id))) || {})}
       onRemove={() => setMode(!mode)} />
 
   const handleNavalt = (e) => {
@@ -57,7 +59,7 @@ export default function ProfileScreen() {
           search={search}
           setSearch={setSearch} />
       }
-      {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
+      {(mode === 'upload' || edit) && <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(!mode)} />}
       <Profile.Content 
         data={posts}
         renderItem={renderItem}

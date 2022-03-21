@@ -33,7 +33,7 @@ function MainScreen() {
       ? setShowNavalt(true)
       : setShowNavalt(false)
   }
-
+  
   return (
     <Main.Container>
       <Comps.Meta />
@@ -50,7 +50,7 @@ function MainScreen() {
           setSearch={setSearch} />
       }
       {!user?.emailVerified && login && <Comps.Login onClose={() => setLogin(!login)} />}
-      {mode === 'upload' && <Comps.Upload disabled={!user || !user.approved} onClose={() => setMode(!mode)} />}
+      {mode === 'upload' && <Comps.Upload onClose={() => setMode(!mode)} />}
       <Main.Content 
         data={posts}
         renderItem={renderItem}

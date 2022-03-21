@@ -100,16 +100,28 @@ const actions = ({ store, configs }) => ({
     .catch((error) => store.set({ error: { message: error.message }}))
 },
 
-  APP_POST: async (post = {}) => {
+  APP_POST: async (post) => {
     const user = store.get('user')
     if(!user) return store.set({ error: { type: 'post', message: 'Please Login Before Posting' }})
-    const id = new Date().getTime()
+    const id = post.id || new Date().getTime()
     const key = ['posts', user.id, id].join('/')
+
+    if(user.id && post.id)
+      return firebase.database().ref(key).update({
+        id, userId: user.id,
+        updated: new Date().getTime(),
+        username: user.username || user.id,
+        avatar: user.url || null,
+        url: post.url,
+        desc: post.desc,
+        nsfw: post.nsfw || false
+      })
 
     return firebase.database().ref(key).set({
       id, userId: user.id,
+      updated: new Date().getTime(),
       username: user.username || user.id,
-      avatar: user.url || false,
+      avatar: user.url || null,
       url: post.url,
       desc: post.desc,
       nsfw: post.nsfw || false
