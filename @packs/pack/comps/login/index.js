@@ -8,8 +8,8 @@ const Login = Actheme.create({
   Wrap: ['View', 'w:100% ai,jc:c', {
     max: 'xw:s70'
   }],
-  Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s4'],
-  Content: ['View', 'bg:#F2F2F2 br:s5 w:100% nh,xw:s94 ai,jc:c bw:1 bc:black50 p:s4'],
+  Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s3'],
+  Content: ['View', 'bg:#F2F2F2 br:s5 w:100% nh,xw:s92 ai,jc:c bw:1 bc:black50 p:s4'],
   Text: ['Text', 'fs:s4 ta:c mb:s2'],
   Close: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
   Image: 'Image',
@@ -67,7 +67,7 @@ const Login = Actheme.create({
             {!login && <Elems.Button
               onPress={() => {act('APP_RESET_PASSWORD', email)}}
               text="Forgot password? Enter email and press here"
-              textColor="grey"
+              textColor="black250"
               fontSize="s3"
               style={Actheme.style('w:100%')} />}
           </Login.Wrap>
