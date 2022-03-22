@@ -116,6 +116,9 @@ const actions = ({ store, configs }) => ({
         desc: post.desc,
         nsfw: post.nsfw || false
       })
+      .then(function () {
+        store.set({ success: { message: 'Done! You successfully updated your post' } })
+      })
 
     return firebase.database().ref(key).set({
       id, userId: user.id,
