@@ -15,7 +15,7 @@ const Nav = Actheme.create({
     max: 'w:s70'
   }],
   Image: ['Image', 'w,h,br:s25', {
-    user: 'w,h,br:s7'
+    user: 'w,h,br:s6.5'
   }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 br:s5 of:hd'],

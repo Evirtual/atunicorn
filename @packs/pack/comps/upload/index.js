@@ -76,7 +76,7 @@ const Upload = Actheme.create({
             <Elems.Button 
               submit 
               onPress={() => act('APP_POST', { id: post?.id, url, desc, nsfw }).then(onClose)} 
-              text="Ready to make it public?" />}
+              text={ post?.id ? 'Update' : 'Ready to make it public?'} />}
         </Upload.Content>
       </Upload.Container>
     )
