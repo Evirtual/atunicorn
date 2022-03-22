@@ -32,6 +32,7 @@ const Button = Actheme.create({
       nsfw,
       submit,
       input,
+      option,
       edit,
       recycle,
       close,
@@ -59,6 +60,7 @@ const Button = Actheme.create({
         nsfw={nsfw}
         submit={submit}
         input={input}
+        option={option}
         recycle={recycle}
         close={close}
         edit={edit}
