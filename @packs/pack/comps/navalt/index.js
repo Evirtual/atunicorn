@@ -22,7 +22,7 @@ const Nav = Actheme.create({
   }],
   Image: ['Image', 'w,h,br:s10', {
     logo: 'w,h:s12',
-    user: 'w,h,br:s7.5'
+    user: 'w,h,br:s6.5'
   }],
 
   Comp: (props) => {
