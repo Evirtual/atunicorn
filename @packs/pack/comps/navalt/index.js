@@ -26,7 +26,7 @@ const Nav = Actheme.create({
   }],
 
   Comp: (props) => {
-    
+
     const { data, search, setSearch, setPosts, setMode, setLogin } = props
     const { store, action, handle } = Actstore({}, ['user', 'users'])
     const router = handle.useRouter()
@@ -41,10 +41,10 @@ const Nav = Actheme.create({
 
     const onSearch = (result) => {
 
-      const filter = data.filter(post => 
-        post.username.toLowerCase().includes(result.toLowerCase()) ||
-        post.desc.toLowerCase().includes(result.toLowerCase()))
-        
+      const filter = data.filter(post =>
+        (post.username.toLowerCase() || '').includes(result.toLowerCase()) ||
+        (post.desc.toLowerCase() || '').includes(result.toLowerCase()))
+
       setSearch(result)
       setPosts(filter)
     }
@@ -80,7 +80,7 @@ const Nav = Actheme.create({
                         icon="search"
                         iconColor="grey"
                         iconSize="s4.5" />
-                    : <Elems.Button 
+                    : <Elems.Button
                         input
                         icon="times-circle"
                         iconSize="s6"
@@ -90,7 +90,7 @@ const Nav = Actheme.create({
                 <Elems.Input
                   style={Actheme.style('bg:#F2F2F2')}
                   placeholder={
-                    (profile?.id || id) 
+                    (profile?.id || id)
                       ? `Search @${profile?.username || profile?.id || id}`
                       : 'Search @unicorn'
                   }
@@ -115,7 +115,7 @@ const Nav = Actheme.create({
                   iconColor="black"
                   onPress={() => router.back()} />
             }
-            {path !== homePath && 
+            {path !== homePath &&
               <Elems.Link href="/">
                 <Elems.Icon
                   icon="home"
@@ -148,7 +148,7 @@ const Nav = Actheme.create({
                 iconSize="s7"
                 iconColor="black" />
             </Elems.Link>
-            {user && user?.id === (profile?.id || id) 
+            {user && user?.id === (profile?.id || id)
               ? <Elems.Button
                   icon="power-off"
                   iconSize="s6.5"

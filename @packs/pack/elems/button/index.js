@@ -21,10 +21,10 @@ const Button = Actheme.create({
     submit: 'c:white',
     inline: 'ml:s2',
     icon: 'ta:l',
-    nsfw: 'ml:s2', 
+    nsfw: 'ml:s2',
   }],
   Image: ['Image', 'w,h:100%'],
-  
+
   Elem: (props) => {
 
     const {
@@ -52,7 +52,7 @@ const Button = Actheme.create({
       fontSize,
       textColor,
       ...rest} = props
-    
+
     return (
       <Button.Touch
         text={text}
@@ -68,16 +68,16 @@ const Button = Actheme.create({
         onPress={!disabled ? onPress : null}
         style={style}
         {...rest}>
-        {source && 
-          <Button.Image 
-            source={source} 
+        {source &&
+          <Button.Image
+            source={source}
             style={Actheme.style([
-              imageWidth && `w:${imageWidth}`, 
+              imageWidth && `w:${imageWidth}`,
               imageHeight && `h:${imageHeight}`
             ].filter(item => item).join(' '))}
             {...rest} />
         }
-        {icon && 
+        {icon &&
           <Elems.Icon
             icon={icon}
             solid={solid}
@@ -88,14 +88,14 @@ const Button = Actheme.create({
         }
         {text &&
           <Button.Text
-            icon={icon} 
-            submit={submit} 
-            inline={inline} 
-            nsfw={nsfw} 
+            icon={icon}
+            submit={submit}
+            inline={inline}
+            nsfw={nsfw}
             style={Actheme.style([
-              fontSize && `fs:${fontSize}`, 
+              fontSize && `fs:${fontSize}`,
               textColor && `c:${textColor}`
-            ].filter(item => item).join(' '))}
+            ].filter(item => !!item).join(' '))}
             {...rest}>
               {text}
           </Button.Text>

@@ -22,7 +22,7 @@ const Nav = Actheme.create({
   Text: ['Text', 'ta:c c:lightgray w:100% fs:s2.5 fb:bold mt:s1'],
 
   Comp: (props) => {
-    
+
     const { data, search, setSearch, setPosts, setMode, setLogin } = props
     const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
     const router = handle.useRouter()
@@ -35,12 +35,12 @@ const Nav = Actheme.create({
     const path = typeof window !== "undefined" && window.location.pathname
     const homePath = '/'
     const profilePath = `/profile/${id}/`
-    
+
     const onSearch = (result) => {
 
-      const filter = data.filter(post => 
-        post.username.toLowerCase().includes(result.toLowerCase()) ||
-        post.desc.toLowerCase().includes(result.toLowerCase()))
+      const filter = data.filter(post =>
+        (post.username.toLowerCase() || '').includes(result.toLowerCase()) ||
+        (post.desc.toLowerCase() || '').includes(result.toLowerCase()))
 
       setSearch(result)
       setPosts(filter)
@@ -64,16 +64,16 @@ const Nav = Actheme.create({
                       icon="search"
                       iconColor="grey"
                       iconSize="s4.5" />
-                  : <Elems.Button 
+                  : <Elems.Button
                       input
-                      icon="times-circle" 
+                      icon="times-circle"
                       iconSize="s6"
                       onPress={() => search ? onSearch('') : setActive(false)} />
                 }
               </Nav.Wrap>
               <Elems.Input
                 placeholder={
-                  (profile?.id || id) 
+                  (profile?.id || id)
                     ? `Search @${profile?.username || profile?.id || id}`
                     : 'Search @unicorn'
                 }
@@ -81,7 +81,7 @@ const Nav = Actheme.create({
                 value={search || ''} />
             </Nav.Wrap>
           }
-          {(user || path !== homePath && path !== profilePath) && 
+          {(user || path !== homePath && path !== profilePath) &&
             <Elems.Link href="/">
               <Elems.Icon
                 icon="home"
@@ -89,7 +89,7 @@ const Nav = Actheme.create({
                 iconColor="black" />
             </Elems.Link>
           }
-          {user && user?.id === (profile?.id || id) 
+          {user && user?.id === (profile?.id || id)
             ? <Elems.Button
                 icon="power-off"
                 iconSize="s6.5"
@@ -123,7 +123,7 @@ const Nav = Actheme.create({
                   onPress={() => router.back()} />
           }
           <Nav.Wrap image>
-            {user && user?.id === (profile?.id || id) 
+            {user && user?.id === (profile?.id || id)
               ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
                   <Nav.Touch>
                     {uploading == 'profile'
@@ -142,7 +142,7 @@ const Nav = Actheme.create({
                   ? <Nav.Image source={profile.url || null} />
                   : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s20" />
                 : <Nav.Image source="/static/unilogo.gif" />
-            } 
+            }
           </Nav.Wrap>
           <Elems.Link
             href={
@@ -154,7 +154,7 @@ const Nav = Actheme.create({
         </Nav.Wrap>
         <Nav.Wrap row>
           {user && user?.id === (profile?.id || id)
-            ? editUsername || !profile?.username 
+            ? editUsername || !profile?.username
               ? <Nav.Wrap row max>
                   <Nav.Wrap search>
                     <Elems.Button
@@ -168,7 +168,7 @@ const Nav = Actheme.create({
                     defaultValue={profile?.username || ''}
                     onChangeText={setUsername}
                     placeholder={profile?.username || "Set username"} />
-                  {username && 
+                  {username &&
                     <Nav.Wrap save>
                       <Elems.Button
                         input

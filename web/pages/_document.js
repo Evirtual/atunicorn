@@ -1,6 +1,6 @@
 import Document, { Head, Main, NextScript, Html } from 'next/document'
 import React from 'react'
-import { AppRegistry } from 'rnwc'
+import { AppRegistry } from 'react-native-web'
 import Actheme from 'actheme'
 
 const nextStyle = `
@@ -23,7 +23,6 @@ export default class MyDocument extends Document {
       StyleElements,
       <style dangerouslySetInnerHTML={{ __html: [nextStyle, Actheme.mediaRules()].join('\n') }} />
     ]
-    console.log('rendered style length', StyleElements.props.dangerouslySetInnerHTML.__html.length)
     return { ...page, styles: React.Children.toArray(styles) };
   }
 
