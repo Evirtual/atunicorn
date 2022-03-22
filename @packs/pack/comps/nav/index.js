@@ -7,14 +7,16 @@ const Nav = Actheme.create({
 
   Container: ['View', 'w:100% jc,ai:c z:2 mb:s5'],
   Wrap: ['View', 'jc,ai:c', {
-    image: 'w,h,br:s25 bg:white of:hd mh:s8 mv:s4',
+    image: 'w,h,br:s25 bg:white mh:s8 mv:s4',
     row: 'fd:row',
     user: 'ps:ab z:2',
     search: 'ps:ab l:s1',
     save: 'ps:ab r:s1',
     max: 'w:s70'
   }],
-  Image: ['Image', 'w,h:s25'],
+  Image: ['Image', 'w,h,br:s25', {
+    user: 'w,h,br:s7'
+  }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 br:s5 of:hd'],
   Text: ['Text', 'ta:c c:lightgray w:100% fs:s2.5 fb:bold mt:s1'],
@@ -94,10 +96,13 @@ const Nav = Actheme.create({
                 onPress={action('APP_LOGOUT')} />
             : user &&
               <Elems.Link href={`/profile/${user?.id}`}>
-                <Elems.Icon
-                  icon="user-circle"
-                  iconSize="s7"
-                  iconColor="black" />
+                {user?.url
+                  ? <Nav.Image user source={user?.url || null} />
+                  : <Elems.Icon
+                    icon="user-circle"
+                    iconSize="s7"
+                    iconColor="black" />
+                }
               </Elems.Link>
           }
         </Nav.Wrap>

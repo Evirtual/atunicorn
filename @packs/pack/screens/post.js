@@ -84,8 +84,8 @@ const Post = Actheme.create({
     recycling: 'xw:s90'
   }],
   Image: ['Image', 'w,h:100%'],
-  Text: ['Text', 'fs:s5 p:s5', {
-    recycling: 'c:lightgray fb:500'
+  Text: ['Text', 'fs:s4 p:s5', {
+    recycling: 'c:lightgray fb:500 fs:s5'
   }],
   Wrap: ['View', 'w:100%', {
     image: 'btw:1 bbw:1 bc:black50 ai,jc:c',

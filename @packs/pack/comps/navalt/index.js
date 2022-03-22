@@ -9,7 +9,7 @@ const Nav = Actheme.create({
   Container: ['View', 'bg:white ps:fixed l,r,t:0 z:99 jc,ai:c bbw:1 bbc:black50'],
   Content: ['View', 'fd:row ai:c jc:sb pv:s3 pr:s3 pl:s5 w:100% xw:s300'],
   Wrap: ['View', 'jc,ai:c', {
-    image: 'w,h,br:s10 bg:white of:hd mh:s2',
+    image: 'w,h,br:s10 bg:white mh:s2',
     logo: 'w,h,br:s12',
     row: 'fd:row',
     left: 'jc:start',
@@ -20,8 +20,9 @@ const Nav = Actheme.create({
     full: 'w:100%',
     max: 'w:s70'
   }],
-  Image: ['Image', 'w,h:s10', {
-    logo: 'w,h:s12'
+  Image: ['Image', 'w,h,br:s10', {
+    logo: 'w,h:s12',
+    user: 'w,h,br:s7'
   }],
 
   Comp: (props) => {
@@ -154,10 +155,13 @@ const Nav = Actheme.create({
                   onPress={action('APP_LOGOUT')} />
               : user &&
                 <Elems.Link href={`/profile/${user?.id}`}>
-                  <Elems.Icon
-                    icon="user-circle"
-                    iconSize="s7"
-                    iconColor="black" />
+                  {user?.url
+                    ? <Nav.Image user source={user?.url || null} />
+                    : <Elems.Icon
+                      icon="user-circle"
+                      iconSize="s7"
+                      iconColor="black" />
+                  }
                 </Elems.Link>
             }
           </Nav.Wrap>
