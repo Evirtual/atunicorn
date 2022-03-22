@@ -5,12 +5,12 @@ import Actstore from 'actstore'
 
 const Info = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'jc,ai:c pv:s3 bg:salmon z:1 pl:s5 pr:s10 ps:fixed b,r:0 m:s5 br:s5 xw:s90', {
+  Touch: ['TouchableOpacity', 'jc,ai:c pv:s3 bg:salmon z:1 pl:s5 pr:s15 ps:fixed b,r:0 m:s5 br:s5 xw:s90', {
     update: 'bg:skyblue',
     success: 'bg:lightgreen',
     error: 'bg:salmon' }],
   Text: ['Text', 'c:black fb:500 fs:s4'],
-  Close: ['View', 'w,h,br:s6 of:hd ps:ab t,r:s2.5 z:3 bg:black200 ai,jc:c'],
+  Close: ['View', 'ps:ab t,r:s1.5 z:3 ai,jc:c'],
 
   Comp: ({message = 'Something went wrong'}) => {
     const { store } = Actstore({}, ['error', 'success', 'user', 'ready'])
@@ -35,7 +35,7 @@ const Info = Actheme.create({
       </Info.Touch>}
       {(error || success) && <Info.Touch success={success} onPress={() => store.set({ error: null, success: null })}>
         <Info.Close>
-          <Elems.Button icon="times-circle" iconSize="s6" color="white" onPress={() => store.set({ error: null, success: null })} />
+          <Elems.Button option icon="times" onPress={() => store.set({ error: null, success: null })} />
         </Info.Close>
         <Info.Text>{error?.message || success?.message || message}</Info.Text>
       </Info.Touch>}

@@ -26,10 +26,9 @@ export default function AboutScreen() {
           {user && user?.id === ( profile?.id || id ) && 
             <About.Edit>
               <Elems.Button
-                remove
+                option
+                edit
                 icon="pencil"
-                iconSize="s3"
-                color="white"
                 onPress={() => setEdit(true)} />
             </About.Edit>
           }

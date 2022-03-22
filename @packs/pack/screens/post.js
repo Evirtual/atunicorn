@@ -28,24 +28,24 @@ export default function PostScreen() {
               <Post.Option>
                 <Elems.Button
                   option
+                  recycle
+                  regular
                   icon="recycle"
-                  iconSize="s4"
-                  color="white"
                   onPress={() => act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url }).then(setRecycling(true), setTimeout(() => router.back(),1500))} />
               </Post.Option>
               <Post.Option edit>
                 <Elems.Button
                   option
+                  edit
+                  regular
                   icon="pencil"
-                  iconSize="s3"
-                  color="white"
                   onPress={() => setEdit(true)} />
               </Post.Option>
             </>
           }
           {recycling 
             ? <Post.Wrap recycling>
-                <Elems.Icon style={Actheme.style('c:lightgray fs:s30')} icon="yin-yang" spin />
+                <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s30" />
                 <Post.Text recycling>Recycling</Post.Text>
               </Post.Wrap>
             : <>
@@ -54,7 +54,7 @@ export default function PostScreen() {
                     <Post.Wrap profile>
                       {profile?.url
                         ? <Post.Image source={profile.url} />
-                        : <Elems.Icon style={Actheme.style('c:lightgray fs:s15')} icon="user-circle" solid />
+                        : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s15" />
                       }
                     </Post.Wrap>
                     <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
@@ -63,7 +63,7 @@ export default function PostScreen() {
                 <Post.Wrap image>
                   {post?.url
                     ? <Post.Image source={[post.url, 'image'].join('#')} />
-                    : <Elems.Icon style={Actheme.style('fs:s40 p:s20 c:lightgray')} spin icon="yin-yang" />
+                    : <Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s40" style={Actheme.style('p:s20')} />
                   }
                 </Post.Wrap>
                 <Post.Wrap>

@@ -31,10 +31,9 @@ const Login = Actheme.create({
         <Login.Content>
           <Login.Close>
             <Elems.Button
-              option 
-              icon="times" 
-              iconSize="s4"
-              color="white" 
+              option
+              close
+              icon="times"
               onPress={props.onClose} />
           </Login.Close>
           <Login.Wrap style={Actheme.style('mt:s5 mb:s8')}>

@@ -64,7 +64,7 @@ export default function ProfileScreen() {
         data={posts}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={<Elems.Button icon="yin-yang" loadingpost spin style={Actheme.style('fs:s35 c:lightgray')} />}
+        ListEmptyComponent={<Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s35" />}
         key={width}
         initialNumToRender={6}
         maxToRenderPerBatch={6}

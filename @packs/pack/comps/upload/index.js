@@ -30,9 +30,8 @@ const Upload = Actheme.create({
           <Upload.Close>
             <Elems.Button
               option
+              close
               icon="times"
-              iconSize="s4"
-              color="white"
               onPress={onClose} />
           </Upload.Close>
           {!disabled
@@ -42,18 +41,18 @@ const Upload = Actheme.create({
                     ? <Upload.Image source={url || post?.url} />
                     : uploading == 'post'
                       ? <>
-                          <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="yin-yang" spin />
+                          <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s30" />
                           <Upload.Text>Uploading</Upload.Text>
                         </>
                       : <>
-                          <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="plus-circle" />
+                          <Elems.Icon icon="plus-circle" iconColor="lightgray" iconSize="s35" />
                           <Upload.Text>Upload Image</Upload.Text>
                         </>
                   }
                 </Upload.Touch>
               </Upload.File>
             : <Upload.Touch disabled>
-                <Elems.Icon style={Actheme.style('fs:s30 c:lightgray')} icon="plus-circle" />
+                <Elems.Icon icon="plus-circle" iconColor="lightgray" iconSize="s35" />
                 <Upload.Text>Upload Image</Upload.Text>
               </Upload.Touch>
           }

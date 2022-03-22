@@ -18,7 +18,7 @@ const Nav = Actheme.create({
     important: 'ps:ab l,r:0 z:9 ph:s5',
     medium: 'w:33%',
     full: 'w:100%',
-    max: 'w:s65'
+    max: 'w:s70'
   }],
   Image: ['Image', 'w,h:s10', {
     logo: 'w,h:s12'
@@ -56,7 +56,7 @@ const Nav = Actheme.create({
               {profile
                 ? profile?.url
                   ? <Nav.Image source={profile.url || null} />
-                  : <Elems.Icon style={Actheme.style('c:lightgray fs:s20')} icon="user-circle" solid />
+                  : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s10" />
                 : <Nav.Image logo source="/static/unilogo.gif" />
               }
             </Nav.Wrap>
@@ -73,7 +73,7 @@ const Nav = Actheme.create({
             <Nav.Wrap important={active}>
               <Nav.Wrap full={(width < 767)} max={(width > 767)}>
                 <Nav.Wrap search>
-                  {(width > 767)
+                  {!search && !active
                     ? <Elems.Button
                         input
                         icon="search"
@@ -81,13 +81,13 @@ const Nav = Actheme.create({
                         iconSize="s4.5" />
                     : <Elems.Button 
                         input
-                        icon="times-circle" 
-                        iconColor="grey"
-                        iconSize="s5.5"
-                        onPress={() => setActive(false)} />
+                        icon="times-circle"
+                        iconSize="s6"
+                        onPress={() => search ? onSearch('') : setActive(false)} />
                   }
                 </Nav.Wrap>
                 <Elems.Input
+                  style={Actheme.style('bg:#F2F2F2')}
                   placeholder={
                     (profile?.id || id) 
                       ? `Search @${profile?.username || profile?.id || id}`
@@ -102,34 +102,36 @@ const Nav = Actheme.create({
             {(width < 768) && !active && (path === homePath || path === profilePath) &&
               <Elems.Button
                 icon="search"
-                iconSize="s5.5"
+                iconSize="s6.5"
                 onPress={() => setActive(true)} />
             }
             {(path === profilePath && user?.id === (profile?.id || id))
               ? null
               : path !== homePath &&
                 <Elems.Button
-                  icon="arrow-left"
-                  iconSize="s5.5"
+                  icon="arrow-circle-left"
+                  iconSize="s7"
+                  iconColor="black"
                   onPress={() => router.back()} />
             }
             {path !== homePath && 
               <Elems.Link href="/">
                 <Elems.Icon
                   icon="home"
-                  iconSize="s5.5" />
+                  iconSize="s7"
+                  iconColor="black" />
               </Elems.Link>
             }
             {!user && path === homePath
               ? <Elems.Button
                   icon="user-circle"
-                  iconSize="s5.5"
+                  iconSize="s7"
                   onPress={() => setLogin(true)} />
               : user && (path === homePath || (path === profilePath && user?.id === (profile?.id || id))) &&
                 <Elems.Button
                   disabled={!user.approved}
                   icon="arrow-circle-up"
-                  iconSize="s5.5"
+                  iconSize="s7"
                   iconColor="mediumseagreen"
                   onPress={() => setMode('upload')} />
             }
@@ -142,18 +144,20 @@ const Nav = Actheme.create({
             >
               <Elems.Icon
                 icon="info-circle"
-                iconSize="s5.5" />
+                iconSize="s7"
+                iconColor="black" />
             </Elems.Link>
             {user && user?.id === (profile?.id || id) 
               ? <Elems.Button
                   icon="power-off"
-                  iconSize="s5.5"
+                  iconSize="s7"
                   onPress={action('APP_LOGOUT')} />
               : user &&
                 <Elems.Link href={`/profile/${user?.id}`}>
                   <Elems.Icon
                     icon="user-circle"
-                    iconSize="s5.5" />
+                    iconSize="s7"
+                    iconColor="black" />
                 </Elems.Link>
             }
           </Nav.Wrap>

@@ -50,13 +50,13 @@ const Nav = Actheme.create({
           {user && (path === homePath || path === profilePath) &&
             <Elems.Button
               icon="search"
-              iconSize="s5.5"
+              iconSize="s6"
               onPress={() => setActive(true)} />
           }
           {(!user || active || search) && (path === homePath || path === profilePath) &&
             <Nav.Wrap user={user} max>
               <Nav.Wrap search>
-                {!user
+                {!search && !active
                   ? <Elems.Button
                       input
                       icon="search"
@@ -65,8 +65,7 @@ const Nav = Actheme.create({
                   : <Elems.Button 
                       input
                       icon="times-circle" 
-                      iconColor="grey"
-                      iconSize="s5.5"
+                      iconSize="s6"
                       onPress={() => search ? onSearch('') : setActive(false)} />
                 }
               </Nav.Wrap>
@@ -84,19 +83,21 @@ const Nav = Actheme.create({
             <Elems.Link href="/">
               <Elems.Icon
                 icon="home"
-                iconSize="s5.5" />
+                iconSize="s6.5"
+                iconColor="black" />
             </Elems.Link>
           }
           {user && user?.id === (profile?.id || id) 
             ? <Elems.Button
                 icon="power-off"
-                iconSize="s5.5"
+                iconSize="s6.5"
                 onPress={action('APP_LOGOUT')} />
             : user &&
               <Elems.Link href={`/profile/${user?.id}`}>
                 <Elems.Icon
                   icon="user-circle"
-                  iconSize="s5.5" />
+                  iconSize="s6.5"
+                  iconColor="black" />
               </Elems.Link>
           }
         </Nav.Wrap>
@@ -122,19 +123,19 @@ const Nav = Actheme.create({
                   <Nav.Touch>
                     {uploading == 'profile'
                       ? <>
-                          <Elems.Icon style={Actheme.style('c:lightgray fs:s10')} icon="yin-yang" spin />
+                          <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s10" />
                           <Nav.Text>Uploading</Nav.Text>
                         </>
                       : profile?.url
                         ? <Nav.Image source={profile.url || null} />
-                        : <Elems.Icon style={Actheme.style('c:lightgray fs:s10')} icon="camera" solid />
+                        : <Elems.Icon icon="camera" solid iconColor="lightgray" iconSize="s10" />
                     }
                   </Nav.Touch>
                 </Nav.File>
               : profile
                 ? profile?.url
                   ? <Nav.Image source={profile.url || null} />
-                  : <Elems.Icon style={Actheme.style('c:lightgray fs:s20')} icon="user-circle" solid />
+                  : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s20" />
                 : <Nav.Image source="/static/unilogo.gif" />
             } 
           </Nav.Wrap>
@@ -155,7 +156,7 @@ const Nav = Actheme.create({
                       input
                       icon="times-circle"
                       iconColor="grey"
-                      iconSize="s5.5"
+                      iconSize="s6"
                       onPress={() => setEditUsername(false)} />
                   </Nav.Wrap>
                   <Elems.Input
@@ -168,7 +169,7 @@ const Nav = Actheme.create({
                         input
                         icon="save"
                         iconColor="mediumseagreen"
-                        iconSize="s5.5"
+                        iconSize="s6"
                         onPress={() => act('APP_USER', { username }).then(username => !!username && setEditUsername(false))} />
                     </Nav.Wrap>
                   }

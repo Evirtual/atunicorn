@@ -4,11 +4,14 @@ import Elems from '../../elems'
 
 const Button = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'jc,ai:c nw:s14 nh:s11', {
+  Touch: ['TouchableOpacity', 'jc,ai:c nw:s13 nh:s11', {
     submit: 'bc:lightgray br:s5 bg:mediumseagreen mt:s5',
-    option: 'w,h,nh,nw,br:s7.2 bw:1.5 bc:white bg:black250',
-    input: 'bg:white br:50% nw,nh:s10',
-    text: 'nw:s15',
+    option: 'w,h,nh,nw,br:s8.5 bw:1.75 bg:white400 bc:black c:black',
+    edit: 'fs:s4',
+    recycle: 'fs:s4.5',
+    close: 'fs:s5',
+    input: 'br:50% nw,nh:s9',
+    text: 'nw:s13',
     disabled: 'op:0.25',
     inline: 'fd:row',
     nsfw: 'fd:row p:s2 bg:white mt:s5 br:s5 bw:1 bc:black50',
@@ -29,7 +32,9 @@ const Button = Actheme.create({
       nsfw,
       submit,
       input,
-      remove,
+      edit,
+      recycle,
+      close,
       inline,
       disabled,
       loadingpost,
@@ -54,7 +59,9 @@ const Button = Actheme.create({
         nsfw={nsfw}
         submit={submit}
         input={input}
-        remove={remove}
+        recycle={recycle}
+        close={close}
+        edit={edit}
         inline={inline}
         disabled={disabled}
         loadingpost={loadingpost}

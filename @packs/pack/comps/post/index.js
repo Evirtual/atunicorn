@@ -9,9 +9,9 @@ const Post = Actheme.create({
   Content: ['View', 'w,h:90vw xw,xh:s90 jc,ai:c'],
   Image: ['Image', 'w,h:100%'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
-  Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200'],
-  User: ['View', 'fb:500 ml:s2 bg:black300 pv:s2 ph:s3 br:s5'],
-  Name: ['Text', 'c:white'],
+  Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:1.75 bc:white'],
+  User: ['View', 'ml:s2 bg:white400 bw:1.75 bc:black pv:s2 ph:s3 br:s6'],
+  Name: ['Text', 'c:black fb:500'],
   Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3', {
     edit: 'r:s12'
   }],
@@ -35,17 +35,17 @@ const Post = Actheme.create({
             <Post.Option>
               <Elems.Button
                 option
+                recycle
+                regular
                 icon="recycle"
-                iconSize="s3.5"
-                color="white"
                 onPress={() => act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url }).then(onRemove, setRecycling(true))} />
             </Post.Option>
             <Post.Option edit>
               <Elems.Button
                 option
+                edit
+                regular
                 icon="pencil"
-                iconSize="s3"
-                color="white"
                 onPress={onEdit} />
             </Post.Option>
           </>
@@ -80,7 +80,7 @@ const Post = Actheme.create({
             }
             {recycling &&
               <Post.Cover>
-                <Elems.Icon style={Actheme.style('c:lightgray fs:s30')} icon="recycle" spin />
+                <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s30" />
                 <Post.Text>Recycling</Post.Text>
               </Post.Cover>
             }

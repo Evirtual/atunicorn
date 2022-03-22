@@ -21,9 +21,8 @@ const About = Actheme.create({
           <About.Close>
             <Elems.Button
               option
+              close
               icon="times"
-              iconSize="s4"
-              color="white"
               onPress={props.onClose} />
           </About.Close>
           <Elems.Input
