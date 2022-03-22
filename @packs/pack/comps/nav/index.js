@@ -92,7 +92,7 @@ const Nav = Actheme.create({
           {user && user?.id === (profile?.id || id) 
             ? <Elems.Button
                 icon="power-off"
-                iconSize="s7"
+                iconSize="s6.5"
                 onPress={action('APP_LOGOUT')} />
             : user &&
               <Elems.Link href={`/profile/${user?.id}`}>
