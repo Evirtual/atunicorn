@@ -18,7 +18,7 @@ const Nav = Actheme.create({
     user: 'w,h,br:s6.5'
   }],
   File: 'Upload',
-  Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 br:s5 of:hd'],
+  Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 of:hd'],
   Text: ['Text', 'ta:c c:lightgray w:100% fs:s2.5 fb:bold mt:s1'],
 
   Comp: (props) => {

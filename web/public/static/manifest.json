@@ -3,7 +3,7 @@
   "name": "atunicorn.io",
   "description": "It's a place to express your uniqueness in ways that inspire us to feel more confident in our everyday life",
   "icons": [{
-		"src": "/static/favicon-196x196.png",
+		"src": "/static/favicon-192x192.png",
 		"sizes": "192x192",
 		"type": "image/png"
 	},{

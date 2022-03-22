@@ -51,7 +51,7 @@ const useServiceWorker = () => {
     if(typeof document !== 'object') return
     
     if('serviceWorker' in window.navigator)
-      window.navigator.serviceWorker.register('/static/sw.js').then( 
+      window.navigator.serviceWorker.register('/sw.js').then( 
         ({ scope }) => console.log('ServiceWorker registered ', scope),
         (err) =>  console.log('ServiceWorker failed: ', err)
       )

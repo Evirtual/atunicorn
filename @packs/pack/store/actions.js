@@ -148,16 +148,16 @@ const actions = ({ store, configs }) => ({
     try {
       if(!file?.type?.includes('image/'))
         throw new Error('File that you are uploading is not an image')
-      if(file.size >= 7 * 1024 * 1024 && (!file?.type?.includes('image/gif')))
+      if(file?.size >= 7 * 1024 * 1024 && (!file?.type?.includes('image/gif')))
         throw new Error('File size is too big (maximum size: 7MB)')
-      if(file.size >= 2 * 1024 * 1024 && (file?.type?.includes('image/gif')))
+      if(file?.size >= 2 * 1024 * 1024 && (file?.type?.includes('image/gif')))
         throw new Error('GIF size is too big (maximum size: 2MB)')
 
       const resizeFile = (file) => new Promise(resolve => {
         Compress.imageFileResizer(file, 1280, 1280, 'JPEG', 75, 0, uri => {resolve(uri)}, 'file')
       })
 
-      const resizedFile = await !file?.type?.includes('image/gif') ? resizeFile(file) : file
+      const resizedFile = await (!file?.type?.includes('image/gif') ? resizeFile(file) : file)
       const user = store.get('user') || {}
       const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(resizedFile)
       const url = await snap.ref.getDownloadURL()
