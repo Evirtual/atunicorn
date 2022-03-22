@@ -35,7 +35,7 @@ const About = Actheme.create({
             <Elems.Button 
               submit
               onPress={() => act('APP_USER', { about }).then(props.onClose)}
-              text="Ready to save?" />
+              text={profile?.about ? 'Update' : 'Ready to save?'} />
           }
         </About.Content>
       </About.Container>

@@ -53,5 +53,5 @@ const About = Actheme.create({
     contentContainerStyle: Actheme.style('jc,ai:c ph:s5 pv:s10')}]],
   Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s10 m:s2.5'],
   Text: ['Text', 'fs:s4 ta:c'],
-  Edit: ['View', 'w,h,br:s8 bg:black200 ps:ab t,r:s2 ai,jc:c z:3'],
+  Edit: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
 })
