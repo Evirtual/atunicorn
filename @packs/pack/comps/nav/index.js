@@ -155,7 +155,7 @@ const Nav = Actheme.create({
                     <Elems.Button
                       input
                       icon="times-circle"
-                      iconColor="grey"
+                      iconColor="black"
                       iconSize="s6"
                       onPress={() => setEditUsername(false)} />
                   </Nav.Wrap>
