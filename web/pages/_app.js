@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Router from 'next/router'
 import Actstore from 'actstore'
-import Head from 'next/head'
 import Settings from 'pack/store'
 import Layout from 'pack/comps/layout'
 
@@ -29,6 +28,8 @@ const App = ({ Component, pageProps }) => {
 		act('APP_INIT')
 	}, [])
 
+	useServiceWorker()
+
   return (
 		<React.Fragment>
 			<Layout />
@@ -43,6 +44,18 @@ App.getInitialProps = async ({ Component, router, ctx }) => {
 
   const { route, query } = router
   return { pageProps, route, query, asPath }
+}
+
+const useServiceWorker = () => {
+  useEffect(() => {
+    if(typeof document !== 'object') return
+    
+    if('serviceWorker' in window.navigator)
+      window.navigator.serviceWorker.register('/static/sw.js').then( 
+        ({ scope }) => console.log('ServiceWorker registered ', scope),
+        (err) =>  console.log('ServiceWorker failed: ', err)
+      )
+  }, [])
 }
 
 export default App

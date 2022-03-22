@@ -27,15 +27,15 @@ const Meta = (props) => {
       <meta property="twitter:title" content={title ? `@${title}` : "@unicorn"} />
       <meta property="twitter:description" content={desc ? desc : "It's a place to express your uniqueness in ways that inspire us to feel more confident in our everyday life"} />
       <meta property="twitter:image" content={cover ? `${cover}.png` : "https://atunicorn.io/static/unicover-updated.png"} />
+      <meta name="application-name" content="&nbsp;"/>
+      <meta name="msapplication-TileColor" content="#FFFFFF" />
+      <meta name="msapplication-square150x150logo" content="/static/mstile-310x310.png" />
       <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
       <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
       <link rel="icon" type="image/png" href="/static/favicon-196x196.png" sizes="196x196" />
       <link rel="icon" type="image/png" href="/static/favicon-32x32.png" sizes="32x32" />
       <link rel="icon" type="image/png" href="/static/favicon-16x16.png" sizes="16x16" />
       <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/static/apple-touch-icon-152x152.png" />
-      <meta name="application-name" content="&nbsp;"/>
-      <meta name="msapplication-TileColor" content="#FFFFFF" />
-      <meta name="msapplication-square150x150logo" content="/static/mstile-310x310.png" />
       <link rel="manifest" href="/static/manifest.json" />
     </Head>
   )
