@@ -19,7 +19,7 @@ export default function PostScreen() {
         desc={post?.desc}
         url={`https://atunicorn.io/post/${id}`}
         cover={post?.url} />
-      <Comps.Navalt />
+      <Comps.Nav changeNav />
       {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
       <Post.Container>
         <Post.Content recycling={recycling}>
