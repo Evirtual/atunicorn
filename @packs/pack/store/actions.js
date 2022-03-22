@@ -117,7 +117,7 @@ const actions = ({ store, configs }) => ({
         nsfw: post.nsfw || false
       })
       .then(function () {
-        store.set({ success: { message: 'Done! You successfully updated your post' } })
+        store.set({ success: { message: 'Done! You successfully updated post' } })
       })
 
     return firebase.database().ref(key).set({
