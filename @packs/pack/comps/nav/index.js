@@ -50,7 +50,7 @@ const Nav = Actheme.create({
           {user && (path === homePath || path === profilePath) &&
             <Elems.Button
               icon="search"
-              iconSize="s6"
+              iconSize="s6.5"
               onPress={() => setActive(true)} />
           }
           {(!user || active || search) && (path === homePath || path === profilePath) &&
@@ -83,20 +83,20 @@ const Nav = Actheme.create({
             <Elems.Link href="/">
               <Elems.Icon
                 icon="home"
-                iconSize="s6.5"
+                iconSize="s7"
                 iconColor="black" />
             </Elems.Link>
           }
           {user && user?.id === (profile?.id || id) 
             ? <Elems.Button
                 icon="power-off"
-                iconSize="s6.5"
+                iconSize="s7"
                 onPress={action('APP_LOGOUT')} />
             : user &&
               <Elems.Link href={`/profile/${user?.id}`}>
                 <Elems.Icon
                   icon="user-circle"
-                  iconSize="s6.5"
+                  iconSize="s7"
                   iconColor="black" />
               </Elems.Link>
           }
