@@ -50,7 +50,7 @@ export default function ProfileScreen() {
         ListEmptyComponent={<Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s35" />}
         initialNumToRender={1}
         maxToRenderPerBatch={1}
-        windowSize={1}
+        windowSize={6}
         onScroll={handleNavalt}
         numColumns={6}
         stickyHeaderIndices={[0]}
