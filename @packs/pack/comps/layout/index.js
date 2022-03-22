@@ -10,7 +10,7 @@ const Info = Actheme.create({
     success: 'bg:lightgreen',
     error: 'bg:salmon' }],
   Text: ['Text', 'c:black fb:500 fs:s4'],
-  Close: ['View', 'ps:ab t,r:s1.5 z:3 ai,jc:c'],
+  Close: ['View', 'ps:ab t,r:s1.25 z:3 ai,jc:c'],
 
   Comp: ({message = 'Something went wrong'}) => {
     const { store } = Actstore({}, ['error', 'success', 'user', 'ready'])

@@ -7,7 +7,7 @@ import Actstore from 'actstore'
 const Nav = Actheme.create({
 
   Container: ['View', 'jc,ai:c ps:ab t:-1 w:100vw z:2'],
-  Content: ['View', 'ps:ab t,l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey400', {
+  Content: ['View', 'ps:ab t,l,r:0 pv:s2.5 ph:s5 ai,jc:c bg:grey400', {
     changeNav: 'bg:white fd:row ai:c jc:sb'
   }],
   Wrap: ['View', 'jc,ai:c', {
@@ -26,7 +26,7 @@ const Nav = Actheme.create({
   }],
   Image: ['Image', 'w,h,br:s25', {
     logo: 'w,h:s12',
-    profile: 'w,h,br:s10',
+    profile: 'w,h,br:s9',
     user: 'w,h,br:s6.5'
   }],
   File: 'Upload',
