@@ -28,9 +28,9 @@ export default function ProfileScreen() {
       onEdit={() => setEdit((posts.find(post => String(post.id) === String(item.id))) || {})}
       onRemove={() => setMode(!mode)} />
 
-  const handleNavalt = (e) => {
+  const handleNav = (e) => {
     const scrolled = e.nativeEvent.contentOffset.y
-    scrolled > 260
+    scrolled > 264
       ? setChangeNav(true)
       : setChangeNav(false)
   }
@@ -50,7 +50,8 @@ export default function ProfileScreen() {
         initialNumToRender={1}
         maxToRenderPerBatch={1}
         windowSize={6}
-        onScroll={handleNavalt}
+        onScroll={handleNav}
+        scrollEventThrottle={1}
         numColumns={6}
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
@@ -73,7 +74,7 @@ const Profile = Actheme.create({
   Content: ['FlatList', ['f:1', {
     contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s10'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c'),
-    ListHeaderComponentStyle: Actheme.style('fw:wrap ai,jc:c')}]],
+    ListHeaderComponentStyle: Actheme.style('ai,jc:c')}]],
   Text: ['Text', 'fs,mb:s6 ta:c', {
     small: 'fs:s3'}],
   Wrap: ['View', 'w:100% ai:c']

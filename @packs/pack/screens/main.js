@@ -22,7 +22,7 @@ function MainScreen() {
 
   const handleNavalt = (e) => {
     const scrolled = e.nativeEvent.contentOffset.y
-    scrolled > 260
+    scrolled > 264
       ? setChangeNav(true)
       : setChangeNav(false)
   }
@@ -39,6 +39,7 @@ function MainScreen() {
         maxToRenderPerBatch={1}
         windowSize={6}
         onScroll={handleNavalt}
+        scrollEventThrottle={1}
         numColumns={6}
         stickyHeaderIndices={[0]}
         ListHeaderComponent={

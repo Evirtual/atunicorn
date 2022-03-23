@@ -102,7 +102,7 @@ const Nav = Actheme.create({
                   }
                 </Nav.Wrap>
                 <Elems.Input
-                  style={Actheme.style(`pl:s10 ${changeNav && 'bg:#F2F2F2'}`)}
+                  style={Actheme.style(`ph:s10 ${changeNav && 'bg:#F2F2F2'}`)}
                   placeholder={
                     (profile?.id || id)
                       ? `Search @${profile?.username || profile?.id || id}`

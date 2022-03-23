@@ -9,9 +9,17 @@ export default function AboutScreen() {
   const { user, users } = store.get('user', 'users')
   const profile = users?.find(item => item.id === id) || {}
   const [edit, setEdit] = useState()
+  const [changeNav, setChangeNav] = useState()
   const path = typeof window !== "undefined" && window.location.pathname
   const profileAboutPath = `/profile/${id}/about/`
-  
+
+  const handleNav = (e) => {
+    const scrolled = e.nativeEvent.contentOffset.y
+    scrolled > 264
+      ? setChangeNav(true)
+      : setChangeNav(false)
+  }
+
   return (
     <About.Container>
       <Comps.Meta
@@ -19,8 +27,12 @@ export default function AboutScreen() {
         desc={path === profileAboutPath && (profile?.about)}
         url={path === profileAboutPath && `https://atunicorn.io/profile/${id}`}
         cover={path === profileAboutPath && profile.url} />
-      <About.Content>
-        <Comps.Nav />
+      <About.Content
+        onScroll={handleNav}
+        scrollEventThrottle={1}
+        stickyHeaderIndices={[0]}
+      >
+        <Comps.Nav changeNav={changeNav} />
         <About.Wrap>
           {user && user?.id === ( profile?.id || id ) && 
             <About.Edit>
