@@ -84,7 +84,7 @@ const Nav = Actheme.create({
             </Nav.Wrap>
           }
           {(path === homePath || path === profilePath) && (user ? active : !active) &&
-            <Nav.Wrap important={user || changeNav}>
+            <Nav.Wrap important={user || changeNav && (width < 768)}>
               <Nav.Wrap search max={(width > 767) || !changeNav}>
                 <Nav.Wrap options>
                   {!search && !active
