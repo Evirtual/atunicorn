@@ -18,11 +18,12 @@ const Nav = Actheme.create({
     user: 'ps:ab z:2',
     left: 'jc:start',
     right: 'jc:end',
-    options: 'ps:ab l:s1',
+    option: 'ps:ab l:s1',
     save: 'ps:ab r:s1',
     important: 'ps:ab t:s3 l,r:0 z:9 ph:s5',
     search: 'nw:s70 w:100%',
     max: 'xw:s70',
+    medium: 'w:33.33%'
   }],
   Image: ['Image', 'w,h,br:s25', {
     logo: 'w,h:s12',
@@ -64,7 +65,7 @@ const Nav = Actheme.create({
       <Nav.Container>
         <Nav.Content changeNav={changeNav}>
           {changeNav && 
-            <Nav.Wrap row left={changeNav}>
+            <Nav.Wrap row left={changeNav} medium={(width > 767)}>
               <Nav.Wrap imageSmall={changeNav} logo={!profile?.url}>
                 {profile
                   ? profile?.url
@@ -84,9 +85,9 @@ const Nav = Actheme.create({
             </Nav.Wrap>
           }
           {(path === homePath || path === profilePath) && (user ? active : !active) &&
-            <Nav.Wrap important={user || changeNav && (width < 768)}>
+            <Nav.Wrap important={!changeNav && user || changeNav && (width < 768)} medium={changeNav && (width > 767)}>
               <Nav.Wrap search max={(width > 767) || !changeNav}>
-                <Nav.Wrap options>
+                <Nav.Wrap option>
                   {!search && !active
                     ? <Elems.Button
                         input
@@ -101,7 +102,7 @@ const Nav = Actheme.create({
                   }
                 </Nav.Wrap>
                 <Elems.Input
-                  style={changeNav && Actheme.style('bg:#F2F2F2')}
+                  style={Actheme.style(`pl:s10 ${changeNav && 'bg:F2F2F2'}`)}
                   placeholder={
                     (profile?.id || id)
                       ? `Search @${profile?.username || profile?.id || id}`
@@ -112,7 +113,7 @@ const Nav = Actheme.create({
               </Nav.Wrap>
             </Nav.Wrap>
           }
-          <Nav.Wrap row right={changeNav}>
+          <Nav.Wrap row right={changeNav} medium={(width > 767)}>
             {changeNav && path !== homePath &&
               <Elems.Button
                 icon="arrow-circle-left"
@@ -232,19 +233,21 @@ const Nav = Actheme.create({
           {!changeNav && <Nav.Wrap row>
             {user && user?.id === (profile?.id || id)
               ? editUsername || !profile?.username
-                ? <Nav.Wrap row max>
-                    <Nav.Wrap search>
+                ? <Nav.Wrap row search max>
+                    <Nav.Wrap option>
                       <Elems.Button
                         input
                         icon="times-circle"
                         iconColor="black"
                         iconSize="s6"
-                        onPress={() => setEditUsername(false)} />
+                        onPress={() => setEditUsername(false)}
+                        style={Actheme.style('bg:white')}/>
                     </Nav.Wrap>
                     <Elems.Input
                       defaultValue={profile?.username || ''}
                       onChangeText={setUsername}
-                      placeholder={profile?.username || "Set username"} />
+                      placeholder={profile?.username || "Set username"}
+                      style={Actheme.style('ph:s10')} />
                     {username &&
                       <Nav.Wrap save>
                         <Elems.Button
@@ -252,6 +255,7 @@ const Nav = Actheme.create({
                           icon="save"
                           iconColor="mediumseagreen"
                           iconSize="s6"
+                          style={Actheme.style('bg:white')}
                           onPress={() => act('APP_USER', { username }).then(username => !!username && setEditUsername(false))} />
                       </Nav.Wrap>
                     }
