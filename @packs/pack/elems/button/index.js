@@ -10,7 +10,7 @@ const Button = Actheme.create({
     edit: 'fs:s4',
     recycle: 'fs:s4.5',
     close: 'fs:s5',
-    input: 'br:50% nw,nh:s9',
+    input: 'nw,nh,br:s9 bg:white',
     text: 'nw:s13',
     disabled: 'op:0.25',
     inline: 'fd:row',
