@@ -6,8 +6,8 @@ import Actstore from 'actstore'
 
 const Nav = Actheme.create({
 
-  Container: ['View', 'jc,ai:c ps:sticky t:-1 w:100vw z:2'],
-  Content: ['View', 'ps:ab t,l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey400 h:s60', {
+  Container: ['View', 'jc,ai:c ps:sticky t:0 w:100vw z:2'],
+  Content: ['View', 'ps:ab t:-1 l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey400 h:s59', {
     changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:black50 h:s18'
   }],
   Wrap: ['View', 'jc,ai:c', {
@@ -23,7 +23,6 @@ const Nav = Actheme.create({
     important: 'ps:ab t:s3 l,r:0 z:9 ph:s5',
     search: 'nw:s70 w:100%',
     max: 'xw:s70',
-    medium: 'w:33.33%'
   }],
   Image: ['Image', 'w,h,br:s25', {
     logo: 'w,h:s12',
@@ -65,7 +64,7 @@ const Nav = Actheme.create({
       <Nav.Container>
         <Nav.Content changeNav={changeNav}>
           {changeNav && 
-            <Nav.Wrap row left={changeNav} medium={(width > 768)}>
+            <Nav.Wrap row left={changeNav}>
               <Nav.Wrap imageSmall={changeNav} logo={!profile?.url}>
                 {profile
                   ? profile?.url
@@ -85,7 +84,7 @@ const Nav = Actheme.create({
             </Nav.Wrap>
           }
           {(path === homePath || path === profilePath) && (user ? active : !active) &&
-            <Nav.Wrap important={user || changeNav && (width < 768)} medium={(width > 768)}>
+            <Nav.Wrap important={user || changeNav && (width < 768)}>
               <Nav.Wrap search max={(width > 767) || !changeNav}>
                 <Nav.Wrap options>
                   {!search && !active
@@ -113,7 +112,7 @@ const Nav = Actheme.create({
               </Nav.Wrap>
             </Nav.Wrap>
           }
-          <Nav.Wrap row right={changeNav} medium={(width > 768)}>
+          <Nav.Wrap row right={changeNav}>
             {changeNav && path !== homePath &&
               <Elems.Button
                 icon="arrow-circle-left"
