@@ -13,74 +13,72 @@ export default function PostScreen() {
   const [recycling, setRecycling] = useState()
 
   return (
-    <>
+    <Post.Container>
       <Comps.Meta
         title={post?.username}
         desc={post?.desc}
         url={`https://atunicorn.io/post/${id}`}
         cover={post?.url} />
       <Comps.Nav changeNav />
-      {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
-      <Post.Container>
-        <Post.Content recycling={recycling}>
-          {(user && user?.id === ( profile?.id || post?.userId ) && !recycling) && 
-            <>
-              <Post.Option>
-                <Elems.Button
-                  option
-                  recycle
-                  regular
-                  icon="recycle"
-                  onPress={() => act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url }).then(setRecycling(true), setTimeout(() => router.back(),1500))} />
-              </Post.Option>
-              <Post.Option edit>
-                <Elems.Button
-                  option
-                  edit
-                  regular
-                  icon="pencil"
-                  onPress={() => setEdit(true)} />
-              </Post.Option>
-            </>
-          }
-          {recycling 
-            ? <Post.Wrap recycling>
-                <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s30" />
-                <Post.Text recycling>Recycling</Post.Text>
+      <Post.Content recycling={recycling}>
+        {(user && user?.id === ( profile?.id || post?.userId ) && !recycling) && 
+          <>
+            <Post.Option>
+              <Elems.Button
+                option
+                recycle
+                regular
+                icon="recycle"
+                onPress={() => act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url }).then(setRecycling(true), setTimeout(() => router.back(),1500))} />
+            </Post.Option>
+            <Post.Option edit>
+              <Elems.Button
+                option
+                edit
+                regular
+                icon="pencil"
+                onPress={() => setEdit(true)} />
+            </Post.Option>
+          </>
+        }
+        {recycling 
+          ? <Post.Wrap recycling>
+              <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s30" />
+              <Post.Text recycling>Recycling</Post.Text>
+            </Post.Wrap>
+          : <>
+              <Elems.Link href={`/profile/${post?.userId}`}>
+                <Post.Profile>
+                  <Post.Wrap profile>
+                    {profile?.url
+                      ? <Post.Image source={profile.url} />
+                      : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s15" />
+                    }
+                  </Post.Wrap>
+                  <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
+                </Post.Profile>
+              </Elems.Link>
+              <Post.Wrap image>
+                {post?.url
+                  ? <Post.Image source={[post.url, 'image'].join('#')} />
+                  : <Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s40" style={Actheme.style('p:s20')} />
+                }
               </Post.Wrap>
-            : <>
-                <Elems.Link href={`/profile/${post?.userId}`}>
-                  <Post.Profile>
-                    <Post.Wrap profile>
-                      {profile?.url
-                        ? <Post.Image source={profile.url} />
-                        : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s15" />
-                      }
-                    </Post.Wrap>
-                    <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
-                  </Post.Profile>
-                </Elems.Link>
-                <Post.Wrap image>
-                  {post?.url
-                    ? <Post.Image source={[post.url, 'image'].join('#')} />
-                    : <Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s40" style={Actheme.style('p:s20')} />
-                  }
-                </Post.Wrap>
-                <Post.Wrap>
-                  <Post.Text>{post?.desc || post?.userId}</Post.Text>
-                </Post.Wrap>
-              </>
-          }
-        </Post.Content>
-      </Post.Container>
-    </>
+              <Post.Wrap>
+                <Post.Text>{post?.desc || post?.userId}</Post.Text>
+              </Post.Wrap>
+            </>
+        }
+      </Post.Content>
+      {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
+    </Post.Container>
   )
 }
 
 const Post = Actheme.create({
   Container: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('ai,jc:c p:s5 pt:s25 pb:s10')}]],
-  Content: ['View', 'w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd', {
+    contentContainerStyle: Actheme.style('ai,jc:c ph:s5 pb:s10')}]],
+  Content: ['View', 'mt:s25 w:100% xw:s150 bw:1 bc:black50 br:s5 bg:white of:hd', {
     recycling: 'xw:s90'
   }],
   Image: ['Image', 'w,h:100%'],

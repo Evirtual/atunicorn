@@ -6,9 +6,9 @@ import Actstore from 'actstore'
 
 const Nav = Actheme.create({
 
-  Container: ['View', 'jc,ai:c ps:ab t:-1 w:100vw z:2'],
-  Content: ['View', 'ps:ab t,l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey400', {
-    changeNav: 'bg:white fd:row ai:c jc:sb'
+  Container: ['View', 'jc,ai:c ps:sticky t:-1 w:100vw z:2'],
+  Content: ['View', 'ps:ab t,l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey400 h:s60', {
+    changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:black50 h:s18'
   }],
   Wrap: ['View', 'jc,ai:c', {
     image: 'w,h,br:s25 bg:white mh:s6 mv:s3',
@@ -22,7 +22,8 @@ const Nav = Actheme.create({
     save: 'ps:ab r:s1',
     important: 'ps:ab t:s3 l,r:0 z:9 ph:s5',
     search: 'nw:s70 w:100%',
-    max: 'xw:s70'
+    max: 'xw:s70',
+    medium: 'w:33.33%'
   }],
   Image: ['Image', 'w,h,br:s25', {
     logo: 'w,h:s12',
@@ -64,7 +65,7 @@ const Nav = Actheme.create({
       <Nav.Container>
         <Nav.Content changeNav={changeNav}>
           {changeNav && 
-            <Nav.Wrap row left={changeNav}>
+            <Nav.Wrap row left={changeNav} medium={(width > 768)}>
               <Nav.Wrap imageSmall={changeNav} logo={!profile?.url}>
                 {profile
                   ? profile?.url
@@ -84,7 +85,7 @@ const Nav = Actheme.create({
             </Nav.Wrap>
           }
           {(path === homePath || path === profilePath) && (user ? active : !active) &&
-            <Nav.Wrap important={user || changeNav && (width < 768)}>
+            <Nav.Wrap important={user || changeNav && (width < 768)} medium={(width > 768)}>
               <Nav.Wrap search max={(width > 767) || !changeNav}>
                 <Nav.Wrap options>
                   {!search && !active
@@ -112,7 +113,7 @@ const Nav = Actheme.create({
               </Nav.Wrap>
             </Nav.Wrap>
           }
-          <Nav.Wrap row right={changeNav}>
+          <Nav.Wrap row right={changeNav} medium={(width > 768)}>
             {changeNav && path !== homePath &&
               <Elems.Button
                 icon="arrow-circle-left"

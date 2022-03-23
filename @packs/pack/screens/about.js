@@ -19,7 +19,6 @@ export default function AboutScreen() {
         desc={path === profileAboutPath && (profile?.about)}
         url={path === profileAboutPath && `https://atunicorn.io/profile/${id}`}
         cover={path === profileAboutPath && profile.url} />
-      {edit && <Comps.About profile={profile} onClose={() => setEdit(false)} />}
       <About.Content>
         <Comps.Nav />
         <About.Wrap>
@@ -43,6 +42,7 @@ export default function AboutScreen() {
           }
         </About.Wrap>
       </About.Content>
+      {edit && <Comps.About profile={profile} onClose={() => setEdit(false)} />}
     </About.Container>
   )
 }

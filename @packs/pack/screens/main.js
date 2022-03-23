@@ -30,8 +30,6 @@ function MainScreen() {
   return (
     <Main.Container>
       <Comps.Meta />
-      {!user?.emailVerified && login && <Comps.Login onClose={() => setLogin(!login)} />}
-      {mode === 'upload' && <Comps.Upload onClose={() => setMode(!mode)} />}
       <Main.Content 
         data={posts}
         renderItem={renderItem}
@@ -54,6 +52,10 @@ function MainScreen() {
             setPosts={setPosts}
             changeNav={changeNav} />}
       />
+      {!user?.emailVerified && login &&
+        <Comps.Login onClose={() => setLogin(!login)} />}
+      {mode === 'upload' &&
+        <Comps.Upload onClose={() => setMode(!mode)} />}
     </Main.Container>
   )
 }

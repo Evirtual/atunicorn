@@ -42,7 +42,6 @@ export default function ProfileScreen() {
         desc={profile.about}
         url={`https://atunicorn.io/profile/${id}`}
         cover={profile.url} />
-      {(mode === 'upload' || edit) && <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(!mode)} />}
       <Profile.Content 
         data={posts}
         renderItem={renderItem}
@@ -63,6 +62,8 @@ export default function ProfileScreen() {
             setPosts={setPosts}
             changeNav={changeNav} />}
       />
+      {(mode === 'upload' || edit) && 
+        <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(!mode)} />}
     </Profile.Container>
   )
 }
