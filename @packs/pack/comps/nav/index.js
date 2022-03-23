@@ -46,7 +46,6 @@ const Nav = Actheme.create({
     const homePath = '/'
     const profilePath = `/profile/${id}/`
     const { width } = useWindowDimensions()
-
     const [active, setActive] = useState()
     const [editUsername, setEditUsername] = useState()
     const [username, setUsername] = useState()
@@ -114,7 +113,7 @@ const Nav = Actheme.create({
               </Nav.Wrap>
             </Nav.Wrap>
           }
-          <Nav.Wrap row right={changeNav} medium={(width > 767)}>
+          <Nav.Wrap row right={changeNav} medium={changeNav && (width > 767)}>
             {changeNav && path !== homePath &&
               <Elems.Button
                 icon="arrow-circle-left"
