@@ -73,7 +73,7 @@ export default function PostScreen() {
                 </>
               }
             </Post.Content>
-          : <Comps.Empty icon="file-image" title="Post doesnt exist" />
+          : <Comps.Empty icon="file-image" title="Post doesn't exist" />
         }
       </Post.ScrollView>
       {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
@@ -85,7 +85,7 @@ const Post = Actheme.create({
   Container: ['View', 'f:1 bg:#F2F2F2'],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c ph:s5 pb:s10')}]],
-  Content: ['View', 'f:1 ai,jc:c w:100% xw:s150 mt:s25 mb:s15', {
+  Content: ['View', 'f:1 ai:c w:100% xw:s150 mt:s24', {
     recycling: 'xw:s90'
   }],
   Image: ['Image', 'w,h:100%'],
