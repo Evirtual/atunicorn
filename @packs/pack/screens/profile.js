@@ -48,7 +48,7 @@ export default function ProfileScreen() {
             data={posts}
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
-            ListEmptyComponent={<Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s35" />}
+            ListEmptyComponent={<Comps.Placeholder flatlist icon="yin-yang" spin title="Balancing" />}
             initialNumToRender={1}
             maxToRenderPerBatch={1}
             windowSize={6}
@@ -67,7 +67,7 @@ export default function ProfileScreen() {
           />
         : <>
             <Comps.Nav changeNav />
-            <Comps.Empty icon="user-circle" title="Profile doesnt exist" />
+            <Comps.Placeholder icon="user-circle" title="Profile doesnt exist" />
           </>
       }
       {(mode === 'upload' || edit) && 

@@ -23,35 +23,29 @@ export default function PostScreen() {
       <Post.ScrollView stickyHeaderIndices={[0]}>
         <Comps.Nav changeNav />
         {post?.id
-          ? <Post.Content recycling={recycling}>
-              {recycling 
-                ? <Post.Wrap recycling>
-                    <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s30" />
-                    <Post.Text recycling>Recycling</Post.Text>
-                  </Post.Wrap>
-                : <Post.Wrap content>
-                    <Elems.Link href={`/profile/${post?.userId}`}>
-                      <Post.Profile>
-                        <Post.Wrap profile>
-                          {profile?.url
-                            ? <Post.Image source={profile.url} />
-                            : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s15" />
-                          }
-                        </Post.Wrap>
-                        <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
-                      </Post.Profile>
-                    </Elems.Link>
-                    <Post.Wrap image>
-                      {post?.url
-                        ? <Post.Image source={[post.url, 'image'].join('#')} />
-                        : <Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s40" style={Actheme.style('p:s20')} />
+          ? <Post.Content>
+              <Post.Wrap content>
+                <Elems.Link href={`/profile/${post?.userId}`}>
+                  <Post.Profile>
+                    <Post.Wrap profile>
+                      {profile?.url
+                        ? <Post.Image source={profile.url} />
+                        : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s15" />
                       }
                     </Post.Wrap>
-                    <Post.Wrap>
-                      <Post.Text>{post?.desc || post?.userId}</Post.Text>
-                    </Post.Wrap>
-                  </Post.Wrap>
-              }
+                    <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
+                  </Post.Profile>
+                </Elems.Link>
+                <Post.Wrap image>
+                  {post?.url
+                    ? <Post.Image source={[post.url, 'image'].join('#')} />
+                    : <Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s40" style={Actheme.style('p:s20')} />
+                  }
+                </Post.Wrap>
+                <Post.Wrap>
+                  <Post.Text>{post?.desc || post?.userId}</Post.Text>
+                </Post.Wrap>
+              </Post.Wrap>
               {(user && user?.id === ( profile?.id || post?.userId ) && !recycling) && 
                 <>
                   <Post.Option>
@@ -60,7 +54,7 @@ export default function PostScreen() {
                       recycle
                       regular
                       icon="recycle"
-                      onPress={() => act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url }).then(setRecycling(true), setTimeout(() => router.back(),1500))} />
+                      onPress={() => act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url }).then(setRecycling(true), setTimeout(() => router.back(),2000))} />
                   </Post.Option>
                   <Post.Option edit>
                     <Elems.Button
@@ -73,7 +67,9 @@ export default function PostScreen() {
                 </>
               }
             </Post.Content>
-          : <Comps.Empty icon="file-image" title="Post doesn't exist" />
+          : recycling
+            ? <Comps.Placeholder icon="yin-yang" spin title="Recycling" />
+            : <Comps.Placeholder icon="file-image" title="Post doesn't exist" />
         }
       </Post.ScrollView>
       {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
@@ -95,7 +91,7 @@ const Post = Actheme.create({
   Wrap: ['View', 'w:100%', {
     image: 'btw:1 bbw:1 bc:black50',
     profile: 'fd:row w,h,br:s15 of:hd',
-    recycling: 'w,h:90vw xw,xh:s90',
+    recycling: 'f:1 w,h:90vw xw,xh:s90',
     content: 'bw:1 bc:black50 br:s5 bg:white of:hd'}],
   Profile: ['View', 'w:100% fd:row ai:c p:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
