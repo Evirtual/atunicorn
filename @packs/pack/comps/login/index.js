@@ -16,15 +16,20 @@ const Login = Actheme.create({
 
   Comp: (props) => {
     const { act } = Actstore({}, [])
+    const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordVisible, setPasswordVisible] = useState()
     const [disabled, setDisabled] = useState(true)
     const [login, setLogin] = useState()
-    const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    const regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/
 
-    useEffect(() => {(email && password) ? setDisabled(false) : setDisabled(true)}, [email, password])
+    useEffect(() => {
+      (email && password)
+        ? setDisabled(false)
+        : setDisabled(true)
+    }, [email, password])
 
     return (
       <Login.Container>

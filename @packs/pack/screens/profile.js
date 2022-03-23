@@ -10,6 +10,7 @@ export default function ProfileScreen() {
   const { user, users } = store.get('user', 'users')
   const profile = users?.find(user => user.id === id) || {}
   const data = (store.get('posts') || []).filter(post => post.userId === id)
+  
   const [posts, setPosts] = useState(data)
   const [mode, setMode] = useState('posts')
   const [edit, setEdit] = useState()
@@ -39,7 +40,7 @@ export default function ProfileScreen() {
     <Profile.Container>
       <Comps.Meta
         title={profile.username || id}
-        desc={profile.about}
+        desc="profile"
         url={`https://atunicorn.io/profile/${id}`}
         cover={profile.url} />
       <Profile.Content 

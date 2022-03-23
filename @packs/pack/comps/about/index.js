@@ -13,6 +13,7 @@ const About = Actheme.create({
 
     const { profile } = props
     const { act } = Actstore({}, ['user'])
+    
     const [about, setAbout] = useState()
 
     return (

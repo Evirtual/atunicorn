@@ -36,20 +36,21 @@ const Nav = Actheme.create({
 
   Comp: (props) => {
 
-    const { data, setPosts, setMode, setLogin, changeNav } = props
+    const { data, setPosts, setMode, setLogin, changeNav = false } = props
     const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
     const router = handle.useRouter()
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
     const { id } = router?.query || {}
     const profile = users?.find(user => user.id === id)
+    const path = router.asPath
+    const homePath = '/'
+    const profilePath = `/profile/${id}/`
+    const { width } = useWindowDimensions()
+
     const [active, setActive] = useState()
     const [editUsername, setEditUsername] = useState()
     const [username, setUsername] = useState()
     const [search, setSearch] = useState()
-    const path = typeof window !== "undefined" && window.location.pathname
-    const homePath = '/'
-    const profilePath = `/profile/${id}/`
-    const { width } = useWindowDimensions()
 
     const onSearch = (result) => {
 
@@ -84,11 +85,11 @@ const Nav = Actheme.create({
               }
             </Nav.Wrap>
           }
-          {(path === homePath || path === profilePath) && (user ? active : !active) &&
-            <Nav.Wrap important={!changeNav && user || changeNav && (width < 768)} medium={changeNav && (width > 767)}>
+          {(active || (!user && !changeNav && path === homePath)) &&
+            <Nav.Wrap important={!changeNav || changeNav && (width < 768)} medium={changeNav && (width > 767)}>
               <Nav.Wrap search max={(width > 767) || !changeNav}>
                 <Nav.Wrap option>
-                  {!search && !active
+                  {!search && !active && !changeNav
                     ? <Elems.Button
                         input
                         icon="search"
@@ -123,17 +124,15 @@ const Nav = Actheme.create({
             }
             {changeNav && (user?.id === (profile?.id || id))
               ? null
-              : !user && path === profilePath
-                ? null
-                : (path !== homePath) &&
-                  <Elems.Link href="/">
-                    <Elems.Icon
-                      icon="home"
-                      iconSize="s7"
-                      iconColor="black" />
-                  </Elems.Link>
+              : (path !== homePath) &&
+                <Elems.Link href="/">
+                  <Elems.Icon
+                    icon="home"
+                    iconSize="s7"
+                    iconColor="black" />
+                </Elems.Link>
             }
-            {user && (path === homePath || path === profilePath) &&
+            {(path === homePath || path === profilePath) &&
               <Elems.Button
                 icon="search"
                 iconSize="s6.5"
@@ -183,52 +182,53 @@ const Nav = Actheme.create({
                 </Elems.Link>
             }
           </Nav.Wrap>
-          {!changeNav && <Nav.Wrap row>
-            {!user && path === homePath
-              ? <Elems.Button
-                  text="Login"
-                  onPress={() => setLogin(true)} />
-              :  user && (path === homePath || path === profilePath)
+          {!changeNav && 
+            <Nav.Wrap row>
+              {!user && path === homePath
                 ? <Elems.Button
-                    disabled={!user.approved}
-                    text="Upload"
-                    textColor="mediumseagreen"
-                    onPress={() => setMode('upload')} />
-                :  <Elems.Button
-                    text="Back"
-                    textColor="black"
-                    onPress={() => router.back()} />
-            }
-            <Nav.Wrap image>
-              {user && user?.id === (profile?.id || id)
-                ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
-                    <Nav.Touch>
-                      {uploading == 'profile'
-                        ? <>
-                            <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s10" />
-                            <Nav.Text>Uploading</Nav.Text>
-                          </>
-                        : profile?.url
-                          ? <Nav.Image source={profile.url || null} />
-                          : <Elems.Icon icon="camera" solid iconColor="lightgray" iconSize="s10" />
-                      }
-                    </Nav.Touch>
-                  </Nav.File>
-                : profile
-                  ? profile?.url
-                    ? <Nav.Image source={profile.url || null} />
-                    : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s20" />
-                  : <Nav.Image source="/static/unilogo.gif" />
+                    text="Login"
+                    onPress={() => setLogin(true)} />
+                :  user && (path === homePath || path === profilePath)
+                  ? <Elems.Button
+                      disabled={!user.approved}
+                      text="Upload"
+                      textColor="mediumseagreen"
+                      onPress={() => setMode('upload')} />
+                  :  <Elems.Button
+                      text="Back"
+                      textColor="black"
+                      onPress={() => router.back()} />
               }
+              <Nav.Wrap image>
+                {user && user?.id === (profile?.id || id)
+                  ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
+                      <Nav.Touch>
+                        {uploading == 'profile'
+                          ? <>
+                              <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s10" />
+                              <Nav.Text>Uploading</Nav.Text>
+                            </>
+                          : profile?.url
+                            ? <Nav.Image source={profile.url || null} />
+                            : <Elems.Icon icon="camera" solid iconColor="lightgray" iconSize="s10" />
+                        }
+                      </Nav.Touch>
+                    </Nav.File>
+                  : profile
+                    ? profile?.url
+                      ? <Nav.Image source={profile.url || null} />
+                      : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s20" />
+                    : <Nav.Image source="/static/unilogo.gif" />
+                }
+              </Nav.Wrap>
+              <Elems.Link
+                href={
+                  path === profilePath
+                    ? `/profile/${profile?.id || id}/about/`
+                    : '/about/'
+                }
+                text="About" />
             </Nav.Wrap>
-            <Elems.Link
-              href={
-                path === profilePath
-                  ? `/profile/${profile?.id || id}/about/`
-                  : '/about/'
-              }
-              text="About" />
-          </Nav.Wrap>
           }
           {!changeNav && <Nav.Wrap row>
             {user && user?.id === (profile?.id || id)

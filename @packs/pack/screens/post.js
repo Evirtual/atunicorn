@@ -9,13 +9,14 @@ export default function PostScreen() {
   const { user, users } = store.get('user', 'users')
   const post = (store.get('posts') || []).find(post => String(post.id) === id) || {}
   const profile = users?.find(user => user.id === post?.userId) || {}
+  
   const [edit, setEdit] = useState()
   const [recycling, setRecycling] = useState()
 
   return (
     <Post.Container>
       <Comps.Meta
-        title={post?.username}
+        title={profile?.username}
         desc={post?.desc}
         url={`https://atunicorn.io/post/${id}`}
         cover={post?.url} />

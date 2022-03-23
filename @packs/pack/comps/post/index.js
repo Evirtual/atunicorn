@@ -24,6 +24,7 @@ const Post = Actheme.create({
 
     const {post, profile, id, user, onRemove, onEdit} = props
     const { act } = Actstore({}, [])
+    
     const [active, setActive] = useState()
     const [nsfw, setNsfw] = useState()
     const [recycling, setRecycling] = useState()

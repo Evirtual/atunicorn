@@ -8,10 +8,11 @@ export default function AboutScreen() {
   const { id } = router?.query || {}
   const { user, users } = store.get('user', 'users')
   const profile = users?.find(item => item.id === id) || {}
+  const path = router.asPath
+  const profileAboutPath = `/profile/${id}/about/`
+
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
-  const path = typeof window !== "undefined" && window.location.pathname
-  const profileAboutPath = `/profile/${id}/about/`
 
   const handleNav = (e) => {
     const scrolled = e.nativeEvent.contentOffset.y
@@ -23,8 +24,8 @@ export default function AboutScreen() {
   return (
     <About.Container>
       <Comps.Meta
-        title={path === profileAboutPath ? (profile?.username || id) : "unicorn - about"}
-        desc={path === profileAboutPath && (profile?.about)}
+        title={path === profileAboutPath ? (profile?.username || id) : "unicorn"}
+        desc="about"
         url={path === profileAboutPath && `https://atunicorn.io/profile/${id}`}
         cover={path === profileAboutPath && profile.url} />
       <About.Content

@@ -20,6 +20,7 @@ const Upload = Actheme.create({
     const { disabled, onClose, post } = props
     const { act, store } = Actstore({}, ['user', 'posts', 'uploading'])
     const { uploading } = store.get('user', 'users', 'uploading')
+    
     const [url, setUrl] = useState(post?.url || null)
     const [desc, setDesc] = useState(post?.desc || null)
     const [nsfw, setNsfw] = useState(post?.nsfw || false)
