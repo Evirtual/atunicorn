@@ -30,7 +30,7 @@ export default function ProfileScreen() {
 
   const handleNavalt = (e) => {
     const scrolled = e.nativeEvent.contentOffset.y
-    scrolled > 180
+    scrolled > 260
       ? setChangeNav(true)
       : setChangeNav(false)
   }
@@ -71,9 +71,9 @@ export default function ProfileScreen() {
 const Profile = Actheme.create({
   Container: ['View', 'f:1 bg:#F2F2F2'],
   Content: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('ai,jc:c ph:s5 pt:s5 pb:s10'),
+    contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s10'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c'),
-    ListHeaderComponentStyle: Actheme.style('fw:wrap ai,jc:c mb:s60')}]],
+    ListHeaderComponentStyle: Actheme.style('fw:wrap ai,jc:c')}]],
   Text: ['Text', 'fs,mb:s6 ta:c', {
     small: 'fs:s3'}],
   Wrap: ['View', 'w:100% ai:c']

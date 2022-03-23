@@ -22,7 +22,7 @@ function MainScreen() {
 
   const handleNavalt = (e) => {
     const scrolled = e.nativeEvent.contentOffset.y
-    scrolled > 180
+    scrolled > 260
       ? setChangeNav(true)
       : setChangeNav(false)
   }
@@ -65,8 +65,7 @@ export default MainScreen
 const Main = Actheme.create({
   Container: ['View', 'f:1 bg:#F2F2F2'],
   Content: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('xw:s300 ai,jc:c as:c ph:s5 pt:s5 pb:s10'),
-    columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c'),
-    ListHeaderComponentStyle: Actheme.style('fw:wrap ai,jc:c mb:s60')}]],
+    contentContainerStyle: Actheme.style('xw:s300 ai,jc:c as:c pt:s66 pb:s10'),
+    columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c')}]],
   Wrap: ['View', 'w:100% ai:c']
 })

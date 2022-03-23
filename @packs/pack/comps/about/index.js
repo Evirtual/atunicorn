@@ -31,10 +31,10 @@ const About = Actheme.create({
             defaultValue={profile?.about || ''}
             onChangeText={setAbout}
             placeholder={profile?.about || 'What makes you tick?'} />
-          {about &&
+          {(profile?.about || about) &&
             <Elems.Button 
               submit
-              onPress={() => act('APP_USER', { about }).then(props.onClose)}
+              onPress={() => act('APP_USER', { about: (profile?.about || about) }).then(props.onClose)}
               text={profile?.about ? 'Update' : 'Ready to save?'} />
           }
         </About.Content>
