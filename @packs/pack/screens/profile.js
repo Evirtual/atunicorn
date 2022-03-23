@@ -43,27 +43,33 @@ export default function ProfileScreen() {
         desc="profile"
         url={`https://atunicorn.io/profile/${id}`}
         cover={profile.url} />
-      <Profile.Content 
-        data={posts}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={<Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s35" />}
-        initialNumToRender={1}
-        maxToRenderPerBatch={1}
-        windowSize={6}
-        onScroll={handleNav}
-        scrollEventThrottle={1}
-        numColumns={6}
-        stickyHeaderIndices={[0]}
-        ListHeaderComponent={
-          <Comps.Nav
-            mode={mode}
-            setMode={setMode}
-            data={data} 
-            posts={posts} 
-            setPosts={setPosts}
-            changeNav={changeNav} />}
-      />
+      {profile?.id
+        ? <Profile.Content 
+            data={posts}
+            renderItem={renderItem}
+            keyExtractor={item => item.id.toString()}
+            ListEmptyComponent={<Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s35" />}
+            initialNumToRender={1}
+            maxToRenderPerBatch={1}
+            windowSize={6}
+            onScroll={handleNav}
+            scrollEventThrottle={1}
+            numColumns={6}
+            stickyHeaderIndices={[0]}
+            ListHeaderComponent={
+              <Comps.Nav
+                mode={mode}
+                setMode={setMode}
+                data={data} 
+                posts={posts} 
+                setPosts={setPosts}
+                changeNav={changeNav} />}
+          />
+        : <>
+            <Comps.Nav changeNav />
+            <Comps.Empty icon="user-circle" title="Profile doesnt exist" />
+          </>
+      }
       {(mode === 'upload' || edit) && 
         <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(!mode)} />}
     </Profile.Container>
