@@ -7,7 +7,7 @@ import Actstore from 'actstore'
 const Nav = Actheme.create({
 
   Container: ['View', 'jc,ai:c ps:ab t:-1 w:100vw z:2'],
-  Content: ['View', 'ps:ab t,l,r:0 pv:s2.5 ph:s5 ai,jc:c bg:grey400', {
+  Content: ['View', 'ps:ab t,l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey400', {
     changeNav: 'bg:white fd:row ai:c jc:sb'
   }],
   Wrap: ['View', 'jc,ai:c', {
@@ -120,15 +120,17 @@ const Nav = Actheme.create({
                 iconColor="black"
                 onPress={() => router.back()} />
             }
-            {changeNav && user?.id === (profile?.id || id) && path === profilePath
+            {changeNav && (user?.id === (profile?.id || id))
               ? null
-              : (path !== homePath) &&
-                <Elems.Link href="/">
-                  <Elems.Icon
-                    icon="home"
-                    iconSize="s7"
-                    iconColor="black" />
-                </Elems.Link>
+              : !user && path === profilePath
+                ? null
+                : (path !== homePath) &&
+                  <Elems.Link href="/">
+                    <Elems.Icon
+                      icon="home"
+                      iconSize="s7"
+                      iconColor="black" />
+                  </Elems.Link>
             }
             {user && (path === homePath || path === profilePath) &&
               <Elems.Button
