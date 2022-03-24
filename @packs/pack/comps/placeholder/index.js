@@ -8,28 +8,30 @@ const Placeholder = Actheme.create({
     flatlist: 'mt:s2.5',
     modal: 'mt:0 ps:ab'
   }],
-  Content: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s10', {
-    modal: 'bg:grey bc:grey'
+  Content: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s5', {
+    modal: 'bg:grey bc:grey',
   }],
-  Text: ['Text', 'c:lightgray fb:500 fs:s5 p:s5', {
-    modal: 'c:black250',
-    success: 'c:green'
+  Text: ['Text', 'c:black300 fb:500 fs:s5 p:s5 ta:c', {
+    title: 'c:black400',
+    desc: 'fs:s4 p:0'
   }],
   Wrap: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:999 bg:white'],
-  Image: ['Image', 'w,h,br:s50'],
+  Image: ['Image', 'w,h,br:s40'],
 
   Comp: (props) => {
 
-    const { icon, spin, title, flatlist, modal, logo, image, success } = props
+    const { icon, spin, title, flatlist, modal, logo, image, action, actionText, actionTextColor, desc, disabled } = props
 
     return (
       <Placeholder.Container flatlist={flatlist} modal={modal}>
         <Placeholder.Content modal={modal}>
           {(logo || image)
-            ? <Placeholder.Image style={Actheme.style('w,h:s50')} source={logo ? '/static/unilogo.gif' : image || null} />
-            : <Elems.Icon icon={icon || 'yin-yang'} iconColor="lightgray" iconSize="s30" spin={spin} />
+            ? <Placeholder.Image source={logo ? '/static/unilogo.gif' : image || null} />
+            : <Elems.Icon icon={icon || 'yin-yang'} iconColor="black100" iconSize="s30" spin={spin} />
           }
-          <Placeholder.Text modal={modal} success={success}>{title || 'Empty'}</Placeholder.Text>
+          {title && <Placeholder.Text title={desc} modal={modal}>{title || 'Empty'}</Placeholder.Text>}
+          {desc && <Placeholder.Text desc={desc}>{desc || 'Empty'}</Placeholder.Text>}
+          {action && <Elems.Button text={actionText} onPress={action} disabled={disabled} textColor={actionTextColor || 'lightsalmon'} style={Actheme.style('mt:s5')} />}
         </Placeholder.Content>
       </Placeholder.Container>
     )

@@ -56,7 +56,7 @@ const actions = ({ store, configs }) => ({
       .then((credential) => {
         const user = credential.user
         user.sendEmailVerification()
-        store.set({ success: { message: 'Congratulations! We sent you an email, please verify and log in' } })
+        store.set({ success: { type: 'register', message: 'Congratulations! We sent you an email, please verify and log in' } })
       })
       .catch((error) => store.set({ error: { message: error.message }}))
   },

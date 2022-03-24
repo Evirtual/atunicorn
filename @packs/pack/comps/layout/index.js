@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
-import Comps from '../../comps'
 import Actstore from 'actstore'
 
 const Info = Actheme.create({
@@ -32,9 +31,9 @@ const Info = Actheme.create({
     return <>
       {!ready && <Loader.Comp />}
       {user && !user.approved && <Info.Touch update>
-        <Info.Text>Account is pending for approval. Meanwhile you can upload profile picture, change nickname/id and edit about section.</Info.Text>
+        <Info.Text>Account is pending for approval.</Info.Text>
       </Info.Touch>}
-      {(error || success) && <Info.Touch success={success} onPress={() => store.set({ error: null, success: null })}>
+      {(error || (success && success?.type !== 'register')) && <Info.Touch success={success} onPress={() => store.set({ error: null, success: null })}>
         <Info.Close>
           <Elems.Button option icon="times" onPress={() => store.set({ error: null, success: null })} />
         </Info.Close>

@@ -9,7 +9,7 @@ const Upload = Actheme.create({
   Content: ['View', 'xw:s95 p:s4 bg:grey bw:1 bc:black50 br:s5'],
   File: ['Upload', ['w,h:100%']],
   Checkbox: 'Checkbox',
-  Text: ['Text', 'ta:c c:lightgray w:100% fs:s5 fb:500 mt:s5'],
+  Text: ['Text', 'ta:c c:black250 w:100% fs:s5 fb:500 mt:s5'],
   Touch: ['TouchableOpacity', 'w,h:85vw xw,xh:s85 jc,ai:c bg:white br:s5 of:hd bw:1 bc:black50', {
     disabled: 'op:.25'}],
   Image: ['Image', 'w,h:100%'],
@@ -38,22 +38,22 @@ const Upload = Actheme.create({
           {!disabled
             ? <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
                 <Upload.Touch>
-                  {url || post?.url
-                    ? <Upload.Image source={url || post?.url} />
-                    : uploading == 'post'
-                      ? <>
-                          <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s30" />
-                          <Upload.Text>Uploading</Upload.Text>
-                        </>
+                  {uploading == 'post'
+                    ? <>
+                        <Elems.Icon icon="yin-yang" spin iconColor="black100" iconSize="s30" />
+                        <Upload.Text>Uploading</Upload.Text>
+                      </>
+                    : (url || post?.url)
+                      ? <Upload.Image source={url || profile.url || null} />
                       : <>
-                          <Elems.Icon icon="plus-circle" iconColor="lightgray" iconSize="s35" />
+                          <Elems.Icon icon="plus-circle" iconColor="black100" iconSize="s35" />
                           <Upload.Text>Upload Image</Upload.Text>
                         </>
                   }
                 </Upload.Touch>
               </Upload.File>
             : <Upload.Touch disabled>
-                <Elems.Icon icon="plus-circle" iconColor="lightgray" iconSize="s35" />
+                <Elems.Icon icon="plus-circle" iconColor="black100" iconSize="s35" />
                 <Upload.Text>Upload Image</Upload.Text>
               </Upload.Touch>
           }

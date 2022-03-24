@@ -30,7 +30,7 @@ export default function PostScreen() {
                     <Post.Wrap profile>
                       {profile?.url
                         ? <Post.Image source={profile.url} />
-                        : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s15" />
+                        : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s15" />
                       }
                     </Post.Wrap>
                     <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
@@ -71,7 +71,7 @@ export default function PostScreen() {
             </Post.Content>
           : recycling
             ? <Comps.Placeholder icon="yin-yang" spin title="Recycling" />
-            : <Comps.Placeholder icon="file-image" title="Post doesn't exist" />
+            : <Comps.Placeholder icon="image-polaroid" title="Post doesn't exist" />
         }
       </Post.ScrollView>
       {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
@@ -88,7 +88,7 @@ const Post = Actheme.create({
   }],
   Image: ['Image', 'w,h:100%'],
   Text: ['Text', 'fs:s4 p:s5', {
-    recycling: 'c:lightgray fb:500 fs:s5'
+    recycling: 'c:black250 fb:500 fs:s5'
   }],
   Wrap: ['View', 'w:100%', {
     image: 'btw:1 bbw:1 bc:black50',

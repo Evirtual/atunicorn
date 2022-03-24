@@ -26,6 +26,7 @@ const Login = Actheme.create({
     const [disabled, setDisabled] = useState(true)
     const [login, setLogin] = useState()
     const [logging, setLogging] = useState()
+    const [created, setCreated] = useState()
 
     useEffect(() => {
       (email && password)
@@ -71,7 +72,7 @@ const Login = Actheme.create({
                       setLogging(true), 
                       setTimeout(() => 
                         act(!login ? 'APP_LOGIN_EMAIL_PASSWORD' : 'APP_SIGNUP_EMAIL_PASSWORD', email, password)
-                          .then((error) => (console.log(error), error ? setLogging(false) : (setLogging(false), setLogin(false))))
+                          .then((error) => (console.log(error), error ? setLogging(false) : (setLogging(false), setLogin(false), setCreated(true))))
                           .then(() => (email.match(regexEmail) && password.match(regexPassword )))
                       ,2000)
                     )
@@ -80,18 +81,28 @@ const Login = Actheme.create({
               text={!login ? 'Login @unicorn' : 'join @unicorn'}
               style={Actheme.style('w:100%')
             } />
-            {!login && <Elems.Button
-              onPress={() => {act('APP_RESET_PASSWORD', email)}}
-              text="Forgot password? Enter email and press here"
-              textColor="black250"
-              fontSize="s3"
-              style={Actheme.style('w:100%')} />}
+            {!login && 
+              <Elems.Button
+                onPress={() => {act('APP_RESET_PASSWORD', email)}}
+                text="Forgot password? Enter email and press here"
+                textColor="black250"
+                fontSize="s3"
+                style={Actheme.style('w:100%')} />
+            }
           </Login.Wrap>
           <Elems.Button
             text={!login ? 'Signup @unicorn' : 'Login'}
             textColor="lightsalmon"
             style={Actheme.style('mt:auto')}
             onPress={() => !login ? setLogin(true) : setLogin(false) } />
+          {created &&
+            <Comps.Placeholder
+              modal
+              logo
+              actiontext="Login"
+              action={() => setCreated(false)}
+              title={'Account created'}
+              desc={'We\'ve sent you verification email.\nPlease verify and login'} />}
           {logging && <Comps.Placeholder modal logo title={login ? 'Creating profile' : 'Connecting'} />}
         </Login.Content>
       </Login.Container>

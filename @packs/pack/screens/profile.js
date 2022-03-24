@@ -48,7 +48,18 @@ export default function ProfileScreen() {
             data={posts}
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
-            ListEmptyComponent={<Comps.Placeholder flatlist icon="yin-yang" spin title="Balancing" />}
+            ListEmptyComponent={
+              <Comps.Placeholder
+                flatlist
+                icon={!user && 'image-polaroid'}
+                title={user ? 'Welcome to @unicorn' : 'No posts'}
+                desc={user && 'You can upload profile picture, change nickname/id and edit about section.'}
+                disabled={user && !user.approved}
+                actionText="Upload"
+                actionTextColor="green"
+                logo={user}
+                action={user ? () => setMode(upload) : null} />
+            }
             initialNumToRender={1}
             maxToRenderPerBatch={1}
             windowSize={6}
@@ -67,7 +78,7 @@ export default function ProfileScreen() {
           />
         : <>
             <Comps.Nav changeNav />
-            <Comps.Placeholder icon="user-circle" title="Profile doesnt exist" />
+            <Comps.Placeholder icon="user-circle" title="Profile doesn't exist" />
           </>
       }
       {(mode === 'upload' || edit) && 

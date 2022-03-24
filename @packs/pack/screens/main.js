@@ -35,7 +35,13 @@ function MainScreen() {
         data={posts}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={<Comps.Placeholder flatlist icon="yin-yang" spin title="Balancing" />}
+        ListEmptyComponent={
+          <Comps.Placeholder
+            flatlist
+            icon="yin-yang"
+            spin
+            title="Balancing" />
+        }
         initialNumToRender={1}
         maxToRenderPerBatch={1}
         windowSize={6}

@@ -32,7 +32,7 @@ const Nav = Actheme.create({
   }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 of:hd'],
-  Text: ['Text', 'ta:c c:lightgray w:100% fs:s2.5 fb:bold mt:s1'],
+  Text: ['Text', 'ta:c c:black250 w:100% fs:s2.5 fb:bold mt:s1'],
 
   Comp: (props) => {
 
@@ -70,7 +70,7 @@ const Nav = Actheme.create({
                 {profile
                   ? profile?.url
                     ? <Nav.Image profile source={profile.url || null} />
-                    : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s10" />
+                    : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s10" />
                   : <Nav.Image logo source="/static/unilogo.gif" />
                 }
               </Nav.Wrap>
@@ -204,19 +204,19 @@ const Nav = Actheme.create({
                       <Nav.Touch>
                         {uploading == 'profile'
                           ? <>
-                              <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s10" />
+                              <Elems.Icon icon="yin-yang" spin iconColor="black100" iconSize="s10" />
                               <Nav.Text>Uploading</Nav.Text>
                             </>
                           : profile?.url
                             ? <Nav.Image source={profile.url || null} />
-                            : <Elems.Icon icon="camera" solid iconColor="lightgray" iconSize="s10" />
+                            : <Elems.Icon icon="camera" solid iconColor="black100" iconSize="s10" />
                         }
                       </Nav.Touch>
                     </Nav.File>
                   : profile
                     ? profile?.url
                       ? <Nav.Image source={profile.url || null} />
-                      : <Elems.Icon icon="user-circle" solid iconColor="lightgray" iconSize="s20" />
+                      : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s20" />
                     : <Nav.Image source="/static/unilogo.gif" />
                 }
               </Nav.Wrap>

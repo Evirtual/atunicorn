@@ -16,7 +16,7 @@ const Post = Actheme.create({
     edit: 'r:s12'
   }],
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
-  Text: ['Text', 'c:lightgray fb:500 fs:s5 mt:s4', {
+  Text: ['Text', 'c:black250 fb:500 fs:s5 mt:s4', {
     nsfw: 'fs:s6'
   }],
 
@@ -53,7 +53,7 @@ const Post = Actheme.create({
         }
         {post.nsfw && !nsfw &&
           <Post.Cover onPress={() => setNsfw(true)}>
-            <Elems.Icon style={Actheme.style('c:lightgray fs:s30')} icon="eye-slash" />
+            <Elems.Icon style={Actheme.style('c:black250 fs:s30')} icon="eye-slash" />
             <Post.Text nsfw>NSFW</Post.Text>
           </Post.Cover>
         }
@@ -81,7 +81,7 @@ const Post = Actheme.create({
             }
             {recycling &&
               <Post.Cover>
-                <Elems.Icon icon="yin-yang" spin iconColor="lightgray" iconSize="s30" />
+                <Elems.Icon icon="yin-yang" spin iconColor="black100" iconSize="s30" />
                 <Post.Text>Recycling</Post.Text>
               </Post.Cover>
             }
