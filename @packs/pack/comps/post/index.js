@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
+import Placeholder from '../placeholder'
 import Actstore from 'actstore'
 
 const Post = Actheme.create({
@@ -15,10 +16,7 @@ const Post = Actheme.create({
   Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3', {
     edit: 'r:s12'
   }],
-  Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0 bg:white ai,jc:c'],
-  Text: ['Text', 'c:black250 fb:500 fs:s5 mt:s4', {
-    nsfw: 'fs:s6'
-  }],
+  Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0'],
 
   Comp: (props) => {
 
@@ -39,7 +37,12 @@ const Post = Actheme.create({
                 recycle
                 regular
                 icon="recycle"
-                onPress={() => act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url }).then(onRemove, setRecycling(true))} />
+                onPress={
+                  () => 
+                    act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url })
+                      .then(onRemove, setRecycling(true))
+                }
+              />
             </Post.Option>
             <Post.Option edit>
               <Elems.Button
@@ -53,8 +56,10 @@ const Post = Actheme.create({
         }
         {post.nsfw && !nsfw &&
           <Post.Cover onPress={() => setNsfw(true)}>
-            <Elems.Icon style={Actheme.style('c:black250 fs:s30')} icon="eye-slash" />
-            <Post.Text nsfw>NSFW</Post.Text>
+            <Placeholder
+              post
+              icon="eye-slash"
+              title="NSFW" />
           </Post.Cover>
         }
         {!id &&
@@ -80,9 +85,12 @@ const Post = Actheme.create({
               <Post.Image source={post.url} />
             }
             {recycling &&
-              <Post.Cover>
-                <Elems.Icon icon="yin-yang" spin iconColor="black100" iconSize="s30" />
-                <Post.Text>Recycling</Post.Text>
+              <Post.Cover onPress={() => setNsfw(true)}>
+                <Placeholder
+                  post
+                  icon="yin-yang"
+                  spin
+                  title="Recycling" />
               </Post.Cover>
             }
           </Post.Content>

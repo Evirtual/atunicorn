@@ -32,7 +32,7 @@ const Nav = Actheme.create({
   }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 of:hd'],
-  Text: ['Text', 'ta:c c:black250 w:100% fs:s2.5 fb:bold mt:s1'],
+  Text: ['Text', 'ta:c c:black300 w:100% fs:s2.5 fb:bold mt:s1'],
 
   Comp: (props) => {
 

@@ -78,7 +78,7 @@ export default function ProfileScreen() {
           />
         : <>
             <Comps.Nav changeNav />
-            <Comps.Placeholder icon="user-circle" title="Profile doesn't exist" />
+            <Comps.Placeholder screen icon="user-circle" title="Profile doesn't exist" />
           </>
       }
       {(mode === 'upload' || edit) && 

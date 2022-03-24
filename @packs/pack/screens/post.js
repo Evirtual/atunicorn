@@ -39,7 +39,7 @@ export default function PostScreen() {
                 <Post.Wrap image>
                   {post?.url
                     ? <Post.Image source={[post.url, 'image'].join('#')} />
-                    : <Comps.Placeholder flatlist icon="yin-yang" spin title="Balancing" />
+                    : <Comps.Placeholder icon="yin-yang" spin />
                   }
                 </Post.Wrap>
                 <Post.Wrap>
@@ -70,8 +70,8 @@ export default function PostScreen() {
               }
             </Post.Content>
           : recycling
-            ? <Comps.Placeholder icon="yin-yang" spin title="Recycling" />
-            : <Comps.Placeholder icon="image-polaroid" title="Post doesn't exist" />
+            ? <Comps.Placeholder screen icon="yin-yang" spin title="Recycling" />
+            : <Comps.Placeholder screen icon="image-polaroid" title="Post doesn't exist" />
         }
       </Post.ScrollView>
       {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
@@ -88,7 +88,7 @@ const Post = Actheme.create({
   }],
   Image: ['Image', 'w,h:100%'],
   Text: ['Text', 'fs:s4 p:s5', {
-    recycling: 'c:black250 fb:500 fs:s5'
+    recycling: 'c:black300 fb:500 fs:s5'
   }],
   Wrap: ['View', 'w:100%', {
     image: 'btw:1 bbw:1 bc:black50',

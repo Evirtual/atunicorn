@@ -85,7 +85,7 @@ const Login = Actheme.create({
               <Elems.Button
                 onPress={() => {act('APP_RESET_PASSWORD', email)}}
                 text="Forgot password? Enter email and press here"
-                textColor="black250"
+                textColor="black300"
                 fontSize="s3"
                 style={Actheme.style('w:100%')} />
             }
