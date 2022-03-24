@@ -65,7 +65,7 @@ function MainScreen() {
 export default MainScreen
 
 const Main = Actheme.create({
-  Container: ['View', 'f:1 bg:#F2F2F2'],
+  Container: ['View', 'f:1 bg:grey'],
   Content: ['FlatList', ['f:1', {
     contentContainerStyle: Actheme.style('xw:s300 ai,jc:c as:c pt:s66 pb:s10'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c')}]],

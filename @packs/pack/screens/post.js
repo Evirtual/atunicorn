@@ -39,7 +39,7 @@ export default function PostScreen() {
                 <Post.Wrap image>
                   {post?.url
                     ? <Post.Image source={[post.url, 'image'].join('#')} />
-                    : <Elems.Button icon="yin-yang" loadingpost spin iconColor="lightgray" iconSize="s40" style={Actheme.style('p:s20')} />
+                    : <Comps.Placeholder flatlist icon="yin-yang" spin title="Balancing" />
                   }
                 </Post.Wrap>
                 <Post.Wrap>
@@ -54,7 +54,9 @@ export default function PostScreen() {
                       recycle
                       regular
                       icon="recycle"
-                      onPress={() => act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url }).then(setRecycling(true), setTimeout(() => router.back(),2000))} />
+                      onPress={() => 
+                        act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url })
+                          .then(setRecycling(true), setTimeout(() => router.back(),2000))} />
                   </Post.Option>
                   <Post.Option edit>
                     <Elems.Button
@@ -78,7 +80,7 @@ export default function PostScreen() {
 }
 
 const Post = Actheme.create({
-  Container: ['View', 'f:1 bg:#F2F2F2'],
+  Container: ['View', 'f:1 bg:grey'],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c ph:s5 pb:s10')}]],
   Content: ['View', 'f:1 ai:c w:100% xw:s150 mt:s24', {

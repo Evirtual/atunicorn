@@ -61,7 +61,7 @@ export default function AboutScreen() {
 }
 
 const About = Actheme.create({
-  Container: ['View', 'f:1 bg:#F2F2F2'],
+  Container: ['View', 'f:1 bg:grey'],
   Content: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('jc,ai:c pt:s66 ph:s5 pb:s10')}]],
   Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s10 mt:s2.5'],

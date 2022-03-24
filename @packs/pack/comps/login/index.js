@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
+import Comps from '../../comps'
 import Actstore from 'actstore'
 
 const Login = Actheme.create({
@@ -9,7 +10,7 @@ const Login = Actheme.create({
     max: 'xw:s70'
   }],
   Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s3'],
-  Content: ['View', 'bg:#F2F2F2 br:s5 w:100% nh,xw:s92 ai,jc:c bw:1 bc:black50 p:s4'],
+  Content: ['View', 'bg:grey br:s5 w:100% nh,xw:s92 ai,jc:c bw:1 bc:black50 p:s4'],
   Text: ['Text', 'fs:s4 ta:c mb:s2'],
   Close: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
   Image: 'Image',
@@ -24,6 +25,7 @@ const Login = Actheme.create({
     const [passwordVisible, setPasswordVisible] = useState()
     const [disabled, setDisabled] = useState(true)
     const [login, setLogin] = useState()
+    const [logging, setLogging] = useState()
 
     useEffect(() => {
       (email && password)
@@ -63,12 +65,21 @@ const Login = Actheme.create({
             <Elems.Button
               disabled={disabled}
               submit
-              onPress={() => {
-                act(!login ? 'APP_LOGIN_EMAIL_PASSWORD' : 'APP_SIGNUP_EMAIL_PASSWORD', email, password)
-                  .then(() => email.match(regexEmail) && password.match(regexPassword) && setLogin(false))
-              }}
+              onPress={() => 
+                !logging
+                  ? (
+                      setLogging(true), 
+                      setTimeout(() => 
+                        act(!login ? 'APP_LOGIN_EMAIL_PASSWORD' : 'APP_SIGNUP_EMAIL_PASSWORD', email, password)
+                          .then((error) => (console.log(error), error ? setLogging(false) : (setLogging(false), setLogin(false))))
+                          .then(() => (email.match(regexEmail) && password.match(regexPassword )))
+                      ,2000)
+                    )
+                  : null
+              }
               text={!login ? 'Login @unicorn' : 'join @unicorn'}
-              style={Actheme.style('w:100%')} />
+              style={Actheme.style('w:100%')
+            } />
             {!login && <Elems.Button
               onPress={() => {act('APP_RESET_PASSWORD', email)}}
               text="Forgot password? Enter email and press here"
@@ -81,6 +92,7 @@ const Login = Actheme.create({
             textColor="lightsalmon"
             style={Actheme.style('mt:auto')}
             onPress={() => !login ? setLogin(true) : setLogin(false) } />
+          {logging && <Comps.Placeholder modal logo title={login ? 'Creating profile' : 'Connecting'} />}
         </Login.Content>
       </Login.Container>
     )

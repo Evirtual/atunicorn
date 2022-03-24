@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
+import Comps from '../../comps'
 import Actstore from 'actstore'
 
 const Info = Actheme.create({
@@ -21,7 +22,7 @@ const Info = Actheme.create({
 
       const removeNotification = setTimeout(() => {
         store.set({ success: null })
-      }, 3000)
+      }, 2500)
 
       return () => clearTimeout(removeNotification)
     }, [success])

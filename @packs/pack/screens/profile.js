@@ -77,7 +77,7 @@ export default function ProfileScreen() {
 }
 
 const Profile = Actheme.create({
-  Container: ['View', 'f:1 bg:#F2F2F2'],
+  Container: ['View', 'f:1 bg:grey'],
   Content: ['FlatList', ['f:1', {
     contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s10'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c'),
