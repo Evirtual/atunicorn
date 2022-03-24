@@ -10,7 +10,6 @@ const Upload = Actheme.create({
   Content: ['View', 'xw:s95 p:s4 bg:grey bw:1 bc:black50 br:s5'],
   File: ['Upload', ['w,h:100%']],
   Checkbox: 'Checkbox',
-  Text: ['Text', 'ta:c c:black300 w:100% fs:s5 fb:500 mt:s5'],
   Touch: ['TouchableOpacity', 'w,h:85vw xw,xh:s85 jc,ai:c bg:white br:s5 of:hd bw:1 bc:black50'],
   Image: ['Image', 'w,h:100%'],
   Close: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
