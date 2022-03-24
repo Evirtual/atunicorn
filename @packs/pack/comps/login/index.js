@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
-import Comps from '../../comps'
+import Placeholder from '../placeholder'
 import Actstore from 'actstore'
 
 const Login = Actheme.create({
@@ -96,14 +96,14 @@ const Login = Actheme.create({
             style={Actheme.style('mt:auto')}
             onPress={() => !login ? setLogin(true) : setLogin(false) } />
           {created &&
-            <Comps.Placeholder
+            <Placeholder
               modal
               logo
-              actiontext="Login"
-              action={() => setCreated(false)}
               title={'Account created'}
-              desc={'We\'ve sent you verification email.\nPlease verify and login'} />}
-          {logging && <Comps.Placeholder modal logo title={login ? 'Creating profile' : 'Connecting'} />}
+              desc={'We\'ve sent you verification email\nPlease verify and login'}
+              actionText="Login"
+              action={() => setCreated(false)} />}
+          {logging && <Placeholder modal logo title={login ? 'Creating profile' : 'Connecting'} />}
         </Login.Content>
       </Login.Container>
     )

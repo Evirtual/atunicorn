@@ -8,7 +8,7 @@ const Post = Actheme.create({
 
   Container: ['View', 'm:s2.5 jc,ai:c bw:1 bc:black50 br:s5 of:hd bg:white'],
   Content: ['View', 'w,h:90vw xw,xh:s90 jc,ai:c'],
-  Image: ['Image', 'w,h:100%'],
+  Image: ['Image', 'w,h:100% br:s5'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:1.75 bc:white'],
   User: ['View', 'ml:s2 bg:white400 bw:1.75 bc:black pv:s2 ph:s3 br:s6'],
@@ -73,7 +73,7 @@ const Post = Actheme.create({
             {active &&
               <Elems.Link href={`/profile/${post?.userId}`}>
                 <Post.User>
-                  <Post.Name>@{profile.username || profile.id}</Post.Name>
+                  <Post.Name>@{profile?.username || profile.id}</Post.Name>
                 </Post.User>
               </Elems.Link>
             }
@@ -81,8 +81,8 @@ const Post = Actheme.create({
         }
         <Elems.Link href={`../post/${post.id}`}>
           <Post.Content>
-            {post.url &&
-              <Post.Image source={post.url} />
+            {post?.url &&
+              <Post.Image source={post.url || null} />
             }
             {recycling &&
               <Post.Cover onPress={() => setNsfw(true)}>
