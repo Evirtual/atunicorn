@@ -16,7 +16,7 @@ const Nav = Actheme.create({
     imageSmall: 'w,h,br:s10 bg:white mh:s2',
     logo: 'w,h,br:s12',
     row: 'fd:row',
-    user: 'ps:ab z:2',
+    user: 'br:50% bw:2 bc:black',
     left: 'jc:start',
     right: 'jc:end',
     option: 'ps:ab l:s1',
@@ -29,7 +29,7 @@ const Nav = Actheme.create({
   Image: ['Image', 'w,h,br:s25', {
     logo: 'w,h:s12',
     profile: 'w,h,br:s9',
-    user: 'w,h,br:s6.5'
+    user: 'w,h,br:s5.5'
   }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 of:hd'],
@@ -65,13 +65,28 @@ const Nav = Actheme.create({
       <Nav.Container>
         <Nav.Content changeNav={changeNav}>
           {changeNav && 
-            <Nav.Wrap row left={changeNav} medium={(width > 767)}>
-              <Nav.Wrap imageSmall={changeNav} logo={!profile?.url}>
+            <Nav.Wrap 
+              row 
+              left={changeNav} 
+              medium={(width > 767)}
+            >
+              <Nav.Wrap 
+                imageSmall={changeNav}
+                logo={!profile?.url}
+              >
                 {profile
                   ? profile?.url
-                    ? <Nav.Image profile source={profile.url || null} />
-                    : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s10" />
-                  : <Nav.Image logo source="/static/unilogo.gif" />
+                    ? <Nav.Image
+                        profile
+                        source={profile.url || null} />
+                    : <Elems.Icon 
+                        icon="user-circle"
+                        solid
+                        iconColor="black100"
+                        iconSize="s10" />
+                  : <Nav.Image
+                      logo
+                      source="/static/unilogo.gif" />
                 }
               </Nav.Wrap>
               {(width > 767) &&
@@ -85,8 +100,14 @@ const Nav = Actheme.create({
             </Nav.Wrap>
           }
           {(active || (!user && !changeNav && path === homePath)) &&
-            <Nav.Wrap important={!changeNav || changeNav && (width < 768)} medium={changeNav && (width > 767)}>
-              <Nav.Wrap search max={(width > 767) || !changeNav}>
+            <Nav.Wrap 
+              important={!changeNav || changeNav && (width < 768)}
+              medium={changeNav && (width > 767)}
+            >
+              <Nav.Wrap 
+                search
+                max={(width > 767) || !changeNav}
+              >
                 <Nav.Wrap option>
                   {!search && !active && !changeNav
                     ? <Elems.Button
@@ -113,7 +134,11 @@ const Nav = Actheme.create({
               </Nav.Wrap>
             </Nav.Wrap>
           }
-          <Nav.Wrap row right={changeNav} medium={changeNav && (width > 767)}>
+          <Nav.Wrap 
+            row 
+            right={changeNav} 
+            medium={changeNav && (width > 767)}
+          >
             {changeNav && path !== homePath &&
               <Elems.Button
                 icon="arrow-circle-left"
@@ -172,7 +197,9 @@ const Nav = Actheme.create({
               : user &&
                 <Elems.Link href={`/profile/${user?.id}`}>
                   {user?.url
-                    ? <Nav.Image user source={user?.url || null} />
+                    ? <Nav.Wrap user>
+                        <Nav.Image user source={user?.url || null} />
+                      </Nav.Wrap>
                     : <Elems.Icon
                       icon="user-circle"
                       iconSize="s7"
@@ -211,7 +238,11 @@ const Nav = Actheme.create({
                                 title="Uploading" />
                             : profile?.url
                               ? <Nav.Image source={profile.url || null} />
-                              : <Elems.Icon icon="camera" solid iconColor="black100" iconSize="s10" />
+                              : <Elems.Icon 
+                                  icon="camera"
+                                  solid
+                                  iconColor="black100"
+                                  iconSize="s10" />
                           }
                         </Nav.Wrap>
                         
@@ -220,7 +251,11 @@ const Nav = Actheme.create({
                   : profile
                     ? profile?.url
                       ? <Nav.Image source={profile.url || null} />
-                      : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s20" />
+                      : <Elems.Icon 
+                          icon="user-circle"
+                          solid
+                          iconColor="black100"
+                          iconSize="s20" />
                     : <Nav.Image source="/static/unilogo.gif" />
                 }
               </Nav.Wrap>
@@ -233,44 +268,50 @@ const Nav = Actheme.create({
                 text="About" />
             </Nav.Wrap>
           }
-          {!changeNav && <Nav.Wrap row>
-            {user && user?.id === (profile?.id || id)
-              ? editUsername || !profile?.username
-                ? <Nav.Wrap row search max>
-                    <Nav.Wrap option>
-                      <Elems.Button
-                        input
-                        icon="times-circle"
-                        iconColor="black"
-                        iconSize="s6"
-                        onPress={() => setEditUsername(false)}
-                        style={Actheme.style('bg:white')}/>
-                    </Nav.Wrap>
-                    <Elems.Input
-                      defaultValue={profile?.username || ''}
-                      onChangeText={setUsername}
-                      placeholder={profile?.username || "Set username"}
-                      style={Actheme.style('ph:s10')} />
-                    {username &&
-                      <Nav.Wrap save>
+          {!changeNav && 
+            <Nav.Wrap row>
+              {user && user?.id === (profile?.id || id)
+                ? editUsername || !profile?.username
+                  ? <Nav.Wrap 
+                      row
+                      search
+                      max
+                    >
+                      <Nav.Wrap option>
                         <Elems.Button
                           input
-                          icon="save"
-                          iconColor="mediumseagreen"
+                          icon="times-circle"
+                          iconColor="black"
                           iconSize="s6"
-                          style={Actheme.style('bg:white')}
-                          onPress={() => act('APP_USER', { username }).then(username => !!username && setEditUsername(false))} />
+                          onPress={() => setEditUsername(false)}
+                          style={Actheme.style('bg:white')}/>
                       </Nav.Wrap>
-                    }
-                  </Nav.Wrap>
-                : <Elems.Button
-                  text={`@${profile?.username || profile?.id || id}`}
-                  onPress={() => setEditUsername(true)} />
-              : (path === profilePath || path === `${profilePath}about/`)
-                ? <Elems.Button text={`@${profile?.username || profile?.id || id}`}  />
-                : <Elems.Button text="@unicorn" />
-            }
-          </Nav.Wrap>}
+                      <Elems.Input
+                        defaultValue={profile?.username || ''}
+                        onChangeText={setUsername}
+                        placeholder={profile?.username || "Set username"}
+                        style={Actheme.style('ph:s10')} />
+                      {username &&
+                        <Nav.Wrap save>
+                          <Elems.Button
+                            input
+                            icon="save"
+                            iconColor="mediumseagreen"
+                            iconSize="s6"
+                            style={Actheme.style('bg:white')}
+                            onPress={() => act('APP_USER', { username }).then(username => !!username && setEditUsername(false))} />
+                        </Nav.Wrap>
+                      }
+                    </Nav.Wrap>
+                  : <Elems.Button
+                      text={`@${profile?.username || profile?.id || id}`}
+                      onPress={() => setEditUsername(true)} />
+                : (path === profilePath || path === `${profilePath}about/`)
+                  ? <Elems.Button text={`@${profile?.username || profile?.id || id}`}  />
+                  : <Elems.Button text="@unicorn" />
+              }
+            </Nav.Wrap>
+          }
         </Nav.Content>
       </Nav.Container>
     )
