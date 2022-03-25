@@ -11,11 +11,13 @@ const Placeholder = Actheme.create({
   }],
   Content: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s5', {
     modal: 'bg:grey bc:grey',
-    post: 'bc:white'
+    post: 'bc:white',
+    profile: 'bc:white'
   }],
   Text: ['Text', 'c:black300 fb:500 fs:s5 p:s5 ta:c', {
     title: 'c:black400 fs:s4.5',
-    desc: 'fs:s4 p:0'
+    desc: 'fs:s4 p:0 mb:s5',
+    profile: 'fs:s2.5 p:s1.5'
   }],
   Wrap: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:999 bg:white'],
   Image: ['Image', 'w,h,br:s40'],
@@ -36,17 +38,18 @@ const Placeholder = Actheme.create({
       actionText, 
       actionTextColor, 
       desc, 
-      disabled } = props
+      disabled,
+      profile } = props
 
     return (
       <Placeholder.Container flatlist={flatlist} modal={modal} screen={screen}>
-        <Placeholder.Content modal={modal} post={post}>
+        <Placeholder.Content modal={modal} post={post} profile={profile}>
           {(logo || image)
             ? <Placeholder.Image source={logo ? '/static/unilogo.gif' : image || null} />
             : icon &&
-              <Elems.Icon icon={icon || 'yin-yang'} iconColor="black100" iconSize="s30" spin={spin} />
+              <Elems.Icon icon={icon || 'yin-yang'} iconColor="black100" iconSize={profile ? 's10' : 's30'} spin={spin} />
           }
-          {title && <Placeholder.Text title={desc} modal={modal}>{title || 'Empty'}</Placeholder.Text>}
+          {title && <Placeholder.Text title={desc} modal={modal} profile={profile}>{title || 'Empty'}</Placeholder.Text>}
           {desc && <Placeholder.Text desc={desc}>{desc || 'Empty'}</Placeholder.Text>}
           {action && <Elems.Button text={actionText} onPress={action} disabled={disabled} textColor={actionTextColor || 'lightsalmon'} style={Actheme.style('mt:s5')} />}
         </Placeholder.Content>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useWindowDimensions } from 'react-native'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
+import Placeholder from '../placeholder'
 import Actstore from 'actstore'
 
 const Nav = Actheme.create({
@@ -32,7 +33,6 @@ const Nav = Actheme.create({
   }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 of:hd'],
-  Text: ['Text', 'ta:c c:black300 w:100% fs:s2.5 fb:bold mt:s1'],
 
   Comp: (props) => {
 
@@ -202,15 +202,19 @@ const Nav = Actheme.create({
                 {user && user?.id === (profile?.id || id)
                   ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
                       <Nav.Touch>
-                        {uploading == 'profile'
-                          ? <>
-                              <Elems.Icon icon="yin-yang" spin iconColor="black100" iconSize="s10" />
-                              <Nav.Text>Uploading</Nav.Text>
-                            </>
-                          : profile?.url
-                            ? <Nav.Image source={profile.url || null} />
-                            : <Elems.Icon icon="camera" solid iconColor="black100" iconSize="s10" />
-                        }
+                        <Nav.Wrap>
+                          {uploading == 'profile'
+                            ? <Placeholder
+                                profile
+                                icon="yin-yang"
+                                spin
+                                title="Uploading" />
+                            : profile?.url
+                              ? <Nav.Image source={profile.url || null} />
+                              : <Elems.Icon icon="camera" solid iconColor="black100" iconSize="s10" />
+                          }
+                        </Nav.Wrap>
+                        
                       </Nav.Touch>
                     </Nav.File>
                   : profile
