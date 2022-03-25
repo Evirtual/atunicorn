@@ -29,7 +29,7 @@ const Nav = Actheme.create({
   Image: ['Image', 'w,h,br:s25', {
     logo: 'w,h:s12',
     profile: 'w,h,br:s9',
-    user: 'w,h,br:s5.5'
+    user: 'w,h,br:s6.5'
   }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 of:hd'],
