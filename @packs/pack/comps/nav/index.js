@@ -262,7 +262,7 @@ const Nav = Actheme.create({
                 : <Elems.Button
                   text={`@${profile?.username || profile?.id || id}`}
                   onPress={() => setEditUsername(true)} />
-              : path === profilePath
+              : (path === profilePath || path === `${profilePath}about/`)
                 ? <Elems.Button text={`@${profile?.username || profile?.id || id}`}  />
                 : <Elems.Button text="@unicorn" />
             }

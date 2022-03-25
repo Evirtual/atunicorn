@@ -45,13 +45,17 @@ export default function AboutScreen() {
             </About.Edit>
           }
           {profile?.about
-            ? <About.Text>{profile?.about}</About.Text>
-            : <About.Text>
-              {profile?.id || id
-                ? `Welcome to @${profile?.username || id}`
-                : "Welcome to @unicorn\n\nIt's a place to express\nyour uniqueness\n\nin ways that inspire us\nto feel more confident\nin our everyday life"
-              }
-            </About.Text>
+            ? <About.Text about>{profile?.about}</About.Text>
+            : <Comps.Placeholder
+                post
+                title={
+                  (profile?.id || id)
+                    ? `Welcome to @${profile?.username || id}`
+                    : 'Welcome to @unicorn'}
+                desc={
+                  (profile?.id || id)
+                    ? `This is @${profile?.username || id} about section`
+                    : 'It\'s a place to express\nyour uniqueness\n\nin ways that inspire us\nto feel more confident\nIn our everyday life'} />
           }
         </About.Wrap>
       </About.Content>
@@ -64,7 +68,9 @@ const About = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
   Content: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('jc,ai:c pt:s66 ph:s5 pb:s10')}]],
-  Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s10 mt:s2.5'],
+  Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 mt:s2.5',{
+    about: 'p:s10'
+  }],
   Text: ['Text', 'fs:s4 ta:c'],
   Edit: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
 })

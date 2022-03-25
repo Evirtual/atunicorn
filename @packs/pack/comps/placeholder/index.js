@@ -14,7 +14,7 @@ const Placeholder = Actheme.create({
     post: 'bc:white'
   }],
   Text: ['Text', 'c:black300 fb:500 fs:s5 p:s5 ta:c', {
-    title: 'c:black400',
+    title: 'c:black400 fs:s4.5',
     desc: 'fs:s4 p:0'
   }],
   Wrap: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:999 bg:white'],
@@ -43,7 +43,8 @@ const Placeholder = Actheme.create({
         <Placeholder.Content modal={modal} post={post}>
           {(logo || image)
             ? <Placeholder.Image source={logo ? '/static/unilogo.gif' : image || null} />
-            : <Elems.Icon icon={icon || 'yin-yang'} iconColor="black100" iconSize="s30" spin={spin} />
+            : icon &&
+              <Elems.Icon icon={icon || 'yin-yang'} iconColor="black100" iconSize="s30" spin={spin} />
           }
           {title && <Placeholder.Text title={desc} modal={modal}>{title || 'Empty'}</Placeholder.Text>}
           {desc && <Placeholder.Text desc={desc}>{desc || 'Empty'}</Placeholder.Text>}
