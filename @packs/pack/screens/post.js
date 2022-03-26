@@ -90,7 +90,7 @@ const Post = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('w:100% ai,jc:c ph:s5 pb:s10')}]],
-  Content: ['View', 'bw:1 bc:black50 br:s5 bg:white of:hd mt:s25 w:90vw xw:s150', {
+  Content: ['View', 'bw:1 bc:black50 br:s5 bg:white of:hd mt:s22.5 w:90vw xw:s150', {
     placeholder: 'nh,xw:s90'
   }],
   Image: ['Image', 'w,h:100%'],

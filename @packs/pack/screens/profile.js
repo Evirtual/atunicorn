@@ -99,7 +99,7 @@ const Profile = Actheme.create({
     contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s10'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c'),
     ListHeaderComponentStyle: Actheme.style('ai,jc:c')}]],
-  Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s25 w:90vw nh,xw:s90', {
+  Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s2.5 w:90vw nh,xw:s90', {
     empty: 'mt:s2.5'
   }]
 })
