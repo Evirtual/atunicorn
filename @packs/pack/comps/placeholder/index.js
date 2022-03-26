@@ -4,13 +4,13 @@ import Elems from '../../elems'
 
 const Placeholder = Actheme.create({
 
-  Container: ['View', 'f:1 ai:c w:100%', {
+  Container: ['View', 'f:1 ai:c w,h:100%', {
     flatlist: 'mt:s2.5',
-    modal: 'ps:ab',
+    login: 'ps:ab',
     screen: 'mt:s25'
   }],
-  Content: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 p:s5', {
-    modal: 'bg:grey bc:grey',
+  Content: ['View', 'bg:white br:s5 w,h:100% xw:s90 ai,jc:c bw:1 bc:black50 p:s5', {
+    login: 'bg:grey bc:grey',
     post: 'bc:white',
     profile: 'bc:white'
   }],

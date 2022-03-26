@@ -27,7 +27,7 @@ const Nav = Actheme.create({
   }],
   Image: ['Image', 'w,h,br:100%'],
   File: 'Upload',
-  Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 of:hd'],
+  Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white of:hd'],
 
   Comp: (props) => {
 
@@ -222,7 +222,6 @@ const Nav = Actheme.create({
                 {user && user?.id === (profile?.id || id)
                   ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
                       <Nav.Touch>
-                        <Nav.Wrap>
                           {uploading == 'profile'
                             ? <Placeholder
                                 profile
@@ -237,8 +236,6 @@ const Nav = Actheme.create({
                                   iconColor="black100"
                                   iconSize="s10" />
                           }
-                        </Nav.Wrap>
-                        
                       </Nav.Touch>
                     </Nav.File>
                   : profile

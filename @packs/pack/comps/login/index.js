@@ -97,13 +97,13 @@ const Login = Actheme.create({
             onPress={() => !login ? setLogin(true) : setLogin(false) } />
           {created &&
             <Placeholder
-              modal
+              login
               logo
               title={'Account created'}
               desc={'We\'ve sent you verification email\nPlease verify and login'}
               actionText="Login"
               action={() => setCreated(false)} />}
-          {logging && <Placeholder modal logo title={login ? 'Creating profile' : 'Connecting'} />}
+          {logging && <Placeholder login logo title={login ? 'Creating profile' : 'Connecting'} />}
         </Login.Content>
       </Login.Container>
     )
