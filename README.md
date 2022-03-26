@@ -1,4 +1,4 @@
-# unicorn.io
+# @unicorn (atunicorn.io)
 
 It's a place to express your uniqueness
 in ways that inspire us to feel more confident
