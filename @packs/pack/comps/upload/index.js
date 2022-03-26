@@ -38,14 +38,12 @@ const Upload = Actheme.create({
             <Upload.Touch>
               {uploading == 'post'
                 ? <Placeholder
-                    post
                     icon="yin-yang"
                     spin
                     title="Uploading" />
                 : (url || post?.url)
                   ? <Upload.Image source={url || profile.url || null} />
                   : <Placeholder
-                      post
                       icon="plus-circle"
                       title="Upload Image" />
               }

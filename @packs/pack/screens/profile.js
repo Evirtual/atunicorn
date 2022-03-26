@@ -78,7 +78,11 @@ export default function ProfileScreen() {
           />
         : <>
             <Comps.Nav changeNav />
-            <Comps.Placeholder screen icon="user-circle" title="Profile doesn't exist" />
+            <Profile.Wrap>
+              <Comps.Placeholder
+                icon="user-circle"
+                title="Profile doesn't exist" />
+            </Profile.Wrap>
           </>
       }
       {(mode === 'upload' || edit) && 
@@ -93,7 +97,5 @@ const Profile = Actheme.create({
     contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s10'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c'),
     ListHeaderComponentStyle: Actheme.style('ai,jc:c')}]],
-  Text: ['Text', 'fs,mb:s6 ta:c', {
-    small: 'fs:s3'}],
-  Wrap: ['View', 'w:100% ai:c']
+  Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s25 w:90vw nh,xw:s90']
 })

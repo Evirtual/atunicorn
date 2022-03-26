@@ -57,7 +57,6 @@ const Post = Actheme.create({
         {post.nsfw && !nsfw &&
           <Post.Cover onPress={() => setNsfw(true)}>
             <Placeholder
-              post
               icon="eye-slash"
               title="NSFW" />
           </Post.Cover>
@@ -91,7 +90,6 @@ const Post = Actheme.create({
             {recycling &&
               <Post.Cover onPress={() => setNsfw(true)}>
                 <Placeholder
-                  post
                   icon="yin-yang"
                   spin
                   title="Recycling" />

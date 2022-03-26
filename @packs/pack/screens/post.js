@@ -24,27 +24,25 @@ export default function PostScreen() {
         <Comps.Nav changeNav />
         {post?.id
           ? <Post.Content>
-              <Post.Wrap content>
-                <Elems.Link href={`/profile/${post?.userId}`}>
-                  <Post.Profile>
-                    <Post.Wrap profile>
-                      {profile?.url
-                        ? <Post.Image source={profile.url} />
-                        : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s15" />
-                      }
-                    </Post.Wrap>
-                    <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
-                  </Post.Profile>
-                </Elems.Link>
-                <Post.Wrap image>
-                  {post?.url
-                    ? <Post.Image source={[post.url, 'image'].join('#')} />
-                    : <Comps.Placeholder icon="yin-yang" spin />
-                  }
-                </Post.Wrap>
-                <Post.Wrap>
-                  <Post.Text>{post?.desc || post?.userId}</Post.Text>
-                </Post.Wrap>
+              <Elems.Link href={`/profile/${post?.userId}`}>
+                <Post.Profile>
+                  <Post.Wrap profile>
+                    {profile?.url
+                      ? <Post.Image source={profile.url} />
+                      : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s15" />
+                    }
+                  </Post.Wrap>
+                  <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
+                </Post.Profile>
+              </Elems.Link>
+              <Post.Wrap image>
+                {post?.url
+                  ? <Post.Image source={[post.url, 'image'].join('#')} />
+                  : <Comps.Placeholder icon="yin-yang" spin />
+                }
+              </Post.Wrap>
+              <Post.Wrap>
+                <Post.Text>{post?.desc || post?.userId}</Post.Text>
               </Post.Wrap>
               {(user && user?.id === ( profile?.id || post?.userId ) && !recycling) && 
                 <>
@@ -70,8 +68,17 @@ export default function PostScreen() {
               }
             </Post.Content>
           : recycling
-            ? <Comps.Placeholder screen icon="yin-yang" spin title="Recycling" />
-            : <Comps.Placeholder screen icon="image-polaroid" title="Post doesn't exist" />
+            ? <Post.Content placeholder>
+                <Comps.Placeholder
+                  icon="yin-yang"
+                  spin
+                  title="Recycling" />
+              </Post.Content>
+            : <Post.Content placeholder>
+                <Comps.Placeholder
+                  icon="image-polaroid" 
+                  title="Post doesn't exist" />
+              </Post.Content>
         }
       </Post.ScrollView>
       {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
@@ -82,19 +89,15 @@ export default function PostScreen() {
 const Post = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
   ScrollView: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c ph:s5 pb:s10')}]],
-  Content: ['View', 'f:1 ai:c w:100% xw:s150 mt:s24', {
-    recycling: 'xw:s90'
+    contentContainerStyle: Actheme.style('w:100% ai,jc:c ph:s5 pb:s10')}]],
+  Content: ['View', 'bw:1 bc:black50 br:s5 bg:white of:hd mt:s25 w:90vw xw:s150', {
+    placeholder: 'nh,xw:s90'
   }],
   Image: ['Image', 'w,h:100%'],
-  Text: ['Text', 'fs:s4 p:s5', {
-    recycling: 'c:black300 fb:500 fs:s5'
-  }],
+  Text: ['Text', 'fs:s4 p:s5',],
   Wrap: ['View', 'w:100%', {
     image: 'btw:1 bbw:1 bc:black50',
-    profile: 'fd:row w,h,br:s15 of:hd',
-    recycling: 'f:1 w,h:90vw xw,xh:s90',
-    content: 'bw:1 bc:black50 br:s5 bg:white of:hd'}],
+    profile: 'fd:row w,h,br:s15 of:hd'}],
   Profile: ['View', 'w:100% fd:row ai:c p:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
   Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3', {

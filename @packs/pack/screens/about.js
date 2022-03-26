@@ -47,7 +47,6 @@ export default function AboutScreen() {
           {profile?.about
             ? <About.Text about>{profile?.about}</About.Text>
             : <Comps.Placeholder
-                post
                 title={
                   (profile?.id || id)
                     ? `Welcome to @${profile?.username || id}`
