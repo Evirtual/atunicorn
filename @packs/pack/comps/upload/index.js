@@ -64,7 +64,7 @@ const Upload = Actheme.create({
               iconSize="s6" 
               nsfw
               onPress={() => setNsfw(!nsfw)} 
-              text="NSFW" />}
+              text="NSFW (not suitable for work)" />}
           {(url || post?.url) && desc &&
             <Elems.Button 
               submit 

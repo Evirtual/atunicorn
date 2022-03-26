@@ -14,7 +14,7 @@ const Button = Actheme.create({
     text: 'nw:s13',
     disabled: 'op:0.25',
     inline: 'fd:row',
-    nsfw: 'fd:row p:s2 bg:white mt:s5 br:s5 bw:1 bc:black50',
+    nsfw: 'fd:row p:s2 bg:white mt:s5 br:s3.5 bw:1 bc:black50',
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100% fs:s4', { numberOfLines: 1 }], {
     submit: 'c:white',
