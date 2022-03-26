@@ -8,29 +8,24 @@ import Actstore from 'actstore'
 const Nav = Actheme.create({
 
   Container: ['View', 'jc,ai:c w:100vw z:2'],
-  Content: ['View', 'ps:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey400', {
+  Content: ['View', 'ps:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey', {
     changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:black50 t:-1'
   }],
   Wrap: ['View', 'jc,ai:c', {
-    image: 'w,h,br:s25 bg:white mh:s6 mv:s3',
-    imageSmall: 'w,h,br:s10 bg:white mh:s2',
-    logo: 'w,h,br:s12',
+    image: 'w,h,br:s25 bg:white mh:s6 mv:s3 bw:2 bc:grey of:hd',
+    imageSmall: 'w,h,br:s11 bg:white mh:s2 bw:2 bc:grey of:hd',
     row: 'fd:row',
-    user: 'w,h,br:s6.5 bw:2 bc:black',
+    user: 'w,h,br:s7 bw:2 bc:black of:hd',
     left: 'jc:start',
     right: 'jc:end',
     option: 'ps:ab l:s1',
     save: 'ps:ab r:s1',
-    important: 'ps:ab t:s3 l,r:0 z:9 ph:s5',
+    important: 'ps:ab t:s3.5 l,r:0 z:9 ph:s5',
     search: 'nw:s70 w:100%',
     max: 'xw:s70',
     medium: 'w:33.33%'
   }],
-  Image: ['Image', 'w,h,br:s25', {
-    logo: 'w,h:s12',
-    profile: 'w,h,br:s9',
-    user: 'w,h,br:s5.5'
-  }],
+  Image: ['Image', 'w,h,br:100%'],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 of:hd'],
 
@@ -77,7 +72,6 @@ const Nav = Actheme.create({
                 {profile
                   ? profile?.url
                     ? <Nav.Image
-                        profile
                         source={profile.url || null} />
                     : <Elems.Icon 
                         icon="user-circle"
@@ -85,7 +79,6 @@ const Nav = Actheme.create({
                         iconColor="black100"
                         iconSize="s10" />
                   : <Nav.Image
-                      logo
                       source="/static/unilogo.gif" />
                 }
               </Nav.Wrap>
@@ -198,7 +191,7 @@ const Nav = Actheme.create({
                 <Elems.Link href={`/profile/${user?.id}`}>
                   {user?.url
                     ? <Nav.Wrap user>
-                        <Nav.Image user source={user?.url || null} />
+                        <Nav.Image source={user?.url || null} />
                       </Nav.Wrap>
                     : <Elems.Icon
                       icon="user-circle"

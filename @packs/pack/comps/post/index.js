@@ -6,12 +6,12 @@ import Actstore from 'actstore'
 
 const Post = Actheme.create({
 
-  Container: ['View', 'm:s2.5 jc,ai:c bw:1 bc:black50 br:s5 of:hd bg:white'],
-  Content: ['View', 'w,h:90vw xw,xh:s90 jc,ai:c'],
-  Image: ['Image', 'w,h:100% br:s5'],
+  Container: ['View', 'm:s2.5'],
+  Content: ['View', 'w,h:90vw xw,xh:s90 br:s5 of:hd bg:white bw:1 bc:black50'],
+  Image: ['Image', 'w,h:100%'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
-  Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:1.75 bc:white'],
-  User: ['View', 'ml:s2 bg:white400 bw:1.75 bc:black pv:s2 ph:s3 br:s6'],
+  Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:2 bc:white ai,jc:c'],
+  User: ['View', 'ml:s2 bg:white400 bw:2 bc:black pv:s2 ph:s3 br:s6'],
   Name: ['Text', 'c:black fb:500'],
   Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3', {
     edit: 'r:s12'
@@ -67,7 +67,11 @@ const Post = Actheme.create({
             <Post.Profile onPress={() => setActive(!active)}>
               {!!profile?.url 
                 ? <Post.Image source={profile.url} />
-                : <Elems.Icon style={Actheme.style('c:white400 fs:s12')} icon="user-circle" solid />
+                : <Elems.Icon
+                    icon="user-circle" 
+                    iconSize="s12" 
+                    iconColor="black100" 
+                    solid />
               }
             </Post.Profile>
             {active &&
