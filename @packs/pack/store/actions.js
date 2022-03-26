@@ -58,7 +58,12 @@ const actions = ({ store, configs }) => ({
         user.sendEmailVerification()
         store.set({ success: { type: 'register', message: 'Congratulations! We sent you an email, please verify and log in' } })
       })
-      .catch((error) => store.set({ error: { message: error.message }}))
+      .catch(
+        (error) =>
+          (error?.code == 'auth/email-already-in-use')
+            ? store.set({ error: { message: error.message = 'This email is used by another unicorn' }})
+            : store.set({ error: { message: error.message }})
+      )
   },
 
   APP_LOGIN_EMAIL_PASSWORD: async (email, password) => {
@@ -75,7 +80,16 @@ const actions = ({ store, configs }) => ({
           store.set({ error: { message: 'Please verify your email and try again (if you don\'t see an email, check spam folder)' } })
         }
       })
-      .catch((error) => store.set({ error: { message: error.message }}))
+      .catch(
+        (error) => 
+          (error?.code == 'auth/user-not-found')
+            ? store.set({ error: { message: error.message = 'There is no unicorn with this email' }})
+            : (error?.code == 'auth/wrong-password')
+              ? store.set({ error: { message: error.message = 'Password incorrect. Try again or reset your password' }})
+              : (error?.code == 'auth/too-many-requests')
+                ? store.set({ error: { message: error.message = 'You entered wrong password too many times, please take some time to remember' }})
+                : store.set({ error: { message: error.message }})
+      )
   },
 
   APP_RESET_PASSWORD: async (email) => {

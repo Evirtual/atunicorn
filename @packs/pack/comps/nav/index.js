@@ -20,7 +20,7 @@ const Nav = Actheme.create({
     right: 'jc:end',
     option: 'ps:ab l:s1',
     save: 'ps:ab r:s1',
-    important: 'ps:ab t:s3.5 l,r:0 z:9 ph:s5',
+    important: 'ps:ab t:s3 l,r:0 z:9 ph:s5',
     search: 'nw:s70 w:100%',
     max: 'xw:s70',
     medium: 'w:33.33%'

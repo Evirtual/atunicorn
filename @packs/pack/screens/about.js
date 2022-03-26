@@ -49,8 +49,8 @@ export default function AboutScreen() {
             : <Comps.Placeholder
                 title={
                   (profile?.id || id)
-                    ? `Welcome to @${profile?.username || id}`
-                    : 'Welcome to @unicorn'}
+                    ? `Welcome @${profile?.username || id}`
+                    : 'Welcome @unicorn'}
                 desc={
                   (profile?.id || id)
                     ? `This is @${profile?.username || id} about section`

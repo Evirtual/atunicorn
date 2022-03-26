@@ -49,16 +49,18 @@ export default function ProfileScreen() {
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
             ListEmptyComponent={
-              <Comps.Placeholder
-                flatlist
-                icon={!user && 'image-polaroid'}
-                title={user ? 'Welcome to @unicorn' : 'No posts'}
-                desc={user && 'You can upload profile picture, change nickname/id and edit about section.'}
-                disabled={user && !user.approved}
-                actionText="Upload"
-                actionTextColor="green"
-                logo={user}
-                action={user ? () => setMode(upload) : null} />
+              <Profile.Wrap empty>
+                <Comps.Placeholder
+                  flatlist
+                  icon={!user && 'image-polaroid'}
+                  title={user ? 'Welcome @unicorn' : 'No posts'}
+                  desc={user && 'You can upload profile picture, change nickname/id and edit about section.'}
+                  disabled={user && !user.approved}
+                  actionText="Upload"
+                  actionTextColor="green"
+                  logo={user}
+                  action={user ? () => setMode(upload) : null} />
+              </Profile.Wrap>
             }
             initialNumToRender={1}
             maxToRenderPerBatch={1}
@@ -97,5 +99,7 @@ const Profile = Actheme.create({
     contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s10'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c'),
     ListHeaderComponentStyle: Actheme.style('ai,jc:c')}]],
-  Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s25 w:90vw nh,xw:s90']
+  Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s25 w:90vw nh,xw:s90', {
+    empty: 'mt:s2.5'
+  }]
 })

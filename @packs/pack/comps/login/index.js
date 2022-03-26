@@ -7,7 +7,8 @@ import Actstore from 'actstore'
 const Login = Actheme.create({
 
   Wrap: ['View', 'w:100% ai,jc:c', {
-    max: 'xw:s70'
+    max: 'xw:s70',
+    placeholder: 'ps:ab h:100%'
   }],
   Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s3'],
   Content: ['View', 'bg:grey br:s5 w:100% nh,xw:s92 ai,jc:c bw:1 bc:black50 p:s4'],
@@ -24,7 +25,7 @@ const Login = Actheme.create({
     const [password, setPassword] = useState('')
     const [passwordVisible, setPasswordVisible] = useState()
     const [disabled, setDisabled] = useState(true)
-    const [login, setLogin] = useState()
+    const [login, setLogin] = useState(true)
     const [logging, setLogging] = useState()
     const [created, setCreated] = useState()
 
@@ -33,6 +34,18 @@ const Login = Actheme.create({
         ? setDisabled(false)
         : setDisabled(true)
     }, [email, password])
+
+    const loginRegister = () => (
+      setLogging(true), 
+      setTimeout(() => 
+        act(login ? 'APP_LOGIN_EMAIL_PASSWORD' : 'APP_SIGNUP_EMAIL_PASSWORD', email, password)
+          .then((error) => 
+            error
+              ? setLogging(false)
+              : (setLogging(false), setLogin(false), setCreated(true)))
+          .then(() => (email.match(regexEmail) && password.match(regexPassword )))
+      ,2000)
+    )
 
     return (
       <Login.Container>
@@ -45,8 +58,8 @@ const Login = Actheme.create({
               onPress={props.onClose} />
           </Login.Close>
           <Login.Wrap style={Actheme.style('mt:s5 mb:s8')}>
-            <Login.Text space>Welcome to @unicorn</Login.Text>
-            <Login.Text>{!login ? 'Please login to you account' : 'We hope you will enjoy your stay'}</Login.Text>
+            <Login.Text space>Welcome @unicorn</Login.Text>
+            <Login.Text>{login ? 'Please login to you account' : 'We hope you will enjoy your stay'}</Login.Text>
           </Login.Wrap>
           <Login.Wrap max>
             <Elems.Input
@@ -66,22 +79,11 @@ const Login = Actheme.create({
             <Elems.Button
               disabled={disabled}
               submit
-              onPress={() => 
-                !logging
-                  ? (
-                      setLogging(true), 
-                      setTimeout(() => 
-                        act(!login ? 'APP_LOGIN_EMAIL_PASSWORD' : 'APP_SIGNUP_EMAIL_PASSWORD', email, password)
-                          .then((error) => (console.log(error), error ? setLogging(false) : (setLogging(false), setLogin(false), setCreated(true))))
-                          .then(() => (email.match(regexEmail) && password.match(regexPassword )))
-                      ,2000)
-                    )
-                  : null
-              }
-              text={!login ? 'Login @unicorn' : 'join @unicorn'}
+              onPress={!logging && loginRegister}
+              text={login ? 'Login @unicorn' : 'join @unicorn'}
               style={Actheme.style('w:100%')
             } />
-            {!login && 
+            {login && 
               <Elems.Button
                 onPress={() => {act('APP_RESET_PASSWORD', email)}}
                 text="Forgot password? Enter email and press here"
@@ -91,19 +93,26 @@ const Login = Actheme.create({
             }
           </Login.Wrap>
           <Elems.Button
-            text={!login ? 'Signup @unicorn' : 'Login'}
+            text={login ? 'Signup @unicorn' : 'Login'}
             textColor="lightsalmon"
             style={Actheme.style('mt:auto')}
-            onPress={() => !login ? setLogin(true) : setLogin(false) } />
+            onPress={() => login ? setLogin(false) : setLogin(true) } />
           {created &&
-            <Placeholder
-              login
-              logo
-              title={'Account created'}
-              desc={'We\'ve sent you verification email\nPlease verify and login'}
-              actionText="Login"
-              action={() => setCreated(false)} />}
-          {logging && <Placeholder login logo title={login ? 'Creating profile' : 'Connecting'} />}
+            <Login.Wrap placeholder>
+              <Placeholder
+                login
+                logo
+                title={'Account created'}
+                desc={'We\'ve sent you verification email\nPlease verify and login'}
+                actionText="Login"
+                action={() => (setCreated(false), setLogin(true))} />
+            </Login.Wrap>
+          }
+          {logging && 
+            <Login.Wrap placeholder>
+              <Placeholder login logo title={login ? 'Connecting' : 'Creating profile'} />
+            </Login.Wrap>
+          }
         </Login.Content>
       </Login.Container>
     )
