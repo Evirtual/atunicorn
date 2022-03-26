@@ -36,13 +36,13 @@ export default function AboutScreen() {
         <Comps.Nav changeNav={changeNav} />
         <About.Wrap>
           {user && user?.id === ( profile?.id || id ) && 
-            <About.Edit>
+            <About.Option>
               <Elems.Button
                 option
-                edit
+                regular
                 icon="pencil"
                 onPress={() => setEdit(true)} />
-            </About.Edit>
+            </About.Option>
           }
           {profile?.about
             ? <About.Text about>{profile?.about}</About.Text>
@@ -71,5 +71,5 @@ const About = Actheme.create({
     about: 'p:s10'
   }],
   Text: ['Text', 'fs:s4 ta:c'],
-  Edit: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
+  Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
 })
