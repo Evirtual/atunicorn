@@ -16,7 +16,7 @@ const Nav = Actheme.create({
     imageSmall: 'w,h,br:s10 bg:white mh:s2',
     logo: 'w,h,br:s12',
     row: 'fd:row',
-    user: 'w,h,br:s7.5 bw:2 bc:black',
+    user: 'w,h,br:s6.5 bw:2 bc:black',
     left: 'jc:start',
     right: 'jc:end',
     option: 'ps:ab l:s1',
@@ -29,7 +29,7 @@ const Nav = Actheme.create({
   Image: ['Image', 'w,h,br:s25', {
     logo: 'w,h:s12',
     profile: 'w,h,br:s9',
-    user: 'w,h,br:s6'
+    user: 'w,h,br:s5.5'
   }],
   File: 'Upload',
   Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white200 of:hd'],

@@ -16,7 +16,7 @@ const Placeholder = Actheme.create({
   }],
   Text: ['Text', 'c:black300 fb:500 fs:s5 p:s5 ta:c', {
     title: 'c:black400 fs:s4.5',
-    desc: 'fs:s4 p:0 mb:s5',
+    desc: 'c:black400 fb:400 fs:s4.25 p:0 mb:s5',
     profile: 'fs:s2.5 p:s1.5'
   }],
   Wrap: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:999 bg:white'],
