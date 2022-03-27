@@ -29,7 +29,7 @@ const Input = Actheme.create({
 
     return (
       <Input.TextInput
-        defaultValue={defaultValue || null}
+        defaultValue={defaultValue}
         placeholder={placeholder || ''}
         focus={focus}
         space={space}
