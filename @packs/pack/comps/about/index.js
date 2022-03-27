@@ -31,7 +31,7 @@ const About = Actheme.create({
             numberOfLine={15}
             defaultValue={profile?.about || ''}
             onChangeText={setAbout}
-            placeholder={profile?.about || 'How would you\nexplain yourself\nto others?\n\nOr in other words,\nwho are you?'} />
+            placeholder={profile?.about || `We support markdown\n\n# h1\n## h2\n### h3\n\n*italic*\n\n**bold**\n\nMore details:\nwww.markdownguide.org`} />
           {(about || profile?.about) &&
             <Elems.Button 
               submit

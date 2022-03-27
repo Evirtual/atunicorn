@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Comps, Elems, Actheme } from 'pack'
 import Actstore from 'actstore'
+import Markdown from 'markdown-to-jsx';
 
 export default function AboutScreen() {
   const { store, handle } = Actstore({}, ['user', 'users'])
@@ -45,7 +46,11 @@ export default function AboutScreen() {
             </About.Option>
           }
           {profile?.about
-            ? <About.Text about>{profile?.about}</About.Text>
+            ? <About.Text about>
+                <Markdown>
+                  {profile?.about}
+                 </Markdown>
+              </About.Text>
             : <Comps.Placeholder
                 title={
                   (profile?.id || id)
@@ -70,6 +75,6 @@ const About = Actheme.create({
   Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 mt:s2.5',{
     about: 'p:s10'
   }],
-  Text: ['Text', 'fs:s4 ta:c'],
+  Text: ['Text', 'fs:s4 pv:s2 ph:s5 c:black400'],
   Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
 })

@@ -28,7 +28,8 @@
     "@fortawesome/free-brands-svg-icons": "5.15.2",
     "@fortawesome/react-fontawesome": "0.1.14",
     "firebase": "8.2.10",
-    "react-image-file-resizer": "0.4.7"
+    "react-image-file-resizer": "0.4.7",
+    "markdown-to-jsx": "7.1.7"
   },
   "babel": {
     "presets": [
