@@ -16,6 +16,7 @@ const Nav = Actheme.create({
     imageSmall: 'w,h,br:s11 bg:white mh:s2 bw:2 bc:grey of:hd',
     row: 'fd:row',
     user: 'w,h,br:s7 bw:2 bc:black of:hd',
+    logo: 'bw:0',
     left: 'jc:start',
     right: 'jc:end',
     option: 'ps:ab l:s1',
@@ -262,11 +263,7 @@ const Nav = Actheme.create({
             <Nav.Wrap row>
               {user && user?.id === (profile?.id || id)
                 ? editUsername || !profile?.username
-                  ? <Nav.Wrap 
-                      row
-                      search
-                      max
-                    >
+                  ? <Nav.Wrap row search max>
                       <Nav.Wrap option>
                         <Elems.Button
                           input
