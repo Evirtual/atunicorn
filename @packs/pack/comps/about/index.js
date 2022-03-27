@@ -28,10 +28,10 @@ const About = Actheme.create({
           </About.Close>
           <Elems.Input
             multiline
-            numberOfLine={15}
+            numberOfLine={14}
             defaultValue={profile?.about || ''}
             onChangeText={setAbout}
-            placeholder={profile?.about || `We support markdown\n\n# h1\n## h2\n### h3\n\n*italic*\n\n**bold**\n\nMore details:\nwww.markdownguide.org`} />
+            placeholder={`We support markdown\n\n# h1\n## h2\n### h3\n\n*italic*\n\n**bold**\n\nMore details:\nwww.markdownguide.org`} />
           {(about || profile?.about) &&
             <Elems.Button 
               submit

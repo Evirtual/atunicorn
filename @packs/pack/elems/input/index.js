@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 
 const Input = Actheme.create({
@@ -15,27 +15,29 @@ const Input = Actheme.create({
       defaultValue,
       placeholder, 
       space, 
+      onContentSizeChange,
       password, 
       onChange, 
       onChangeText, 
       value, 
       multiline, 
       numberOfLine, 
-      style, 
+      style,
       ...rest} = props
       
-    const [focus, setFocus] = React.useState()
+    const [focus, setFocus] = useState()
 
     return (
       <Input.TextInput
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || null}
         placeholder={placeholder || ''}
         focus={focus}
         space={space}
+        onContentSizeChange={onContentSizeChange}
         secureTextEntry={password}
         onChange={onChange}
         onChangeText={onChangeText}
-        value={value}
+        value={value || null}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         multiline={multiline ? true : false}

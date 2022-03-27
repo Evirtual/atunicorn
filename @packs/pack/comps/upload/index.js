@@ -56,7 +56,8 @@ const Upload = Actheme.create({
               defaultValue={post?.desc || ''}
               onChangeText={setDesc}
               placeholder="Type your description"
-              style={Actheme.style('mt:s5')} />}
+              style={Actheme.style('mt:s5')} />
+          }
           {(url || post?.url) && (desc) &&
             <Elems.Button
               icon={nsfw ? 'check-circle': 'circle'} 
@@ -64,12 +65,14 @@ const Upload = Actheme.create({
               iconSize="s6" 
               nsfw
               onPress={() => setNsfw(!nsfw)} 
-              text="NSFW (not suitable for work)" />}
+              text="NSFW (not suitable for work)" />
+          }
           {(url || post?.url) && desc &&
             <Elems.Button 
               submit 
               onPress={() => act('APP_POST', { id: post?.id, url, desc, nsfw }).then(onClose)} 
-              text={ post?.id ? 'Update' : 'Ready to make it public?'} />}
+              text={ post?.id ? 'Update' : 'Ready to make it public?'} />
+          }
         </Upload.Content>
       </Upload.Container>
     )

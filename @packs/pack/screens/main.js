@@ -21,7 +21,7 @@ function MainScreen() {
       post={item}
       profile={users?.find(user => user.id === item.userId)} />
 
-  const handleNavalt = (e) => {
+  const handleNav = (e) => {
     const scrolled = e.nativeEvent.contentOffset.y
     scrolled > 264
       ? setChangeNav(true)
@@ -47,7 +47,7 @@ function MainScreen() {
         initialNumToRender={1}
         maxToRenderPerBatch={1}
         windowSize={6}
-        onScroll={handleNavalt}
+        onScroll={handleNav}
         scrollEventThrottle={1}
         numColumns={6}
         stickyHeaderIndices={[0]}
