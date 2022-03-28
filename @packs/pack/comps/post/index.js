@@ -9,7 +9,7 @@ const Post = Actheme.create({
   Container: ['View', 'm:s2.5'],
   Content: ['View', 'w,h:90vw xw,xh:s90 br:s5 of:hd bg:white bw:1 bc:black50'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
-  Image: ['Image', 'w,h:100%'],
+  Image: ['Image', 'w,h:100% br:s5'],
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:2 bc:white ai,jc:c'],
   User: ['View', 'ml:s2 bg:white400 bw:2 bc:black pv:s2 ph:s3 br:s6'],
   Name: ['Text', 'c:black fb:500'],
