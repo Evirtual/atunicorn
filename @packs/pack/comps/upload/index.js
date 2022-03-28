@@ -63,7 +63,7 @@ const Upload = Actheme.create({
               radio
               icon={nsfw ? 'check-circle': 'circle'} 
               iconColor="red" textColor="red" 
-              iconSize="s8" 
+              iconSize="s7.5" 
               onPress={() => setNsfw(!nsfw)} 
               text="NSFW (not suitable for work)"
               style={Actheme.style('mt:s4')} />
