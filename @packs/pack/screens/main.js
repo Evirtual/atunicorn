@@ -75,7 +75,7 @@ export default MainScreen
 const Main = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
   FlatList: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s22.5'),
+    contentContainerStyle: Actheme.style('xw:s300 as:c ai,jc:c pt:s66 pb:s22.5'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c')}]],
   Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s2.5 w:90vw nh,xw:s90']
 })

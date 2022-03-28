@@ -8,14 +8,12 @@ const Post = Actheme.create({
 
   Container: ['View', 'm:s2.5'],
   Content: ['View', 'w,h:90vw xw,xh:s90 br:s5 of:hd bg:white bw:1 bc:black50'],
-  Image: ['Image', 'w,h:100%'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
+  Image: ['Image', 'w,h:100%'],
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:2 bc:white ai,jc:c'],
   User: ['View', 'ml:s2 bg:white400 bw:2 bc:black pv:s2 ph:s3 br:s6'],
   Name: ['Text', 'c:black fb:500'],
-  Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3', {
-    edit: 'r:s12'
-  }],
+  Options: ['View', 'fd:row ps:ab t,r:s2 ai,jc:c z:3'],
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0'],
 
   Comp: (props) => {
@@ -30,29 +28,26 @@ const Post = Actheme.create({
     return (
       <Post.Container>
         {user && user?.id === id &&
-          <>
-            <Post.Option>
-              <Elems.Button
-                option
-                recycle
-                regular
-                icon="recycle"
-                onPress={
-                  () => 
-                    act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url })
-                      .then(onRemove, setRecycling(true))
-                }
-              />
-            </Post.Option>
-            <Post.Option edit>
-              <Elems.Button
-                option
-                edit
-                regular
-                icon="pencil"
-                onPress={onEdit} />
-            </Post.Option>
-          </>
+          <Post.Options>
+            <Elems.Button
+              option
+              edit
+              regular
+              icon="pencil"
+              onPress={onEdit}
+              style={Actheme.style('mr:s1')} />
+            <Elems.Button
+              option
+              recycle
+              regular
+              icon="recycle"
+              onPress={
+                () => 
+                  act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url })
+                    .then(onRemove, setRecycling(true))
+              }
+            />
+          </Post.Options>
         }
         {post.nsfw && !nsfw &&
           <Post.Cover onPress={() => setNsfw(true)}>
