@@ -60,20 +60,20 @@ const Upload = Actheme.create({
           }
           {(url || post?.url) && (desc) &&
             <Elems.Button
-              radio
+              inline
               icon={nsfw ? 'check-circle': 'circle'} 
               iconColor="red" textColor="red" 
               iconSize="s7.5" 
               onPress={() => setNsfw(!nsfw)} 
               text="NSFW (not suitable for work)"
-              style={Actheme.style('mt:s4')} />
+              style={Actheme.style('mt:s3')} />
           }
           {(url || post?.url) && desc &&
             <Elems.Button 
               submit 
               onPress={() => act('APP_POST', { id: post?.id, url, desc, nsfw }).then(onClose)} 
               text={ post?.id ? 'Update' : 'Ready to make it public?'}
-              style={Actheme.style('mt:s4')} />
+              style={Actheme.style('mt:s3')} />
           }
         </Upload.Content>
       </Upload.Container>
