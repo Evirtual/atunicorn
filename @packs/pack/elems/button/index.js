@@ -5,7 +5,7 @@ import Elems from '../../elems'
 const Button = Actheme.create({
 
   Touch: ['TouchableOpacity', 'jc,ai:c nw:s13 nh:s11', {
-    submit: 'bc:mediumseagreen br:s5 bg:mediumseagreen',
+    submit: 'bc:mediumseagreen br:s5.5 bg:mediumseagreen',
     option: 'w,h,nh,nw,br:s8.5 bw:2 bg:white400 bc:black c:black',
     edit: 'fs:s4',
     recycle: 'fs:s4.5',
@@ -14,13 +14,13 @@ const Button = Actheme.create({
     text: 'nw:s13',
     disabled: 'op:0.25',
     inline: 'fd:row',
-    nsfw: 'fd:row p:s2 bg:white br:s3.5 bw:1 bc:black50',
+    radio: 'fd:row br:s3.5',
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100% fs:s4', { numberOfLines: 1 }], {
     submit: 'c:white',
     inline: 'ml:s2',
     icon: 'ta:l',
-    nsfw: 'ml:s2',
+    radio: 'ml:s2',
   }],
   Image: ['Image', 'w,h:100%'],
 
@@ -28,7 +28,7 @@ const Button = Actheme.create({
 
     const {
       text,
-      nsfw,
+      radio,
       space,
       submit,
       input,
@@ -56,7 +56,7 @@ const Button = Actheme.create({
     return (
       <Button.Touch
         text={text}
-        nsfw={nsfw}
+        radio={radio}
         submit={submit}
         input={input}
         option={option}
@@ -91,7 +91,7 @@ const Button = Actheme.create({
             icon={icon}
             submit={submit}
             inline={inline}
-            nsfw={nsfw}
+            radio={radio}
             style={Actheme.style([
               fontSize && `fs:${fontSize}`,
               textColor && `c:${textColor}`

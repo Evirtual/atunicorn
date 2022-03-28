@@ -60,10 +60,10 @@ const Upload = Actheme.create({
           }
           {(url || post?.url) && (desc) &&
             <Elems.Button
+              radio
               icon={nsfw ? 'check-circle': 'circle'} 
               iconColor="red" textColor="red" 
-              iconSize="s6" 
-              nsfw
+              iconSize="s8" 
               onPress={() => setNsfw(!nsfw)} 
               text="NSFW (not suitable for work)"
               style={Actheme.style('mt:s4')} />
