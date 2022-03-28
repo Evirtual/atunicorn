@@ -68,17 +68,19 @@ export default function AboutScreen() {
                       '**[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)**' +
                       '</span>' +
                       '</p>\n\n' +
-                      '<p style="margin:0;">Developed using\n' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Next.js](https://nextjs.org/)**</span>\n\n' +
-                      '<span style="text-decoration:underline; margin:5px;">**[React](https://reactjs.org/)**</span>\n\n' +
+                      'Developed using\n' +
+                      '<div>' +
+                      '<span style="text-decoration:underline; margin:5px;">**[Next.js](https://nextjs.org/)**</span>' +
+                      '<span style="text-decoration:underline; margin:5px;">**[React](https://reactjs.org/)**</span>' +
                       '<span style="text-decoration:underline; margin:5px;">**[React Native](https://reactnative.dev/)**</span>' +
-                      '</p>\n\n' +
-                      '<p style="margin:0;">' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Firebase](https://firebase.google.com/)**</span>\n\n' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>\n\n' +
+                      '</div>' +
+                      '<div>' +
+                      '<span style="text-decoration:underline; margin:5px;">**[Firebase](https://firebase.google.com/)**</span>' +
+                      '<span style="text-decoration:underline; margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>' +
                       '<span style="text-decoration:underline; margin:5px;">**[Actstore](https://github.com/egislook/actstore)**</span>' +
-                      '</p>' +
-                      '<p></p>'} />
+                      '</div>' +
+                      '<p></p>'
+                } />
           }
         </About.Wrap>
       </About.ScrollView>
