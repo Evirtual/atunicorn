@@ -78,6 +78,7 @@ const actions = ({ store, configs }) => ({
           store.set({ success: { message: 'Done! You successfully logged in' } })
         } else {
           store.set({ error: { message: 'Please verify your email and try again (if you don\'t see an email, check spam folder)' } })
+          return false
         }
       })
       .catch(

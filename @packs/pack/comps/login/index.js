@@ -42,8 +42,11 @@ const Login = Actheme.create({
         act(login ? 'APP_LOGIN_EMAIL_PASSWORD' : 'APP_SIGNUP_EMAIL_PASSWORD', email, password)
           .then((error) => 
             error
-              ? setLogging(false)
-              : (setLogging(false), setLogin(false), setCreated(true)))
+              ? (setLogging(false))
+              : !login
+                ? (setLogging(false), setLogin(false), setCreated(true))
+                : (setLogging(false), (error == false) && setCreated(true))
+          )
           .then(() => (email.match(regexEmail) && password.match(regexPassword )))
       ,2000)
     )
