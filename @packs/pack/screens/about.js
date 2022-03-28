@@ -97,5 +97,5 @@ const About = Actheme.create({
     about: 'p:s10'
   }],
   Text: ['Text', 'fs:s4 pv:s2 ph:s5 c:black400'],
-  Option: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
+  Option: ['View', 'ps:ab t,r:s1.5 ai,jc:c z:3'],
 })

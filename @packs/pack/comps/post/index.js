@@ -13,7 +13,7 @@ const Post = Actheme.create({
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:2 bc:white ai,jc:c'],
   User: ['View', 'ml:s2 bg:white400 bw:2 bc:black pv:s2 ph:s3 br:s6'],
   Name: ['Text', 'c:black fb:500'],
-  Options: ['View', 'fd:row ps:ab t,r:s2 ai,jc:c z:3'],
+  Options: ['View', 'fd:row ps:ab t,r:s1.5 ai,jc:c z:3'],
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0'],
 
   Comp: (props) => {

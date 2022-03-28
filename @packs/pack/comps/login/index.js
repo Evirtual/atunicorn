@@ -8,12 +8,13 @@ const Login = Actheme.create({
 
   Wrap: ['View', 'w:100% ai,jc:c', {
     max: 'xw:s70',
-    placeholder: 'ps:ab h:100%'
+    placeholder: 'ps:ab h:100%',
+    space: 'mt:s3'
   }],
   Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s3'],
-  Content: ['View', 'bg:grey br:s5 w:100% nh,xw:s92 ai,jc:c bw:1 bc:black50 p:s4'],
+  Content: ['View', 'bg:grey br:s5 w:100% nh,xw:s92 ai,jc:c bw:1 bc:black50 p:s3'],
   Text: ['Text', 'fs:s4 ta:c mb:s2'],
-  Close: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
+  Close: ['View', 'ps:ab t,r:s1.5 ai,jc:c z:3'],
   Image: 'Image',
 
   Comp: (props) => {
@@ -58,15 +59,14 @@ const Login = Actheme.create({
               onPress={props.onClose} />
           </Login.Close>
           <Login.Wrap style={Actheme.style('mt:s5 mb:s8')}>
-            <Login.Text space>Welcome @unicorn</Login.Text>
+            <Login.Text>Welcome @unicorn</Login.Text>
             <Login.Text>{login ? 'Please login to you account' : 'We hope you will enjoy your stay'}</Login.Text>
           </Login.Wrap>
           <Login.Wrap max>
             <Elems.Input
               placeholder={'Enter your email address'}
-              space
               onChangeText={setEmail}/>
-            <Login.Wrap>
+            <Login.Wrap space>
               <Elems.Input
                 password={passwordVisible ? false : true}
                 placeholder={'Enter your password'}
@@ -81,7 +81,7 @@ const Login = Actheme.create({
               submit
               onPress={!logging && loginRegister}
               text={login ? 'Login @unicorn' : 'join @unicorn'}
-              style={Actheme.style('w:100%')
+              style={Actheme.style('w:100% mt:s4')
             } />
             {login && 
               <Elems.Button

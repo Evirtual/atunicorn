@@ -6,8 +6,8 @@ import Actstore from 'actstore'
 const About = Actheme.create({
   Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300 of:hd', {
     contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c p:s3')}]],
-  Content: ['View', 'w:100% xw:s92 p:s4 bg:grey bw:1 bc:black50 br:s5'],
-  Close: ['View', 'ps:ab t,r:s2 ai,jc:c z:3'],
+  Content: ['View', 'w:100% xw:s92 p:s3 bg:grey bw:1 bc:black50 br:s5'],
+  Close: ['View', 'ps:ab t,r:s1.5 ai,jc:c z:3'],
 
   Comp: (props) => {
 
@@ -36,7 +36,8 @@ const About = Actheme.create({
             <Elems.Button 
               submit
               onPress={() => act('APP_USER', { about: (about || profile?.about || null) }).then(props.onClose)}
-              text={profile?.about ? 'Update' : 'Ready to save?'} />
+              text={profile?.about ? 'Update' : 'Ready to save?'}
+              style={Actheme.style('mt:s4')} />
           }
         </About.Content>
       </About.Container>
