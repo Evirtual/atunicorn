@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Actheme, Elems, Comps } from 'pack'
+import { Actheme, Comps } from 'pack'
 import Actstore from 'actstore'
 
 function MainScreen() {

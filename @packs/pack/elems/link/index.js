@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { Actheme } from '../../theme'
 
 const Styled = Actheme.create({
@@ -32,10 +32,11 @@ const Styled = Actheme.create({
         passHref={true}
         prefetch={prefetch}
         replace={replace}
-        scroll={scroll}
+        scroll={scroll ? true : false}
         shallow={shallow}
         style={style}
         {...rest} >
+          
         <Component
           children={
             text
@@ -48,7 +49,7 @@ const Styled = Actheme.create({
 
 })
 
-const Component = React.forwardRef(({onClick, href, children}, ref) => {  
+const Component = forwardRef(({onClick, href, children}, ref) => {  
 
   return (
     <a 
