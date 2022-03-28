@@ -59,7 +59,7 @@ export default function AboutScreen() {
                 desc={
                   (profile?.id || id)
                     ? `This is @${profile?.username || id} about section`
-                    : 'It\'s a place to express\nyour uniqueness\n\nin ways that inspire us\nto feel more confident\nIn our everyday life\n\n<p style="text-decoration:underline">**[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)**</p>\n\n<p><span style="text-decoration:underline; margin:5px;">**[Next.js](https://nextjs.org/)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[React](https://reactjs.org/)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[React Native](https://reactnative.dev/)**</span></p>\n\n<span style="text-decoration:underline; margin:5px;">**[Firebase](https://firebase.google.com/)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[Actstore](https://github.com/egislook/actstore)**</span>'} />
+                    : 'It\'s a place to express\nyour uniqueness\n\nin ways that inspire us\nto feel more confident\nIn our everyday life\n\n<p>Inspired by\n<span style="text-decoration:underline">**[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)**</span></p>\n\n<p style="margin:0;"><span style="text-decoration:underline; margin:5px;">**[Next.js](https://nextjs.org/)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[React](https://reactjs.org/)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[React Native](https://reactnative.dev/)**</span></p>\n\n<p style="margin:0;"><span style="text-decoration:underline; margin:5px;">**[Firebase](https://firebase.google.com/)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[Actstore](https://github.com/egislook/actstore)**</span>'} />
           }
         </About.Wrap>
       </About.ScrollView>
@@ -71,8 +71,8 @@ export default function AboutScreen() {
 const About = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
   ScrollView: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('jc,ai:c pt:s66 pb:s22.5')}]],
-  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s90 ai,jc:c bw:1 bc:black50 mt:s2.5 mh:s5',{
+    contentContainerStyle: Actheme.style('jc,ai:c pt:s66')}]],
+  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s90 ai,jc:c bw:1 bc:black50 mt:s2.5 mh:s5 mb:s22.5',{
     about: 'p:s10'
   }],
   Text: ['Text', 'fs:s4 pv:s2 ph:s5 c:black400'],
