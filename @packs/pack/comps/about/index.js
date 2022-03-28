@@ -31,7 +31,7 @@ const About = Actheme.create({
             defaultValue={profile?.about || ''}
             onChangeText={setAbout}
             placeholder={`We support markdown\n\n# h1\n## h2\n### h3\n*italic*\n**bold**\n\nExample:\n<div align="center">\n### Hello I am unicorn\n**I like to fly**\n</div>\n\nMore details:\nwww.markdownguide.org`}
-            style={Actheme.style('nh:s90')} />
+            style={Actheme.style('nh:s95')} />
           {(about || profile?.about) &&
             <Elems.Button 
               submit

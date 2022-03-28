@@ -29,7 +29,7 @@ export default function AboutScreen() {
         desc="about"
         url={path === profileAboutPath && `https://atunicorn.io/profile/${id}`}
         cover={path === profileAboutPath && profile.url} />
-      <About.Content
+      <About.ScrollView
         onScroll={handleNav}
         scrollEventThrottle={1}
         stickyHeaderIndices={[0]}
@@ -62,7 +62,7 @@ export default function AboutScreen() {
                     : 'It\'s a place to express\nyour uniqueness\n\nin ways that inspire us\nto feel more confident\nIn our everyday life'} />
           }
         </About.Wrap>
-      </About.Content>
+      </About.ScrollView>
       {edit && <Comps.About profile={profile} onClose={() => setEdit(false)} />}
     </About.Container>
   )
@@ -70,9 +70,9 @@ export default function AboutScreen() {
 
 const About = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
-  Content: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('jc,ai:c pt:s66 ph:s5 pb:s10')}]],
-  Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 mt:s2.5',{
+  ScrollView: ['ScrollView', ['f:1', {
+    contentContainerStyle: Actheme.style('jc,ai:c pt:s66 pb:s22.5')}]],
+  Wrap: ['View', 'bg:white br:s5 w:100% nh,xw:s90 ai,jc:c bw:1 bc:black50 mt:s2.5 mh:s5',{
     about: 'p:s10'
   }],
   Text: ['Text', 'fs:s4 pv:s2 ph:s5 c:black400'],

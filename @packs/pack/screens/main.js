@@ -31,7 +31,7 @@ function MainScreen() {
   return (
     <Main.Container>
       <Comps.Meta />
-      <Main.Content 
+      <Main.FlatList 
         data={posts}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
@@ -74,8 +74,8 @@ export default MainScreen
 
 const Main = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
-  Content: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('xw:s300 ai,jc:c as:c pt:s66 pb:s10'),
+  FlatList: ['FlatList', ['f:1', {
+    contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s22.5'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c')}]],
   Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s2.5 w:90vw nh,xw:s90']
 })

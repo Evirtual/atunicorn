@@ -44,12 +44,12 @@ export default function ProfileScreen() {
         url={`https://atunicorn.io/profile/${id}`}
         cover={profile.url} />
       {profile?.id
-        ? <Profile.Content 
+        ? <Profile.FlatList 
             data={posts}
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
             ListEmptyComponent={
-              <Profile.Wrap empty>
+              <Profile.Wrap flatlist>
                 <Comps.Placeholder
                   flatlist
                   icon={!user && 'image-polaroid'}
@@ -78,14 +78,16 @@ export default function ProfileScreen() {
                 setPosts={setPosts}
                 changeNav={changeNav} />}
           />
-        : <>
-            <Comps.Nav changeNav />
-            <Profile.Wrap>
-              <Comps.Placeholder
-                icon="user-circle"
-                title="Profile doesn't exist" />
-            </Profile.Wrap>
-          </>
+        : <Profile.ScrollView stickyHeaderIndices={[0]}>
+            <Comps.Nav changeNav /> 
+            <Profile.Content>
+              <Profile.Wrap>
+                <Comps.Placeholder
+                  icon="user-circle"
+                  title="Profile doesn't exist" />
+              </Profile.Wrap>
+            </Profile.Content>
+          </Profile.ScrollView>
       }
       {(mode === 'upload' || edit) && 
         <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(!mode)} />}
@@ -95,11 +97,14 @@ export default function ProfileScreen() {
 
 const Profile = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
-  Content: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s10'),
+  FlatList: ['FlatList', ['f:1', {
+    contentContainerStyle: Actheme.style('ai,jc:c pt:s66 pb:s22.5'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c'),
     ListHeaderComponentStyle: Actheme.style('ai,jc:c')}]],
-  Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s22.5 w:90vw nh,xw:s90', {
-    empty: 'mt:s2.5'
+  ScrollView: ['ScrollView', ['f:1', {
+    contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c')}]],
+  Content: ['View', 'f:1 ai,jc:c mh:s5 mv:s22.5'],
+  Wrap: ['View', 'as:c jc,ai:c bw:1 bc:black50 br:s5 bg:white of:hd w:90vw nh,xw:s90', {
+    flatlist: 'mt:s2.5'
   }]
 })

@@ -24,60 +24,66 @@ export default function PostScreen() {
         <Comps.Nav changeNav />
         {post?.id
           ? <Post.Content>
-              <Elems.Link href={`/profile/${post?.userId}`}>
-                <Post.Profile>
-                  <Post.Wrap profile>
-                    {profile?.url
-                      ? <Post.Image source={profile.url} />
-                      : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s15" />
-                    }
-                  </Post.Wrap>
-                  <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
-                </Post.Profile>
-              </Elems.Link>
-              <Post.Wrap image>
-                {post?.url
-                  ? <Post.Image source={[post.url, 'image'].join('#')} />
-                  : <Comps.Placeholder icon="yin-yang" spin />
+              <Post.Inner>
+                <Elems.Link href={`/profile/${post?.userId}`}>
+                  <Post.Profile>
+                    <Post.Wrap profile>
+                      {profile?.url
+                        ? <Post.Image source={profile.url} />
+                        : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s15" />
+                      }
+                    </Post.Wrap>
+                    <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
+                  </Post.Profile>
+                </Elems.Link>
+                <Post.Wrap image>
+                  {post?.url
+                    ? <Post.Image source={[post.url, 'image'].join('#')} />
+                    : <Comps.Placeholder icon="yin-yang" spin />
+                  }
+                </Post.Wrap>
+                <Post.Wrap>
+                  <Post.Text>{post?.desc || post?.userId}</Post.Text>
+                </Post.Wrap>
+                {(user && user?.id === ( profile?.id || post?.userId ) && !recycling) && 
+                  <>
+                    <Post.Option>
+                      <Elems.Button
+                        option
+                        recycle
+                        regular
+                        icon="recycle"
+                        onPress={() => 
+                          act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url })
+                            .then(setRecycling(true), setTimeout(() => router.back(),2000))} />
+                    </Post.Option>
+                    <Post.Option edit>
+                      <Elems.Button
+                        option
+                        edit
+                        regular
+                        icon="pencil"
+                        onPress={() => setEdit(true)} />
+                    </Post.Option>
+                  </>
                 }
-              </Post.Wrap>
-              <Post.Wrap>
-                <Post.Text>{post?.desc || post?.userId}</Post.Text>
-              </Post.Wrap>
-              {(user && user?.id === ( profile?.id || post?.userId ) && !recycling) && 
-                <>
-                  <Post.Option>
-                    <Elems.Button
-                      option
-                      recycle
-                      regular
-                      icon="recycle"
-                      onPress={() => 
-                        act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url })
-                          .then(setRecycling(true), setTimeout(() => router.back(),2000))} />
-                  </Post.Option>
-                  <Post.Option edit>
-                    <Elems.Button
-                      option
-                      edit
-                      regular
-                      icon="pencil"
-                      onPress={() => setEdit(true)} />
-                  </Post.Option>
-                </>
-              }
+                </Post.Inner>
             </Post.Content>
           : recycling
-            ? <Post.Content placeholder>
-                <Comps.Placeholder
-                  icon="yin-yang"
-                  spin
-                  title="Recycling" />
+            ? <Post.Content>
+                <Post.Inner placeholder>
+                  <Comps.Placeholder
+                    icon="yin-yang"
+                    spin
+                    title="Recycling" />
+                </Post.Inner>
               </Post.Content>
-            : <Post.Content placeholder>
-                <Comps.Placeholder
-                  icon="image-polaroid" 
-                  title="Post doesn't exist" />
+            : <Post.Content>
+                <Post.Inner placeholder>
+                  <Comps.Placeholder
+                    icon="image-polaroid" 
+                    title="Post doesn't exist" />
+                </Post.Inner>
               </Post.Content>
         }
       </Post.ScrollView>
@@ -89,8 +95,9 @@ export default function PostScreen() {
 const Post = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
   ScrollView: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('w:100% ai,jc:c ph:s5 pb:s10')}]],
-  Content: ['View', 'bw:1 bc:black50 br:s5 bg:white of:hd mt:s22.5 w:90vw xw:s150', {
+    contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c')}]],
+  Content: ['View', 'f:1 ai,jc:c mh:s5 mv:s22.5'],
+  Inner: ['View', 'bw:1 bc:black50 br:s5 bg:white of:hd w:90vw xw:s150', {
     placeholder: 'nh,xw:s90'
   }],
   Image: ['Image', 'w,h:100%'],
