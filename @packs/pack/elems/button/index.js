@@ -14,7 +14,7 @@ const Button = Actheme.create({
     text: 'nw:s13',
     disabled: 'op:0.25',
     inline: 'fd:row',
-    radio: 'fd:row br:s3.5',
+    radio: 'fd:row br:s3.5 bg:white bw:1 bc:black50 p:s1.5',
   }],
   Text: ['Text', ['ta:c c:black fb:500 w:100% fs:s4', { numberOfLines: 1 }], {
     submit: 'c:white',
