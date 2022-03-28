@@ -59,7 +59,7 @@ export default function AboutScreen() {
                 desc={
                   (profile?.id || id)
                     ? `This is @${profile?.username || id} about section`
-                    : 'It\'s a place to express\nyour uniqueness\n\nin ways that inspire us\nto feel more confident\nIn our everyday life'} />
+                    : 'It\'s a place to express\nyour uniqueness\n\nin ways that inspire us\nto feel more confident\nIn our everyday life\n\n<p style="text-decoration:underline">**[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)**</p>\n\n<p><span style="text-decoration:underline; margin:5px;">**[Next.js](https://nextjs.org/)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[React](https://reactjs.org/)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[React Native](https://reactnative.dev/)**</span></p>\n\n<span style="text-decoration:underline; margin:5px;">**[Firebase](https://firebase.google.com/)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>\n\n<span style="text-decoration:underline; margin:5px;">**[Actstore](https://github.com/egislook/actstore)**</span>'} />
           }
         </About.Wrap>
       </About.ScrollView>

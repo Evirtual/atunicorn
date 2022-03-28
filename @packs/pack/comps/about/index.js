@@ -30,8 +30,8 @@ const About = Actheme.create({
             multiline
             defaultValue={profile?.about || ''}
             onChangeText={setAbout}
-            placeholder={`We support markdown\n\n# h1\n## h2\n### h3\n*italic*\n**bold**\n\nExample:\n<div align="center">\n### Hello I am unicorn\n**I like to fly**\n</div>\n\nMore details:\nwww.markdownguide.org`}
-            style={Actheme.style('nh:s95')} />
+            placeholder={`We support markdown\n\n# h1\n## h2\n### h3\n\n*italic*\n**bold**\n\nLink:\n[Title](https://www.example.com)\n\nExample:\n<div align="center">\n### Hello I am unicorn\n**I like to fly**\n[@unicorn](https://www.atunicorn.io)\n</div>\n\nMore details:\nwww.markdownguide.org`}
+            style={Actheme.style('nh:s120')} />
           {(about || profile?.about) &&
             <Elems.Button 
               submit
