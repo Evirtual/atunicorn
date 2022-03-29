@@ -104,7 +104,7 @@ const Profile = Actheme.create({
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c')}]],
   Wrap: ['View', 'f:1 ai,jc:c mh:s5 mv:s22.5'],
-  Content: ['View', 'as:c jc,ai:c bw:1 bc:black50 br:s5 bg:white of:hd w:90vw nh,xw:s90', {
+  Content: ['View', 'as:c jc,ai:c bw:1 bc:black50 br:s5 bg:white of:hd w:90vw nh,xw:s95', {
     flatlist: 'mt:s2.5'
   }]
 })

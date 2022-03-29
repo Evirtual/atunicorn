@@ -7,11 +7,11 @@ import Actstore from 'actstore'
 const Post = Actheme.create({
 
   Container: ['View', 'm:s2.5'],
-  Content: ['View', 'w,h:90vw xw,xh:s90 br:s5 of:hd bg:white bw:1 bc:black50'],
+  Content: ['View', 'w,h:90vw xw,xh:s95 br:s5 of:hd bg:white bw:1 bc:black50'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
   Image: ['Image', 'w,h:100% br:s5'],
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:2 bc:white ai,jc:c z:2'],
-  User: ['View', 'ml:-s7 bg:white400 pv:s2 ph:s3.5 pl:s8.5 br:s6'],
+  User: ['View', 'ml:-s7 bg:white400 pv:s2.5 ph:s3.5 pl:s8.5 br:s6'],
   Name: ['Text', 'c:black fb:500'],
   Options: ['View', 'fd:row ps:ab t,r:s2 ai,jc:c z:3'],
   Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0'],

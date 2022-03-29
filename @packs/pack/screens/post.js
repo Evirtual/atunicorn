@@ -94,15 +94,15 @@ const Post = Actheme.create({
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 ai,jc:c')}]],
   Content: ['View', 'bw:1 bc:black50 br:s5 bg:white of:hd w:90vw xw:s150', {
-    placeholder: 'nh,xw:s90'
+    placeholder: 'nh,xw:s95'
   }],
   Wrap: ['View', 'w:100%', {
     image: 'btw:1 bbw:1 bc:black50',
     profile: 'fd:row w,h,br:s15 of:hd',
     content: 'f:1 ai,jc:c mh:s5 mv:s22.5'}],
   Image: ['Image', 'w,h:100%'],
-  Text: ['Text', 'fs:s4 p:s5',],
-  Profile: ['View', 'w:100% fd:row ai:c p:s5'],
+  Text: ['Text', 'fs:s4 p:s5 c:black400',],
+  Profile: ['View', 'w:100% fd:row ai:c p:s3.5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
   Options: ['View', 'fd:row ps:ab t,r:s2 ai,jc:c z:3'],
 })
