@@ -53,7 +53,7 @@ export default function PostScreen() {
                       regular
                       icon="pencil"
                       onPress={() => setEdit(true)}
-                      style={Actheme.style('mr:s1')} />
+                      style={Actheme.style('mr:s2')} />
                     <Elems.Button
                       option
                       recycle
@@ -104,5 +104,5 @@ const Post = Actheme.create({
   Text: ['Text', 'fs:s4 p:s5',],
   Profile: ['View', 'w:100% fd:row ai:c p:s5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
-  Options: ['View', 'fd:row ps:ab t,r:s1.5 ai,jc:c z:3'],
+  Options: ['View', 'fd:row ps:ab t,r:s2 ai,jc:c z:3'],
 })
