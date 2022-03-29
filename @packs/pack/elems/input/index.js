@@ -3,10 +3,10 @@ import { Actheme } from '../../theme'
 
 const Input = Actheme.create({
 
-  TextInput: ['TextInput', 'c:black fs:s4 nh:s11 ph:s3.5 bw:1 bc:black50 bg:white br:s5.5 ta:c w:100%', {
+  TextInput: ['TextInput', 'c:black fs:s4 nh:s11 ph:s3.5 bw:1 bc:black50 bg:white br:s3.5 ta:c w:100%', {
     focus: 'bc:mediumseagreen',
     space: 'mb:s3',
-    multiline: 'ta:l pv:s3 br:s3.5'
+    multiline: 'ta:l'
   }],
 
   Elem: (props) => {
