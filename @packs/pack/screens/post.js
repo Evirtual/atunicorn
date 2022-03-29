@@ -101,7 +101,7 @@ const Post = Actheme.create({
     profile: 'fd:row w,h,br:s15 of:hd',
     content: 'f:1 ai,jc:c mh:s5 mv:s22.5'}],
   Image: ['Image', 'w,h:100%'],
-  Text: ['Text', 'fs:s4 p:s5 c:black400',],
+  Text: ['Text', 'fs:s4 p:s4 c:black400',],
   Profile: ['View', 'w:100% fd:row ai:c p:s3.5'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],
   Options: ['View', 'fd:row ps:ab t,r:s2 ai,jc:c z:3'],

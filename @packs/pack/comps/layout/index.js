@@ -5,7 +5,7 @@ import Actstore from 'actstore'
 
 const Info = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'jc,ai:c pv:s3 bg:salmon z:1 pl:s5 pr:s15 ps:fixed b,r:0 m:s5 br:s5 xw:s90', {
+  Touch: ['TouchableOpacity', 'jc,ai:c pv:s3 bg:salmon z:1 pl:s5 pr:s15 ps:fixed b,r:0 m:s5 br:s5 xw:s95', {
     update: 'bg:skyblue',
     success: 'bg:lightgreen',
     error: 'bg:salmon' }],
