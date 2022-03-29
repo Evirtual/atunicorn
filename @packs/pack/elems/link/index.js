@@ -35,8 +35,7 @@ const Styled = Actheme.create({
         scroll={scroll ? true : false}
         shallow={shallow}
         style={style}
-        {...rest} >
-          
+        {...rest}>
         <Component
           children={
             text

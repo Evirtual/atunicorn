@@ -46,7 +46,7 @@ export default function AboutScreen() {
             </About.Option>
           }
           {profile?.about
-            ? <About.Text about>
+            ? <About.Text>
                 <Markdown>
                   {profile?.about}
                  </Markdown>
@@ -84,7 +84,11 @@ export default function AboutScreen() {
           }
         </About.Wrap>
       </About.ScrollView>
-      {edit && <Comps.About profile={profile} onClose={() => setEdit(false)} />}
+      {edit && 
+        <Comps.About 
+          profile={profile} 
+          onClose={() => setEdit(false)} />
+      }
     </About.Container>
   )
 }
@@ -93,9 +97,7 @@ const About = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('jc,ai:c pt:s66')}]],
-  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:black50 mt:s2.5 mh:s5 mb:s22.5',{
-    about: 'p:s10'
-  }],
+  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:black50 mt:s2.5 mh:s5 mb:s22.5'],
   Text: ['Text', 'fs:s4 pv:s2 ph:s5 c:black400'],
   Option: ['View', 'ps:ab t,r:s1.5 ai,jc:c z:3'],
 })

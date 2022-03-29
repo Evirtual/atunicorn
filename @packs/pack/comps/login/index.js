@@ -12,7 +12,7 @@ const Login = Actheme.create({
     space: 'mt:s3'
   }],
   Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5'],
-  Content: ['View', 'bg:grey br:s5 w:100% nh,xw:s95 ai,jc:c bw:1 bc:black50 p:s5'],
+  Content: ['View', 'bg:grey br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:black50 p:s3'],
   Text: ['Text', 'fs:s4 c:black400 ta:c mb:s2 fb:500'],
   Close: ['View', 'ps:ab t,r:s1.5 ai,jc:c z:3'],
   Image: 'Image',
