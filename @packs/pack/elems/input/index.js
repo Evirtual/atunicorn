@@ -37,7 +37,7 @@ const Input = Actheme.create({
         secureTextEntry={password}
         onChange={onChange}
         onChangeText={onChangeText}
-        value={value || null}
+        value={value || ''}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         multiline={multiline ? true : false}

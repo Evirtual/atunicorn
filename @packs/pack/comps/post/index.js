@@ -48,7 +48,7 @@ const Post = Actheme.create({
             }
           </Post.Wrap>
         }
-        <Elems.Link href={`../post/${post.id}`}>
+        <Elems.Link href={`/post/${post.id}`}>
           <Post.Content>
             {post?.url &&
               <Post.Image source={post.url || null} />
@@ -98,4 +98,4 @@ const Post = Actheme.create({
 
 })
 
-export default Post.Comp
+export default React.memo(Post.Comp)
