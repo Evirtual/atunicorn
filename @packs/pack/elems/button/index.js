@@ -1,6 +1,6 @@
 import React from 'react'
 import { Actheme } from '../../theme'
-import Elems from '../../elems'
+import Icon from '../icon'
 
 const Button = Actheme.create({
 
@@ -76,7 +76,7 @@ const Button = Actheme.create({
             {...rest} />
         }
         {icon &&
-          <Elems.Icon
+          <Icon
             icon={icon}
             solid={solid}
             regular={regular}

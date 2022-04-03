@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Comps, Elems, Actheme } from 'pack'
+import { Comps, Actheme } from 'pack'
 import Actstore from 'actstore'
 
 export default function ProfileScreen() {
@@ -44,49 +44,41 @@ export default function ProfileScreen() {
         url={`https://atunicorn.io/profile/${id}`}
         cover={profile.url} />
       {profile?.id
-        ? <Profile.FlatList 
+        ? <Comps.List
             data={posts}
-            renderItem={renderItem}
-            keyExtractor={item => item.id.toString()}
-            ListEmptyComponent={
-              <Profile.Content flatlist>
-                <Comps.Placeholder
-                  flatlist
-                  icon={!user && 'image-polaroid'}
-                  title={user ? 'Welcome @unicorn' : 'No posts'}
-                  desc={user && 'You can upload profile picture, change nickname/id and edit about section.'}
-                  disabled={user && !user.approved}
-                  actionText="Upload"
-                  actionTextColor="green"
-                  logo={user}
-                  action={user ? () => setMode(upload) : null} />
-              </Profile.Content>
-            }
-            initialNumToRender={1}
-            maxToRenderPerBatch={1}
-            windowSize={6}
+            item={renderItem}
             onScroll={handleNav}
-            scrollEventThrottle={1}
-            numColumns={6}
-            stickyHeaderIndices={[0]}
-            ListHeaderComponent={
+            navigation={
               <Comps.Nav
                 mode={mode}
                 setMode={setMode}
                 data={data} 
                 posts={posts} 
                 setPosts={setPosts}
-                changeNav={changeNav} />}
+                changeNav={changeNav} />
+            }
+            placeholder={
+              <Comps.Placeholder
+                flatlist
+                icon={!user && 'image-polaroid'}
+                title={user ? 'Welcome @unicorn' : 'No posts'}
+                desc={user && 'You can upload profile picture, change nickname/id and edit about section.'}
+                disabled={user && !user.approved}
+                actionText="Upload"
+                actionTextColor="green"
+                logo={user}
+                action={user ? () => setMode(upload) : null} />
+            }
           />
         : <Profile.ScrollView stickyHeaderIndices={[0]}>
             <Comps.Nav changeNav /> 
-            <Profile.Wrap>
-              <Profile.Content>
+            <Profile.Content>
+              <Profile.Wrap>
                 <Comps.Placeholder
                   icon="user-circle"
                   title="Profile doesn't exist" />
-              </Profile.Content>
-            </Profile.Wrap>
+              </Profile.Wrap>
+            </Profile.Content>
           </Profile.ScrollView>
       }
       {(mode === 'upload' || edit) && 
@@ -97,14 +89,8 @@ export default function ProfileScreen() {
 
 const Profile = Actheme.create({
   Container: ['View', 'f:1 bg:grey'],
-  FlatList: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('xw:s300 as:c ai,jc:c pt:s66 pb:s22.5'),
-    columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c'),
-    ListHeaderComponentStyle: Actheme.style('ai,jc:c')}]],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c')}]],
-  Wrap: ['View', 'f:1 ai,jc:c mh:s5 mv:s22.5'],
-  Content: ['View', 'as:c jc,ai:c bw:1 bc:black50 br:s5 bg:white of:hd w:90vw nh,xw:s95', {
-    flatlist: 'mt:s2.5'
-  }]
+  Content: ['View', 'f:1 ai,jc:c mh:s5 mv:s22.5'],
+  Wrap: ['View', 'as:c jc,ai:c bw:1 bc:black50 br:s5 bg:white of:hd w:90vw nh,xw:s95']
 })

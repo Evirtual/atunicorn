@@ -6,4 +6,5 @@ import Layout from './layout'
 import Login from './login'
 import About from './about'
 import Placeholder from './placeholder'
-export default { Meta, Nav, Post, Upload, Layout, Login, About, Placeholder }
+import List from './list'
+export default { Meta, Nav, Post, Upload, Layout, Login, About, Placeholder, List }

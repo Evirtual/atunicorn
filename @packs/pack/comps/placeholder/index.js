@@ -16,9 +16,7 @@ const Placeholder = Actheme.create({
     const {
       icon, 
       spin, 
-      title, 
-      flatlist, 
-      login, 
+      title,
       logo, 
       image,
       action, 
@@ -29,7 +27,7 @@ const Placeholder = Actheme.create({
       profile } = props
 
     return (
-      <Placeholder.Container flatlist={flatlist} login={login}>
+      <Placeholder.Container>
         {(logo || image)
           ? <Placeholder.Image source={logo ? '/static/unilogo.gif' : image || null} />
           : icon &&

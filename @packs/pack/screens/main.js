@@ -31,27 +31,11 @@ function MainScreen() {
   return (
     <Main.Container>
       <Comps.Meta />
-      <Main.FlatList 
+      <Comps.List
         data={posts}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={
-          <Main.Wrap empty>
-            <Comps.Placeholder
-              flatlist
-              icon="yin-yang"
-              spin
-              title="Balancing" />
-          </Main.Wrap>
-        }
-        initialNumToRender={1}
-        maxToRenderPerBatch={1}
-        windowSize={6}
+        item={renderItem}
         onScroll={handleNav}
-        scrollEventThrottle={1}
-        numColumns={6}
-        stickyHeaderIndices={[0]}
-        ListHeaderComponent={
+        navigation={
           <Comps.Nav
             mode={mode}
             setMode={setMode} 
@@ -60,7 +44,15 @@ function MainScreen() {
             data={data} 
             posts={posts} 
             setPosts={setPosts}
-            changeNav={changeNav} />}
+            changeNav={changeNav} />
+        }
+        placeholder={
+          <Comps.Placeholder
+            flatlist
+            icon="yin-yang"
+            spin
+            title="Balancing" />
+        }
       />
       {!user?.emailVerified && login &&
         <Comps.Login onClose={() => setLogin(!login)} />}
@@ -73,9 +65,5 @@ function MainScreen() {
 export default MainScreen
 
 const Main = Actheme.create({
-  Container: ['View', 'f:1 bg:grey'],
-  FlatList: ['FlatList', ['f:1', {
-    contentContainerStyle: Actheme.style('xw:s300 as:c ai,jc:c pt:s66 pb:s22.5'),
-    columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c')}]],
-  Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s2.5 w:90vw nh,xw:s95']
+  Container: ['View', 'f:1 bg:grey']
 })
