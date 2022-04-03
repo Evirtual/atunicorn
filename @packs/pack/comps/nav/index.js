@@ -208,7 +208,7 @@ const Nav = Actheme.create({
                 ? <Elems.Button
                     text="Login"
                     onPress={() => setLogin(true)} />
-                :  user && (path === homePath || path === profilePath)
+                :  user && (path === homePath || (path === profilePath && user?.id === (profile?.id || id)))
                   ? <Elems.Button
                       disabled={!user.approved}
                       text="Upload"
