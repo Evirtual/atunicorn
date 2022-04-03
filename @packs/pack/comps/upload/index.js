@@ -52,7 +52,7 @@ const Upload = Actheme.create({
           {(url || post?.url) &&
             <Elems.Input
               multiline
-              numberOfLine={3}
+              numberOfLines={3}
               defaultValue={post?.desc || ''}
               onChangeText={setDesc}
               placeholder="Type your description"

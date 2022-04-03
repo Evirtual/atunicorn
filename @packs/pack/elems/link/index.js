@@ -32,7 +32,7 @@ const Styled = Actheme.create({
         passHref={true}
         prefetch={prefetch}
         replace={replace}
-        scroll={scroll ? true : false}
+        scroll={scroll}
         shallow={shallow}
         style={style}
         {...rest}>

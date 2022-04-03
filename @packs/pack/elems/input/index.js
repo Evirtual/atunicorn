@@ -21,7 +21,7 @@ const Input = Actheme.create({
       onChangeText, 
       value, 
       multiline, 
-      numberOfLine, 
+      numberOfLines, 
       style,
       ...rest} = props
       
@@ -37,11 +37,11 @@ const Input = Actheme.create({
         secureTextEntry={password}
         onChange={onChange}
         onChangeText={onChangeText}
-        value={value || ''}
+        value={value}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         multiline={multiline ? true : false}
-        numberOfLines={numberOfLine ? numberOfLine : 1}
+        numberOfLines={numberOfLines ? numberOfLines : 1}
         style={style}
         {...rest} />
     )
