@@ -98,4 +98,4 @@ const Post = Actheme.create({
 
 })
 
-export default React.memo(Post.Comp)
+export default Post.Comp

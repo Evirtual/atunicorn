@@ -12,7 +12,10 @@ const Info = Actheme.create({
   Text: ['Text', 'c:black fb:500 fs:s4'],
   Close: ['View', 'ps:ab t,r:s1.25 z:3 ai,jc:c'],
 
-  Comp: ({message = 'Something went wrong'}) => {
+  Comp: (props) => {
+
+    const {message = 'Something went wrong'} = props
+    
     const { store } = Actstore({}, ['error', 'success', 'user', 'ready'])
     const { error, success, user, ready } = store.get('error', 'success', 'user', 'ready')
 
@@ -39,6 +42,7 @@ const Info = Actheme.create({
         </Info.Close>
         <Info.Text>{error?.message || success?.message || message}</Info.Text>
       </Info.Touch>}
+      { props.children }
     </>
   }
 

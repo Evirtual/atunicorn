@@ -31,10 +31,9 @@ const App = ({ Component, pageProps }) => {
 	useServiceWorker()
 
   return (
-		<React.Fragment>
-			<Layout />
+		<Layout>
 			<Component {...pageProps} />
-		</React.Fragment>
+    </Layout>
 	)
 }
 
