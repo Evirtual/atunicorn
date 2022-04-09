@@ -23,6 +23,7 @@ const Styled = Actheme.create({
       iconSize,
       style,
       children,
+      onClick,
       ...rest } = props
 
     return (
@@ -37,6 +38,7 @@ const Styled = Actheme.create({
         style={style}
         {...rest}>
         <Component
+          onClick={onClick}
           children={
             text
               ? <Styled.Text>{text}</Styled.Text>

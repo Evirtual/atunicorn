@@ -3,12 +3,17 @@ import { Comps, Elems, Actheme } from 'pack'
 import Actstore from 'actstore'
 import Markdown from 'markdown-to-jsx';
 
-export default function AboutScreen() {
+export default function AboutScreen(props) {
+
+  const { mode, setMode } = props
+
   const { store, handle } = Actstore({}, ['user', 'users'])
   const router = handle.useRouter()
   const { id } = router?.query || {}
   const { user, users } = store.get('user', 'users')
+
   const profile = users?.find(item => item.id === id) || {}
+
   const path = router.asPath
   const profileAboutPath = `/profile/${id}/about/`
 
@@ -23,28 +28,67 @@ export default function AboutScreen() {
   }
 
   return (
-    <About.Container>
+    <About.Container mode={mode}>
       <Comps.Meta
         title={path === profileAboutPath ? (profile?.username || id) : "unicorn"}
         desc="about"
         url={path === profileAboutPath && `https://atunicorn.io/profile/${id}`}
         cover={path === profileAboutPath && profile.url} />
       <About.ScrollView
-        onScroll={handleNav}
+        onScroll={!mode && handleNav}
         scrollEventThrottle={1}
-        stickyHeaderIndices={[0]}
+        stickyHeaderIndices={!mode && [0]}
+        contentContainerStyle={Actheme.style(`jc,ai:c ${!mode ? 'pt:s66' : 'fg:1 pt:s2.5'}`)}
       >
-        <Comps.Nav changeNav={changeNav} />
-        <About.Wrap>
-          {user && user?.id === ( profile?.id || id ) && 
-            <About.Option>
+        {!mode && <Comps.Nav changeNav={changeNav} />}
+
+        <About.Wrap mode={mode}>
+          <About.Options>
+            {user && user?.id === ( profile?.id || id ) && 
               <Elems.Button
                 option
                 regular
                 icon="pencil"
                 onPress={() => setEdit(true)} />
-            </About.Option>
-          }
+            }
+            {mode &&
+              // <Elems.Link
+              //   href={
+              //     path === profileAboutPath 
+              //         ? `/profile/[id]/`
+              //         : '/'
+              //   }
+              //   as={
+              //     path === profileAboutPath
+              //         ? `/profile/${profile?.id || id}/`
+              //         : '/'
+              //   }
+              //   replace
+              //   onClick={() => setMode(!mode)}
+              // >
+              //   <Elems.Icon
+              //     icon="info-circle"
+              //     iconSize="s7"
+              //     iconColor="black" />
+              // </Elems.Link>
+              <Elems.Button
+                option
+                close
+                icon="times"
+                onPress={() => (
+                  setMode(!mode),
+                  router.push(
+                    path === profileAboutPath 
+                      ? `/profile/[id]/`
+                      : '/',
+                    path === profileAboutPath
+                      ? `/profile/${profile?.id || id}/`
+                      : '/'
+                  )
+                )}
+                style={Actheme.style('ml:s1')} />
+            }
+            </About.Options>
           {profile?.about
             ? <About.Text>
                 <Markdown>
@@ -61,13 +105,14 @@ export default function AboutScreen() {
                     ? `This is @${profile?.username || id} about section`
                     : 'It\'s a place to express\nyour uniqueness\n\n' +
                       'in ways that inspire us\nto feel more confident\nIn our everyday life\n\n' +
-                      '*****\n' +
-                      '<p>' +
-                      'Inspired by\n' +
+                      '<p>*****</p>' +
+                      'Inspired by' +
+                      '<div>' +
                       '<span style="text-decoration:underline">' +
                       '**[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)**' +
                       '</span>' +
-                      '</p>\n\n' +
+                      '</div>' +
+                      '<br>' +
                       'Developed using\n' +
                       '<div>' +
                       '<span style="text-decoration:underline; margin:5px;">**[Next.js](https://nextjs.org/)**</span>' +
@@ -79,7 +124,7 @@ export default function AboutScreen() {
                       '<span style="text-decoration:underline; margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>' +
                       '<span style="text-decoration:underline; margin:5px;">**[Actstore](https://github.com/egislook/actstore)**</span>' +
                       '</div>' +
-                      '<p></p>'
+                      '<br>'
                 } />
           }
         </About.Wrap>
@@ -94,10 +139,13 @@ export default function AboutScreen() {
 }
 
 const About = Actheme.create({
-  Container: ['View', 'f:1 bg:grey'],
-  ScrollView: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('jc,ai:c pt:s66')}]],
-  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:black50 mt:s2.5 mh:s5 mb:s22.5'],
+  Container: ['View', 'f:1 bg:grey', {
+    mode: 'ps:fixed t,b,l,r:0 z:9 bg:black400'
+  }],
+  ScrollView: ['ScrollView', ['f:1']],
+  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:black50 mt:s2.5 mh:s5 mb:s22.5', {
+    mode: 'mb:s5'
+  }],
   Text: ['Text', 'fs:s4 pv:s2 ph:s5 c:black400'],
-  Option: ['View', 'ps:ab t,r:s1.5 ai,jc:c z:3'],
+  Options: ['View', 'fd:row ps:ab t,r:s1.5 ai,jc:c z:3'],
 })

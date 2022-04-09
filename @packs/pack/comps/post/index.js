@@ -70,8 +70,7 @@ const Post = Actheme.create({
               edit
               regular
               icon="pencil"
-              onPress={onEdit}
-              style={Actheme.style('mr:s1')} />
+              onPress={onEdit} />
             <Elems.Button
               option
               recycle
@@ -82,6 +81,7 @@ const Post = Actheme.create({
                   act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url })
                     .then(onRemove, setRecycling(true))
               }
+              style={Actheme.style('ml:s1')}
             />
           </Post.Options>
         }

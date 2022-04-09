@@ -1,20 +1,33 @@
 import React, { useState, useEffect } from 'react'
 import { Comps, Actheme } from 'pack'
 import Actstore from 'actstore'
+import About from 'pack/screens/about'
 
 export default function ProfileScreen() {
 
   const { store, handle } = Actstore({}, ['user', 'posts'])
+  const { user, users } = store.get('user', 'users')
+
   const router = handle.useRouter()
   const { id } = router?.query || {}
-  const { user, users } = store.get('user', 'users')
+
   const profile = users?.find(user => user.id === id) || {}
+  
   const data = (store.get('posts') || []).filter(post => post.userId === id)
   
   const [posts, setPosts] = useState(data)
-  const [mode, setMode] = useState('posts')
+  const [mode, setMode] = useState(false)
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
+
+  const path = router.asPath
+  const aboutPath = `/profile/${id}/about/`
+
+  useEffect(() => {
+    path === aboutPath
+      ? setMode('about')
+      : setMode(false)
+  }, [path === aboutPath])
 
   useEffect(() => {
     setPosts(data)
@@ -38,11 +51,13 @@ export default function ProfileScreen() {
 
   return (
     <Profile.Container>
-      <Comps.Meta
-        title={profile.username || id}
-        desc="profile"
-        url={`https://atunicorn.io/profile/${id}`}
-        cover={profile.url} />
+      {!mode &&
+        <Comps.Meta
+          title={profile.username || id}
+          desc="profile"
+          url={`https://atunicorn.io/profile/${id}`}
+          cover={profile.url} />
+      }
       {profile?.id
         ? <Comps.List
             data={posts}
@@ -81,8 +96,14 @@ export default function ProfileScreen() {
             </Profile.Content>
           </Profile.ScrollView>
       }
+
       {(mode === 'upload' || edit) && 
-        <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(!mode)} />}
+        <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(false)} />}
+
+      {mode === 'about' &&
+        <About mode={mode} setMode={setMode} />
+      }
+
     </Profile.Container>
   )
 }

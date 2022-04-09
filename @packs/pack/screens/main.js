@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { Actheme, Comps } from 'pack'
 import Actstore from 'actstore'
+import About from 'pack/screens/about'
 
 function MainScreen() {
-  const { store } = Actstore({}, ['user', 'posts'])
+  const { store, handle } = Actstore({}, ['user', 'posts'])
   const { user, users } = store.get('user', 'users')
+
+  const router = handle.useRouter()
+
   const data = store.get('posts') || []
   
   const [posts, setPosts] = useState(data)
-  const [mode, setMode] = useState('posts')
+  const [mode, setMode] = useState(false)
   const [login, setLogin] = useState()
   const [changeNav, setChangeNav] = useState()
+
+  const path = router.asPath
+  const aboutPath = `/about/`
+
+  useEffect(() => {
+    path === aboutPath
+      ? setMode('about')
+      : setMode(false)
+  }, [path === aboutPath])
 
   useEffect(() => {
     setPosts(data)
@@ -30,7 +43,9 @@ function MainScreen() {
 
   return (
     <Main.Container>
-      <Comps.Meta />
+      {!mode && 
+        <Comps.Meta />
+      }
       <Comps.List
         data={posts}
         item={renderItem}
@@ -54,10 +69,16 @@ function MainScreen() {
             title="Balancing" />
         }
       />
+
       {!user?.emailVerified && login &&
-        <Comps.Login onClose={() => setLogin(!login)} />}
+        <Comps.Login onClose={() => setLogin(false)} />}
+
       {mode === 'upload' &&
-        <Comps.Upload onClose={() => setMode(!mode)} />}
+        <Comps.Upload onClose={() => setMode(false)} />}
+
+      {mode === 'about' &&
+        <About mode={mode} setMode={setMode} />
+      }
     </Main.Container>
   )
 }

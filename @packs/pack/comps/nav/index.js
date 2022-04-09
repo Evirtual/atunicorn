@@ -33,15 +33,22 @@ const Nav = Actheme.create({
   Comp: (props) => {
 
     const { data, setPosts, setMode, setLogin, changeNav = false } = props
+    
     const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
-    const router = handle.useRouter()
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
+
+    const router = handle.useRouter()
     const { id } = router?.query || {}
+
     const profile = users?.find(user => user.id === id)
+
     const path = router.asPath
     const homePath = '/'
     const profilePath = `/profile/${id}/`
+    const profileAboutPath = `/profile/${id}/about/`
+
     const { width } = useWindowDimensions()
+
     const [active, setActive] = useState()
     const [editUsername, setEditUsername] = useState()
     const [username, setUsername] = useState()
@@ -85,7 +92,7 @@ const Nav = Actheme.create({
               </Nav.Wrap>
               {(width > 767) &&
                 <Nav.Wrap>
-                  {path === profilePath
+                  {(path === profilePath || path === profileAboutPath)
                     ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
                     : <Elems.Link href="/" text="@unicorn" />
                   }
@@ -172,10 +179,17 @@ const Nav = Actheme.create({
             {changeNav && 
               <Elems.Link
                 href={
+                  path === profilePath 
+                    ? `/profile/[id]?id=${profile?.id || id}`
+                    : '/'
+                }
+                as={
                   path === profilePath
-                    ? `/profile/${profile?.id || id}/about/`
+                    ? `/profile/${profile?.id || id}/about`
                     : '/about/'
                 }
+                replace
+                onClick={() => setMode('about')}
               >
                 <Elems.Icon
                   icon="info-circle"
@@ -217,7 +231,7 @@ const Nav = Actheme.create({
                   :  <Elems.Button
                       text="Back"
                       textColor="black"
-                      onPress={() => router.back()} />
+                      onPress={() => (setMode && setMode(null), router.back())} />
               }
               <Nav.Wrap image>
                 {user && user?.id === (profile?.id || id)
@@ -252,10 +266,16 @@ const Nav = Actheme.create({
               </Nav.Wrap>
               <Elems.Link
                 href={
+                  path === profilePath 
+                    ? `/profile/[id]?id=${profile?.id || id}`
+                    : '/'
+                }
+                as={
                   path === profilePath
-                    ? `/profile/${profile?.id || id}/about/`
+                    ? `/profile/${profile?.id || id}/about`
                     : '/about/'
                 }
+                onClick={() => setMode('about')}
                 text="About" />
             </Nav.Wrap>
           }
