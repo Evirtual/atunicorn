@@ -70,7 +70,7 @@ const Nav = Actheme.create({
             <Nav.Wrap 
               row 
               left={changeNav} 
-              medium={(width > 767)}
+              medium={(width > 768)}
             >
               <Nav.Wrap 
                 imageSmall={changeNav}
@@ -89,7 +89,7 @@ const Nav = Actheme.create({
                       source="/static/unilogo.gif" />
                 }
               </Nav.Wrap>
-              {(width > 767) &&
+              {(width > 768) &&
                 <Nav.Wrap>
                   {(path === profilePath || path === profileAboutPath) && (profile?.id || user?.id === id)
                     ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
@@ -101,12 +101,12 @@ const Nav = Actheme.create({
           }
           {(active || (!user && !changeNav && path === homePath)) &&
             <Nav.Wrap 
-              important={!changeNav || changeNav && (width < 768)}
-              medium={changeNav && (width > 767)}
+              important={!changeNav || changeNav && (width < 769)}
+              medium={changeNav && (width > 768)}
             >
               <Nav.Wrap 
                 search
-                max={(width > 767) || !changeNav}
+                max={(width > 768) || !changeNav}
               >
                 <Nav.Wrap option>
                   {!search && !active && !changeNav
@@ -137,7 +137,7 @@ const Nav = Actheme.create({
           <Nav.Wrap 
             row 
             right={changeNav} 
-            medium={changeNav && (width > 767)}
+            medium={changeNav && (width > 768)}
           >
             {changeNav && path !== homePath &&
               <Elems.Button
