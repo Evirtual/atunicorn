@@ -91,7 +91,7 @@ const Nav = Actheme.create({
               </Nav.Wrap>
               {(width > 767) &&
                 <Nav.Wrap>
-                  {(path === profilePath || path === profileAboutPath)
+                  {(path === profilePath || path === profileAboutPath) && (profile?.id || user?.id === id)
                     ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
                     : <Elems.Link href="/" text="@unicorn" />
                   }
@@ -175,16 +175,16 @@ const Nav = Actheme.create({
                   iconColor="mediumseagreen"
                   onPress={() => setMode('upload')} />
             }
-            {changeNav && path !== postPath && profile?.id && 
+            {changeNav && path !== postPath && (profile?.id || user?.id === id) &&
               <Elems.Link
                 href={
                   path === profilePath 
-                    ? `/profile/[id]?id=${profile?.id}`
-                    :  '/'
+                    ? `/profile/[id]?id=${profile?.id || id}`
+                    : '/'
                 }
                 as={
                   path === profilePath
-                    ? `/profile/${profile?.id}/about`
+                    ? `/profile/${profile?.id || id}/about`
                     : '/about/'
                 }
                 onClick={() => setMode('about')}

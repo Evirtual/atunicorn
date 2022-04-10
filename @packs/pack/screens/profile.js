@@ -49,7 +49,7 @@ export default function ProfileScreen(props) {
           url={`https://atunicorn.io/profile/${urlId}`}
           cover={profile.url} />
       }
-      {profile?.id || user
+      {profile?.id || user?.id === urlId
         ? <Comps.List
             data={loadPosts}
             item={renderItem}
@@ -76,7 +76,10 @@ export default function ProfileScreen(props) {
             }
           />
         : <Profile.ScrollView stickyHeaderIndices={[0]}>
-            <Comps.Nav mode={mode} setMode={setMode} changeNav /> 
+            <Comps.Nav 
+              mode={mode}
+              setMode={setMode}
+              changeNav /> 
             <Profile.Content>
               <Profile.Wrap>
                 <Comps.Placeholder
