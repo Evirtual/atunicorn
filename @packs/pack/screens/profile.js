@@ -3,14 +3,14 @@ import { Comps, Actheme } from 'pack'
 
 export default function ProfileScreen(props) {
 
-  const { user, users, data, mode, setMode, path, urlId } = props
+  const { user, users, posts, mode, setMode, path, urlId } = props
 
   const profile = users?.find(user => user.id === urlId) || {}
-  const filteredPosts = data.filter(post => post.userId === urlId)
+  const filteredPosts = posts?.filter(post => post.userId === urlId)
 
   const aboutPath = `/profile/${urlId}/about/`
   
-  const [posts, setPosts] = useState(filteredPosts)
+  const [loadPosts, setLoadPosts] = useState(filteredPosts)
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
 
@@ -21,7 +21,7 @@ export default function ProfileScreen(props) {
   }, [path === aboutPath])
 
   useEffect(() => {
-    setPosts(filteredPosts)
+    setLoadPosts(filteredPosts)
   }, [user, mode, edit, urlId])
 
   const renderItem = ({item}) => 
@@ -30,7 +30,7 @@ export default function ProfileScreen(props) {
       post={item}
       user={user}
       profile={profile}
-      onEdit={() => setEdit((posts.find(post => String(post.id) === String(item.id))) || {})}
+      onEdit={() => setEdit((loadPosts.find(post => String(post.id) === String(item.id))) || {})}
       onRemove={() => setMode(!mode)} />
 
   const handleNav = (e) => {
@@ -51,15 +51,15 @@ export default function ProfileScreen(props) {
       }
       {profile?.id || user
         ? <Comps.List
-            data={posts}
+            data={loadPosts}
             item={renderItem}
             onScroll={handleNav}
             navigation={
               <Comps.Nav
                 mode={mode}
                 setMode={setMode}
-                data={data} 
-                setPosts={setPosts}
+                posts={posts}
+                setPosts={setLoadPosts}
                 changeNav={changeNav} />
             }
             placeholder={

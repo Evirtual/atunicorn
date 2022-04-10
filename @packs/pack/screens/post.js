@@ -3,9 +3,9 @@ import { Elems, Comps, Actheme } from 'pack'
 
 export default function PostScreen(props) {
 
-  const { act, user, users, mode, setMode, data, urlId } = props
+  const { act, user, users, posts, mode, setMode, urlId } = props
 
-  const post = data.find(post => String(post.id) === urlId) || {}
+  const post = posts?.find(post => String(post.id) === urlId) || {}
 
   const profile = users?.find(user => user.id === post?.userId) || {}
   

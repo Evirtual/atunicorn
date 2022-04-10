@@ -3,11 +3,11 @@ import { Actheme, Comps } from 'pack'
 
 function MainScreen(props) {
 
-  const { user, users, data, mode, setMode, path } = props
+  const { user, users, posts, mode, setMode, path } = props
 
   const aboutPath = '/about/'
   
-  const [posts, setPosts] = useState(data)
+  const [loadPosts, setLoadPosts] = useState(posts)
   const [login, setLogin] = useState()
   const [changeNav, setChangeNav] = useState()
 
@@ -18,7 +18,7 @@ function MainScreen(props) {
   }, [path === aboutPath])
 
   useEffect(() => {
-    setPosts(data)
+    setLoadPosts(posts)
   }, [user, mode])
 
   const renderItem = ({item}) => 
@@ -39,7 +39,7 @@ function MainScreen(props) {
         <Comps.Meta />
       }
       <Comps.List
-        data={posts}
+        data={loadPosts}
         item={renderItem}
         onScroll={handleNav}
         navigation={
@@ -48,8 +48,8 @@ function MainScreen(props) {
             setMode={setMode} 
             login={login} 
             setLogin={setLogin} 
-            data={data}
-            setPosts={setPosts}
+            posts={posts}
+            setPosts={setLoadPosts}
             changeNav={changeNav} />
         }
         placeholder={

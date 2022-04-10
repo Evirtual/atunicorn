@@ -32,7 +32,7 @@ const Nav = Actheme.create({
 
   Comp: (props) => {
 
-    const { data, setPosts, setMode, setLogin, changeNav = false } = props
+    const { posts, setPosts, setMode, setLogin, changeNav = false } = props
     
     const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
@@ -56,7 +56,7 @@ const Nav = Actheme.create({
     const [search, setSearch] = useState()
 
     const onSearch = (result) => {
-      const filter = data.filter(post =>
+      const filter = posts?.filter(post =>
         (post.username.toLowerCase() || '').includes(result.toLowerCase()) ||
         (post.desc.toLowerCase() || '').includes(result.toLowerCase()))
       setSearch(result)

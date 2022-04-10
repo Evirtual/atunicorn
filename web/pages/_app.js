@@ -26,13 +26,12 @@ const App = ({ Component, pageProps }) => {
   useServiceWorker()
 
 	const { act, store, handle } = Actstore(Settings, ['ready', 'user', 'user', 'posts'])
-  const { user, users } = store.get('user', 'users')
+  const { user, users, posts } = store.get('user', 'users', 'posts')
 
   const router = handle.useRouter()
   const { id } = router.query || {}
   const path = router.asPath || null
 
-  const data = store.get('posts') || []
   const [mode, setMode] = useState(false)
 
   React.useEffect(() => {
@@ -51,7 +50,7 @@ const App = ({ Component, pageProps }) => {
         urlId={id}
         user={user}
         users={users}
-        data={data}
+        posts={posts}
         mode={mode}
         setMode={setMode}
         {...pageProps} />
