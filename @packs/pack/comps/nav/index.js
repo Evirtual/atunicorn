@@ -173,7 +173,7 @@ const Nav = Actheme.create({
                   iconColor="mediumseagreen"
                   onPress={() => setMode('upload')} />
             }
-            {changeNav && path !== postPath && (profile?.id || user?.id === id) &&
+            {changeNav && path !== postPath &&
               <Elems.Link
                 href={
                   path === profilePath 
