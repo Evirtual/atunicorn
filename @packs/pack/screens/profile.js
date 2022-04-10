@@ -72,7 +72,7 @@ export default function ProfileScreen(props) {
                 actionText="Upload"
                 actionTextColor="green"
                 logo={user}
-                action={user ? () => setMode(upload) : null} />
+                action={user ? () => setMode('upload') : null} />
             }
           />
         : <Profile.ScrollView stickyHeaderIndices={[0]}>
