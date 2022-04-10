@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Actheme, Comps } from 'pack'
-import Actstore from 'actstore'
-import About from 'pack/screens/about'
 
-function MainScreen() {
-  const { store, handle } = Actstore({}, ['user', 'posts'])
-  const { user, users } = store.get('user', 'users')
+function MainScreen(props) {
 
-  const router = handle.useRouter()
+  const { user, users, data, mode, setMode, path } = props
 
-  const data = store.get('posts') || []
+  const aboutPath = '/about/'
   
   const [posts, setPosts] = useState(data)
-  const [mode, setMode] = useState(false)
   const [login, setLogin] = useState()
   const [changeNav, setChangeNav] = useState()
 
-  const path = router.asPath
-  const aboutPath = `/about/`
-
   useEffect(() => {
-    path === aboutPath
+    path === aboutPath 
       ? setMode('about')
       : setMode(false)
   }, [path === aboutPath])
@@ -56,8 +48,7 @@ function MainScreen() {
             setMode={setMode} 
             login={login} 
             setLogin={setLogin} 
-            data={data} 
-            posts={posts} 
+            data={data}
             setPosts={setPosts}
             changeNav={changeNav} />
         }
@@ -76,9 +67,6 @@ function MainScreen() {
       {mode === 'upload' &&
         <Comps.Upload onClose={() => setMode(false)} />}
 
-      {mode === 'about' &&
-        <About mode={mode} setMode={setMode} />
-      }
     </Main.Container>
   )
 }

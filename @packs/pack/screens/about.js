@@ -1,21 +1,15 @@
 import React, { useState } from 'react'
 import { Comps, Elems, Actheme } from 'pack'
-import Actstore from 'actstore'
 import Markdown from 'markdown-to-jsx';
 
 export default function AboutScreen(props) {
 
-  const { mode, setMode } = props
+  const { user, users, mode, setMode, router, path, urlId } = props
 
-  const { store, handle } = Actstore({}, ['user', 'users'])
-  const router = handle.useRouter()
-  const { id } = router?.query || {}
-  const { user, users } = store.get('user', 'users')
+  const profile = users?.find(item => item.id === urlId) || {}
 
-  const profile = users?.find(item => item.id === id) || {}
-
-  const path = router.asPath
-  const profileAboutPath = `/profile/${id}/about/`
+  const aboutProfilePath = `/profile/${urlId}/about/`
+  const aboutPostPath = `/post/${urlId}/about/`
 
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
@@ -30,10 +24,10 @@ export default function AboutScreen(props) {
   return (
     <About.Container mode={mode}>
       <Comps.Meta
-        title={path === profileAboutPath ? (profile?.username || id) : "unicorn"}
+        title={path === aboutProfilePath ? (profile?.username || urlId) : "unicorn"}
         desc="about"
-        url={path === profileAboutPath && `https://atunicorn.io/profile/${id}`}
-        cover={path === profileAboutPath && profile.url} />
+        url={path === aboutProfilePath && `https://atunicorn.io/profile/${urlId}`}
+        cover={path === aboutProfilePath && profile.url} />
       <About.ScrollView
         onScroll={!mode && handleNav}
         scrollEventThrottle={1}
@@ -44,7 +38,7 @@ export default function AboutScreen(props) {
 
         <About.Wrap mode={mode}>
           <About.Options>
-            {user && user?.id === ( profile?.id || id ) && 
+            {user && user?.id === ( profile?.id || urlId ) && 
               <Elems.Button
                 option
                 regular
@@ -52,25 +46,6 @@ export default function AboutScreen(props) {
                 onPress={() => setEdit(true)} />
             }
             {mode &&
-              // <Elems.Link
-              //   href={
-              //     path === profileAboutPath 
-              //         ? `/profile/[id]/`
-              //         : '/'
-              //   }
-              //   as={
-              //     path === profileAboutPath
-              //         ? `/profile/${profile?.id || id}/`
-              //         : '/'
-              //   }
-              //   replace
-              //   onClick={() => setMode(!mode)}
-              // >
-              //   <Elems.Icon
-              //     icon="info-circle"
-              //     iconSize="s7"
-              //     iconColor="black" />
-              // </Elems.Link>
               <Elems.Button
                 option
                 close
@@ -78,11 +53,11 @@ export default function AboutScreen(props) {
                 onPress={() => (
                   setMode(!mode),
                   router.push(
-                    path === profileAboutPath 
+                    path === aboutProfilePath 
                       ? `/profile/[id]/`
                       : '/',
-                    path === profileAboutPath
-                      ? `/profile/${profile?.id || id}/`
+                    path === aboutProfilePath
+                      ? `/profile/${profile?.id || urlId}/`
                       : '/'
                   )
                 )}
@@ -97,12 +72,12 @@ export default function AboutScreen(props) {
               </About.Text>
             : <Comps.Placeholder
                 title={
-                  (profile?.id || id)
-                    ? `Welcome @${profile?.username || id}`
+                  (profile?.id || path === aboutProfilePath && urlId)
+                    ? `Welcome @${profile?.username || urlId}`
                     : 'Welcome @unicorn'}
                 desc={
-                  (profile?.id || id)
-                    ? `This is @${profile?.username || id} about section`
+                  (profile?.id || path === aboutProfilePath && urlId)
+                    ? `This is @${profile?.username || urlId} about section`
                     : 'It\'s a place to express\nyour uniqueness\n\n' +
                       'in ways that inspire us\nto feel more confident\nIn our everyday life\n\n' +
                       '<p>*****</p>' +
@@ -129,11 +104,13 @@ export default function AboutScreen(props) {
           }
         </About.Wrap>
       </About.ScrollView>
+
       {edit && 
         <Comps.About 
           profile={profile} 
           onClose={() => setEdit(false)} />
       }
+      
     </About.Container>
   )
 }

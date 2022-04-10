@@ -1,41 +1,32 @@
 import React, { useState, useEffect } from 'react'
-import { Comps, Actheme } from 'pack'
-import Actstore from 'actstore'
-import About from 'pack/screens/about'
+import { Comps, Actheme } from 'pack' 
 
-export default function ProfileScreen() {
+export default function ProfileScreen(props) {
 
-  const { store, handle } = Actstore({}, ['user', 'posts'])
-  const { user, users } = store.get('user', 'users')
+  const { user, users, data, mode, setMode, path, urlId } = props
 
-  const router = handle.useRouter()
-  const { id } = router?.query || {}
+  const profile = users?.find(user => user.id === urlId) || {}
+  const filteredPosts = data.filter(post => post.userId === urlId)
 
-  const profile = users?.find(user => user.id === id) || {}
+  const aboutPath = `/profile/${urlId}/about/`
   
-  const data = (store.get('posts') || []).filter(post => post.userId === id)
-  
-  const [posts, setPosts] = useState(data)
-  const [mode, setMode] = useState(false)
+  const [posts, setPosts] = useState(filteredPosts)
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
 
-  const path = router.asPath
-  const aboutPath = `/profile/${id}/about/`
-
   useEffect(() => {
-    path === aboutPath
+    path === aboutPath 
       ? setMode('about')
       : setMode(false)
   }, [path === aboutPath])
 
   useEffect(() => {
-    setPosts(data)
-  }, [user, mode, edit, id])
+    setPosts(filteredPosts)
+  }, [user, mode, edit, urlId])
 
   const renderItem = ({item}) => 
     <Comps.Post
-      id={id}
+      id={urlId}
       post={item}
       user={user}
       profile={profile}
@@ -53,9 +44,9 @@ export default function ProfileScreen() {
     <Profile.Container>
       {!mode &&
         <Comps.Meta
-          title={profile.username || id}
+          title={profile.username || urlId}
           desc="profile"
-          url={`https://atunicorn.io/profile/${id}`}
+          url={`https://atunicorn.io/profile/${urlId}`}
           cover={profile.url} />
       }
       {profile?.id
@@ -68,7 +59,6 @@ export default function ProfileScreen() {
                 mode={mode}
                 setMode={setMode}
                 data={data} 
-                posts={posts} 
                 setPosts={setPosts}
                 changeNav={changeNav} />
             }
@@ -99,10 +89,6 @@ export default function ProfileScreen() {
 
       {(mode === 'upload' || edit) && 
         <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(false)} />}
-
-      {mode === 'about' &&
-        <About mode={mode} setMode={setMode} />
-      }
 
     </Profile.Container>
   )

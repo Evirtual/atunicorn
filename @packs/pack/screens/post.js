@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { Elems, Comps, Actheme } from 'pack'
-import Actstore from 'actstore'
 
-export default function PostScreen() {
-  const { act, store, handle } = Actstore({}, ['user', 'posts'])
-  const router = handle.useRouter()
-  const { id } = router?.query || {}
-  const { user, users } = store.get('user', 'users')
-  const post = (store.get('posts') || []).find(post => String(post.id) === id) || {}
+export default function PostScreen(props) {
+
+  const { act, user, users, mode, setMode, data, urlId } = props
+
+  const post = data.find(post => String(post.id) === urlId) || {}
+
   const profile = users?.find(user => user.id === post?.userId) || {}
   
   const [edit, setEdit] = useState()
@@ -15,13 +14,20 @@ export default function PostScreen() {
 
   return (
     <Post.Container>
-      <Comps.Meta
-        title={profile?.username}
-        desc={post?.desc}
-        url={`https://atunicorn.io/post/${id}`}
-        cover={post?.url} />
+      {!mode && 
+        <Comps.Meta
+          title={profile?.username}
+          desc={post?.desc}
+          url={`https://atunicorn.io/post/${urlId}`}
+          cover={post?.url} />
+      }
       <Post.ScrollView stickyHeaderIndices={[0]}>
-        <Comps.Nav changeNav />
+        <Comps.Nav 
+          post={post}
+          mode={mode}
+          setMode={setMode}
+          changeNav />
+
         {post?.id
           ? <Post.Wrap content>
               <Post.Content>
@@ -84,7 +90,11 @@ export default function PostScreen() {
               </Post.Wrap>
         }
       </Post.ScrollView>
-      {edit && <Comps.Upload post={post} onClose={() => setEdit(false)} />}
+
+      {edit && 
+        <Comps.Upload post={post} onClose={() => setEdit(false)} />
+      }
+
     </Post.Container>
   )
 }

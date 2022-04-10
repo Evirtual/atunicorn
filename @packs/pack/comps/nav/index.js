@@ -32,7 +32,7 @@ const Nav = Actheme.create({
 
   Comp: (props) => {
 
-    const { data, setPosts, setMode, setLogin, changeNav = false } = props
+    const { data, post, setPosts, setMode, setLogin, changeNav = false } = props
     
     const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
@@ -45,6 +45,7 @@ const Nav = Actheme.create({
     const path = router.asPath
     const homePath = '/'
     const profilePath = `/profile/${id}/`
+    const postPath = `/post/${id}/`
     const profileAboutPath = `/profile/${id}/about/`
 
     const { width } = useWindowDimensions()
@@ -55,11 +56,9 @@ const Nav = Actheme.create({
     const [search, setSearch] = useState()
 
     const onSearch = (result) => {
-
       const filter = data.filter(post =>
         (post.username.toLowerCase() || '').includes(result.toLowerCase()) ||
         (post.desc.toLowerCase() || '').includes(result.toLowerCase()))
-
       setSearch(result)
       setPosts(filter)
     }
@@ -176,12 +175,14 @@ const Nav = Actheme.create({
                   iconColor="mediumseagreen"
                   onPress={() => setMode('upload')} />
             }
-            {changeNav && 
+            {changeNav && path !== postPath && 
               <Elems.Link
                 href={
                   path === profilePath 
                     ? `/profile/[id]?id=${profile?.id || id}`
-                    : '/'
+                    : path === postPath
+                      ? `/post/[id]?id=${post?.id || id}`
+                      : '/'
                 }
                 as={
                   path === profilePath
