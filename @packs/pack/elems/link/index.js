@@ -3,7 +3,7 @@ import { Actheme } from '../../theme'
 
 const Styled = Actheme.create({
 
-  Text: ['Text', 'ta:c c:black fb:500 w:100% fs:s4 nw:s13 lh:s11'],
+  Text: ['Text', 'ta:c c:black fb:500 w:100% fs:s4 nw,lh:s11'],
 	Link: 'Link',
 
   Elem: (props) => {

@@ -146,15 +146,13 @@ const Nav = Actheme.create({
                 iconColor="black"
                 onPress={() => router.back()} />
             }
-            {changeNav && (user?.id === id)
-              ? null
-              : (path !== homePath) &&
-                <Elems.Link href="/">
-                  <Elems.Icon
-                    icon="home"
-                    iconSize="s7"
-                    iconColor="black" />
-                </Elems.Link>
+            {path !== homePath &&
+              <Elems.Link href="/">
+                <Elems.Icon
+                  icon="home"
+                  iconSize="s7"
+                  iconColor="black" />
+              </Elems.Link>
             }
             {(path === homePath || path === profilePath) &&
               <Elems.Button
