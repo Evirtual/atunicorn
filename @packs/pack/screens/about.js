@@ -9,7 +9,6 @@ export default function AboutScreen(props) {
   const profile = users?.find(item => item.id === urlId) || {}
 
   const aboutProfilePath = `/profile/${urlId}/about/`
-  const aboutPostPath = `/post/${urlId}/about/`
 
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
@@ -77,7 +76,7 @@ export default function AboutScreen(props) {
                     : 'Welcome @unicorn'}
                 desc={
                   (profile?.id || path === aboutProfilePath && urlId)
-                    ? `This is @${profile?.username || urlId} about section`
+                    ? `This is\n@${profile?.username || urlId}\nabout section`
                     : 'It\'s a place to express\nyour uniqueness\n\n' +
                       'in ways that inspire us\nto feel more confident\nIn our everyday life\n\n' +
                       '<p>*****</p>' +

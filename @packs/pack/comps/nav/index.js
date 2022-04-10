@@ -146,7 +146,7 @@ const Nav = Actheme.create({
                 iconColor="black"
                 onPress={() => router.back()} />
             }
-            {changeNav && (user?.id === (profile?.id || id))
+            {changeNav && (user?.id === id)
               ? null
               : (path !== homePath) &&
                 <Elems.Link href="/">
@@ -167,7 +167,7 @@ const Nav = Actheme.create({
                   icon="user-circle"
                   iconSize="s7"
                   onPress={() => setLogin(true)} />
-              : changeNav && user && (path === homePath || (path === profilePath && user?.id === (profile?.id || id))) &&
+              : changeNav && user && (path === homePath || (path === profilePath && user?.id === (profile?.id))) &&
                 <Elems.Button
                   disabled={!user.approved}
                   icon="arrow-circle-up"
@@ -175,18 +175,18 @@ const Nav = Actheme.create({
                   iconColor="mediumseagreen"
                   onPress={() => setMode('upload')} />
             }
-            {changeNav && path !== postPath && 
+            {changeNav && path !== postPath && profile?.id && 
               <Elems.Link
                 href={
                   path === profilePath 
-                    ? `/profile/[id]?id=${profile?.id || id}`
+                    ? `/profile/[id]?id=${profile?.id}`
                     : path === postPath
-                      ? `/post/[id]?id=${post?.id || id}`
+                      ? `/post/[id]?id=${post?.id}`
                       : '/'
                 }
                 as={
                   path === profilePath
-                    ? `/profile/${profile?.id || id}/about`
+                    ? `/profile/${profile?.id}/about`
                     : '/about/'
                 }
                 replace
@@ -198,7 +198,7 @@ const Nav = Actheme.create({
                   iconColor="black" />
               </Elems.Link>
             }
-            {user && user?.id === (profile?.id || id)
+            {user && user?.id === id
               ? <Elems.Button
                   icon="power-off"
                   iconSize="s6.5"
@@ -223,7 +223,7 @@ const Nav = Actheme.create({
                 ? <Elems.Button
                     text="Login"
                     onPress={() => setLogin(true)} />
-                :  user && (path === homePath || (path === profilePath && user?.id === (profile?.id || id)))
+                :  user && (path === homePath || (path === profilePath && user?.id === id))
                   ? <Elems.Button
                       disabled={!user.approved}
                       text="Upload"
@@ -235,7 +235,7 @@ const Nav = Actheme.create({
                       onPress={() => (setMode && setMode(null), router.back())} />
               }
               <Nav.Wrap image>
-                {user && user?.id === (profile?.id || id)
+                {user && user?.id === id
                   ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
                       <Nav.Touch>
                           {uploading == 'profile'
@@ -282,7 +282,7 @@ const Nav = Actheme.create({
           }
           {!changeNav && 
             <Nav.Wrap row>
-              {user && user?.id === (profile?.id || id)
+              {user && user?.id === id
                 ? editUsername || !profile?.username
                   ? <Nav.Wrap row search max>
                       <Nav.Wrap option>
