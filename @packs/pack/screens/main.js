@@ -35,7 +35,7 @@ function MainScreen(props) {
 
   return (
     <Main.Container>
-      {mode && 
+      {!mode && 
         <Comps.Meta />
       }
       <Comps.List
