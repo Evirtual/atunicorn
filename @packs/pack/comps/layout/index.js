@@ -29,20 +29,29 @@ const Info = Actheme.create({
       return () => clearTimeout(removeNotification)
     }, [success])
 
-    useEffect(() => {error && store.set({ success: null })}, [error])
+    useEffect(() => {
+      error && store.set({ success: null })
+    }, [error])
 
     return <>
       {!ready && <Loader.Comp />}
       {user && !user.approved && <Info.Touch update>
         <Info.Text>Account is pending for approval.</Info.Text>
       </Info.Touch>}
-      {(error || (success && success?.type !== 'register')) && <Info.Touch success={success} onPress={() => store.set({ error: null, success: null })}>
-        <Info.Close>
-          <Elems.Button option icon="times" onPress={() => store.set({ error: null, success: null })} />
-        </Info.Close>
-        <Info.Text>{error?.message || success?.message || message}</Info.Text>
-      </Info.Touch>}
-      { props.children }
+      {(error || (success && success?.type !== 'register')) && 
+        <Info.Touch 
+          success={success}
+          onPress={() => store.set({ error: null, success: null })}>
+          <Info.Close>
+            <Elems.Button 
+              option
+              close
+              icon="times"
+              onPress={() => store.set({ error: null, success: null })} />
+          </Info.Close>
+          <Info.Text>{error?.message || success?.message || message}</Info.Text>
+        </Info.Touch>}
+      {props.children}
     </>
   }
 
