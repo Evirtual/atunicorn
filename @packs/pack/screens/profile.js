@@ -76,14 +76,14 @@ export default function ProfileScreen(props) {
             placeholder={
               <Comps.Placeholder
                 flatlist
-                icon={!user && 'image-polaroid'}
-                title={user ? 'Welcome @unicorn' : 'No posts'}
-                desc={user && 'You can upload profile picture, change nickname/id and edit about section.'}
+                icon={user?.id !== urlId && 'image-polaroid'}
+                title={user && user?.id === urlId ? 'Welcome @unicorn' : 'No posts'}
+                desc={user && user?.id === urlId && 'You can upload profile picture, change nickname/id and edit about section.'}
                 disabled={user && !user.approved}
                 actionText="Upload"
                 actionTextColor="green"
-                logo={user}
-                action={user ? () => setMode('upload') : null} />
+                logo={user && user?.id === urlId}
+                action={user && user?.id === urlId ? () => setMode('upload') : null} />
             }
           />
         : <Profile.ScrollView stickyHeaderIndices={[0]}>
