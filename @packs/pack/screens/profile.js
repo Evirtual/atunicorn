@@ -69,7 +69,7 @@ export default function ProfileScreen(props) {
               <Comps.Nav
                 mode={mode}
                 setMode={setMode}
-                posts={posts}
+                posts={filteredPosts}
                 setPosts={setLoadPosts}
                 changeNav={changeNav} />
             }
