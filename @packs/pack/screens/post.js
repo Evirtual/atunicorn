@@ -3,9 +3,9 @@ import { Elems, Comps, Actheme } from 'pack'
 
 export default function PostScreen(props) {
 
-  const { act, user, users, posts, mode, setMode, router, urlId } = props
+  const { act, user, users, posts, postId, setPostId, mode, setMode, router, urlId } = props
 
-  const post = posts?.find(post => String(post.id) === urlId) || {}
+  const post = posts?.find(post => String(post.id) === String(postId || urlId)) || {}
 
   const profile = users?.find(user => user.id === post?.userId) || {}
   
@@ -13,7 +13,7 @@ export default function PostScreen(props) {
   const [recycling, setRecycling] = useState()
 
   return (
-    <Post.Container>
+    <Post.Container mode={postId}>
       {!mode && 
         <Comps.Meta
           title={profile?.username}
@@ -21,15 +21,17 @@ export default function PostScreen(props) {
           url={`https://atunicorn.io/post/${urlId}`}
           cover={post?.url} />
       }
-      <Post.ScrollView stickyHeaderIndices={[0]}>
-        <Comps.Nav 
-          post={post}
-          mode={mode}
-          setMode={setMode}
-          changeNav />
+      <Post.ScrollView stickyHeaderIndices={postId && [0]}>
+        {!postId &&
+          <Comps.Nav 
+            post={post}
+            mode={mode}
+            setMode={setMode}
+            changeNav />
+        }
 
         {post?.id
-          ? <Post.Wrap content>
+          ? <Post.Wrap content mode={postId}>
               <Post.Content>
                 <Elems.Link href={`/profile/${post?.userId}`}>
                   <Post.Profile>
@@ -51,25 +53,38 @@ export default function PostScreen(props) {
                 <Post.Wrap>
                   <Post.Text>{post?.desc || post?.userId}</Post.Text>
                 </Post.Wrap>
-                {(user && user?.id === ( profile?.id || post?.userId ) && !recycling) && 
-                  <Post.Options>
+                <Post.Options>
+                  {(user && user?.id === ( profile?.id || post?.userId ) && !recycling) && 
+                    <>
+                      <Elems.Button
+                        option
+                        edit
+                        regular
+                        icon="pencil"
+                        onPress={() => setEdit(true)} />
+                      <Elems.Button
+                        option
+                        recycle
+                        regular
+                        icon="recycle"
+                        onPress={() => 
+                          act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url })
+                            .then(setRecycling(true), setTimeout(() => router.back(),2000))}
+                        style={Actheme.style('ml:s2')} />
+                    </>
+                  }
+                  {postId &&
                     <Elems.Button
                       option
-                      edit
-                      regular
-                      icon="pencil"
-                      onPress={() => setEdit(true)}
-                      style={Actheme.style('mr:s2')} />
-                    <Elems.Button
-                      option
-                      recycle
-                      regular
-                      icon="recycle"
-                      onPress={() => 
-                        act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url })
-                          .then(setRecycling(true), setTimeout(() => router.back(),2000))} />
-                  </Post.Options>
-                }
+                      close
+                      icon="times"
+                      onPress={() => (
+                        setPostId(false),
+                        router.back()
+                      )}
+                      style={Actheme.style('ml:s2')} />
+                  }
+                </Post.Options>
               </Post.Content>
             </Post.Wrap>
           : recycling
@@ -100,7 +115,9 @@ export default function PostScreen(props) {
 }
 
 const Post = Actheme.create({
-  Container: ['View', 'f:1 bg:grey'],
+  Container: ['View', 'f:1 bg:grey',{
+    mode: 'ps:fixed t,b,l,r:0 z:9 bg:black400'
+  }],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 ai,jc:c')}]],
   Content: ['View', 'bw:1 bc:black50 br:s5 bg:white of:hd w:90vw xw:s150', {
@@ -109,7 +126,8 @@ const Post = Actheme.create({
   Wrap: ['View', 'w:100%', {
     image: 'btw:1 bbw:1 bc:black50',
     profile: 'fd:row w,h,br:s15 of:hd',
-    content: 'f:1 ai,jc:c mh:s5 mv:s22.5'}],
+    content: 'f:1 ai,jc:c mh:s5 mv:s22.5',
+    mode: 'mv:s5'}],
   Image: ['Image', 'w,h:100%'],
   Text: ['Text', 'fs:s4 p:s4 c:black400',],
   Profile: ['View', 'w:100% fd:row ai:c p:s3.5'],

@@ -3,9 +3,10 @@ import { Actheme, Comps } from 'pack'
 
 function MainScreen(props) {
 
-  const { user, users, posts, mode, setMode, path } = props
+  const { user, users, posts, mode, setMode, postId, setPostId, path, urlId } = props
 
   const aboutPath = '/about/'
+  const postPath = `/post/${postId || urlId}/`
   
   const [loadPosts, setLoadPosts] = useState(posts)
   const [login, setLogin] = useState()
@@ -18,12 +19,19 @@ function MainScreen(props) {
   }, [path === aboutPath])
 
   useEffect(() => {
+    path === postPath 
+      ? setPostId(postId || urlId)
+      : setPostId(false)
+  }, [path === postPath])
+
+  useEffect(() => {
     setLoadPosts(posts)
   }, [user, mode])
 
   const renderItem = ({item}) => 
     <Comps.Post
       post={item}
+      onClick={() => setPostId(item.id)}
       profile={users?.find(user => user.id === item.userId)} />
 
   const handleNav = (e) => {

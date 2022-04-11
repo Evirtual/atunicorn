@@ -18,8 +18,13 @@ const Post = Actheme.create({
 
   Comp: (props) => {
 
-    const {post, profile, id, user, onRemove, onEdit} = props
-    const { act } = Actstore({}, [])
+    const {post, profile, id, user, onRemove, onEdit, onClick} = props
+    const { act, handle } = Actstore({}, [])
+
+    const router = handle.useRouter()
+
+    const path = router.asPath
+    const profilePath = `/profile/${id}/`
     
     const [active, setActive] = useState()
     const [nsfw, setNsfw] = useState()
@@ -48,7 +53,15 @@ const Post = Actheme.create({
             }
           </Post.Wrap>
         }
-        <Elems.Link href={`/post/${post.id}`}>
+        <Elems.Link 
+          href={
+            path === profilePath 
+              ? `/profile/[id]?id=${profile?.id || id}`
+              : '/'
+          }
+          as={ `/post/${post?.id || id}`}
+          onClick={onClick}
+        >
           <Post.Content>
             {post?.url &&
               <Post.Image source={post.url || null} />

@@ -4,6 +4,7 @@ import Actstore from 'actstore'
 import Settings from 'pack/store'
 import Layout from 'pack/comps/layout'
 import About from 'pack/screens/about'
+import Post from 'pack/screens/post'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
@@ -33,6 +34,7 @@ const App = ({ Component, pageProps }) => {
   const path = router.asPath || null
 
   const [mode, setMode] = useState(false)
+  const [postId, setPostId] = useState(false)
 
   React.useEffect(() => {
 		((window?.location?.pathname || '/') !== (Router?.router?.route || '/')) &&
@@ -53,6 +55,8 @@ const App = ({ Component, pageProps }) => {
         posts={posts}
         mode={mode}
         setMode={setMode}
+        postId={postId}
+        setPostId={setPostId}
         {...pageProps} />
 
       {mode === 'about' &&
@@ -66,6 +70,17 @@ const App = ({ Component, pageProps }) => {
           users={users}
           mode={mode} 
           setMode={setMode} />
+      }
+
+      {postId && 
+        <Post 
+          postId={postId}
+          user={user}
+          users={users}
+          posts={posts}
+          router={router}
+          path={path}
+          setPostId={setPostId} />
       }
 
     </Layout>

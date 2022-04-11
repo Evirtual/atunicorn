@@ -51,14 +51,7 @@ export default function AboutScreen(props) {
                 icon="times"
                 onPress={() => (
                   setMode(!mode),
-                  router.push(
-                    path === aboutProfilePath 
-                      ? `/profile/[id]/`
-                      : '/',
-                    path === aboutProfilePath
-                      ? `/profile/${profile?.id || urlId}/`
-                      : '/'
-                  )
+                  router.back()
                 )}
                 style={Actheme.style('ml:s1')} />
             }

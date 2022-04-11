@@ -3,12 +3,16 @@ import { Comps, Actheme } from 'pack'
 
 export default function ProfileScreen(props) {
 
-  const { user, users, posts, mode, setMode, path, urlId } = props
+  const { user, users, posts, mode, setMode, postId, setPostId, path, urlId } = props
 
   const profile = users?.find(user => user.id === urlId) || {}
   const filteredPosts = posts?.filter(post => post.userId === urlId)
 
+  const url = path.replace(/\/$/, '')
+  const urlPostId = url.substring(url.lastIndexOf('/') + 1)
+
   const aboutPath = `/profile/${urlId}/about/`
+  const postPath = `/post/${postId || urlPostId}/`
   
   const [loadPosts, setLoadPosts] = useState(filteredPosts)
   const [edit, setEdit] = useState()
@@ -21,6 +25,12 @@ export default function ProfileScreen(props) {
   }, [path === aboutPath])
 
   useEffect(() => {
+    path === postPath 
+      ? setPostId(postId || urlPostId)
+      : setPostId(false)
+  }, [path === postPath])
+
+  useEffect(() => {
     setLoadPosts(filteredPosts)
   }, [user, mode, edit, urlId])
 
@@ -30,6 +40,7 @@ export default function ProfileScreen(props) {
       post={item}
       user={user}
       profile={profile}
+      onClick={() => setPostId(item.id)}
       onEdit={() => setEdit((loadPosts.find(post => String(post.id) === String(item.id))) || {})}
       onRemove={() => setMode(!mode)} />
 
