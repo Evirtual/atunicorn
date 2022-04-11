@@ -4,14 +4,14 @@ import Icon from '../icon'
 
 const Button = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'jc,ai:c nw:s11 nh:s10', {
+  Touch: ['TouchableOpacity', 'jc,ai:c nw:s11.5 nh:s10', {
     submit: 'bc:mediumseagreen br:s5.5 bg:mediumseagreen',
     option: 'w,h,nh,nw,br:s10 bw:2 bg:white400 bc:black c:black',
     edit: 'fs:s4.5',
     recycle: 'fs:s5',
     close: 'fs:s6',
     input: 'nw,nh,br:s9',
-    text: 'nw:s15',
+    text: 'nw:s14',
     disabled: 'op:0.25',
     inline: 'fd:row',
   }],

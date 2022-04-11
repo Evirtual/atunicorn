@@ -3,7 +3,7 @@ import { Actheme } from '../../theme'
 
 const Styled = Actheme.create({
 
-  Text: ['Text', 'ta:c c:black fb:500 w:100% fs:s4 nw:s15 lh:s10'],
+  Text: ['Text', 'ta:c c:black fb:500 w:100% fs:s4 nw:s14 lh:s10'],
 	Link: 'Link',
 
   Elem: (props) => {
@@ -57,7 +57,7 @@ const Component = forwardRef(({onClick, href, children}, ref) => {
       href={href}
       onClick={onClick}
       ref={ref}
-      style={Actheme.style('display:flex jc,ai:c nw:s11 nh:s10')}
+      style={Actheme.style('display:flex jc,ai:c nw:s11.5 nh:s10')}
     >
       {children}
     </a>
