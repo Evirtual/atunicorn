@@ -15,7 +15,7 @@ const Nav = Actheme.create({
     image: 'w,h,br:s25 bg:white mh:s6 mv:s3 bw:2 bc:grey of:hd',
     imageSmall: 'w,h,br:s11 bg:white mh:s2 bw:2 bc:grey of:hd',
     row: 'fd:row',
-    user: 'w,h,br:s7 bw:2 bc:black of:hd',
+    user: 'w,h,br:s8 bw:2 bc:black of:hd',
     logo: 'bw:0',
     left: 'jc:start',
     right: 'jc:end',
@@ -142,7 +142,7 @@ const Nav = Actheme.create({
             {changeNav && path !== homePath &&
               <Elems.Button
                 icon="arrow-circle-left"
-                iconSize="s7"
+                iconSize="s8"
                 iconColor="black"
                 onPress={() => router.back()} />
             }
@@ -150,26 +150,26 @@ const Nav = Actheme.create({
               <Elems.Link href="/">
                 <Elems.Icon
                   icon="home"
-                  iconSize="s7"
+                  iconSize="s8"
                   iconColor="black" />
               </Elems.Link>
             }
             {(path === homePath || path === profilePath) &&
               <Elems.Button
                 icon="search"
-                iconSize="s6.5"
+                iconSize="s7.5"
                 onPress={() => setActive(true)} />
             }
             {changeNav && !user && path === homePath
               ? <Elems.Button
                   icon="user-circle"
-                  iconSize="s7"
+                  iconSize="s8"
                   onPress={() => setLogin(true)} />
               : changeNav && user && (path === homePath || (path === profilePath && user?.id === (profile?.id))) &&
                 <Elems.Button
                   disabled={!user.approved}
                   icon="arrow-circle-up"
-                  iconSize="s7"
+                  iconSize="s8"
                   iconColor="mediumseagreen"
                   onPress={() => setMode('upload')} />
             }
@@ -189,14 +189,14 @@ const Nav = Actheme.create({
               >
                 <Elems.Icon
                   icon="info-circle"
-                  iconSize="s7"
+                  iconSize="s8"
                   iconColor="black" />
               </Elems.Link>
             }
             {user && user?.id === id
               ? <Elems.Button
                   icon="power-off"
-                  iconSize="s6.5"
+                  iconSize="s7.5"
                   onPress={action('APP_LOGOUT')} />
               : user &&
                 <Elems.Link href={`/profile/${user?.id}`}>
@@ -206,7 +206,7 @@ const Nav = Actheme.create({
                       </Nav.Wrap>
                     : <Elems.Icon
                       icon="user-circle"
-                      iconSize="s7"
+                      iconSize="s8"
                       iconColor="black" />
                   }
                 </Elems.Link>

@@ -94,7 +94,7 @@ const Post = Actheme.create({
                   act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url })
                     .then(onRemove, setRecycling(true))
               }
-              style={Actheme.style('ml:s1')}
+              style={Actheme.style('ml:s1.5')}
             />
           </Post.Options>
         }
