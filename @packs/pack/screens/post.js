@@ -3,7 +3,7 @@ import { Elems, Comps, Actheme } from 'pack'
 
 export default function PostScreen(props) {
 
-  const { act, user, users, posts, postId, setPostId, mode, setMode, router, urlId } = props
+  const { act, user, users, posts, postId, setPostId, mode, setMode, router, path, urlId } = props
 
   const post = posts?.find(post => String(post.id) === String(postId || urlId)) || {}
 
@@ -33,20 +33,24 @@ export default function PostScreen(props) {
         {post?.id
           ? <Post.Wrap content mode={postId}>
               <Post.Content>
-                <Elems.Link href={`/profile/${post?.userId}`}>
-                  <Post.Profile>
-                    <Post.Wrap profile>
-                      {profile?.url
-                        ? <Post.Image source={profile.url} />
-                        : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s15" />
-                      }
-                    </Post.Wrap>
-                    <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
-                  </Post.Profile>
-                </Elems.Link>
-                <Post.Wrap image>
+                {profile?.id !== urlId &&
+                  <Elems.Link href={`/profile/${post?.userId}`}>
+                    <Post.Profile>
+                      <Post.Wrap profile>
+                        {profile?.url
+                          ? <Post.Image source={profile.url} />
+                          : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s15" />
+                        }
+                      </Post.Wrap>
+                      <Post.Name>{`@${profile?.username || profile?.id}`}</Post.Name>
+                    </Post.Profile>
+                  </Elems.Link>
+                }
+                <Post.Wrap>
                   {post?.url
-                    ? <Post.Image source={[post.url, 'image'].join('#')} />
+                    ? <Post.Image 
+                        profile={profile?.id === urlId}
+                        source={[post.url, 'image'].join('#')} />
                     : <Comps.Placeholder icon="yin-yang" spin />
                   }
                 </Post.Wrap>
@@ -124,11 +128,12 @@ const Post = Actheme.create({
     placeholder: 'nh,xw:s95'
   }],
   Wrap: ['View', 'w:100%', {
-    image: 'btw:1 bbw:1 bc:grey',
     profile: 'fd:row w,h,br:s12 of:hd',
     content: 'f:1 ai,jc:c mh:s5 mv:s22.5',
     mode: 'mv:s5'}],
-  Image: ['Image', 'w,h:100%'],
+  Image: ['Image', 'w,h:100%', {
+    profile: 'btlr,btrr:s5'
+  }],
   Text: ['Text', 'fs:s4 p:s4 c:black400',],
   Profile: ['View', 'w:100% fd:row ai:c p:s2'],
   Name: ['Text', 'fs:s4 fb:500 ml:s2'],

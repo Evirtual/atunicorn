@@ -80,6 +80,7 @@ const App = ({ Component, pageProps }) => {
           posts={posts}
           router={router}
           path={path}
+          urlId={id}
           setPostId={setPostId} />
       }
 
