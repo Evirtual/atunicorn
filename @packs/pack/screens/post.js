@@ -120,11 +120,11 @@ const Post = Actheme.create({
   }],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 ai,jc:c')}]],
-  Content: ['View', 'bw:1 bc:black50 br:s5 bg:white of:hd w:90vw xw:s150', {
+  Content: ['View', 'bw:1 bc:grey br:s5 bg:white of:hd w:90vw xw:s150', {
     placeholder: 'nh,xw:s95'
   }],
   Wrap: ['View', 'w:100%', {
-    image: 'btw:1 bbw:1 bc:black50',
+    image: 'btw:1 bbw:1 bc:grey',
     profile: 'fd:row w,h,br:s15 of:hd',
     content: 'f:1 ai,jc:c mh:s5 mv:s22.5',
     mode: 'mv:s5'}],

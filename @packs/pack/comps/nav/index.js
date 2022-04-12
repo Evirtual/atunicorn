@@ -9,7 +9,7 @@ const Nav = Actheme.create({
 
   Container: ['View', 'jc,ai:c w:100vw z:2'],
   Content: ['View', 'ps:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey', {
-    changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:black50 t:-1'
+    changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:grey t:-1'
   }],
   Wrap: ['View', 'jc,ai:c', {
     image: 'w,h,br:s25 bg:white mh:s6 mv:s3 bw:2 bc:grey of:hd',

@@ -6,7 +6,7 @@ const Styled = Actheme.create({
   List: ['FlatList', ['f:1', {
     contentContainerStyle: Actheme.style('xw:s300 as:c ai,jc:c pt:s66 pb:s22.5'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c')}]],
-  Wrap: ['View', 'as:c bw:1 bc:black50 br:s5 bg:white of:hd mt:s2.5 w:90vw nh,xw:s95'],
+  Wrap: ['View', 'as:c bw:1 bc:grey br:s5 bg:white of:hd mt:s2.5 w:90vw nh,xw:s95'],
 
   Comp: (props) => {
 
