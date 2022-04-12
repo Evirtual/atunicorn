@@ -74,13 +74,14 @@ const App = ({ Component, pageProps }) => {
 
       {postId && 
         <Post 
+          act={act}
           postId={postId}
+          urlId={id}
           user={user}
           users={users}
           posts={posts}
           router={router}
           path={path}
-          urlId={id}
           setPostId={setPostId} />
       }
 

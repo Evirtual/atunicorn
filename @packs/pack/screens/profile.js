@@ -32,7 +32,7 @@ export default function ProfileScreen(props) {
 
   useEffect(() => {
     setLoadPosts(filteredPosts)
-  }, [user, mode, edit, urlId])
+  }, [user, mode, edit, path, urlId])
 
   const renderItem = ({item}) => 
     <Comps.Post
