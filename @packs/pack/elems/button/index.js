@@ -6,7 +6,7 @@ const Button = Actheme.create({
 
   Touch: ['TouchableOpacity', 'jc,ai:c nw:s11.5 nh:s10', {
     submit: 'bc:mediumseagreen br:s5.5 bg:mediumseagreen',
-    option: 'w,h,nh,nw,br:s10 bw:2 bg:white400 bc:black c:black',
+    option: 'w,h,nh,nw,br:s9 bw:2 bg:white400 bc:black c:black',
     edit: 'fs:s4.5',
     recycle: 'fs:s5',
     close: 'fs:s6',
