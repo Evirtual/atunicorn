@@ -57,7 +57,7 @@ const Component = forwardRef(({onClick, href, children}, ref) => {
       href={href}
       onClick={onClick}
       ref={ref}
-      style={Actheme.style('display:flex jc,ai:c nw:s11.5 nh:s10')}
+      style={Actheme.style('display:flex jc,ai:c nw:s11 nh:s10')}
     >
       {children}
     </a>
