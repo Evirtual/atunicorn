@@ -263,8 +263,8 @@ const Nav = Actheme.create({
               {console.log(path, profilePath, profileId, profile?.id)}
               <Elems.Link
                 href={
-                  path === profilePath 
-                    ? `/profile/[id]?id=${profileId || profile?.id || id}`
+                  (path === profilePath) && !profileId
+                    ? `/profile/[id]?id=${profile?.id || id}`
                     : '/'
                 }
                 as={
