@@ -6,7 +6,7 @@ export default function AboutScreen(props) {
 
   const { user, users, mode, setMode, router, path, urlId, profileId } = props
 
-  const profile = users?.find(item => item.id === urlId) || {}
+  const profile = users?.find(item => item.id === (profileId || urlId)) || {}
 
   const aboutProfilePath = `/profile/${profileId || urlId}/about/`
 
