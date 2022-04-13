@@ -5,6 +5,7 @@ import Settings from 'pack/store'
 import Layout from 'pack/comps/layout'
 import About from 'pack/screens/about'
 import Post from 'pack/screens/post'
+import Profile from 'pack/screens/profile'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
@@ -35,6 +36,7 @@ const App = ({ Component, pageProps }) => {
 
   const [mode, setMode] = useState(false)
   const [postId, setPostId] = useState(false)
+  const [profileId, setProfileId] = useState(false)
 
   React.useEffect(() => {
 		((window?.location?.pathname || '/') !== (Router?.router?.route || '/')) &&
@@ -57,6 +59,8 @@ const App = ({ Component, pageProps }) => {
         setMode={setMode}
         postId={postId}
         setPostId={setPostId}
+        profileId={profileId}
+        setProfileId={setProfileId}
         {...pageProps} />
 
       {mode === 'about' &&
@@ -66,6 +70,7 @@ const App = ({ Component, pageProps }) => {
           router={router}
           path={path}
           urlId={id}
+          profileId={profileId}
           user={user}
           users={users}
           mode={mode} 
@@ -82,7 +87,22 @@ const App = ({ Component, pageProps }) => {
           posts={posts}
           router={router}
           path={path}
-          setPostId={setPostId} />
+          setPostId={setPostId}
+          mode={mode} 
+          setMode={setMode} />
+      }
+
+      {profileId && 
+        <Profile 
+          user={user}
+          users={users}
+          urlId={id}
+          posts={posts}
+          setPostId={setPostId}
+          profileId={profileId}
+          setProfileId={setProfileId}
+          mode={mode} 
+          setMode={setMode} />
       }
 
     </Layout>

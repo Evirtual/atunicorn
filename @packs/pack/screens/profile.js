@@ -3,15 +3,15 @@ import { Comps, Actheme } from 'pack'
 
 export default function ProfileScreen(props) {
 
-  const { user, users, posts, mode, setMode, postId, setPostId, path, urlId } = props
+  const { user, users, posts, mode, setMode, postId, setPostId, profileId, path, urlId } = props
 
-  const profile = users?.find(user => user.id === urlId) || {}
-  const filteredPosts = posts?.filter(post => post.userId === urlId)
+  const url = path?.replace(/\/$/, '')
+  const urlPostId = url?.substring(url.lastIndexOf('/') + 1)
 
-  const url = path.replace(/\/$/, '')
-  const urlPostId = url.substring(url.lastIndexOf('/') + 1)
+  const profile = users?.find(user => user.id === (profileId || urlId)) || {}
+  const filteredPosts = posts?.filter(post => post.userId === (profileId || urlId))
 
-  const aboutPath = `/profile/${urlId}/about/`
+  const aboutPath = `/profile/${profileId || urlId}/about/`
   const postPath = `/post/${postId || urlPostId}/`
   
   const [loadPosts, setLoadPosts] = useState(filteredPosts)
@@ -36,11 +36,11 @@ export default function ProfileScreen(props) {
 
   const renderItem = ({item}) => 
     <Comps.Post
-      id={urlId}
+      id={profileId || urlId}
       post={item}
       user={user}
       profile={profile}
-      onClick={() => setPostId(item.id)}
+      onPost={() => setPostId(item.id)}
       onEdit={() => setEdit((loadPosts.find(post => String(post.id) === String(item.id))) || {})}
       onRemove={() => setMode(!mode)} />
 
@@ -52,7 +52,7 @@ export default function ProfileScreen(props) {
   }
 
   return (
-    <Profile.Container>
+    <Profile.Container mode={profileId}>
       {!mode &&
         <Comps.Meta
           title={profile.username || urlId}
@@ -67,6 +67,7 @@ export default function ProfileScreen(props) {
             onScroll={handleNav}
             navigation={
               <Comps.Nav
+                profileId={profileId}
                 mode={mode}
                 setMode={setMode}
                 posts={filteredPosts}
@@ -109,7 +110,9 @@ export default function ProfileScreen(props) {
 }
 
 const Profile = Actheme.create({
-  Container: ['View', 'f:1 bg:grey'],
+  Container: ['View', 'f:1 bg:grey', {
+    mode: 'ps:fixed t,b,l,r:0 z:9'
+  }],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c')}]],
   Content: ['View', 'f:1 ai,jc:c mh:s5 mv:s22.5'],

@@ -3,7 +3,7 @@ import { Elems, Comps, Actheme } from 'pack'
 
 export default function PostScreen(props) {
 
-  const { act, user, users, posts, postId, setPostId, mode, setMode, router, path, urlId } = props
+  const { act, user, users, posts, postId, setPostId, mode, setMode, router, urlId } = props
 
   const post = posts?.find(post => String(post.id) === String(postId || urlId)) || {}
 
@@ -120,7 +120,7 @@ export default function PostScreen(props) {
 
 const Post = Actheme.create({
   Container: ['View', 'f:1 bg:grey',{
-    mode: 'ps:fixed t,b,l,r:0 z:9 bg:black400'
+    mode: 'ps:fixed t,b,l,r:0 z:10 bg:black400'
   }],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 ai,jc:c')}]],

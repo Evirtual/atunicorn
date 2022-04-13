@@ -8,7 +8,7 @@ import Actstore from 'actstore'
 const Nav = Actheme.create({
 
   Container: ['View', 'jc,ai:c w:100vw z:2'],
-  Content: ['View', 'ps:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:c bg:grey', {
+  Content: ['View', 'ps:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:c', {
     changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:grey t:-1'
   }],
   Wrap: ['View', 'jc,ai:c', {
@@ -32,7 +32,7 @@ const Nav = Actheme.create({
 
   Comp: (props) => {
 
-    const { posts, setPosts, setMode, setLogin, changeNav = false } = props
+    const { posts, setPosts, setMode, setLogin, changeNav = false, profileId } = props
     
     const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
@@ -40,13 +40,13 @@ const Nav = Actheme.create({
     const router = handle.useRouter()
     const { id } = router?.query || {}
 
-    const profile = users?.find(user => user.id === id)
+    const profile = users?.find(user => user.id === (profileId || id))
 
     const path = router.asPath
     const homePath = '/'
-    const profilePath = `/profile/${id}/`
-    const postPath = `/post/${id}/`
-    const profileAboutPath = `/profile/${id}/about/`
+    const profilePath = `/profile/${profileId || id}/`
+    const postPath = `/post/${profileId || id}/`
+    const profileAboutPath = `/profile/${profileId || id}/about/`
 
     const { width } = useWindowDimensions()
 
@@ -91,7 +91,7 @@ const Nav = Actheme.create({
               </Nav.Wrap>
               {(width > 768) &&
                 <Nav.Wrap>
-                  {(path === profilePath || path === profileAboutPath) && (profile?.id || user?.id === id)
+                  {(path === profilePath || path === profileAboutPath) && (profile?.id || user?.id === (profile?.id ||  id))
                     ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
                     : <Elems.Link href="/" text="@unicorn" />
                   }
@@ -193,7 +193,7 @@ const Nav = Actheme.create({
                   iconColor="black" />
               </Elems.Link>
             }
-            {user && user?.id === id
+            {user && user?.id === (profile?.id ||  id)
               ? <Elems.Button
                   icon="power-off"
                   iconSize="s7"
@@ -218,7 +218,7 @@ const Nav = Actheme.create({
                 ? <Elems.Button
                     text="Login"
                     onPress={() => setLogin(true)} />
-                :  user && (path === homePath || (path === profilePath && user?.id === id))
+                :  user && (path === homePath || (path === profilePath && user?.id === (profile?.id ||  id)))
                   ? <Elems.Button
                       disabled={!user.approved}
                       text="Upload"
@@ -230,7 +230,7 @@ const Nav = Actheme.create({
                       onPress={() => (setMode && setMode(null), router.back())} />
               }
               <Nav.Wrap image>
-                {user && user?.id === id
+                {user && user?.id === (profile?.id ||  id)
                   ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
                       <Nav.Touch>
                           {uploading == 'profile'
@@ -263,12 +263,12 @@ const Nav = Actheme.create({
               <Elems.Link
                 href={
                   path === profilePath 
-                    ? `/profile/[id]?id=${profile?.id || id}`
+                    ? `/?profile/[id]?id=${profileId || profile?.id || id}`
                     : '/'
                 }
                 as={
                   path === profilePath
-                    ? `/profile/${profile?.id || id}/about`
+                    ? `/profile/${profileId || profile?.id || id}/about`
                     : '/about/'
                 }
                 onClick={() => setMode('about')}
@@ -277,7 +277,7 @@ const Nav = Actheme.create({
           }
           {!changeNav && 
             <Nav.Wrap row>
-              {user && user?.id === id
+              {user && user?.id === (profile?.id || profileId || id)
                 ? editUsername || !profile?.username
                   ? <Nav.Wrap row search max>
                       <Nav.Wrap option>

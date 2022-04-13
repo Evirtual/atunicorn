@@ -4,11 +4,11 @@ import Markdown from 'markdown-to-jsx';
 
 export default function AboutScreen(props) {
 
-  const { user, users, mode, setMode, router, path, urlId } = props
+  const { user, users, mode, setMode, router, path, urlId, profileId } = props
 
   const profile = users?.find(item => item.id === urlId) || {}
 
-  const aboutProfilePath = `/profile/${urlId}/about/`
+  const aboutProfilePath = `/profile/${profileId || urlId}/about/`
 
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
@@ -25,7 +25,7 @@ export default function AboutScreen(props) {
       <Comps.Meta
         title={path === aboutProfilePath ? (profile?.username || urlId) : "unicorn"}
         desc="about"
-        url={path === aboutProfilePath && `https://atunicorn.io/profile/${urlId}`}
+        url={path === aboutProfilePath && `https://atunicorn.io/profile/${profileId || profile?.id || urlId}`}
         cover={path === aboutProfilePath && profile.url} />
       <About.ScrollView
         onScroll={!mode && handleNav}
@@ -37,7 +37,7 @@ export default function AboutScreen(props) {
 
         <About.Wrap mode={mode}>
           <About.Options>
-            {user && user?.id === ( profile?.id || urlId ) && 
+            {user && user?.id === ( profileId || profile?.id || urlId ) && 
               <Elems.Button
                 option
                 regular
@@ -109,7 +109,7 @@ export default function AboutScreen(props) {
 
 const About = Actheme.create({
   Container: ['View', 'f:1 bg:grey', {
-    mode: 'ps:fixed t,b,l,r:0 z:9 bg:black400'
+    mode: 'ps:fixed t,b,l,r:0 z:10 bg:black400'
   }],
   ScrollView: ['ScrollView', ['f:1']],
   Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:grey mt:s2.5 mh:s5 mb:s22.5', {
