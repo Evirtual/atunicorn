@@ -6,12 +6,12 @@ function MainScreen(props) {
   const { user, users, posts, mode, setMode, postId, setPostId, profileId, setProfileId, path, urlId } = props
 
   const url = path?.replace(/\/$/, '')
-  const urlProfileId = url?.substring(url.lastIndexOf('/') + 1)
+  const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
 
   const aboutPath = '/about/'
-  const postPath = `/post/${postId || urlId}/`
-  const profilePath = `/profile/${profileId || urlProfileId}/`
-  const profileAboutPath = `/profile/${profileId || urlProfileId}/about/`
+  const postPath = `/post/${postId || urlId || urlLastId}/`
+  const profilePath = `/profile/${profileId || urlLastId}/`
+  const profileAboutPath = `/profile/${profileId || urlLastId}/about/`
   
   const [loadPosts, setLoadPosts] = useState(posts)
   const [login, setLogin] = useState()
@@ -31,9 +31,9 @@ function MainScreen(props) {
 
   useEffect(() => {
     path === profilePath || path === profileAboutPath
-      ? setProfileId(profileId || urlProfileId)
+      ? setProfileId(profileId || urlLastId)
       : setProfileId(false)
-  }, [path === profilePath || path === profileAboutPath])
+  }, [path === profilePath || path === profileAboutPath || path === postPath])
 
   useEffect(() => {
     setLoadPosts(posts)

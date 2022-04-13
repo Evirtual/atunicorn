@@ -6,13 +6,13 @@ export default function ProfileScreen(props) {
   const { user, users, posts, mode, setMode, postId, setPostId, profileId, path, urlId } = props
 
   const url = path?.replace(/\/$/, '')
-  const urlPostId = url?.substring(url.lastIndexOf('/') + 1)
+  const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
 
   const profile = users?.find(user => user.id === (profileId || urlId)) || {}
   const filteredPosts = posts?.filter(post => post.userId === (profileId || urlId))
 
   const aboutPath = `/profile/${profileId || urlId}/about/`
-  const postPath = `/post/${postId || urlPostId}/`
+  const postPath = `/post/${postId || urlLastId}/`
   
   const [loadPosts, setLoadPosts] = useState(filteredPosts)
   const [edit, setEdit] = useState()
@@ -26,7 +26,7 @@ export default function ProfileScreen(props) {
 
   useEffect(() => {
     path === postPath 
-      ? setPostId(postId || urlPostId)
+      ? setPostId(postId || urlLastId)
       : setPostId(false)
   }, [path === postPath])
 
@@ -36,10 +36,11 @@ export default function ProfileScreen(props) {
 
   const renderItem = ({item}) => 
     <Comps.Post
-      id={profileId || urlId}
+      id={urlId}
       post={item}
       user={user}
       profile={profile}
+      profileId={profileId}
       onPost={() => setPostId(item.id)}
       onEdit={() => setEdit((loadPosts.find(post => String(post.id) === String(item.id))) || {})}
       onRemove={() => setMode(!mode)} />
