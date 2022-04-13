@@ -260,10 +260,11 @@ const Nav = Actheme.create({
                     : <Nav.Image source="/static/unilogo.gif" />
                 }
               </Nav.Wrap>
+              {console.log(path, profilePath, profileId, profile?.id)}
               <Elems.Link
                 href={
                   path === profilePath 
-                    ? `/?profile/[id]?id=${profileId || profile?.id || id}`
+                    ? `/profile/[id]?id=${profileId || profile?.id || id}`
                     : '/'
                 }
                 as={
