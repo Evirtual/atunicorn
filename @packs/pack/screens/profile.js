@@ -21,8 +21,6 @@ export default function ProfileScreen(props) {
 
   const listRef = useRef(null)
 
-  console.log(mode)
-
   useEffect(() => {
     path === aboutPath 
       ? setMode('about')
@@ -37,7 +35,6 @@ export default function ProfileScreen(props) {
 
   useEffect(() => {
     setLoadPosts(filteredPosts)
-    // profileId && listRef.current && listRef.current.scrollToIndex({ index: 0 })
   }, [user, mode, edit, path, urlId, profileId])
 
   const renderItem = ({item}) => 
