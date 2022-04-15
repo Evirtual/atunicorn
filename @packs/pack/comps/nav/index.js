@@ -193,12 +193,12 @@ const Nav = Actheme.create({
                   iconColor="black" />
               </Elems.Link>
             }
-            {user && user?.id === (profile?.id ||  id)
+            {user && user?.id === (profile?.id || id)
               ? <Elems.Button
                   icon="power-off"
                   iconSize="s7"
                   onPress={action('APP_LOGOUT')} />
-              : user &&
+              : user && path === '/' &&
                 <Elems.Link href={`/profile/${user?.id}`}>
                   {user?.url
                     ? <Nav.Wrap user>

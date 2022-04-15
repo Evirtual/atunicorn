@@ -17,8 +17,6 @@ function MainScreen(props) {
   const [login, setLogin] = useState()
   const [changeNav, setChangeNav] = useState()
 
-  // console.log(urlLastId, profileId, path, profilePath)
-
   useEffect(() => {
     path === aboutPath 
       ? setMode('about')
