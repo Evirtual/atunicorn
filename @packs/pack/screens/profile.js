@@ -3,7 +3,7 @@ import { Comps, Actheme } from 'pack'
 
 export default function ProfileScreen(props) {
 
-  const { user, users, posts, mode, setMode, postId, setPostId, profileId, path, urlId } = props
+  const { user, users, posts, mode, setMode, postId, setPostId, profileId, setProfileId, path, urlId } = props
 
   const url = path?.replace(/\/$/, '')
   const urlLastId = url?.substring(url.lastIndexOf('/') + 1)

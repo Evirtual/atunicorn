@@ -61,7 +61,7 @@ const Post = Actheme.create({
           href={
             path === profilePath && !profileId
               ? `/profile/[id]?id=${profile?.id || id}`
-              : '/'
+              : `/`
           }
           as={ `/post/${post?.id || id}`}
           onClick={onPost}

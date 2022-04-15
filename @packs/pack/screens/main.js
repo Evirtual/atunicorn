@@ -10,12 +10,14 @@ function MainScreen(props) {
 
   const aboutPath = '/about/'
   const postPath = `/post/${postId || urlId || urlLastId}/`
-  const profilePath = `/profile/${profileId || urlLastId}/`
+  const profilePath = `/profile/${profileId || urlId || urlLastId}/`
   const profileAboutPath = `/profile/${profileId || urlLastId}/about/`
   
   const [loadPosts, setLoadPosts] = useState(posts)
   const [login, setLogin] = useState()
   const [changeNav, setChangeNav] = useState()
+
+  console.log(urlLastId, profileId, path, profilePath)
 
   useEffect(() => {
     path === aboutPath 
@@ -25,11 +27,12 @@ function MainScreen(props) {
 
   useEffect(() => {
     path === postPath 
-      ? setPostId(postId || urlId)
+      ? setPostId(postId || urlId || urlLastId)
       : setPostId(false)
   }, [path === postPath])
 
   useEffect(() => {
+    console.log('whatsup')
     path === profilePath || path === profileAboutPath
       ? setProfileId(profileId || urlLastId)
       : setProfileId(false)

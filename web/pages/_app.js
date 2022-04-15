@@ -89,7 +89,9 @@ const App = ({ Component, pageProps }) => {
           path={path}
           setPostId={setPostId}
           mode={mode} 
-          setMode={setMode} />
+          setMode={setMode}
+          profileId={profileId}
+          setProfileId={setProfileId} />
       }
 
       {profileId && 

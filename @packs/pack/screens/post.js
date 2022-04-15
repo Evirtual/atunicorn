@@ -3,11 +3,11 @@ import { Elems, Comps, Actheme } from 'pack'
 
 export default function PostScreen(props) {
 
-  const { act, user, users, posts, postId, setPostId, mode, setMode, router, urlId } = props
+  const { act, user, users, posts, postId, setPostId, mode, setMode, router, urlId, profileId, setProfileId } = props
 
   const post = posts?.find(post => String(post.id) === String(postId || urlId)) || {}
 
-  const profile = users?.find(user => user.id === post?.userId) || {}
+  const profile = users?.find(user => user.id === (post?.userId)) || {}
   
   const [edit, setEdit] = useState()
   const [recycling, setRecycling] = useState()
@@ -33,8 +33,12 @@ export default function PostScreen(props) {
         {post?.id
           ? <Post.Wrap content mode={postId}>
               <Post.Content>
-                {profile?.id !== urlId &&
-                  <Elems.Link href={`/profile/${post?.userId}`}>
+                {profile?.id !== (profileId || urlId) &&
+                  <Elems.Link 
+                    href={'/'}
+                    as={ `/profile/${post?.userId || id}`}
+                    onClick={() => setProfileId(post?.userId)}
+                  >
                     <Post.Profile>
                       <Post.Wrap profile>
                         {profile?.url
@@ -49,7 +53,7 @@ export default function PostScreen(props) {
                 <Post.Wrap>
                   {post?.url
                     ? <Post.Image 
-                        profile={profile?.id === urlId}
+                        profile={profile?.id === (profileId || urlId)}
                         source={[post.url, 'image'].join('#')} />
                     : <Comps.Placeholder icon="yin-yang" spin />
                   }
