@@ -18,10 +18,10 @@ function MainScreen(props) {
   const [changeNav, setChangeNav] = useState()
 
   useEffect(() => {
-    path === aboutPath 
+    path === aboutPath || path === profileAboutPath
       ? setMode('about')
       : setMode(false)
-  }, [path === aboutPath])
+  }, [path === aboutPath || path === profileAboutPath])
 
   useEffect(() => {
     path === postPath 
@@ -31,8 +31,9 @@ function MainScreen(props) {
 
   useEffect(() => {
     path === profilePath || path === profileAboutPath
-      && setProfileId(profileId || urlLastId)
-  }, [path === profilePath || path === profileAboutPath || path === postPath])
+      ? setProfileId(profileId || urlId || urlLastId)
+      : setProfileId(false)
+  }, [path === profilePath || path === profileAboutPath])
 
   useEffect(() => {
     setLoadPosts(posts)
@@ -53,8 +54,8 @@ function MainScreen(props) {
   }
 
   return (
-    <Main.Container mode={path === '/'}>
-      {!mode && 
+    <Main.Container>
+      {(!mode || !postId || !profileId) && 
         <Comps.Meta />
       }
       <Comps.List
@@ -94,7 +95,5 @@ function MainScreen(props) {
 export default MainScreen
 
 const Main = Actheme.create({
-  Container: ['View', 'f:1 bg:grey', {
-    mode: 'z:10'
-  }]
+  Container: ['View', 'f:1 bg:grey']
 })

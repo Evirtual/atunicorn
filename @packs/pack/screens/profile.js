@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Comps, Actheme } from 'pack' 
 
 export default function ProfileScreen(props) {
 
-  const { user, users, posts, mode, setMode, postId, setPostId, profileId, setProfileId, path, urlId } = props
+  const { user, users, posts, mode, setMode, postId, setPostId, profileId, path, urlId } = props
 
   const url = path?.replace(/\/$/, '')
   const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
@@ -11,12 +11,17 @@ export default function ProfileScreen(props) {
   const profile = users?.find(user => user.id === (profileId || urlId)) || {}
   const filteredPosts = posts?.filter(post => post.userId === (profileId || urlId))
 
-  const aboutPath = `/profile/${profileId || urlId}/about/`
+  const profilePath = `/profile/${profileId || urlId || urlLastId}/`
+  const aboutPath = `/profile/${profileId || urlId || urlLastId}/about/`
   const postPath = `/post/${postId || urlLastId}/`
   
   const [loadPosts, setLoadPosts] = useState(filteredPosts)
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
+
+  const listRef = useRef(null)
+
+  console.log(mode)
 
   useEffect(() => {
     path === aboutPath 
@@ -26,13 +31,14 @@ export default function ProfileScreen(props) {
 
   useEffect(() => {
     path === postPath 
-      ? setPostId(postId || urlLastId)
+      ? setPostId(postId)
       : setPostId(false)
   }, [path === postPath])
 
   useEffect(() => {
     setLoadPosts(filteredPosts)
-  }, [user, mode, edit, path, urlId])
+    // profileId && listRef.current && listRef.current.scrollToIndex({ index: 0 })
+  }, [user, mode, edit, path, urlId, profileId])
 
   const renderItem = ({item}) => 
     <Comps.Post
@@ -53,16 +59,17 @@ export default function ProfileScreen(props) {
   }
 
   return (
-    <Profile.Container mode={profileId}>
-      {!mode &&
+    <Profile.Container mode={profile?.username || urlId || profileId}>
+      {(!mode || !postId || profileId) &&
         <Comps.Meta
-          title={profile.username || urlId}
+          title={profile?.username || urlId || profileId}
           desc="profile"
-          url={`https://atunicorn.io/profile/${urlId}`}
-          cover={profile.url} />
+          url={`https://atunicorn.io/profile/${urlId || profileId}`}
+          cover={profile?.url} />
       }
-      {profile?.id || user?.id === urlId
+      {(profile?.id || user?.id === urlId)
         ? <Comps.List
+            ref={listRef}
             data={loadPosts}
             item={renderItem}
             onScroll={handleNav}

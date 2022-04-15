@@ -49,10 +49,7 @@ export default function AboutScreen(props) {
                 option
                 close
                 icon="times"
-                onPress={() => (
-                  setMode(!mode),
-                  router.back()
-                )}
+                onPress={() => router.back()}
                 style={Actheme.style('ml:s1')} />
             }
             </About.Options>

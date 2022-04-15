@@ -86,10 +86,7 @@ export default function PostScreen(props) {
                       option
                       close
                       icon="times"
-                      onPress={() => (
-                        setPostId(false),
-                        router.back()
-                      )}
+                      onPress={() => router.back()}
                       style={Actheme.style('ml:s2')} />
                   }
                 </Post.Options>

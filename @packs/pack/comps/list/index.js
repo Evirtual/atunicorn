@@ -3,7 +3,7 @@ import { Actheme } from '../../theme'
 
 const Styled = Actheme.create({
 
-  List: ['FlatList', ['f:1', {
+  List: ['RefFlatList', ['f:1', {
     contentContainerStyle: Actheme.style('xw:s300 as:c ai,jc:c pt:s66 pb:s22.5'),
     columnWrapperStyle: Actheme.style('fw:wrap ai,jc:c')}]],
   Wrap: ['View', 'as:c bw:1 bc:grey br:s5 bg:white of:hd mt:s2.5 w:90vw nh,xw:s95'],
@@ -11,14 +11,17 @@ const Styled = Actheme.create({
   Comp: (props) => {
 
     const {
+      ref,
       data,
       item,
       onScroll,
       navigation,
-      placeholder } = props
+      placeholder,
+      scrollToIndex } = props
 
     return (
       <Styled.List 
+        ref={ref}
         data={data}
         renderItem={item}
         keyExtractor={item => item.id.toString()}
@@ -27,6 +30,7 @@ const Styled = Actheme.create({
         maxToRenderPerBatch={1}
         windowSize={6}
         onScroll={onScroll}
+        scrollToIndex={scrollToIndex}
         scrollEventThrottle={1}
         numColumns={6}
         stickyHeaderIndices={[0]}
