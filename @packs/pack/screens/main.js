@@ -30,10 +30,8 @@ function MainScreen(props) {
   }, [path === postPath])
 
   useEffect(() => {
-    console.log('whatsup')
     path === profilePath || path === profileAboutPath
-      ? setProfileId(profileId || urlLastId)
-      : setProfileId(false)
+      && setProfileId(profileId || urlLastId)
   }, [path === profilePath || path === profileAboutPath || path === postPath])
 
   useEffect(() => {
@@ -55,7 +53,7 @@ function MainScreen(props) {
   }
 
   return (
-    <Main.Container>
+    <Main.Container mode={path === '/'}>
       {!mode && 
         <Comps.Meta />
       }
@@ -71,6 +69,7 @@ function MainScreen(props) {
             setLogin={setLogin} 
             posts={posts}
             setPosts={setLoadPosts}
+            setProfileId={setProfileId}
             changeNav={changeNav} />
         }
         placeholder={
@@ -95,5 +94,7 @@ function MainScreen(props) {
 export default MainScreen
 
 const Main = Actheme.create({
-  Container: ['View', 'f:1 bg:grey']
+  Container: ['View', 'f:1 bg:grey', {
+    mode: 'z:10'
+  }]
 })
