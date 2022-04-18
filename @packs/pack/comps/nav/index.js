@@ -32,7 +32,7 @@ const Nav = Actheme.create({
 
   Comp: (props) => {
 
-    const { posts, setPosts, setMode, setLogin, changeNav = false, profileId } = props
+    const { posts, setPosts, setMode, setLogin, changeNav = false, profileId, onProfile } = props
     
     const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
@@ -199,7 +199,10 @@ const Nav = Actheme.create({
                   iconSize="s7"
                   onPress={action('APP_LOGOUT')} />
               : user && path === '/' &&
-                <Elems.Link href={`/profile/${user?.id}`}>
+                <Elems.Link
+                href={'/'}
+                as={ `/profile/${user?.id || id}`}
+                onClick={onProfile}>
                   {user?.url
                     ? <Nav.Wrap user>
                         <Nav.Image source={user?.url || null} />

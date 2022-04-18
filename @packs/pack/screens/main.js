@@ -70,7 +70,7 @@ function MainScreen(props) {
             setLogin={setLogin} 
             posts={posts}
             setPosts={setLoadPosts}
-            setProfileId={setProfileId}
+            onProfile={() => setProfileId(user?.id)}
             changeNav={changeNav} />
         }
         placeholder={
