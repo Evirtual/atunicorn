@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Actheme, Comps } from 'pack'
+import Post from 'pack/screens/post'
+import Profile from 'pack/screens/profile'
+import About from 'pack/screens/about'
 
 function MainScreen(props) {
 
-  const { user, users, posts, mode, setMode, postId, setPostId, profileId, setProfileId, path, urlId } = props
+  const { act, store, user, users, posts, path, router, urlId } = props
+  
+  const [loadPosts, setLoadPosts] = useState(posts)
+  const [login, setLogin] = useState()
+  const [changeNav, setChangeNav] = useState()
+
+  const [mode, setMode] = useState(false)
+  const [postId, setPostId] = useState(false)
+  const [profileId, setProfileId] = useState(false)
 
   const url = path?.replace(/\/$/, '')
   const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
@@ -11,29 +22,26 @@ function MainScreen(props) {
   const aboutPath = '/about/'
   const postPath = `/post/${postId || urlId || urlLastId}/`
   const profilePath = `/profile/${profileId || urlId || urlLastId}/`
-  const profileAboutPath = `/profile/${profileId || urlLastId}/about/`
-  
-  const [loadPosts, setLoadPosts] = useState(posts)
-  const [login, setLogin] = useState()
-  const [changeNav, setChangeNav] = useState()
+  const profileAboutPath = `/profile/${profileId || urlId || urlLastId}/about/`
 
   useEffect(() => {
-    path === aboutPath || path === profileAboutPath
+    path === aboutPath
       ? setMode('about')
       : setMode(false)
-  }, [path === aboutPath || path === profileAboutPath])
+  }, [path === aboutPath])
 
   useEffect(() => {
     path === postPath 
-      ? setPostId(postId || urlId || urlLastId)
+      ? setPostId(postId || urlId || !profileId && urlLastId)
       : setPostId(false)
   }, [path === postPath])
 
   useEffect(() => {
-    path === profilePath || path === profileAboutPath
-      ? setProfileId(profileId || urlId || urlLastId)
-      : setProfileId(false)
-  }, [path === profilePath || path === profileAboutPath])
+    path === '/'
+      ? setProfileId(false)
+      : (path === profilePath || path === profileAboutPath) &&
+        setProfileId(profileId || urlId || urlLastId)
+  }, [path])
 
   useEffect(() => {
     setLoadPosts(posts)
@@ -83,10 +91,53 @@ function MainScreen(props) {
       />
 
       {!user?.emailVerified && login &&
-        <Comps.Login onClose={() => setLogin(false)} />}
+        <Comps.Login onClose={() => setLogin(false)} />
+        }
 
       {mode === 'upload' &&
-        <Comps.Upload onClose={() => setMode(false)} />}
+        <Comps.Upload onClose={() => setMode(false)} />
+        }
+
+      {mode === 'about' &&
+        <About 
+          act={act}
+          store={store}
+          router={router}
+          path={path}
+          urlId={urlId}
+          user={user}
+          users={users}
+          mode={mode} 
+          setMode={setMode} />
+      }
+      
+      {postId && 
+        <Post 
+          act={act}
+          postId={postId}
+          urlId={urlId}
+          user={user}
+          users={users}
+          posts={posts}
+          router={router}
+          path={path}
+          setPostId={setPostId}
+          setProfileId={setProfileId}
+          mode={mode} 
+          setMode={setMode} />
+      }
+
+      {profileId && 
+        <Profile 
+          user={user}
+          users={users}
+          urlId={urlId}
+          posts={posts}
+          profileId={profileId}
+          setProfileId={setProfileId}
+          mode={mode} 
+          setMode={setMode} />
+      }
 
     </Main.Container>
   )

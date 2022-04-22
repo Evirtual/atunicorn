@@ -1,9 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
+import Actstore from 'actstore'
 import { Comps, Actheme } from 'pack' 
+import Post from 'pack/screens/post'
+import About from 'pack/screens/about'
 
 export default function ProfileScreen(props) {
 
-  const { user, users, posts, mode, setMode, postId, setPostId, profileId, path, urlId } = props
+  const { act, store, user, users, posts, profileId, urlId } = props
+
+  const { handle } = Actstore({}, [])
+  const router = handle.useRouter()
+  const path = router.asPath || null
+
+  const [loadPosts, setLoadPosts] = useState(filteredPosts)
+  const [edit, setEdit] = useState()
+  const [changeNav, setChangeNav] = useState()
+
+  const [mode, setMode] = useState(false)
+  const [postId, setPostId] = useState(false)
 
   const url = path?.replace(/\/$/, '')
   const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
@@ -11,15 +25,8 @@ export default function ProfileScreen(props) {
   const profile = users?.find(user => user.id === (profileId || urlId)) || {}
   const filteredPosts = posts?.filter(post => post.userId === (profileId || urlId))
 
-  const profilePath = `/profile/${profileId || urlId || urlLastId}/`
   const aboutPath = `/profile/${profileId || urlId || urlLastId}/about/`
-  const postPath = `/post/${postId || urlLastId}/`
-  
-  const [loadPosts, setLoadPosts] = useState(filteredPosts)
-  const [edit, setEdit] = useState()
-  const [changeNav, setChangeNav] = useState()
-
-  const listRef = useRef(null)
+  const postPath = `/post/${postId || urlId || urlLastId}/`
 
   useEffect(() => {
     path === aboutPath 
@@ -29,7 +36,7 @@ export default function ProfileScreen(props) {
 
   useEffect(() => {
     path === postPath 
-      ? setPostId(postId)
+      ? setPostId(postId || urlId || urlLastId)
       : setPostId(false)
   }, [path === postPath])
 
@@ -66,7 +73,6 @@ export default function ProfileScreen(props) {
       }
       {(profile?.id || user?.id === urlId)
         ? <Comps.List
-            ref={listRef}
             data={loadPosts}
             item={renderItem}
             onScroll={handleNav}
@@ -108,7 +114,38 @@ export default function ProfileScreen(props) {
       }
 
       {(mode === 'upload' || edit) && 
-        <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(false)} />}
+        <Comps.Upload post={edit} onClose={() => edit ? setEdit(false) : setMode(false)} />
+      }
+
+      {mode === 'about' &&
+        <About 
+          act={act}
+          store={store}
+          router={router}
+          path={path}
+          urlId={urlId}
+          profileId={profileId}
+          user={user}
+          users={users}
+          mode={mode} 
+          setMode={setMode} />
+      }
+
+      {postId && 
+        <Post 
+          act={act}
+          postId={postId}
+          urlId={urlId}
+          user={user}
+          users={users}
+          posts={posts}
+          router={router}
+          path={path}
+          setPostId={setPostId}
+          profileId={profileId}
+          mode={mode} 
+          setMode={setMode} />
+      }
 
     </Profile.Container>
   )

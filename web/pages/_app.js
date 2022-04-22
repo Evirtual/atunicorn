@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Router from 'next/router'
 import Actstore from 'actstore'
 import Settings from 'pack/store'
 import Layout from 'pack/comps/layout'
-import About from 'pack/screens/about'
-import Post from 'pack/screens/post'
-import Profile from 'pack/screens/profile'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
@@ -34,10 +31,6 @@ const App = ({ Component, pageProps }) => {
   const { id } = router.query || {}
   const path = router.asPath || null
 
-  const [mode, setMode] = useState(false)
-  const [postId, setPostId] = useState(false)
-  const [profileId, setProfileId] = useState(false)
-
   React.useEffect(() => {
 		((window?.location?.pathname || '/') !== (Router?.router?.route || '/')) &&
       Router.push(Router.router.asPath) 
@@ -48,6 +41,7 @@ const App = ({ Component, pageProps }) => {
 		<Layout>
 			<Component 
         act={act}
+        handle={handle}
         store={store}
         router={router}
         path={path}
@@ -55,57 +49,7 @@ const App = ({ Component, pageProps }) => {
         user={user}
         users={users}
         posts={posts}
-        mode={mode}
-        setMode={setMode}
-        postId={postId}
-        setPostId={setPostId}
-        profileId={profileId}
-        setProfileId={setProfileId}
         {...pageProps} />
-
-      {mode === 'about' &&
-        <About 
-          act={act}
-          store={store}
-          router={router}
-          path={path}
-          urlId={id}
-          profileId={profileId}
-          user={user}
-          users={users}
-          mode={mode} 
-          setMode={setMode} />
-      }
-
-      {postId && 
-        <Post 
-          act={act}
-          postId={postId}
-          urlId={id}
-          user={user}
-          users={users}
-          posts={posts}
-          router={router}
-          path={path}
-          setPostId={setPostId}
-          mode={mode} 
-          setMode={setMode}
-          profileId={profileId}
-          setProfileId={setProfileId} />
-      }
-
-      {profileId && 
-        <Profile 
-          user={user}
-          users={users}
-          urlId={id}
-          posts={posts}
-          setPostId={setPostId}
-          profileId={profileId}
-          setProfileId={setProfileId}
-          mode={mode} 
-          setMode={setMode} />
-      }
 
     </Layout>
 	)

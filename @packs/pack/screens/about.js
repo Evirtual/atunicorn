@@ -4,7 +4,7 @@ import Markdown from 'markdown-to-jsx';
 
 export default function AboutScreen(props) {
 
-  const { user, users, mode, setMode, router, path, urlId, profileId } = props
+  const { user, users, mode, router, path, urlId, profileId } = props
 
   const profile = users?.find(item => item.id === (profileId || urlId)) || {}
 

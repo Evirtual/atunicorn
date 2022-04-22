@@ -3,7 +3,7 @@ import { Elems, Comps, Actheme } from 'pack'
 
 export default function PostScreen(props) {
 
-  const { act, user, users, posts, postId, setPostId, mode, setMode, router, urlId, profileId, setProfileId } = props
+  const { act, user, users, posts, postId, mode, setMode, router, urlId, profileId, setProfileId } = props
 
   const post = posts?.find(post => String(post.id) === String(postId || urlId)) || {}
 
