@@ -3,10 +3,16 @@ import { Actheme, Comps } from 'pack'
 import Post from 'pack/screens/post'
 import Profile from 'pack/screens/profile'
 import About from 'pack/screens/about'
+import Actstore from 'actstore'
 
-function MainScreen(props) {
+function MainScreen() {
 
-  const { act, store, user, users, posts, path, router, urlId } = props
+  const { act, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
+  const { user, users, posts } = store.get('user', 'users', 'posts')
+
+  const router = handle.useRouter()
+  const { id } = router.query || {}
+  const path = router.asPath || null
   
   const [loadPosts, setLoadPosts] = useState(posts)
   const [login, setLogin] = useState()
@@ -20,9 +26,9 @@ function MainScreen(props) {
   const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
 
   const aboutPath = '/about/'
-  const postPath = `/post/${postId || urlId || urlLastId}/`
-  const profilePath = `/profile/${profileId || urlId || urlLastId}/`
-  const profileAboutPath = `/profile/${profileId || urlId || urlLastId}/about/`
+  const postPath = `/post/${postId || id || urlLastId}/`
+  const profilePath = `/profile/${profileId || id || urlLastId}/`
+  const profileAboutPath = `/profile/${profileId || id || urlLastId}/about/`
 
   useEffect(() => {
     path === aboutPath
@@ -32,7 +38,7 @@ function MainScreen(props) {
 
   useEffect(() => {
     path === postPath 
-      ? setPostId(postId || urlId || !profileId && urlLastId)
+      ? setPostId(postId || id || !profileId && urlLastId)
       : setPostId(false)
   }, [path === postPath])
 
@@ -40,7 +46,7 @@ function MainScreen(props) {
     path === '/'
       ? setProfileId(false)
       : (path === profilePath || path === profileAboutPath) &&
-        setProfileId(profileId || urlId || urlLastId)
+        setProfileId(profileId || id || urlLastId)
   }, [path])
 
   useEffect(() => {
@@ -104,7 +110,7 @@ function MainScreen(props) {
           store={store}
           router={router}
           path={path}
-          urlId={urlId}
+          id={id}
           user={user}
           users={users}
           mode={mode} 
@@ -115,7 +121,7 @@ function MainScreen(props) {
         <Post 
           act={act}
           postId={postId}
-          urlId={urlId}
+          id={id}
           user={user}
           users={users}
           posts={posts}
@@ -131,7 +137,7 @@ function MainScreen(props) {
         <Profile 
           user={user}
           users={users}
-          urlId={urlId}
+          id={id}
           posts={posts}
           profileId={profileId}
           setProfileId={setProfileId}

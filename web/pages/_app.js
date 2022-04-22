@@ -21,15 +21,10 @@ library.add(fal, far, fad, fas, fab)
 */
 
 const App = ({ Component, pageProps }) => {
+
+  const { act } = Actstore(Settings, ['ready'])
   
   useServiceWorker()
-
-	const { act, store, handle } = Actstore(Settings, ['ready', 'user', 'user', 'posts'])
-  const { user, users, posts } = store.get('user', 'users', 'posts')
-
-  const router = handle.useRouter()
-  const { id } = router.query || {}
-  const path = router.asPath || null
 
   React.useEffect(() => {
 		((window?.location?.pathname || '/') !== (Router?.router?.route || '/')) &&
@@ -39,18 +34,7 @@ const App = ({ Component, pageProps }) => {
 
   return (
 		<Layout>
-			<Component 
-        act={act}
-        handle={handle}
-        store={store}
-        router={router}
-        path={path}
-        urlId={id}
-        user={user}
-        users={users}
-        posts={posts}
-        {...pageProps} />
-
+			<Component {...pageProps} />
     </Layout>
 	)
 }

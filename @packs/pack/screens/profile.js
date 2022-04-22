@@ -6,11 +6,17 @@ import About from 'pack/screens/about'
 
 export default function ProfileScreen(props) {
 
-  const { act, store, user, users, posts, profileId, urlId } = props
+  const { profileId } = props
 
-  const { handle } = Actstore({}, [])
+  const { act, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
+  const { user, users, posts } = store.get('user', 'users', 'posts')
+
   const router = handle.useRouter()
+  const { id } = router.query || {}
   const path = router.asPath || null
+
+  const profile = users?.find(user => user.id === (profileId || id)) || {}
+  const filteredPosts = posts?.filter(post => post.userId === (profileId || id))
 
   const [loadPosts, setLoadPosts] = useState(filteredPosts)
   const [edit, setEdit] = useState()
@@ -22,11 +28,8 @@ export default function ProfileScreen(props) {
   const url = path?.replace(/\/$/, '')
   const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
 
-  const profile = users?.find(user => user.id === (profileId || urlId)) || {}
-  const filteredPosts = posts?.filter(post => post.userId === (profileId || urlId))
-
-  const aboutPath = `/profile/${profileId || urlId || urlLastId}/about/`
-  const postPath = `/post/${postId || urlId || urlLastId}/`
+  const aboutPath = `/profile/${profileId || id || urlLastId}/about/`
+  const postPath = `/post/${postId || id || urlLastId}/`
 
   useEffect(() => {
     path === aboutPath 
@@ -36,17 +39,17 @@ export default function ProfileScreen(props) {
 
   useEffect(() => {
     path === postPath 
-      ? setPostId(postId || urlId || urlLastId)
+      ? setPostId(postId || id || urlLastId)
       : setPostId(false)
   }, [path === postPath])
 
   useEffect(() => {
     setLoadPosts(filteredPosts)
-  }, [user, mode, edit, path, urlId, profileId])
+  }, [user, mode, edit, path, id, profileId])
 
   const renderItem = ({item}) => 
     <Comps.Post
-      id={urlId}
+      id={id}
       post={item}
       user={user}
       profile={profile}
@@ -63,15 +66,15 @@ export default function ProfileScreen(props) {
   }
 
   return (
-    <Profile.Container mode={profile?.username || urlId || profileId}>
+    <Profile.Container mode={profile?.username || id || profileId}>
       {(!mode || !postId || profileId) &&
         <Comps.Meta
-          title={profile?.username || urlId || profileId}
+          title={profile?.username || id || profileId}
           desc="profile"
-          url={`https://atunicorn.io/profile/${urlId || profileId}`}
+          url={`https://atunicorn.io/profile/${id || profileId}`}
           cover={profile?.url} />
       }
-      {(profile?.id || user?.id === urlId)
+      {(profile?.id || user?.id === id)
         ? <Comps.List
             data={loadPosts}
             item={renderItem}
@@ -88,14 +91,14 @@ export default function ProfileScreen(props) {
             placeholder={
               <Comps.Placeholder
                 flatlist
-                icon={user?.id !== urlId && 'image-polaroid'}
-                title={user && user?.id === urlId ? 'Welcome @unicorn' : 'No posts'}
-                desc={user && user?.id === urlId && 'You can upload profile picture, change nickname/id and edit about section.'}
+                icon={user?.id !== id && 'image-polaroid'}
+                title={user && user?.id === id ? 'Welcome @unicorn' : 'No posts'}
+                desc={user && user?.id === id && 'You can upload profile picture, change nickname/id and edit about section.'}
                 disabled={user && !user.approved}
                 actionText="Upload"
                 actionTextColor="green"
-                logo={user && user?.id === urlId}
-                action={user && user?.id === urlId ? () => setMode('upload') : null} />
+                logo={user && user?.id === id}
+                action={user && user?.id === id ? () => setMode('upload') : null} />
             }
           />
         : <Profile.ScrollView stickyHeaderIndices={[0]}>
@@ -123,7 +126,7 @@ export default function ProfileScreen(props) {
           store={store}
           router={router}
           path={path}
-          urlId={urlId}
+          id={id}
           profileId={profileId}
           user={user}
           users={users}
@@ -135,7 +138,7 @@ export default function ProfileScreen(props) {
         <Post 
           act={act}
           postId={postId}
-          urlId={urlId}
+          id={id}
           user={user}
           users={users}
           posts={posts}

@@ -3,9 +3,9 @@ import { Elems, Comps, Actheme } from 'pack'
 
 export default function PostScreen(props) {
 
-  const { act, user, users, posts, postId, mode, setMode, router, urlId, profileId, setProfileId } = props
+  const { act, user, users, posts, postId, mode, setMode, router, id, profileId, setProfileId } = props
 
-  const post = posts?.find(post => String(post.id) === String(postId || urlId)) || {}
+  const post = posts?.find(post => String(post.id) === String(postId || id)) || {}
 
   const profile = users?.find(user => user.id === (post?.userId)) || {}
   
@@ -18,7 +18,7 @@ export default function PostScreen(props) {
         <Comps.Meta
           title={profile?.username}
           desc={post?.desc}
-          url={`https://atunicorn.io/post/${urlId}`}
+          url={`https://atunicorn.io/post/${id}`}
           cover={post?.url} />
       }
       <Post.ScrollView stickyHeaderIndices={postId && [0]}>
@@ -33,7 +33,7 @@ export default function PostScreen(props) {
         {post?.id
           ? <Post.Wrap content mode={postId}>
               <Post.Content>
-                {profile?.id !== (profileId || urlId) &&
+                {profile?.id !== (profileId || id) &&
                   <Elems.Link 
                     href={'/'}
                     as={ `/profile/${post?.userId || id}`}
@@ -53,7 +53,7 @@ export default function PostScreen(props) {
                 <Post.Wrap>
                   {post?.url
                     ? <Post.Image 
-                        profile={profile?.id === (profileId || urlId)}
+                        profile={profile?.id === (profileId || id)}
                         source={[post.url, 'image'].join('#')} />
                     : <Comps.Placeholder icon="yin-yang" spin />
                   }

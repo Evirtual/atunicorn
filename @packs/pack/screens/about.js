@@ -4,11 +4,11 @@ import Markdown from 'markdown-to-jsx';
 
 export default function AboutScreen(props) {
 
-  const { user, users, mode, router, path, urlId, profileId } = props
+  const { user, users, mode, router, path, id, profileId } = props
 
-  const profile = users?.find(item => item.id === (profileId || urlId)) || {}
+  const profile = users?.find(item => item.id === (profileId || id)) || {}
 
-  const aboutProfilePath = `/profile/${profileId || urlId}/about/`
+  const aboutProfilePath = `/profile/${profileId || id}/about/`
 
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
@@ -23,9 +23,9 @@ export default function AboutScreen(props) {
   return (
     <About.Container mode={mode}>
       <Comps.Meta
-        title={path === aboutProfilePath ? (profile?.username || urlId) : "unicorn"}
+        title={path === aboutProfilePath ? (profile?.username || id) : "unicorn"}
         desc="about"
-        url={path === aboutProfilePath && `https://atunicorn.io/profile/${profileId || profile?.id || urlId}`}
+        url={path === aboutProfilePath && `https://atunicorn.io/profile/${profileId || profile?.id || id}`}
         cover={path === aboutProfilePath && profile.url} />
       <About.ScrollView
         onScroll={!mode && handleNav}
@@ -37,7 +37,7 @@ export default function AboutScreen(props) {
 
         <About.Wrap mode={mode}>
           <About.Options>
-            {user && user?.id === ( profileId || profile?.id || urlId ) && 
+            {user && user?.id === ( profileId || profile?.id || id ) && 
               <Elems.Button
                 option
                 regular
@@ -61,12 +61,12 @@ export default function AboutScreen(props) {
               </About.Text>
             : <Comps.Placeholder
                 title={
-                  (profile?.id || path === aboutProfilePath && urlId)
-                    ? `Welcome @${profile?.username || urlId}`
+                  (profile?.id || path === aboutProfilePath && id)
+                    ? `Welcome @${profile?.username || id}`
                     : 'Welcome @unicorn'}
                 desc={
-                  (profile?.id || path === aboutProfilePath && urlId)
-                    ? `This is\n@${profile?.username || urlId}\nabout section`
+                  (profile?.id || path === aboutProfilePath && id)
+                    ? `This is\n@${profile?.username || id}\nabout section`
                     : 'It\'s a place to express\nyour uniqueness\n\n' +
                       'in ways that inspire us\nto feel more confident\nIn our everyday life\n\n' +
                       '<p>*****</p>' +
