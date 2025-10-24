@@ -27,6 +27,34 @@ const store = {
 
 const StoreContext = createContext(null)
 
+const fallbackStoreApi = {
+  get: (...keys) => {
+    const source = store.initialState
+    if (!keys.length) return source
+    if (keys.length === 1) return source[keys[0]]
+    return keys.reduce((acc, key) => {
+      acc[key] = source[key]
+      return acc
+    }, {})
+  },
+  set: async () => store.initialState
+}
+
+const fallbackContextValue = {
+  state: store.initialState,
+  store: fallbackStoreApi,
+  act: () => Promise.resolve(),
+  action: () => () => Promise.resolve(),
+  handle: Object.keys(store.handlers || {}).reduce((acc, key) => {
+    const value = store.handlers[key]
+    acc[key] = typeof value === 'string' ? () => Promise.resolve() : value
+    return acc
+  }, {}),
+  cookies: store.Cookies
+}
+
+let warnedMissingProvider = false
+
 const mergeState = (prev, next) => {
   const value = typeof next === 'function' ? next(prev) : next
   if (!value || typeof value !== 'object') return { ...prev }
@@ -107,8 +135,12 @@ export const StoreProvider = ({ children, initialState: override = {} }) => {
 
 export const useStoreContext = () => {
   const context = useContext(StoreContext)
-  if (!context) throw new Error('useStoreContext must be used within StoreProvider')
-  return context
+  if (context) return context
+  if (!warnedMissingProvider) {
+    console.warn('useStoreContext fallback applied: StoreProvider is missing, returning initial store state.')
+    warnedMissingProvider = true
+  }
+  return fallbackContextValue
 }
 
 export const useStore = () => {
