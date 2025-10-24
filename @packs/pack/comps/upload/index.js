@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
-import Actstore from 'actstore'
+import { useStore } from 'pack/store'
 
 const Upload = Actheme.create({
   Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300', {
@@ -16,8 +16,8 @@ const Upload = Actheme.create({
 
   Comp: props => {
 
-    const { onClose, post } = props
-    const { act, store } = Actstore({}, ['user', 'posts', 'uploading'])
+  const { onClose, post } = props
+  const { act, store } = useStore()
     const { uploading } = store.get('user', 'users', 'uploading')
     
     const [url, setUrl] = useState(post?.url || null)

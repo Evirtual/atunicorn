@@ -3,11 +3,11 @@ import { Actheme, Comps } from 'pack'
 import Post from 'pack/screens/post'
 import Profile from 'pack/screens/profile'
 import About from 'pack/screens/about'
-import Actstore from 'actstore'
+import { useStore } from 'pack/store'
 
 function MainScreen() {
 
-  const { act, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
+  const { act, store, handle } = useStore()
   const { user, users, posts } = store.get('user', 'users', 'posts')
 
   const router = handle.useRouter()

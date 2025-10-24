@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
-import Actstore from 'actstore'
+import { useStore } from 'pack/store'
 
 const About = Actheme.create({
   Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300 of:hd', {
@@ -11,8 +11,8 @@ const About = Actheme.create({
 
   Comp: (props) => {
 
-    const { profile } = props
-    const { act } = Actstore({}, ['user'])
+  const { profile } = props
+  const { act } = useStore()
     
     const [about, setAbout] = useState()
 

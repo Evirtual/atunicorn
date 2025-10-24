@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Actstore from 'actstore'
+import { useStore } from 'pack/store'
 import { Comps, Actheme } from 'pack' 
 import Post from 'pack/screens/post'
 import About from 'pack/screens/about'
@@ -8,7 +8,7 @@ export default function ProfileScreen(props) {
 
   const { profileId } = props
 
-  const { act, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
+  const { act, store, handle } = useStore()
   const { user, users, posts } = store.get('user', 'users', 'posts')
 
   const router = handle.useRouter()

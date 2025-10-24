@@ -3,7 +3,7 @@ import { useWindowDimensions } from 'react-native'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
-import Actstore from 'actstore'
+import { useStore } from 'pack/store'
 
 const Nav = Actheme.create({
 
@@ -32,9 +32,9 @@ const Nav = Actheme.create({
 
   Comp: (props) => {
 
-    const { posts, setPosts, setMode, setLogin, changeNav = false, profileId, onProfile } = props
+  const { posts, setPosts, setMode, setLogin, changeNav = false, profileId, onProfile } = props
     
-    const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
+  const { act, store, action, handle } = useStore()
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
 
     const router = handle.useRouter()

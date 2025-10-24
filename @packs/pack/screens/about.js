@@ -86,7 +86,7 @@ export default function AboutScreen(props) {
                       '<div>' +
                       '<span style="text-decoration:underline; margin:5px;">**[Firebase](https://firebase.google.com/)**</span>' +
                       '<span style="text-decoration:underline; margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Actstore](https://github.com/egislook/actstore)**</span>' +
+                      '<span style="text-decoration:underline; margin:5px;">**[React Context](https://react.dev/reference/react/useContext)**</span>' +
                       '</div>' +
                       '<br>'
                 } />

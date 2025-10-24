@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
-import Actstore from 'actstore'
+import { useStore } from 'pack/store'
 
 const Info = Actheme.create({
 
@@ -14,9 +14,9 @@ const Info = Actheme.create({
 
   Comp: (props) => {
 
-    const {message = 'Something went wrong'} = props
+  const {message = 'Something went wrong'} = props
     
-    const { store } = Actstore({}, ['error', 'success', 'user', 'ready'])
+  const { store } = useStore()
     const { error, success, user, ready } = store.get('error', 'success', 'user', 'ready')
 
     useEffect(() => {

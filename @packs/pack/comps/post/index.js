@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
-import Actstore from 'actstore'
+import { useStore } from 'pack/store'
 
 const Post = Actheme.create({
 
@@ -18,8 +18,8 @@ const Post = Actheme.create({
 
   Comp: (props) => {
 
-    const {post, profile, id, user, onRemove, onEdit, onProfile, onPost, profileId} = props
-    const { act, handle } = Actstore({}, [])
+  const {post, profile, id, user, onRemove, onEdit, onProfile, onPost, profileId} = props
+  const { act, handle } = useStore()
 
     const router = handle.useRouter()
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
-import Actstore from 'actstore'
+import { useStore } from 'pack/store'
 
 const Login = Actheme.create({
 
@@ -18,7 +18,7 @@ const Login = Actheme.create({
   Image: 'Image',
 
   Comp: (props) => {
-    const { act } = Actstore({}, [])
+    const { act } = useStore()
     const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     const regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/
 
