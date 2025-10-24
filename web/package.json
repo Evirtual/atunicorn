@@ -8,7 +8,8 @@
     "export": "next export",
     "serve": "serve ./out -p 8080",
     "static": "npm run build && npm run export && npm run serve",
-    "deploy": "npm run build && npm run export && firebase deploy --project unicorn-ee877"
+    "deploy": "npm run build && npm run export && firebase deploy --project unicorn-ee877",
+    "firebase:login": "firebase login"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.17.0",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "next-transpile-modules": "^9.0.0",
-    "serve": "^13.0.2"
+    "serve": "^14.2.5",
+    "firebase-tools": "^13.17.1"
   }
 }
