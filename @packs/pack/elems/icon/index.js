@@ -54,7 +54,7 @@ const Icon = (props) => {
   }, [icon, name])
 
   const resolvedWeight = weight
-    || (solid ? 'fill' : regular ? 'regular' : 'light')
+    || (solid ? 'fill' : 'regular')
 
   const baseStyle = Actheme.style([
     iconSize && `fs:${iconSize}`,
