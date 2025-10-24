@@ -1,36 +1,27 @@
 import React, { useEffect } from 'react'
 import Router from 'next/router'
-import Actstore from 'actstore'
-import Settings from 'pack/store'
+import { StoreProvider, useStore } from 'pack/store'
 import Layout from 'pack/comps/layout'
-
-import '@fortawesome/fontawesome-svg-core/styles.css'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fal } from '@fortawesome/pro-light-svg-icons'
-import { far } from '@fortawesome/pro-regular-svg-icons'
-import { fad } from '@fortawesome/pro-duotone-svg-icons'
-import { fas } from '@fortawesome/pro-solid-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons'
-
-library.add(fal, far, fad, fas, fab)
-
-/** Install pro
-  npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-  npm config set "//npm.fontawesome.com/:_authToken" 2C14ED20-7F10-4AB4-9C27-184BDD7CBFD8
-*/
 
 const App = ({ Component, pageProps }) => {
 
-  const { act } = Actstore(Settings, ['ready'])
+  return (
+    <StoreProvider>
+      <AppContainer {...{ Component, pageProps }} />
+    </StoreProvider>
+  )
+}
+
+const AppContainer = ({ Component, pageProps }) => {
+  const { act } = useStore()
   
   useServiceWorker()
 
-  React.useEffect(() => {
+  useEffect(() => {
 		((window?.location?.pathname || '/') !== (Router?.router?.route || '/')) &&
       Router.push(Router.router.asPath) 
-		act('APP_INIT')
-	}, [])
+    act('APP_INIT')
+	}, [act])
 
   return (
 		<Layout>
