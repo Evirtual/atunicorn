@@ -51,7 +51,7 @@ function MainScreen() {
 
   useEffect(() => {
     setLoadPosts(posts)
-  }, [posts, user, mode, path])
+  }, [posts])
 
   const renderItem = ({item}) => 
     <Comps.Post

@@ -5,15 +5,12 @@ import Placeholder from '../placeholder'
 import { useStore } from 'pack/store'
 
 const useWindowSize = () => {
-  const getSnapshot = () => (typeof window === 'object'
-    ? { width: window.innerWidth, height: window.innerHeight }
-    : { width: 0, height: 0 })
-
-  const [dimensions, setDimensions] = useState(getSnapshot)
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
     if (typeof window !== 'object') return
-    const handleResize = () => setDimensions(getSnapshot())
+    const handleResize = () => setDimensions({ width: window.innerWidth, height: window.innerHeight })
+    handleResize()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
