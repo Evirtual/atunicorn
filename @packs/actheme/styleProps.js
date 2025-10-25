@@ -125,7 +125,6 @@ module.exports = {
   tt: 'textTransform',
 
   td: 'textDecoration',
-  tdl: 'textDecorationLine',
 
   rm: 'resizeMode',
 
