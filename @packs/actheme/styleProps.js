@@ -37,7 +37,7 @@ module.exports = {
   ps: 'paddingStart',
   pe: 'paddingEnd',
 
-  ps: 'position',
+  pos: 'position',
 
   f: 'flex',
   fd: 'flexDirection',
