@@ -77,7 +77,10 @@ export default function PostScreen(props) {
                         icon="recycle"
                         onPress={() => 
                           act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url })
-                            .then(setRecycling(true), setTimeout(() => router.back(), 2000))}
+                            .then(() => {
+                              setRecycling(true)
+                              setTimeout(() => router.back(), 2000)
+                            })}
                         style={Actheme.style('ml:s2')} />
                     </>
                   }

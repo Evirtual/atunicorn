@@ -69,9 +69,11 @@ const Nav = Actheme.create({
     const [search, setSearch] = useState()
 
     const onSearch = (result) => {
+      const normalized = value => (value || '').toLowerCase()
+      const needle = normalized(result)
       const filter = posts?.filter(post =>
-        (post.username.toLowerCase() || '').includes(result.toLowerCase()) ||
-        (post.desc.toLowerCase() || '').includes(result.toLowerCase()))
+        normalized(post?.username).includes(needle) ||
+        normalized(post?.desc).includes(needle))
       setSearch(result)
       setPosts(filter)
     }
