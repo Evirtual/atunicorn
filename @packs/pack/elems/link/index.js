@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { Actheme } from '../../theme'
 
 const Styled = Actheme.create({
@@ -26,42 +26,25 @@ const Styled = Actheme.create({
       onClick,
       ...rest } = props
 
+    const baseStyle = Actheme.style('display:flex jc,ai:c nw:s11 nh:s10')
+    const composedStyle = style ? { ...baseStyle, ...style } : baseStyle
+
     return (
       <Styled.Link
         as={`${assetPrefix || ''}${href}`}
         href={href}
-        passHref={true}
         prefetch={prefetch}
         replace={replace}
         scroll={scroll}
         shallow={shallow}
-        style={style}
+        onClick={onClick}
+        style={composedStyle}
         {...rest}>
-        <Component
-          onClick={onClick}
-          children={
-            text
-              ? <Styled.Text>{text}</Styled.Text>
-              : children
-          } />
+        {text ? <Styled.Text>{text}</Styled.Text> : children}
       </Styled.Link>
     )
   }
 
-})
-
-const Component = forwardRef(({onClick, href, children}, ref) => {  
-
-  return (
-    <a 
-      href={href}
-      onClick={onClick}
-      ref={ref}
-      style={Actheme.style('display:flex jc,ai:c nw:s11 nh:s10')}
-    >
-      {children}
-    </a>
-  )
 })
 
 export default Styled.Elem

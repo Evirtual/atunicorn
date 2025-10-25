@@ -1,9 +1,25 @@
-import React, { useState } from 'react'
-import { useWindowDimensions } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import { useStore } from 'pack/store'
+
+const useWindowSize = () => {
+  const getSnapshot = () => (typeof window === 'object'
+    ? { width: window.innerWidth, height: window.innerHeight }
+    : { width: 0, height: 0 })
+
+  const [dimensions, setDimensions] = useState(getSnapshot)
+
+  useEffect(() => {
+    if (typeof window !== 'object') return
+    const handleResize = () => setDimensions(getSnapshot())
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  return dimensions
+}
 
 const Nav = Actheme.create({
 
@@ -48,7 +64,7 @@ const Nav = Actheme.create({
     const postPath = `/post/${profileId || id}/`
     const profileAboutPath = `/profile/${profileId || id}/about/`
 
-    const { width } = useWindowDimensions()
+  const { width } = useWindowSize()
 
     const [active, setActive] = useState()
     const [editUsername, setEditUsername] = useState()

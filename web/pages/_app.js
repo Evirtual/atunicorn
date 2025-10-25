@@ -4,10 +4,11 @@ import { StoreProvider, useStore } from 'pack/store'
 import Layout from 'pack/comps/layout'
 
 const App = ({ Component, pageProps }) => {
+  const { initialState, ...componentProps } = pageProps || {}
 
   return (
-    <StoreProvider>
-      <AppContainer {...{ Component, pageProps }} />
+    <StoreProvider initialState={initialState}>
+      <AppContainer Component={Component} pageProps={componentProps} />
     </StoreProvider>
   )
 }
@@ -28,14 +29,6 @@ const AppContainer = ({ Component, pageProps }) => {
 			<Component {...pageProps} />
     </Layout>
 	)
-}
-
-App.getInitialProps = async ({ Component, router, ctx }) => {
-  const pageProps = Component.getInitialProps && await Component.getInitialProps(ctx) || {}
-  const { asPath } = ctx
-
-  const { route, query } = router
-  return { pageProps, route, query, asPath }
 }
 
 const useServiceWorker = () => {

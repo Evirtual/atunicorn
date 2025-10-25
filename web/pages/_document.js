@@ -14,16 +14,29 @@ const nextStyle = `
 `
 
 export default class MyDocument extends Document {
-  static async getInitialProps({ renderPage }) {
-    AppRegistry.registerComponent(process.env.name, () => Main)
-    const { getStyleElement } = AppRegistry.getApplication(process.env.name)
-    const page = renderPage()
-    const StyleElements = getStyleElement()
-    const styles = [
-      StyleElements,
-      <style dangerouslySetInnerHTML={{ __html: [nextStyle, Actheme.mediaRules()].join('\n') }} />
-    ]
-    return { ...page, styles: React.Children.toArray(styles) };
+  static async getInitialProps(ctx) {
+    const appName = process.env.name || 'main';
+    AppRegistry.registerComponent(appName, () => Main);
+
+    const initialProps = await Document.getInitialProps(ctx);
+    const { getStyleElement } = AppRegistry.getApplication(appName) || {};
+    const styleElements = getStyleElement ? getStyleElement() : null;
+
+    const mergedStyles = [initialProps.styles, styleElements, (
+      <style
+        key="actheme-styles"
+        dangerouslySetInnerHTML={{ __html: [nextStyle, Actheme.mediaRules()].join('\n') }}
+      />
+    )]
+      .flat()
+      .filter(Boolean)
+      .map((style, index) =>
+        React.isValidElement(style) && style.key == null
+          ? React.cloneElement(style, { key: `actheme-style-${index}` })
+          : style
+      );
+
+    return { ...initialProps, styles: mergedStyles };
   }
 
   render() {
