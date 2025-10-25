@@ -8,13 +8,13 @@ const Post = Actheme.create({
 
   Container: ['View', 'm:s2.5'],
   Content: ['View', 'w,h:90vw xw,xh:s95 br:s5 of:hd bg:white bw:1 bc:grey'],
-  Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
+  Wrap: ['View', 'pos:ab t,l:s2 z:3 fd:row ai:ctr'],
   Image: ['Image', 'w,h:100% br:s5'],
-  Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:2 bc:white400 ai,jc:c z:2'],
+  Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:2 bc:white400 ai,jc:ctr z:2'],
   User: ['View', 'ml:-s7 bg:white400 pv:s2 ph:s4 pl:s8 br:s6 bw:2 bc:grey'],
-  Name: ['Text', 'c:black fb:500'],
-  Options: ['View', 'fd:row ps:ab t,r:s2 ai,jc:c z:3'],
-  Cover: ['TouchableOpacity', 'ps:ab z:2 t,b,l,r:0'],
+  Name: ['Text', 'c:black fwt:500'],
+  Options: ['View', 'fd:row pos:ab t,r:s2 ai,jc:ctr z:3'],
+  Cover: ['TouchableOpacity', 'pos:ab z:2 t,b,l,r:0'],
 
   Comp: (props) => {
 

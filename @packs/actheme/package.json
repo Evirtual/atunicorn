@@ -1,0 +1,9 @@
+{
+  "name": "actheme",
+  "version": "0.0.40",
+  "main": "./out/index.js",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": ">=17 <20"
+  }
+}

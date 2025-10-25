@@ -1,17 +1,30 @@
-import React, { useState } from 'react'
-import { useWindowDimensions } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import { useStore } from 'pack/store'
 
+const useWindowSize = () => {
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+
+  useEffect(() => {
+    if (typeof window !== 'object') return
+    const handleResize = () => setDimensions({ width: window.innerWidth, height: window.innerHeight })
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  return dimensions
+}
+
 const Nav = Actheme.create({
 
-  Container: ['View', 'jc,ai:c w:100vw z:2'],
-  Content: ['View', 'ps:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:c', {
-    changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:grey t:-1'
+  Container: ['View', 'jc,ai:ctr w:100vw z:2'],
+  Content: ['View', 'pos:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:ctr', {
+    changeNav: 'bg:white fd:row ai:ctr jc:sb bbw:1 bbc:grey t:-1'
   }],
-  Wrap: ['View', 'jc,ai:c', {
+  Wrap: ['View', 'jc,ai:ctr', {
     image: 'w,h,br:s25 bg:white mh:s6 mv:s3 bw:2 bc:grey of:hd',
     imageSmall: 'w,h,br:s11 bg:white mh:s2 bw:2 bc:grey of:hd',
     row: 'fd:row',
@@ -19,22 +32,22 @@ const Nav = Actheme.create({
     logo: 'bw:0',
     left: 'jc:start',
     right: 'jc:end',
-    option: 'ps:ab l:s1',
-    save: 'ps:ab r:s1',
-    important: 'ps:ab t:s3 l,r:0 z:9 ph:s5',
+    option: 'pos:ab l:s1',
+    save: 'pos:ab r:s1',
+    important: 'pos:ab t:s3 l,r:0 z:9 ph:s5',
     search: 'nw:s65 w:100%',
     max: 'xw:s5',
     medium: 'w:33.33%'
   }],
   Image: ['Image', 'w,h,br:100%'],
   File: 'Upload',
-  Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white of:hd'],
+  Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:ctr bg:white of:hd'],
 
   Comp: (props) => {
 
-  const { posts, setPosts, setMode, setLogin, changeNav = false, profileId, onProfile } = props
-    
-  const { act, store, action, handle } = useStore()
+    const { posts, setPosts, setMode, setLogin, changeNav = false, profileId, onProfile } = props
+      
+    const { act, store, action, handle } = useStore()
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
 
     const router = handle.useRouter()
@@ -48,7 +61,7 @@ const Nav = Actheme.create({
     const postPath = `/post/${profileId || id}/`
     const profileAboutPath = `/profile/${profileId || id}/about/`
 
-    const { width } = useWindowDimensions()
+    const { width } = useWindowSize()
 
     const [active, setActive] = useState()
     const [editUsername, setEditUsername] = useState()
@@ -56,9 +69,11 @@ const Nav = Actheme.create({
     const [search, setSearch] = useState()
 
     const onSearch = (result) => {
+      const normalized = value => (value || '').toLowerCase()
+      const needle = normalized(result)
       const filter = posts?.filter(post =>
-        (post.username.toLowerCase() || '').includes(result.toLowerCase()) ||
-        (post.desc.toLowerCase() || '').includes(result.toLowerCase()))
+        normalized(post?.username).includes(needle) ||
+        normalized(post?.desc).includes(needle))
       setSearch(result)
       setPosts(filter)
     }

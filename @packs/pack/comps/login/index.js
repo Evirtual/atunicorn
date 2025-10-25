@@ -6,15 +6,15 @@ import { useStore } from 'pack/store'
 
 const Login = Actheme.create({
 
-  Wrap: ['View', 'w:100% ai,jc:c', {
+  Wrap: ['View', 'w:100% ai,jc:ctr', {
     max: 'xw:s70',
-    placeholder: 'ps:ab h:100%',
+    placeholder: 'pos:ab h:100%',
     space: 'mt:s3'
   }],
-  Container: ['View', 'ai,jc:c ps:fixed l,r,t,b:0 z:99 bg:black300 p:s5'],
-  Content: ['View', 'bg:grey br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:grey p:s3'],
-  Text: ['Text', 'fs:s4 c:black400 ta:c mb:s2 fb:500'],
-  Close: ['View', 'ps:ab t,r:s1.5 ai,jc:c z:3'],
+  Container: ['View', 'ai,jc:ctr pos:fixed l,r,t,b:0 z:99 bg:black300 p:s5'],
+  Content: ['View', 'bg:grey br:s5 w:90vw nh,xw:s95 ai,jc:ctr bw:1 bc:grey p:s3'],
+  Text: ['Text', 'fs:s4 c:black400 ta:ctr mb:s2 fwt:500'],
+  Close: ['View', 'pos:ab t,r:s1.5 ai,jc:ctr z:3'],
   Image: 'Image',
 
   Comp: (props) => {
@@ -77,7 +77,7 @@ const Login = Actheme.create({
               <Elems.Button
                 icon={passwordVisible ? 'eye' : 'eye-slash'}
                 onPress={() => {setPasswordVisible(!passwordVisible)}}
-                style={Actheme.style('ps:ab r:0')} />
+                style={Actheme.style('pos:ab r:0')} />
             </Login.Wrap>
             <Elems.Button
               disabled={disabled}

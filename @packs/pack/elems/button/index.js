@@ -4,7 +4,7 @@ import Icon from '../icon'
 
 const Button = Actheme.create({
 
-  Touch: ['TouchableOpacity', 'jc,ai:c nw:s11 nh:s10', {
+  Touch: ['TouchableOpacity', 'jc,ai:ctr nw:s11 nh:s10', {
     submit: 'bc:mediumseagreen br:s5.5 bg:mediumseagreen',
     option: 'w,h,nh,nw,br:s9 bw:2 bg:white400 bc:black c:black',
     edit: 'fs:s4.5',
@@ -15,7 +15,7 @@ const Button = Actheme.create({
     disabled: 'op:0.25',
     inline: 'fd:row',
   }],
-  Text: ['Text', ['ta:c c:black fb:500 w:100% fs:s4', { numberOfLines: 1 }], {
+  Text: ['Text', ['ta:ctr c:black fwt:500 w:100% fs:s4', { numberOfLines: 1 }], {
     submit: 'c:white',
     inline: 'ml:s2',
     icon: 'ta:l',

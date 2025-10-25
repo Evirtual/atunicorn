@@ -31,7 +31,7 @@ export default function AboutScreen(props) {
         onScroll={!mode && handleNav}
         scrollEventThrottle={1}
         stickyHeaderIndices={!mode && [0]}
-        contentContainerStyle={Actheme.style(`jc,ai:c ${!mode ? 'pt:s66' : 'fg:1 pt:s2.5'}`)}
+        contentContainerStyle={Actheme.style(`jc,ai:ctr ${!mode ? 'pt:s66' : 'fg:1 pt:s2.5'}`)}
       >
         {!mode && <Comps.Nav changeNav={changeNav} />}
 
@@ -106,12 +106,12 @@ export default function AboutScreen(props) {
 
 const About = Actheme.create({
   Container: ['View', 'f:1 bg:grey', {
-    mode: 'ps:fixed t,b,l,r:0 z:10 bg:black400'
+    mode: 'pos:fixed t,b,l,r:0 z:10 bg:black400'
   }],
   ScrollView: ['ScrollView', ['f:1']],
-  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:grey mt:s2.5 mh:s5 mb:s22.5', {
+  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:ctr bw:1 bc:grey mt:s2.5 mh:s5 mb:s22.5', {
     mode: 'mb:s5'
   }],
   Text: ['Text', 'fs:s4 pv:s2 ph:s5 c:black400'],
-  Options: ['View', 'fd:row ps:ab t,r:s1.5 ai,jc:c z:3'],
+  Options: ['View', 'fd:row pos:ab t,r:s1.5 ai,jc:ctr z:3'],
 })

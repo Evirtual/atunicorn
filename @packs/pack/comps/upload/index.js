@@ -5,14 +5,14 @@ import Placeholder from '../placeholder'
 import { useStore } from 'pack/store'
 
 const Upload = Actheme.create({
-  Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300', {
-    contentContainerStyle: Actheme.style('fg:1 ai,jc:c p:s5')}]],
+  Container: ['ScrollView', ['f:1 pos:fixed l,r,t,b:0 z:99 bg:black300', {
+    contentContainerStyle: Actheme.style('fg:1 ai,jc:ctr p:s5')}]],
   Content: ['View', 'p:s3 bg:grey bw:1 bc:grey br:s5'],
   File: ['Upload', ['w,h:100%']],
   Checkbox: 'Checkbox',
-  Touch: ['TouchableOpacity', 'w,h:86vw xw,xh:s86 jc,ai:c bg:white br:s5 of:hd bw:1 bc:grey'],
+  Touch: ['TouchableOpacity', 'w,h:86vw xw,xh:s86 jc,ai:ctr bg:white br:s5 of:hd bw:1 bc:grey'],
   Image: ['Image', 'w,h:100% br:s5'],
-  Close: ['View', 'ps:ab t,r:s1.5 ai,jc:c z:3'],
+  Close: ['View', 'pos:ab t,r:s1.5 ai,jc:ctr z:3'],
 
   Comp: props => {
 

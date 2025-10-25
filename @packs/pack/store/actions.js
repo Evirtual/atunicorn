@@ -1,49 +1,102 @@
-import firebase from 'firebase/app'
-import 'firebase/messaging'
-import 'firebase/auth'
-import 'firebase/database'
-import 'firebase/storage'
+import { getApp, getApps, initializeApp } from 'firebase/app'
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut
+} from 'firebase/auth'
+import {
+  getDatabase,
+  onValue,
+  ref as dbRef,
+  remove,
+  set,
+  update
+} from 'firebase/database'
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref as storageRef,
+  uploadBytes
+} from 'firebase/storage'
 import Router from 'next/router'
 import Compress from "react-image-file-resizer"
 
+let services
+let listenersRegistered = false
+
+const getFirebaseServices = (config) => {
+  if (!services) {
+    const apps = getApps()
+    const app = apps.length ? getApp() : initializeApp(config)
+    services = {
+      app,
+      auth: getAuth(app),
+      db: getDatabase(app),
+      storage: getStorage(app)
+    }
+  }
+  return services
+}
+
+const waitForAuthSnapshot = (auth) => new Promise(resolve => {
+  const unsubscribe = onAuthStateChanged(auth, user => {
+    unsubscribe()
+    resolve(user)
+  })
+})
+
 const actions = ({ store, configs }) => ({
   APP_INIT: async () => {
-    !firebase.apps.length && await firebase.initializeApp(configs.firebase)
+    const { auth, db } = getFirebaseServices(configs.firebase)
 
-    firebase.database().ref('posts').on('value', snapshot => {
-      const posts = snapshot?.val() &&  Object.values(snapshot?.val())
-        .reduce((arr, items) => arr.concat(Object.values(items)), [])
-        .sort((a, b) => b.id - a.id)
-      store.set({ posts })
-    })
+    if (!listenersRegistered) {
+      listenersRegistered = true
 
-    firebase.database().ref('users').on('value', async snapshot => {
-      const users = snapshot?.val() && Object.values(snapshot?.val()) || []
-      const user = await new Promise(resolve => firebase.auth().onAuthStateChanged(resolve))
-      await store.set({ users, ready: true, user: user && {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-        id: user.uid,
-        ...(users.find(item => item.id === user.uid) || {})
-      } })
-    })
+      onValue(dbRef(db, 'posts'), snapshot => {
+        const posts = snapshot?.val() && Object.values(snapshot?.val())
+          .reduce((arr, items) => arr.concat(Object.values(items)), [])
+          .sort((a, b) => b.id - a.id)
+        store.set({ posts })
+      })
 
-    firebase.auth().onAuthStateChanged(async user => {
-      if (user && user.emailVerified) {
-        user && await store.set({
-          user: {
-            name: user.displayName,
-            email: user.email,
-            photo: user.photoURL,
-            id: user.uid,
-            ...((store.get('users') || []).find(item => item.id === user.uid) || {})
+      onValue(dbRef(db, 'users'), async snapshot => {
+        const users = snapshot?.val() && Object.values(snapshot?.val()) || []
+        const user = await waitForAuthSnapshot(auth)
+        await store.set({ users, ready: true, user: user && {
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+          id: user.uid,
+          ...(users.find(item => item.id === user.uid) || {})
+        } })
+      })
+
+      onAuthStateChanged(auth, async user => {
+        if (user && user.emailVerified) {
+          await store.set({
+            user: {
+              name: user.displayName,
+              email: user.email,
+              photo: user.photoURL,
+              id: user.uid,
+              ...((store.get('users') || []).find(item => item.id === user.uid) || {})
+            }
+          })
+        } else if (!user) {
+          await store.set({ user: null })
+        } else {
+          try {
+            await signOut(auth)
+          } catch (error) {
+            console.warn('Failed to sign out unverified user', error)
           }
-        })
-      } else {
-        firebase.auth().signOut();
-      }
-    })
+        }
+      })
+    }
   },
 
   APP_SIGNUP_EMAIL_PASSWORD: async (email, password) => {
@@ -52,7 +105,9 @@ const actions = ({ store, configs }) => ({
     if(password && !password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/))
       return store.set({ error: { type: 'auth', message: 'Password is not strong enough (it should contain at least one capital letter and number)' } })
 
-    return firebase.auth().createUserWithEmailAndPassword(email, password)
+    const { auth } = getFirebaseServices(configs.firebase)
+
+    return createUserWithEmailAndPassword(auth, email, password)
       .then((credential) => {
         const user = credential.user
         user.sendEmailVerification()
@@ -70,7 +125,9 @@ const actions = ({ store, configs }) => ({
     if(email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
       return store.set({ error: { type: 'auth', message: 'Please check if your email is written correctly' } })
 
-    return firebase.auth().signInWithEmailAndPassword(email, password)
+    const { auth } = getFirebaseServices(configs.firebase)
+
+    return signInWithEmailAndPassword(auth, email, password)
       .then((credential) => {
         const user = credential.user
         if (user.emailVerified) {
@@ -97,7 +154,9 @@ const actions = ({ store, configs }) => ({
     if(!email || email && !email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
       return store.set({ error: { type: 'auth', message: 'Please check if your email is written correctly' } })
 
-    return firebase.auth().sendPasswordResetEmail(email)
+    const { auth } = getFirebaseServices(configs.firebase)
+
+    return sendPasswordResetEmail(auth, email)
       .then(function () {
         store.set({ success: { message: 'Please check your email and folow the link to reset your password' } })
       })
@@ -105,7 +164,9 @@ const actions = ({ store, configs }) => ({
   },
 
   APP_LOGOUT: async () => {
-    return firebase.auth().signOut().then(async () => {
+    const { auth } = getFirebaseServices(configs.firebase)
+
+    return signOut(auth).then(async () => {
       await store.set({ user: null })
       Router?.push('/')
     })
@@ -113,16 +174,17 @@ const actions = ({ store, configs }) => ({
       store.set({ success: { message: 'Done! You successfully logged out' } })
     })
     .catch((error) => store.set({ error: { message: error.message }}))
-},
+  },
 
   APP_POST: async (post) => {
     const user = store.get('user')
     if(!user) return store.set({ error: { type: 'post', message: 'Please Login Before Posting' }})
     const id = post.id || new Date().getTime()
     const key = ['posts', user.id, id].join('/')
+    const { db } = getFirebaseServices(configs.firebase)
 
     if(user.id && post.id)
-      return firebase.database().ref(key).update({
+      return update(dbRef(db, key), {
         id, userId: user.id,
         updated: new Date().getTime(),
         username: user.username || user.id,
@@ -135,7 +197,7 @@ const actions = ({ store, configs }) => ({
         store.set({ success: { message: 'Done! You successfully updated post' } })
       })
 
-    return firebase.database().ref(key).set({
+    return set(dbRef(db, key), {
       id, userId: user.id,
       updated: new Date().getTime(),
       username: user.username || user.id,
@@ -152,13 +214,15 @@ const actions = ({ store, configs }) => ({
 
   APP_DELETEPOST: async post => {
     const fileId = post.url.split('%2F').pop().split('?alt=media').shift()
-    await firebase.database().ref(`posts/${post.userId}/${post.postId}/`).remove()
-    await firebase.storage().ref().child([post.userId, fileId].join('/')).delete()
+    const { db, storage } = getFirebaseServices(configs.firebase)
+    await remove(dbRef(db, `posts/${post.userId}/${post.postId}/`))
+    await deleteObject(storageRef(storage, [post.userId, fileId].join('/')))
     store.set({ success: { message: 'Done! Your image was successfully removed' } })
   },
 
   APP_UPLOAD: async ([ file ], uploading = true) => {
     store.set({ uploading })
+    const { storage } = getFirebaseServices(configs.firebase)
 
     try {
       if(!file?.type?.includes('image/'))
@@ -172,10 +236,12 @@ const actions = ({ store, configs }) => ({
         Compress.imageFileResizer(file, 1280, 1280, 'JPEG', 75, 0, uri => {resolve(uri)}, 'file')
       })
 
-      const resizedFile = await (!file?.type?.includes('image/gif') ? resizeFile(file) : file)
-      const user = store.get('user') || {}
-      const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(resizedFile)
-      const url = await snap.ref.getDownloadURL()
+  const resizedFile = await (!file?.type?.includes('image/gif') ? resizeFile(file) : file)
+  const user = store.get('user') || {}
+  const path = [user.id, new Date().getTime()].join('/')
+  const reference = storageRef(storage, path)
+  await uploadBytes(reference, resizedFile)
+  const url = await getDownloadURL(reference)
       store.set({ uploading: null })
       return url
 
@@ -196,7 +262,9 @@ const actions = ({ store, configs }) => ({
       const user = store.get('users').find(user => user.id === id) || {}
       const key = ['users', id].join('/')
 
-      return firebase.database().ref(key).update({
+      const { db } = getFirebaseServices(configs.firebase)
+
+      return update(dbRef(db, key), {
         id,
         updated: new Date().getTime(),
         ...data,

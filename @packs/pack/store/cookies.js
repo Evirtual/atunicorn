@@ -1,7 +1,26 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+const storage = () => {
+	if (typeof window !== 'object') return null
+	try {
+		return window.localStorage
+	} catch (error) {
+		return null
+	}
+}
+
+const withStorage = (fn, fallback) => (...args) => {
+	try {
+		const target = storage()
+		if (!target) return Promise.resolve(fallback)
+		const result = fn(target, ...args)
+		return Promise.resolve(result)
+	} catch (error) {
+		console.warn('[cookies] storage access failed:', error)
+		return Promise.resolve(fallback)
+	}
+}
 
 export default {
-	set: AsyncStorage.setItem,
-	get: AsyncStorage.getItem,
-	clear: AsyncStorage.clear
+	set: withStorage((target, key, value) => target.setItem(key, value)),
+	get: withStorage((target, key) => target.getItem(key), null),
+	clear: withStorage((target) => target.clear())
 }
