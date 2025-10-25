@@ -1,5 +1,5 @@
 module.exports = {
-  c: 'center',
+  ctr: 'center',
   col: 'column',
   ts: 'transparent',
 
