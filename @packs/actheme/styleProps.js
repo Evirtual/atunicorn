@@ -108,7 +108,7 @@ module.exports = {
   fs: 'fontSize',
   ta: 'textAlign',
   c: 'color',
-  fw: 'fontWeight', //fontWeight
+  fwt: 'fontWeight', //fontWeight
   fst: 'fontStyle',
   fv: 'fontVariant',
   tso: 'textShadowOffset',

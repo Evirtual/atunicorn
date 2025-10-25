@@ -3,7 +3,7 @@ import { Actheme } from '../../theme'
 
 const Styled = Actheme.create({
 
-  Text: ['Text', 'ta:c c:black fb:500 w:100% fs:s4 nw:s14 lh:s10'],
+  Text: ['Text', 'ta:ctr c:black fwt:500 w:100% fs:s4 nw:s14 lh:s10'],
 	Link: 'Link',
 
   Elem: (props) => {
@@ -26,7 +26,7 @@ const Styled = Actheme.create({
       onClick,
       ...rest } = props
 
-    const baseStyle = Actheme.style('display:flex jc,ai:c nw:s11 nh:s10')
+    const baseStyle = Actheme.style('display:flex jc,ai:ctr nw:s11 nh:s10')
     const composedStyle = style ? { ...baseStyle, ...style } : baseStyle
 
     return (

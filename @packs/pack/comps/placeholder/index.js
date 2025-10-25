@@ -5,8 +5,8 @@ import Markdown from 'markdown-to-jsx';
 
 const Placeholder = Actheme.create({
 
-  Container: ['View', 'bg:white br:s5 w,h:100% ai,jc:c p:s5'],
-  Text: ['Text', 'c:black400 ta:c fs:s4', {
+  Container: ['View', 'bg:white br:s5 w,h:100% ai,jc:ctr p:s5'],
+  Text: ['Text', 'c:black400 ta:ctr fs:s4', {
     profile: 'fs:s2.25',
   }],
   Image: ['Image', 'w,h,br:s40'],

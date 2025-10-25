@@ -124,22 +124,22 @@ export default function PostScreen(props) {
 
 const Post = Actheme.create({
   Container: ['View', 'f:1 bg:grey',{
-    mode: 'ps:fixed t,b,l,r:0 z:10 bg:black400'
+    mode: 'pos:fixed t,b,l,r:0 z:10 bg:black400'
   }],
   ScrollView: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('fg:1 ai,jc:c')}]],
+    contentContainerStyle: Actheme.style('fg:1 ai,jc:ctr')}]],
   Content: ['View', 'bw:1 bc:grey br:s5 bg:white of:hd w:90vw xw:s150', {
     placeholder: 'nh,xw:s95'
   }],
   Wrap: ['View', 'w:100%', {
     profile: 'fd:row w,h,br:s12 of:hd',
-    content: 'f:1 ai,jc:c mh:s5 mv:s22.5',
+    content: 'f:1 ai,jc:ctr mh:s5 mv:s22.5',
     mode: 'mv:s5'}],
   Image: ['Image', 'w,h:100%', {
     profile: 'btlr,btrr:s5'
   }],
   Text: ['Text', 'fs:s4 p:s4 c:black400',],
-  Profile: ['View', 'w:100% fd:row ai:c p:s2'],
-  Name: ['Text', 'fs:s4 fb:500 ml:s2'],
-  Options: ['View', 'fd:row ps:ab t,r:s2 ai,jc:c z:3'],
+  Profile: ['View', 'w:100% fd:row ai:ctr p:s2'],
+  Name: ['Text', 'fs:s4 fwt:500 ml:s2'],
+  Options: ['View', 'fd:row pos:ab t,r:s2 ai,jc:ctr z:3'],
 })

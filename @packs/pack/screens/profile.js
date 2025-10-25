@@ -156,10 +156,10 @@ export default function ProfileScreen(props) {
 
 const Profile = Actheme.create({
   Container: ['View', 'f:1 bg:grey', {
-    mode: 'ps:fixed t,b,l,r:0 z:9'
+    mode: 'pos:fixed t,b,l,r:0 z:9'
   }],
   ScrollView: ['ScrollView', ['f:1', {
-    contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c')}]],
-  Content: ['View', 'f:1 ai,jc:c mh:s5 mv:s22.5'],
-  Wrap: ['View', 'as:c jc,ai:c bw:1 bc:grey br:s5 bg:white of:hd w:90vw nh,xw:s95']
+    contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:ctr')}]],
+  Content: ['View', 'f:1 ai,jc:ctr mh:s5 mv:s22.5'],
+  Wrap: ['View', 'as:ctr jc,ai:ctr bw:1 bc:grey br:s5 bg:white of:hd w:90vw nh,xw:s95']
 })

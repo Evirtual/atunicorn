@@ -20,11 +20,11 @@ const useWindowSize = () => {
 
 const Nav = Actheme.create({
 
-  Container: ['View', 'jc,ai:c w:100vw z:2'],
-  Content: ['View', 'ps:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:c', {
-    changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:grey t:-1'
+  Container: ['View', 'jc,ai:ctr w:100vw z:2'],
+  Content: ['View', 'pos:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:ctr', {
+    changeNav: 'bg:white fd:row ai:ctr jc:sb bbw:1 bbc:grey t:-1'
   }],
-  Wrap: ['View', 'jc,ai:c', {
+  Wrap: ['View', 'jc,ai:ctr', {
     image: 'w,h,br:s25 bg:white mh:s6 mv:s3 bw:2 bc:grey of:hd',
     imageSmall: 'w,h,br:s11 bg:white mh:s2 bw:2 bc:grey of:hd',
     row: 'fd:row',
@@ -32,16 +32,16 @@ const Nav = Actheme.create({
     logo: 'bw:0',
     left: 'jc:start',
     right: 'jc:end',
-    option: 'ps:ab l:s1',
-    save: 'ps:ab r:s1',
-    important: 'ps:ab t:s3 l,r:0 z:9 ph:s5',
+    option: 'pos:ab l:s1',
+    save: 'pos:ab r:s1',
+    important: 'pos:ab t:s3 l,r:0 z:9 ph:s5',
     search: 'nw:s65 w:100%',
     max: 'xw:s5',
     medium: 'w:33.33%'
   }],
   Image: ['Image', 'w,h,br:100%'],
   File: 'Upload',
-  Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:c bg:white of:hd'],
+  Touch: ['TouchableOpacity', 'w,h,br:s25 jc,ai:ctr bg:white of:hd'],
 
   Comp: (props) => {
 
