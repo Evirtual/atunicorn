@@ -45,9 +45,9 @@ const Nav = Actheme.create({
 
   Comp: (props) => {
 
-  const { posts, setPosts, setMode, setLogin, changeNav = false, profileId, onProfile } = props
-    
-  const { act, store, action, handle } = useStore()
+    const { posts, setPosts, setMode, setLogin, changeNav = false, profileId, onProfile } = props
+      
+    const { act, store, action, handle } = useStore()
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
 
     const router = handle.useRouter()
@@ -61,7 +61,7 @@ const Nav = Actheme.create({
     const postPath = `/post/${profileId || id}/`
     const profileAboutPath = `/profile/${profileId || id}/about/`
 
-  const { width } = useWindowSize()
+    const { width } = useWindowSize()
 
     const [active, setActive] = useState()
     const [editUsername, setEditUsername] = useState()
