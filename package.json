@@ -2,19 +2,40 @@
   "name": "atunicorn.io",
   "version": "0.0.0",
   "private": true,
-  "description": "monorepo for unicorn project",
-  "main": "index.js",
-  "workspaces": {
-    "packages": [
-      "web",
-      "@packs/**"
+  "description": "quick and simple way to share",
+  "scripts": {
+    "start": "ENV=test next --webpack -p 8080",
+    "build": "next build --webpack",
+    "export": "next export",
+    "serve": "serve ./out -p 8080",
+    "static": "npm run build && npm run export && npm run serve",
+    "deploy": "npm run build && npm run export && firebase deploy --project unicorn-ee877",
+    "firebase:login": "firebase login"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "actheme": "file:./@packs/actheme",
+    "fetchier": "0.0.36",
+    "firebase": "^12.4.0",
+    "markdown-to-jsx": "^7.7.17",
+    "next": "^16.0.0",
+    "pack": "file:./@packs/pack",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-image-file-resizer": "^0.4.8",
+    "react-native-web": "^0.21.2"
+  },
+  "babel": {
+    "presets": [
+      "next/babel"
     ]
   },
-  "scripts": {
-    "start": "(cd web && npm start)",
-    "static": "(cd web && npm run static)",
-    "deploy": "(cd web && npm run deploy)"
+  "devDependencies": {
+    "firebase-tools": "^14.22.0",
+    "next-transpile-modules": "^10.0.1",
+    "serve": "^14.2.5"
   },
-  "author": "",
-  "license": "ISC"
+  "workspaces": [
+    "@packs/*"
+  ]
 }

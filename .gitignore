@@ -1,13 +1,22 @@
 # dependencies
 /node_modules
+/@packs/*/node_modules
+
+# testing
+/coverage
 
 # production
 /mobile/android/build
-/web/.next
-/web/out
+/.next
+/out
+/build
 
 # misc
 .DS_Store
+/.idea
+/.firebase
+/static/style.css
+firebase-debug.log
 package-lock.json
 
 npm-debug.log*

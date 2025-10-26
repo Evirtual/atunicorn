@@ -2,6 +2,29 @@ import React, { useState } from 'react'
 import { Comps, Elems, Actheme } from 'pack'
 import Markdown from 'markdown-to-jsx';
 
+const defaultAboutDescription = [
+  "It's a place to express",
+  'your uniqueness',
+  '',
+  'in ways that inspire us',
+  'to feel more confident',
+  'In our everyday life',
+  '',
+  '<div style="height:1px;background:#ededed;margin:30px 0;"></div>',
+  '',
+  'Inspired by',
+  '<span style="display:inline-block;text-decoration:underline;margin:5px 0;">**[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)**</span>',
+  '',
+  'Developed using',
+  '<span style="display:inline-block;text-decoration:underline;margin:5px;">**[Next.js](https://nextjs.org/)**</span>',
+  '<span style="display:inline-block;text-decoration:underline;margin:5px;">**[React](https://reactjs.org/)**</span>',
+  '<span style="display:inline-block;text-decoration:underline;margin:5px;">**[React Native](https://reactnative.dev/)**</span>',
+  '<span style="display:inline-block;text-decoration:underline;margin:5px;">**[Firebase](https://firebase.google.com/)**</span>',
+  '<span style="display:inline-block;text-decoration:underline;margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>',
+  '<span style="display:inline-block;text-decoration:underline;margin:5px;">**[React Context](https://react.dev/reference/react/useContext)**</span>',
+  ''
+].join('\n');
+
 export default function AboutScreen(props) {
 
   const { user, users, mode, router, path, id, profileId } = props
@@ -67,28 +90,7 @@ export default function AboutScreen(props) {
                 desc={
                   (profile?.id || path === aboutProfilePath && id)
                     ? `This is\n@${profile?.username || id}\nabout section`
-                    : 'It\'s a place to express\nyour uniqueness\n\n' +
-                      'in ways that inspire us\nto feel more confident\nIn our everyday life\n\n' +
-                      '<p>*****</p>' +
-                      'Inspired by' +
-                      '<div>' +
-                      '<span style="text-decoration:underline">' +
-                      '**[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)**' +
-                      '</span>' +
-                      '</div>' +
-                      '<br>' +
-                      'Developed using\n' +
-                      '<div>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Next.js](https://nextjs.org/)**</span>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[React](https://reactjs.org/)**</span>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[React Native](https://reactnative.dev/)**</span>' +
-                      '</div>' +
-                      '<div>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Firebase](https://firebase.google.com/)**</span>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[React Context](https://react.dev/reference/react/useContext)**</span>' +
-                      '</div>' +
-                      '<br>'
+                    : defaultAboutDescription
                 } />
           }
         </About.Wrap>
