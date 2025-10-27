@@ -19,17 +19,17 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
-    "@react-native-async-storage/async-storage": "1.17.0",
+    "@react-native-async-storage/async-storage": "1.24.0",
     "actheme": "0.0.39",
-    "actstore": "0.0.38",
+    "actstore": "0.0.39",
     "fetchier": "0.0.36",
-    "firebase": "8.2.10",
+    "firebase": "8.10.1",
     "markdown-to-jsx": "7.1.7",
-    "next": "12.1.0",
+    "next": "12.3.7",
     "pack": "0.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-image-file-resizer": "0.4.7",
+    "react-image-file-resizer": "0.4.8",
     "react-native-web": "0.17.7"
   },
   "babel": {
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "firebase-tools": "^14.22.0",
-    "next-transpile-modules": "^9.0.0",
+    "next-transpile-modules": "^9.1.0",
     "serve": "^13.0.2"
   },
   "author": "",
