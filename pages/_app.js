@@ -28,14 +28,6 @@ const App = ({ Component, pageProps }) => {
 	)
 }
 
-App.getInitialProps = async ({ Component, router, ctx }) => {
-  const pageProps = Component.getInitialProps && await Component.getInitialProps(ctx) || {}
-  const { asPath } = ctx
-
-  const { route, query } = router
-  return { pageProps, route, query, asPath }
-}
-
 const useServiceWorker = () => {
   useEffect(() => {
     if(typeof document !== 'object') return

@@ -17,6 +17,7 @@ const filteredEnv = Object.entries(process.env).reduce((acc, [key, value]) => {
 
 module.exports = withTM({
   trailingSlash: true,
+  output: 'export',
   env: { ...filteredEnv, ENV: process.env.NODE_ENV },
   webpack: config => {
     config.resolve.alias = {
