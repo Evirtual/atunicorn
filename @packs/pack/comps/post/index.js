@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
-import Actstore from 'actstore'
+import Actstore from 'pack/store/actstore'
 
 const Post = Actheme.create({
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
-import Actstore from 'actstore'
+import Actstore from 'pack/store/actstore'
 
 const About = Actheme.create({
   Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300 of:hd', {

@@ -19,10 +19,7 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
-    "@react-native-async-storage/async-storage": "1.24.0",
-    "actheme": "0.0.39",
-    "actstore": "0.0.39",
-    "fetchier": "0.0.36",
+    "styled-components": "^6.1.19",
     "firebase": "8.10.1",
     "markdown-to-jsx": "7.1.7",
     "next": "12.3.7",
@@ -35,9 +32,19 @@
   "babel": {
     "presets": [
       "next/babel"
+    ],
+    "plugins": [
+      [
+        "styled-components",
+        {
+          "ssr": true,
+          "displayName": false
+        }
+      ]
     ]
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^2.1.4",
     "firebase-tools": "^14.22.0",
     "next-transpile-modules": "^9.1.0",
     "serve": "^13.0.2"

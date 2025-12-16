@@ -1,7 +1,7 @@
 import Document, { Head, Main, NextScript, Html } from 'next/document'
 import React from 'react'
 import { AppRegistry } from 'react-native-web'
-import Actheme from 'actheme'
+import { ServerStyleSheet } from 'styled-components'
 
 const nextStyle = `
   #__next { display: flex; flex-direction: column; height:100vh; }
@@ -14,16 +14,33 @@ const nextStyle = `
 `
 
 export default class MyDocument extends Document {
-  static async getInitialProps({ renderPage }) {
+  static async getInitialProps(ctx) {
     AppRegistry.registerComponent(process.env.name, () => Main)
     const { getStyleElement } = AppRegistry.getApplication(process.env.name)
-    const page = renderPage()
-    const StyleElements = getStyleElement()
-    const styles = [
-      StyleElements,
-      <style dangerouslySetInnerHTML={{ __html: [nextStyle, Actheme.mediaRules()].join('\n') }} />
-    ]
-    return { ...page, styles: React.Children.toArray(styles) };
+
+    const sheet = new ServerStyleSheet()
+    const originalRenderPage = ctx.renderPage
+
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />)
+        })
+
+      const initialProps = await Document.getInitialProps(ctx)
+      const rnStyles = getStyleElement()
+
+      const styles = [
+        initialProps.styles,
+        rnStyles,
+        sheet.getStyleElement(),
+        <style key="nextStyle" dangerouslySetInnerHTML={{ __html: nextStyle }} />
+      ]
+
+      return { ...initialProps, styles: React.Children.toArray(styles) }
+    } finally {
+      sheet.seal()
+    }
   }
 
   render() {

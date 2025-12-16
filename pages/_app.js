@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import Router from 'next/router'
-import Actstore from 'actstore'
+import Actstore from 'pack/store/actstore'
 import Settings from 'pack/store'
 import Layout from 'pack/comps/layout'
+import { ThemeProvider } from 'pack/theme'
 
 import '../styles/icons.css'
 
@@ -19,9 +20,11 @@ const App = ({ Component, pageProps }) => {
 	}, [])
 
   return (
-		<Layout>
-			<Component {...pageProps} />
-    </Layout>
+    <ThemeProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ThemeProvider>
 	)
 }
 

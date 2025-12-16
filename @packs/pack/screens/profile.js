@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Actstore from 'actstore'
+import Actstore from 'pack/store/actstore'
 import { Comps, Actheme } from 'pack' 
 import Post from 'pack/screens/post'
 import About from 'pack/screens/about'

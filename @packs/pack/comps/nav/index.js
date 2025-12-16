@@ -3,7 +3,7 @@ import { useWindowDimensions } from 'react-native'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
-import Actstore from 'actstore'
+import Actstore from 'pack/store/actstore'
 
 const Nav = Actheme.create({
 
