@@ -34,8 +34,8 @@ const useServiceWorker = () => {
     
     if('serviceWorker' in window.navigator)
       window.navigator.serviceWorker.register('/sw.js').then( 
-        ({ scope }) => console.log('ServiceWorker registered ', scope),
-        (err) =>  console.log('ServiceWorker failed: ', err)
+        ({ scope }) => process.env.NODE_ENV !== 'production' && console.log('ServiceWorker registered ', scope),
+        (err) =>  process.env.NODE_ENV !== 'production' && console.log('ServiceWorker failed: ', err)
       )
   }, [])
 }

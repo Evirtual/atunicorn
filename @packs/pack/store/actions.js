@@ -214,7 +214,7 @@ const actions = ({ store, configs }) => ({
 
 	APP_COUNT: () => store.set({ count: store.get('count') + 1 }),
 
-  APP_LOADING: () => console.log('loading'),
+  APP_LOADING: () => null,
 
   APP_INFO: (info, type = 'info', duration = 1250) => {
     store.set({ info: info ? { info, type } : null })

@@ -1,24 +1,28 @@
 const withTM = require('next-transpile-modules')(['pack'])
 
-const IGNORED_ENV_KEYS = new Set([
-  'NODE_ENV',
-  '__CFBundleIdentifier',
-  '__CF_USER_TEXT_ENCODING',
-  '__NEXT_PROCESSED_ENV',
-  'NODE_EXE'
-])
+const CLIENT_ENV_KEYS = [
+  // Used by pack/store/configs.js and RN-web AppRegistry name.
+  'version',
+  'name',
+  'description',
 
-const filteredEnv = Object.entries(process.env).reduce((acc, [key, value]) => {
-  if (IGNORED_ENV_KEYS.has(key)) return acc
-  if (key.startsWith('NEXT_')) return acc
-  acc[key] = value
+  // Used by pack/store/configs.js for API base URL.
+  'host',
+
+  // Used by pack/elems/link for asset prefixing.
+  'assetPrefix'
+]
+
+const clientEnv = CLIENT_ENV_KEYS.reduce((acc, key) => {
+  if (typeof process.env[key] !== 'undefined') acc[key] = process.env[key]
   return acc
 }, {})
 
 module.exports = withTM({
   trailingSlash: true,
   output: 'export',
-  env: { ...filteredEnv, ENV: process.env.NODE_ENV },
+  // Only expose explicitly used env vars to the client bundle.
+  env: { ...clientEnv, ENV: process.env.NODE_ENV },
   webpack: config => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
