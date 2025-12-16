@@ -49,7 +49,24 @@ const safeJsonParse = (value, fallback) => {
 
 const isBrowser = typeof window === 'object'
 
-const buildSizes = (scale) => {
+const THEME_SIZES = buildSizes(BASE_SCALE)
+const DEFAULT_THEME = {
+  mode: 'light',
+  scale: BASE_SCALE,
+  alphas: BASE_ALPHAS,
+  size: THEME_SIZES,
+  color: buildAlphaColors(LIGHT_COLORS, BASE_ALPHAS),
+  medias: { sm: 400, md: 768, lg: 1024, xl: 1280 }
+}
+
+const ThemeConfigContext = React.createContext({
+  mode: DEFAULT_THEME.mode,
+  setMode: () => {},
+  colors: DEFAULT_THEME.color,
+  setColors: () => {}
+})
+
+function buildSizes(scale) {
   const result = {
     's0.25': scale * 0.25,
     's0.5': scale * 0.5,
@@ -64,7 +81,7 @@ const buildSizes = (scale) => {
   return result
 }
 
-const rgbaToParts = (rgba) => {
+function rgbaToParts(rgba) {
   const match = String(rgba)
     .replace(/\s+/g, '')
     .match(/^rgba\((\d+),(\d+),(\d+),(\d*\.?\d+)\)$/i)
@@ -77,13 +94,13 @@ const rgbaToParts = (rgba) => {
   }
 }
 
-const applyAlpha = (rgba, alpha) => {
+function applyAlpha(rgba, alpha) {
   const parts = rgbaToParts(rgba)
   if (!parts) return rgba
   return `rgba(${parts.r}, ${parts.g}, ${parts.b}, ${alpha})`
 }
 
-const buildAlphaColors = (colors, alphas) => {
+function buildAlphaColors(colors, alphas) {
   const res = { ...colors }
   Object.keys(colors).forEach((name) => {
     const base = colors[name]
@@ -213,15 +230,6 @@ const VALUE_ALIASES = {
   gd: 'grid'
 }
 
-let currentTheme = {
-  mode: 'light',
-  scale: BASE_SCALE,
-  alphas: BASE_ALPHAS,
-  size: buildSizes(BASE_SCALE),
-  color: buildAlphaColors(LIGHT_COLORS, BASE_ALPHAS),
-  medias: { sm: 400, md: 768, lg: 1024, xl: 1280 }
-}
-
 const resolveValue = (rawValue, propName, theme) => {
   if (rawValue === true) return true
   if (rawValue === null || typeof rawValue === 'undefined') return rawValue
@@ -232,11 +240,13 @@ const resolveValue = (rawValue, propName, theme) => {
   if (sizeMatch) {
     const sign = sizeMatch[1] ? -1 : 1
     const key = `s${sizeMatch[2]}`
-    const num = (theme?.size && theme.size[key]) || (currentTheme.size && currentTheme.size[key])
-    return typeof num === 'number' ? sign * num : sign * Number(sizeMatch[2]) * (theme?.scale || currentTheme.scale || 1)
+    const resolvedTheme = theme || DEFAULT_THEME
+    const num = resolvedTheme?.size?.[key]
+    return typeof num === 'number' ? sign * num : sign * Number(sizeMatch[2]) * (resolvedTheme?.scale || 1)
   }
 
-  const themedColor = theme?.color?.[value] || currentTheme.color?.[value]
+  const resolvedTheme = theme || DEFAULT_THEME
+  const themedColor = resolvedTheme?.color?.[value]
   if (themedColor) return themedColor
 
   if (VALUE_ALIASES[value]) return VALUE_ALIASES[value]
@@ -284,13 +294,38 @@ const mergeStyles = (styles) => {
   return out
 }
 
-const style = (input, theme) => {
+const themeStyleCache = new WeakMap()
+const getThemeStyleCache = (theme) => {
+  if (!theme || typeof theme !== 'object') return null
+  const existing = themeStyleCache.get(theme)
+  if (existing) return existing
+  const next = new Map()
+  themeStyleCache.set(theme, next)
+  return next
+}
+
+const styleCached = (input, theme) => {
+  if (!input) return {}
+  if (typeof input === 'object' && !Array.isArray(input)) return input
+
+  const resolvedTheme = theme || DEFAULT_THEME
+  const str = Array.isArray(input) ? input.filter(Boolean).join(' ') : String(input)
+  const cache = getThemeStyleCache(resolvedTheme)
+  if (!cache) return style(str, resolvedTheme)
+  const hit = cache.get(str)
+  if (hit) return hit
+  const computed = style(str, resolvedTheme)
+  cache.set(str, computed)
+  return computed
+}
+
+function style(input, theme) {
   if (!input) return {}
   if (typeof input === 'object' && !Array.isArray(input)) return input
 
   const str = Array.isArray(input) ? input.filter(Boolean).join(' ') : String(input)
   const tokens = str.split(/\s+/).filter(Boolean)
-  return mergeStyles(tokens.map((t) => parseToken(t, theme)))
+  return mergeStyles(tokens.map((t) => parseToken(t, theme || DEFAULT_THEME)))
 }
 
 const resolveType = (typeName) => {
@@ -350,14 +385,26 @@ const create = (comps) => {
 
     const baseProps = spec.baseProps || {}
     const variants = spec.variants || {}
+    const variantNames = Object.keys(variants)
+
+    const extraPropsCache = new WeakMap()
+    const getExtraPropsForTheme = (theme) => {
+      if (!baseProps || typeof baseProps !== 'object') return baseProps
+      if (!theme || typeof theme !== 'object') return normalizeExtraProps(baseProps, DEFAULT_THEME)
+      const existing = extraPropsCache.get(theme)
+      if (existing) return existing
+      const computed = normalizeExtraProps(baseProps, theme)
+      extraPropsCache.set(theme, computed)
+      return computed
+    }
 
     const Styled = styled(Node).attrs((props) => {
-      const theme = props.theme || currentTheme
-      const baseStyleObj = typeof spec.baseStyle === 'string' ? style(spec.baseStyle, theme) : spec.baseStyle
-      const variantStyles = Object.keys(variants)
+      const theme = props.theme || DEFAULT_THEME
+      const baseStyleObj = typeof spec.baseStyle === 'string' ? styleCached(spec.baseStyle, theme) : spec.baseStyle
+      const variantStyles = variantNames
         .filter((variantName) => props[variantName])
-        .map((variantName) => style(variants[variantName], theme))
-      const extraProps = normalizeExtraProps(baseProps, theme)
+        .map((variantName) => styleCached(variants[variantName], theme))
+      const extraProps = getExtraPropsForTheme(theme)
       const composedStyle = mergeStyles([baseStyleObj, ...variantStyles, props.style])
 
       return {
@@ -394,35 +441,40 @@ export const ThemeProvider = ({ children }) => {
     window.localStorage.setItem(STORAGE_KEY_COLORS, JSON.stringify(customColors || {}))
   }, [customColors])
 
-  const baseColors = mode === 'dark' ? DARK_COLORS : LIGHT_COLORS
-  const mergedColors = { ...baseColors, ...(customColors || {}) }
-  const themed = {
-    mode,
-    scale: BASE_SCALE,
-    alphas: BASE_ALPHAS,
-    size: buildSizes(BASE_SCALE),
-    color: buildAlphaColors(mergedColors, BASE_ALPHAS),
-    medias: { sm: 400, md: 768, lg: 1024, xl: 1280 },
-    setMode,
-    setCustomColors
-  }
+  const themed = React.useMemo(() => {
+    const baseColors = mode === 'dark' ? DARK_COLORS : LIGHT_COLORS
+    const mergedColors = { ...baseColors, ...(customColors || {}) }
+    return {
+      mode,
+      scale: BASE_SCALE,
+      alphas: BASE_ALPHAS,
+      size: THEME_SIZES,
+      color: buildAlphaColors(mergedColors, BASE_ALPHAS),
+      medias: { sm: 400, md: 768, lg: 1024, xl: 1280 }
+    }
+  }, [mode, customColors])
 
-  currentTheme = themed
+  const config = React.useMemo(() => {
+    return {
+      mode: themed.mode,
+      setMode,
+      colors: themed.color,
+      setColors: setCustomColors
+    }
+  }, [themed, setMode, setCustomColors])
 
-  return <StyledThemeProvider theme={themed}>{children}</StyledThemeProvider>
+  return (
+    <ThemeConfigContext.Provider value={config}>
+      <StyledThemeProvider theme={themed}>{children}</StyledThemeProvider>
+    </ThemeConfigContext.Provider>
+  )
 }
 
 export const useThemeConfig = () => {
-  const theme = currentTheme
-  return {
-    mode: theme.mode,
-    setMode: theme.setMode,
-    colors: theme.color,
-    setColors: theme.setCustomColors
-  }
+  return React.useContext(ThemeConfigContext)
 }
 
 export const Actheme = {
   create,
-  style
+  style: (input, theme) => styleCached(input, theme)
 }
