@@ -37,9 +37,10 @@ export default class MyDocument extends Document {
         <style key="nextStyle" dangerouslySetInnerHTML={{ __html: nextStyle }} />
       ]
 
+      sheet.seal()
       return { ...initialProps, styles: React.Children.toArray(styles) }
     } finally {
-      sheet.seal()
+      // Cleanup if needed
     }
   }
 

@@ -351,22 +351,31 @@ const create = (comps) => {
     const baseProps = spec.baseProps || {}
     const variants = spec.variants || {}
 
-    const Styled = styled(Node).attrs((props) => {
+    const StyledComponent = styled(Node)``
+
+    // Wrapper to memoize style computation
+    const Wrapped = React.forwardRef((props, ref) => {
       const theme = props.theme || currentTheme
-      const baseStyleObj = typeof spec.baseStyle === 'string' ? style(spec.baseStyle, theme) : spec.baseStyle
-      const variantStyles = Object.keys(variants)
-        .filter((variantName) => props[variantName])
-        .map((variantName) => style(variants[variantName], theme))
-      const extraProps = normalizeExtraProps(baseProps, theme)
-      const composedStyle = mergeStyles([baseStyleObj, ...variantStyles, props.style])
+      const memoized = React.useMemo(() => {
+        const baseStyleObj = typeof spec.baseStyle === 'string' ? style(spec.baseStyle, theme) : spec.baseStyle
+        const variantStyles = Object.keys(variants)
+          .filter((variantName) => props[variantName])
+          .map((variantName) => style(variants[variantName], theme))
+        const extraProps = normalizeExtraProps(baseProps, theme)
+        const composedStyle = mergeStyles([baseStyleObj, ...variantStyles, props.style])
+        return {
+          ...extraProps,
+          style: Object.keys(composedStyle).length ? composedStyle : undefined
+        }
+      }, [
+        props.style,
+        theme,
+        ...Object.keys(variants).map((variantName) => props[variantName])
+      ])
+      return <StyledComponent ref={ref} {...props} {...memoized} />
+    })
 
-      return {
-        ...extraProps,
-        style: Object.keys(composedStyle).length ? composedStyle : undefined
-      }
-    })``
-
-    acc[key] = Styled
+    acc[key] = Wrapped
     return acc
   }, {})
 }
@@ -396,7 +405,7 @@ export const ThemeProvider = ({ children }) => {
 
   const baseColors = mode === 'dark' ? DARK_COLORS : LIGHT_COLORS
   const mergedColors = { ...baseColors, ...(customColors || {}) }
-  const themed = {
+  const themed = React.useMemo(() => ({
     mode,
     scale: BASE_SCALE,
     alphas: BASE_ALPHAS,
@@ -405,9 +414,15 @@ export const ThemeProvider = ({ children }) => {
     medias: { sm: 400, md: 768, lg: 1024, xl: 1280 },
     setMode,
     setCustomColors
-  }
+  }), [mode, mergedColors, setMode, setCustomColors])
 
-  currentTheme = themed
+  // Update global currentTheme only on client-side for backwards compatibility
+  // In concurrent rendering, each render will use the theme from context
+  React.useEffect(() => {
+    if (isBrowser) {
+      currentTheme = themed
+    }
+  }, [themed])
 
   return <StyledThemeProvider theme={themed}>{children}</StyledThemeProvider>
 }
