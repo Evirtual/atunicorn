@@ -45,9 +45,9 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html style={{backgroundColor: "grey", height: "100vh"}}>
+      <Html suppressHydrationWarning style={{backgroundColor: "grey", height: "100vh"}}>
         <Head />
-        <body style={{backgroundColor: "grey", height: "100vh"}}>
+        <body suppressHydrationWarning style={{backgroundColor: "grey", height: "100vh"}}>
           <Main />
           <NextScript />
         </body>
