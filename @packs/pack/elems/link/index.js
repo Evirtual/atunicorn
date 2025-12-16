@@ -10,6 +10,7 @@ const Styled = Actheme.create({
 
     const {
       href, 
+      as: linkAs,
       prefetch, 
       replace, 
       scroll, 
@@ -28,7 +29,7 @@ const Styled = Actheme.create({
 
     return (
       <Styled.Link
-        as={`${assetPrefix || ''}${href}`}
+        as={`${assetPrefix || ''}${linkAs || href}`}
         href={href}
         passHref={true}
         prefetch={prefetch}

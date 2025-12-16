@@ -1,8 +1,8 @@
-import firebase from 'firebase/app'
-import 'firebase/messaging'
-import 'firebase/auth'
-import 'firebase/database'
-import 'firebase/storage'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/messaging'
+import 'firebase/compat/auth'
+import 'firebase/compat/database'
+import 'firebase/compat/storage'
 import Router from 'next/router'
 import Compress from "react-image-file-resizer"
 
@@ -214,7 +214,7 @@ const actions = ({ store, configs }) => ({
 
 	APP_COUNT: () => store.set({ count: store.get('count') + 1 }),
 
-  APP_LOADING: () => console.log('loading'),
+  APP_LOADING: () => null,
 
   APP_INFO: (info, type = 'info', duration = 1250) => {
     store.set({ info: info ? { info, type } : null })

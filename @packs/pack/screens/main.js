@@ -3,7 +3,7 @@ import { Actheme, Comps } from 'pack'
 import Post from 'pack/screens/post'
 import Profile from 'pack/screens/profile'
 import About from 'pack/screens/about'
-import Actstore from 'actstore'
+import Actstore from 'pack/store/actstore'
 
 function MainScreen() {
 
@@ -51,7 +51,7 @@ function MainScreen() {
 
   useEffect(() => {
     setLoadPosts(posts)
-  }, [user, mode, path])
+  }, [posts, user, mode, path])
 
   const renderItem = ({item}) => 
     <Comps.Post

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
-import Actstore from 'actstore'
+import Actstore from 'pack/store/actstore'
 
 const Info = Actheme.create({
 

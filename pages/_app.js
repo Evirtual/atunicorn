@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import Router from 'next/router'
-import Actstore from 'actstore'
+import Actstore from 'pack/store/actstore'
 import Settings from 'pack/store'
 import Layout from 'pack/comps/layout'
+import { ThemeProvider } from 'pack/theme'
 
 import '../styles/icons.css'
 
@@ -19,18 +20,12 @@ const App = ({ Component, pageProps }) => {
 	}, [])
 
   return (
-		<Layout>
-			<Component {...pageProps} />
-    </Layout>
+    <ThemeProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ThemeProvider>
 	)
-}
-
-App.getInitialProps = async ({ Component, router, ctx }) => {
-  const pageProps = Component.getInitialProps && await Component.getInitialProps(ctx) || {}
-  const { asPath } = ctx
-
-  const { route, query } = router
-  return { pageProps, route, query, asPath }
 }
 
 const useServiceWorker = () => {
@@ -39,8 +34,8 @@ const useServiceWorker = () => {
     
     if('serviceWorker' in window.navigator)
       window.navigator.serviceWorker.register('/sw.js').then( 
-        ({ scope }) => console.log('ServiceWorker registered ', scope),
-        (err) =>  console.log('ServiceWorker failed: ', err)
+        ({ scope }) => process.env.NODE_ENV !== 'production' && console.log('ServiceWorker registered ', scope),
+        (err) =>  process.env.NODE_ENV !== 'production' && console.log('ServiceWorker failed: ', err)
       )
   }, [])
 }
