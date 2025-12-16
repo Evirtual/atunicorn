@@ -350,15 +350,17 @@ const create = (comps) => {
 
     const baseProps = spec.baseProps || {}
     const variants = spec.variants || {}
+    const variantKeys = Object.keys(variants)
 
     const StyledComponent = styled(Node)``
 
     // Wrapper to memoize style computation
     const Wrapped = React.forwardRef((props, ref) => {
       const theme = props.theme || currentTheme
+      const variantDeps = variantKeys.map((variantName) => props[variantName])
       const memoized = React.useMemo(() => {
         const baseStyleObj = typeof spec.baseStyle === 'string' ? style(spec.baseStyle, theme) : spec.baseStyle
-        const variantStyles = Object.keys(variants)
+        const variantStyles = variantKeys
           .filter((variantName) => props[variantName])
           .map((variantName) => style(variants[variantName], theme))
         const extraProps = normalizeExtraProps(baseProps, theme)
@@ -370,7 +372,7 @@ const create = (comps) => {
       }, [
         props.style,
         theme,
-        ...Object.keys(variants).map((variantName) => props[variantName])
+        ...variantDeps
       ])
       return <StyledComponent ref={ref} {...props} {...memoized} />
     })
@@ -404,7 +406,7 @@ export const ThemeProvider = ({ children }) => {
   }, [customColors])
 
   const baseColors = mode === 'dark' ? DARK_COLORS : LIGHT_COLORS
-  const mergedColors = { ...baseColors, ...(customColors || {}) }
+  const mergedColors = React.useMemo(() => ({ ...baseColors, ...(customColors || {}) }), [baseColors, customColors])
   const themed = React.useMemo(() => ({
     mode,
     scale: BASE_SCALE,
