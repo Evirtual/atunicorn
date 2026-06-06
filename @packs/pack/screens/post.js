@@ -1,13 +1,40 @@
 import React, { useState } from 'react'
 import { Elems, Comps, Actheme } from 'pack'
+import Actstore from 'pack/store/actstore'
 
 export default function PostScreen(props) {
 
-  const { act, user, users, posts, postId, mode, setMode, router, id, profileId, setProfileId } = props
+  const {
+    act: propAct,
+    user: propUser,
+    users: propUsers,
+    posts: propPosts,
+    postId,
+    mode,
+    setMode,
+    router: propRouter,
+    id: propId,
+    profileId,
+    setProfileId,
+  } = props
 
-  const post = posts?.find(post => String(post.id) === String(postId || id)) || {}
+  const { act: storeAct, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
+  const router = propRouter || handle.useRouter()
+  const { id: routeId } = router?.query || {}
+
+  const act = propAct || storeAct
+  const user = typeof propUser !== 'undefined' ? propUser : store.get('user')
+  const users = typeof propUsers !== 'undefined' ? propUsers : store.get('users')
+  const posts = typeof propPosts !== 'undefined' ? propPosts : store.get('posts')
+  const ready = store.get('ready')
+  const id = propId || routeId
+  const resolvedPostId = postId || id
+  const setCurrentMode = setMode || (() => null)
+
+  const post = posts?.find(post => String(post.id) === String(resolvedPostId)) || {}
 
   const profile = users?.find(user => user.id === (post?.userId)) || {}
+  const loadingPost = !post?.id && (!resolvedPostId || !ready || typeof posts === 'undefined')
   
   const [edit, setEdit] = useState()
   const [recycling, setRecycling] = useState()
@@ -18,7 +45,7 @@ export default function PostScreen(props) {
         <Comps.Meta
           title={profile?.username}
           desc={post?.desc}
-          url={`https://atunicorn.io/post/${id}`}
+          url={`https://atunicorn.io/post/${resolvedPostId || ''}`}
           cover={post?.url} />
       }
       <Post.ScrollView stickyHeaderIndices={postId && [0]}>
@@ -26,7 +53,7 @@ export default function PostScreen(props) {
           <Comps.Nav 
             post={post}
             mode={mode}
-            setMode={setMode}
+            setMode={setCurrentMode}
             changeNav />
         }
 
@@ -37,7 +64,7 @@ export default function PostScreen(props) {
                   <Elems.Link 
                     href={'/'}
                     as={ `/profile/${post?.userId || id}`}
-                    onClick={() => setProfileId(post?.userId)}
+                    onClick={() => setProfileId && setProfileId(post?.userId)}
                   >
                     <Post.Profile>
                       <Post.Wrap profile>
@@ -92,6 +119,15 @@ export default function PostScreen(props) {
                 </Post.Options>
               </Post.Content>
             </Post.Wrap>
+          : loadingPost
+            ? <Post.Wrap content>
+                <Post.Content placeholder>
+                  <Comps.Placeholder
+                    icon="yin-yang"
+                    spin
+                    title="Balancing" />
+                </Post.Content>
+              </Post.Wrap>
           : recycling
             ? <Post.Wrap content>
                 <Post.Content placeholder>

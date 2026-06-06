@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Router from 'next/router'
 import Actstore from 'pack/store/actstore'
 import Settings from 'pack/store'
 import Layout from 'pack/comps/layout'
@@ -14,8 +13,6 @@ const App = ({ Component, pageProps }) => {
   useServiceWorker()
 
   React.useEffect(() => {
-		((window?.location?.pathname || '/') !== (Router?.router?.route || '/')) &&
-      Router.push(Router.router.asPath) 
 		act('APP_INIT')
 	}, [])
 

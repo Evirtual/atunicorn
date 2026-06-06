@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useWindowDimensions } from 'react-native'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
@@ -49,11 +49,18 @@ const Nav = Actheme.create({
     const profileAboutPath = `/profile/${profileId || id}/about/`
 
     const { width } = useWindowDimensions()
+    const [hasHydrated, setHasHydrated] = useState(false)
 
     const [active, setActive] = useState()
     const [editUsername, setEditUsername] = useState()
     const [username, setUsername] = useState()
     const [search, setSearch] = useState()
+
+    useEffect(() => {
+      setHasHydrated(true)
+    }, [])
+
+    const isWide = hasHydrated && width > 768
 
     const onSearch = (result) => {
       const filter = posts?.filter(post =>
@@ -70,7 +77,7 @@ const Nav = Actheme.create({
             <Nav.Wrap 
               row 
               left={changeNav} 
-              medium={(width > 768)}
+              medium={isWide}
             >
               <Nav.Wrap 
                 imageSmall={changeNav}
@@ -89,7 +96,7 @@ const Nav = Actheme.create({
                       source="/static/unilogo.gif" />
                 }
               </Nav.Wrap>
-              {(width > 768) &&
+              {isWide &&
                 <Nav.Wrap>
                   {(path === profilePath || path === profileAboutPath) && (profile?.id || user?.id === (profile?.id ||  id))
                     ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
@@ -101,12 +108,12 @@ const Nav = Actheme.create({
           }
           {(active || (!user && !changeNav && path === homePath)) &&
             <Nav.Wrap 
-              important={!changeNav || changeNav && (width < 769)}
-              medium={changeNav && (width > 768)}
+              important={!changeNav || !isWide}
+              medium={changeNav && isWide}
             >
               <Nav.Wrap 
                 search
-                max={(width > 768) || !changeNav}
+                max={isWide || !changeNav}
               >
                 <Nav.Wrap option>
                   {!search && !active && !changeNav
@@ -137,7 +144,7 @@ const Nav = Actheme.create({
           <Nav.Wrap 
             row 
             right={changeNav} 
-            medium={changeNav && (width > 768)}
+            medium={changeNav && isWide}
           >
             {changeNav && path !== homePath &&
               <Elems.Button
