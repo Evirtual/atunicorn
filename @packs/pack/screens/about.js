@@ -1,14 +1,145 @@
 import React, { useState } from 'react'
 import { Comps, Elems, Actheme } from 'pack'
+import Actstore from 'pack/store/actstore'
 import Markdown from 'markdown-to-jsx';
+
+const DEFAULT_ABOUT_DESC = [
+  'It\'s a place to express',
+  'your uniqueness',
+  '',
+  'in ways that inspire us',
+  'to feel more confident',
+  'in our everyday life',
+  '',
+  '*****',
+  '',
+  'Inspired by',
+  '',
+  '[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)',
+  '',
+  'Developed using',
+  '',
+  '[Next.js](https://nextjs.org/)',
+  '',
+  '[React](https://reactjs.org/)',
+  '',
+  '[React Native](https://reactnative.dev/)',
+  '',
+  '[Firebase](https://firebase.google.com/)',
+  '',
+  '[Actheme](https://github.com/egislook/actheme)',
+  '',
+  '[Actstore](https://github.com/egislook/actstore)'
+].join('\n')
+
+const ABOUT_MARKDOWN_OPTIONS = {
+  forceBlock: true,
+  overrides: {
+    h1: {
+      props: {
+        style: {
+          margin: '0 0 16px',
+          color: 'rgb(34, 34, 34)',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+          fontSize: '24px',
+          fontWeight: 600,
+          lineHeight: 1.3
+        }
+      }
+    },
+    h2: {
+      props: {
+        style: {
+          margin: '0 0 16px',
+          color: 'rgb(34, 34, 34)',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+          fontSize: '22px',
+          fontWeight: 600,
+          lineHeight: 1.35
+        }
+      }
+    },
+    h3: {
+      props: {
+        style: {
+          margin: '0 0 16px',
+          color: 'rgb(34, 34, 34)',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+          fontSize: '20px',
+          fontWeight: 600,
+          lineHeight: 1.4
+        }
+      }
+    },
+    p: {
+      props: {
+        style: {
+          margin: '0 0 16px',
+          color: 'rgba(34, 34, 34, 0.9)',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+          fontSize: '16px',
+          fontWeight: 400,
+          lineHeight: 1.7
+        }
+      }
+    },
+    strong: {
+      props: {
+        style: {
+          fontWeight: 600,
+          color: 'rgb(34, 34, 34)'
+        }
+      }
+    },
+    a: {
+      props: {
+        style: {
+          color: 'rgb(34, 34, 34)',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+          fontSize: '16px',
+          lineHeight: 1.7,
+          textDecoration: 'underline'
+        }
+      }
+    }
+  }
+}
 
 export default function AboutScreen(props) {
 
-  const { user, users, mode, router, path, id, profileId } = props
+  const {
+    user: propUser,
+    users: propUsers,
+    mode,
+    router: propRouter,
+    path: propPath,
+    id: propId,
+    profileId: propProfileId,
+  } = props
 
-  const profile = users?.find(item => item.id === (profileId || id)) || {}
+  const { store, handle } = Actstore({}, ['user', 'users'])
+  const router = propRouter || handle.useRouter()
+  const { id: routeId } = router?.query || {}
+  const path = propPath || router?.asPath || null
+  const user = typeof propUser !== 'undefined' ? propUser : store.get('user')
+  const users = typeof propUsers !== 'undefined' ? propUsers : store.get('users')
 
-  const aboutProfilePath = `/profile/${profileId || id}/about/`
+  const url = path?.replace(/\/$/, '')
+  const segments = url?.split('/').filter(Boolean) || []
+  const pathProfileId = segments[0] === 'profile' ? segments[1] : null
+  const resolvedProfileId = propProfileId || propId || routeId || pathProfileId
+
+  const profile = users?.find(item => item.id === resolvedProfileId) || {}
+
+  const aboutProfilePath = resolvedProfileId ? `/profile/${resolvedProfileId}/about/` : null
+  const placeholderTitle =
+    (profile?.id || (path === aboutProfilePath && resolvedProfileId))
+      ? `Welcome @${profile?.username || resolvedProfileId}`
+      : 'Welcome @unicorn'
+  const placeholderDesc =
+    (profile?.id || (path === aboutProfilePath && resolvedProfileId))
+      ? `This is\n@${profile?.username || resolvedProfileId}\nabout section`
+      : DEFAULT_ABOUT_DESC
 
   const [edit, setEdit] = useState()
   const [changeNav, setChangeNav] = useState()
@@ -23,9 +154,9 @@ export default function AboutScreen(props) {
   return (
     <About.Container mode={mode}>
       <Comps.Meta
-        title={path === aboutProfilePath ? (profile?.username || id) : "unicorn"}
+        title={path === aboutProfilePath ? (profile?.username || resolvedProfileId) : "unicorn"}
         desc="about"
-        url={path === aboutProfilePath && `https://atunicorn.io/profile/${profileId || profile?.id || id}`}
+        url={path === aboutProfilePath && `https://atunicorn.io/profile/${resolvedProfileId || profile?.id}`}
         cover={path === aboutProfilePath && profile.url} />
       <About.ScrollView
         onScroll={!mode && handleNav}
@@ -37,7 +168,7 @@ export default function AboutScreen(props) {
 
         <About.Wrap mode={mode}>
           <About.Options>
-            {user && user?.id === ( profileId || profile?.id || id ) && 
+            {user && user?.id === ( resolvedProfileId || profile?.id ) && 
               <Elems.Button
                 option
                 regular
@@ -54,42 +185,19 @@ export default function AboutScreen(props) {
             }
             </About.Options>
           {profile?.about
-            ? <About.Text>
-                <Markdown>
+            ? <About.Markdown>
+                <Markdown options={ABOUT_MARKDOWN_OPTIONS}>
                   {profile?.about}
-                 </Markdown>
-              </About.Text>
-            : <Comps.Placeholder
-                title={
-                  (profile?.id || path === aboutProfilePath && id)
-                    ? `Welcome @${profile?.username || id}`
-                    : 'Welcome @unicorn'}
-                desc={
-                  (profile?.id || path === aboutProfilePath && id)
-                    ? `This is\n@${profile?.username || id}\nabout section`
-                    : 'It\'s a place to express\nyour uniqueness\n\n' +
-                      'in ways that inspire us\nto feel more confident\nIn our everyday life\n\n' +
-                      '<p>*****</p>' +
-                      'Inspired by' +
-                      '<div>' +
-                      '<span style="text-decoration:underline">' +
-                      '**[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)**' +
-                      '</span>' +
-                      '</div>' +
-                      '<br>' +
-                      'Developed using\n' +
-                      '<div>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Next.js](https://nextjs.org/)**</span>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[React](https://reactjs.org/)**</span>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[React Native](https://reactnative.dev/)**</span>' +
-                      '</div>' +
-                      '<div>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Firebase](https://firebase.google.com/)**</span>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Actheme](https://github.com/egislook/actheme)**</span>' +
-                      '<span style="text-decoration:underline; margin:5px;">**[Actstore](https://github.com/egislook/actstore)**</span>' +
-                      '</div>' +
-                      '<br>'
-                } />
+                </Markdown>
+              </About.Markdown>
+            : <About.Empty>
+                <About.Title>{placeholderTitle}</About.Title>
+                <About.Markdown>
+                  <Markdown options={ABOUT_MARKDOWN_OPTIONS}>
+                    {placeholderDesc}
+                  </Markdown>
+                </About.Markdown>
+              </About.Empty>
           }
         </About.Wrap>
       </About.ScrollView>
@@ -112,6 +220,8 @@ const About = Actheme.create({
   Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:grey mt:s2.5 mh:s5 mb:s22.5', {
     mode: 'mb:s5'
   }],
-  Text: ['Text', 'fs:s4 pv:s2 ph:s5 c:black400'],
+  Empty: ['View', 'w:100% ai,jc:c p:s5'],
+  Title: ['Text', 'fs:s4 fb:500 ta:c c:black400'],
+  Markdown: ['View', 'w:100% pv:s2 ph:s5'],
   Options: ['View', 'fd:row ps:ab t,r:s1.5 ai,jc:c z:3'],
 })
