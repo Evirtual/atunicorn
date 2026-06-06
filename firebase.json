@@ -9,8 +9,20 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/post/**",
+        "destination": "/post/[id]/index.html"
+      },
+      {
+        "source": "/profile/**/about",
+        "destination": "/profile/[id]/about/index.html"
+      },
+      {
+        "source": "/profile/**",
+        "destination": "/profile/[id]/index.html"
+      },
+      {
+        "source": "/**",
+        "destination": "/[id]/index.html"
       }
     ]
   }

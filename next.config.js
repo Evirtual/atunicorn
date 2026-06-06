@@ -25,6 +25,7 @@ const clientEnv = CLIENT_ENV_KEYS.reduce((acc, key) => {
 module.exports = withTM({
   trailingSlash: true,
   output: 'export',
+  devIndicators: false,
   // Only expose explicitly used env vars to the client bundle.
   env: { ...clientEnv, ENV: process.env.NODE_ENV },
   webpack: config => {

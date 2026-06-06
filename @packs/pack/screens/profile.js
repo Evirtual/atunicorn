@@ -15,8 +15,12 @@ export default function ProfileScreen(props) {
   const { id } = router.query || {}
   const path = router.asPath || null
 
-  const profile = users?.find(user => user.id === (profileId || id)) || {}
-  const filteredPosts = posts?.filter(post => post.userId === (profileId || id))
+  const url = path?.replace(/\/$/, '')
+  const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
+  const resolvedProfileId = profileId || id || urlLastId
+
+  const profile = users?.find(user => user.id === resolvedProfileId) || {}
+  const filteredPosts = posts?.filter(post => post.userId === resolvedProfileId)
 
   const [loadPosts, setLoadPosts] = useState(filteredPosts)
   const [edit, setEdit] = useState()
@@ -25,11 +29,8 @@ export default function ProfileScreen(props) {
   const [mode, setMode] = useState(false)
   const [postId, setPostId] = useState(false)
 
-  const url = path?.replace(/\/$/, '')
-  const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
-
-  const aboutPath = `/profile/${profileId || id || urlLastId}/about/`
-  const postPath = `/post/${postId || id || urlLastId}/`
+  const aboutPath = `/profile/${resolvedProfileId}/about/`
+  const postPath = `/post/${postId || resolvedProfileId}/`
 
   useEffect(() => {
     path === aboutPath 
@@ -45,15 +46,15 @@ export default function ProfileScreen(props) {
 
   useEffect(() => {
     setLoadPosts(filteredPosts)
-  }, [user, mode, edit, path, id, profileId])
+  }, [posts, resolvedProfileId, mode, edit])
 
   const renderItem = ({item}) => 
     <Comps.Post
-      id={id}
+      id={resolvedProfileId}
       post={item}
       user={user}
       profile={profile}
-      profileId={profileId}
+      profileId={resolvedProfileId}
       onPost={() => setPostId(item.id)}
       onEdit={() => setEdit((loadPosts.find(post => String(post.id) === String(item.id))) || {})}
       onRemove={() => setMode(!mode)} />
@@ -66,22 +67,22 @@ export default function ProfileScreen(props) {
   }
 
   return (
-    <Profile.Container mode={profile?.username || id || profileId}>
-      {(!mode || !postId || profileId) &&
+    <Profile.Container mode={profile?.username || resolvedProfileId}>
+      {(!mode || !postId || resolvedProfileId) &&
         <Comps.Meta
-          title={profile?.username || id || profileId}
+          title={profile?.username || resolvedProfileId}
           desc="profile"
-          url={`https://atunicorn.io/profile/${id || profileId}`}
+          url={`https://atunicorn.io/profile/${resolvedProfileId}`}
           cover={profile?.url} />
       }
-      {(profile?.id || user?.id === id)
+      {(profile?.id || user?.id === resolvedProfileId)
         ? <Comps.List
             data={loadPosts}
             item={renderItem}
             onScroll={handleNav}
             navigation={
               <Comps.Nav
-                profileId={profileId}
+                profileId={resolvedProfileId}
                 mode={mode}
                 setMode={setMode}
                 posts={filteredPosts}
@@ -91,14 +92,14 @@ export default function ProfileScreen(props) {
             placeholder={
               <Comps.Placeholder
                 flatlist
-                icon={user?.id !== id && 'image-polaroid'}
-                title={user && user?.id === id ? 'Welcome @unicorn' : 'No posts'}
-                desc={user && user?.id === id && 'You can upload profile picture, change nickname/id and edit about section.'}
+                icon={user?.id !== resolvedProfileId && 'image-polaroid'}
+                title={user && user?.id === resolvedProfileId ? 'Welcome @unicorn' : 'No posts'}
+                desc={user && user?.id === resolvedProfileId && 'You can upload profile picture, change nickname/id and edit about section.'}
                 disabled={user && !user.approved}
                 actionText="Upload"
                 actionTextColor="green"
-                logo={user && user?.id === id}
-                action={user && user?.id === id ? () => setMode('upload') : null} />
+                logo={user && user?.id === resolvedProfileId}
+                action={user && user?.id === resolvedProfileId ? () => setMode('upload') : null} />
             }
           />
         : <Profile.ScrollView stickyHeaderIndices={[0]}>
@@ -126,8 +127,8 @@ export default function ProfileScreen(props) {
           store={store}
           router={router}
           path={path}
-          id={id}
-          profileId={profileId}
+          id={resolvedProfileId}
+          profileId={resolvedProfileId}
           user={user}
           users={users}
           mode={mode} 
@@ -138,14 +139,14 @@ export default function ProfileScreen(props) {
         <Post 
           act={act}
           postId={postId}
-          id={id}
+          id={resolvedProfileId}
           user={user}
           users={users}
           posts={posts}
           router={router}
           path={path}
           setPostId={setPostId}
-          profileId={profileId}
+          profileId={resolvedProfileId}
           mode={mode} 
           setMode={setMode} />
       }
