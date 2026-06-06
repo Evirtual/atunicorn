@@ -19,20 +19,10 @@ const DEFAULT_ABOUT_DESC = [
   '',
   'Developed using',
   '',
-  '[Next.js](https://nextjs.org/)',
-  '',
-  '[React](https://reactjs.org/)',
-  '',
-  '[React Native](https://reactnative.dev/)',
-  '',
-  '[Firebase](https://firebase.google.com/)',
-  '',
-  '[Actheme](https://github.com/egislook/actheme)',
-  '',
-  '[Actstore](https://github.com/egislook/actstore)'
+  '[Next.js](https://nextjs.org/) [React](https://reactjs.org/) [React Native](https://reactnative.dev/) [Firebase](https://firebase.google.com/)'
 ].join('\n')
 
-const ABOUT_MARKDOWN_OPTIONS = {
+const createAboutMarkdownOptions = ({ centered = false, compactLinks = false } = {}) => ({
   forceBlock: true,
   overrides: {
     h1: {
@@ -43,7 +33,8 @@ const ABOUT_MARKDOWN_OPTIONS = {
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
           fontSize: '24px',
           fontWeight: 600,
-          lineHeight: 1.3
+          lineHeight: 1.3,
+          textAlign: centered ? 'center' : 'left'
         }
       }
     },
@@ -55,7 +46,8 @@ const ABOUT_MARKDOWN_OPTIONS = {
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
           fontSize: '22px',
           fontWeight: 600,
-          lineHeight: 1.35
+          lineHeight: 1.35,
+          textAlign: centered ? 'center' : 'left'
         }
       }
     },
@@ -67,19 +59,43 @@ const ABOUT_MARKDOWN_OPTIONS = {
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
           fontSize: '20px',
           fontWeight: 600,
-          lineHeight: 1.4
+          lineHeight: 1.4,
+          textAlign: centered ? 'center' : 'left'
         }
       }
     },
     p: {
       props: {
         style: {
-          margin: '0 0 16px',
+          margin: centered ? '0 0 10px' : '0 0 16px',
           color: 'rgba(34, 34, 34, 0.9)',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
           fontSize: '16px',
           fontWeight: 400,
-          lineHeight: 1.7
+          lineHeight: 1.7,
+          textAlign: centered ? 'center' : 'left'
+        }
+      }
+    },
+    ul: {
+      props: {
+        style: {
+          margin: '0 0 16px',
+          paddingLeft: centered ? '0' : '20px',
+          listStylePosition: centered ? 'inside' : 'outside',
+          textAlign: centered ? 'center' : 'left'
+        }
+      }
+    },
+    li: {
+      props: {
+        style: {
+          marginBottom: '8px',
+          color: 'rgba(34, 34, 34, 0.9)',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+          fontSize: '16px',
+          lineHeight: 1.7,
+          textAlign: centered ? 'center' : 'left'
         }
       }
     },
@@ -94,16 +110,21 @@ const ABOUT_MARKDOWN_OPTIONS = {
     a: {
       props: {
         style: {
-          color: 'rgb(34, 34, 34)',
+          color: 'rgb(52, 113, 235)',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
           fontSize: '16px',
           lineHeight: 1.7,
-          textDecoration: 'underline'
+          textDecoration: 'none',
+          display: compactLinks ? 'inline-block' : 'inline',
+          margin: compactLinks ? '0 8px 6px' : '0'
         }
       }
     }
   }
-}
+})
+
+const MAIN_ABOUT_MARKDOWN_OPTIONS = createAboutMarkdownOptions({ centered: true, compactLinks: true })
+const PROFILE_ABOUT_MARKDOWN_OPTIONS = createAboutMarkdownOptions()
 
 export default function AboutScreen(props) {
 
@@ -132,6 +153,8 @@ export default function AboutScreen(props) {
   const profile = users?.find(item => item.id === resolvedProfileId) || {}
 
   const aboutProfilePath = resolvedProfileId ? `/profile/${resolvedProfileId}/about/` : null
+  const isProfileAboutPage = path === aboutProfilePath
+  const markdownOptions = isProfileAboutPage ? PROFILE_ABOUT_MARKDOWN_OPTIONS : MAIN_ABOUT_MARKDOWN_OPTIONS
   const placeholderTitle =
     (profile?.id || (path === aboutProfilePath && resolvedProfileId))
       ? `Welcome @${profile?.username || resolvedProfileId}`
@@ -186,14 +209,14 @@ export default function AboutScreen(props) {
             </About.Options>
           {profile?.about
             ? <About.Markdown>
-                <Markdown options={ABOUT_MARKDOWN_OPTIONS}>
+                <Markdown options={markdownOptions}>
                   {profile?.about}
                 </Markdown>
               </About.Markdown>
             : <About.Empty>
                 <About.Title>{placeholderTitle}</About.Title>
                 <About.Markdown>
-                  <Markdown options={ABOUT_MARKDOWN_OPTIONS}>
+                  <Markdown options={markdownOptions}>
                     {placeholderDesc}
                   </Markdown>
                 </About.Markdown>
