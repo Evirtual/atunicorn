@@ -10,7 +10,11 @@ const CLIENT_ENV_KEYS = [
   'host',
 
   // Used by pack/elems/link for asset prefixing.
-  'assetPrefix'
+  'assetPrefix',
+
+  // Used by pack/store/actions.js for image storage.
+  'storageProvider',
+  'storageApiUrl'
 ]
 
 const clientEnv = CLIENT_ENV_KEYS.reduce((acc, key) => {

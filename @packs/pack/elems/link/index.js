@@ -31,6 +31,7 @@ const Styled = Actheme.create({
       <Styled.Link
         as={`${assetPrefix || ''}${linkAs || href}`}
         href={href}
+        legacyBehavior
         passHref={true}
         prefetch={prefetch}
         replace={replace}

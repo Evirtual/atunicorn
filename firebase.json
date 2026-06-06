@@ -9,10 +9,6 @@
     ],
     "rewrites": [
       {
-        "source": "/test",
-        "function": "test"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }

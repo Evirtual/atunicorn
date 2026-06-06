@@ -2,9 +2,62 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/messaging'
 import 'firebase/compat/auth'
 import 'firebase/compat/database'
-import 'firebase/compat/storage'
 import Router from 'next/router'
 import Compress from "react-image-file-resizer"
+
+const getStorageEndpoint = (configs) => (configs.storage?.apiUrl || '').replace(/\/$/, '')
+
+const isCloudinaryStorage = (configs) => configs.storage?.provider === 'cloudinary'
+
+const uploadToCloudinary = async ({ configs, file, kind, user }) => {
+  const endpoint = getStorageEndpoint(configs)
+  if (!endpoint) throw new Error('Cloudinary storage API URL is not configured')
+
+  const currentUser = firebase.auth().currentUser
+  const token = currentUser && await currentUser.getIdToken()
+  if (!token) throw new Error('Please login before uploading')
+
+  const form = new FormData()
+  form.append('file', file)
+  form.append('kind', kind || 'upload')
+
+  const response = await fetch(`${endpoint}/upload`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: form
+  })
+  const body = await response.json().catch(() => ({}))
+  if (!response.ok) throw new Error(body.error || 'Unable to upload image')
+  if (!body.url) throw new Error('Storage upload did not return a URL')
+
+  return body.url
+}
+
+const deleteFromCloudinary = async ({ configs, url }) => {
+  const endpoint = getStorageEndpoint(configs)
+  if (!endpoint) throw new Error('Cloudinary storage API URL is not configured')
+
+  const currentUser = firebase.auth().currentUser
+  const token = currentUser && await currentUser.getIdToken()
+  if (!token) throw new Error('Please login before deleting')
+
+  const response = await fetch(`${endpoint}/delete`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({ url })
+  })
+  const body = await response.json().catch(() => ({}))
+  if (!response.ok) throw new Error(body.error || 'Unable to delete image')
+}
+
+const isCloudinaryUrl = (url) => {
+  return String(url || '').includes('res.cloudinary.com')
+}
 
 const actions = ({ store, configs }) => ({
   APP_INIT: async () => {
@@ -151,9 +204,9 @@ const actions = ({ store, configs }) => ({
   },
 
   APP_DELETEPOST: async post => {
-    const fileId = post.url.split('%2F').pop().split('?alt=media').shift()
     await firebase.database().ref(`posts/${post.userId}/${post.postId}/`).remove()
-    await firebase.storage().ref().child([post.userId, fileId].join('/')).delete()
+    if (isCloudinaryStorage(configs) && isCloudinaryUrl(post.url))
+      await deleteFromCloudinary({ configs, url: post.url })
     store.set({ success: { message: 'Done! Your image was successfully removed' } })
   },
 
@@ -174,8 +227,10 @@ const actions = ({ store, configs }) => ({
 
       const resizedFile = await (!file?.type?.includes('image/gif') ? resizeFile(file) : file)
       const user = store.get('user') || {}
-      const snap = await firebase.storage().ref().child([user.id, new Date().getTime()].join('/')).put(resizedFile)
-      const url = await snap.ref.getDownloadURL()
+      if (!isCloudinaryStorage(configs))
+        throw new Error('Image storage is not configured')
+
+      const url = await uploadToCloudinary({ configs, file: resizedFile, kind: uploading, user })
       store.set({ uploading: null })
       return url
 

@@ -15,7 +15,10 @@
 .DS_Store
 package-lock.json
 firebase-debug.log
+firebase-export*.json
+firebase-cloudinary-migration-*.json
 /.firebase
+/workers/**/.wrangler
 /static/style.css
 
 npm-debug.log*

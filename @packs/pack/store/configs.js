@@ -14,6 +14,10 @@ const configs = {
     cancel: API_URL + '/cancel',
     orders: API_URL + '/orders'
   },
+  storage: {
+    provider: process.env.storageProvider || 'cloudinary',
+    apiUrl: process.env.storageApiUrl || 'https://atunicorn-storage.social-posts-pinata.workers.dev'
+  },
   // auth: DOMAIN + '/auth',
   firebase: {
     apiKey: 'AIzaSyDlYnz7SakCLC_xZsfyVWkRau-B9_LfdXo',

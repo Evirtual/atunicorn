@@ -1,0 +1,10 @@
+name = "atunicorn-storage"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+
+# Set these before deploying:
+# wrangler secret put FIREBASE_PROJECT_ID --config workers/cloudinary-storage/wrangler.toml
+# wrangler secret put CLOUDINARY_CLOUD_NAME --config workers/cloudinary-storage/wrangler.toml
+# wrangler secret put CLOUDINARY_API_KEY --config workers/cloudinary-storage/wrangler.toml
+# wrangler secret put CLOUDINARY_API_SECRET --config workers/cloudinary-storage/wrangler.toml
+# wrangler secret put ALLOWED_ORIGIN --config workers/cloudinary-storage/wrangler.toml
