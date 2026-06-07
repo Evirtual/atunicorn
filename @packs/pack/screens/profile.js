@@ -1,20 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Actstore from 'pack/store/actstore'
 import { Comps, Actheme } from 'pack' 
 import Post from 'pack/screens/post'
 import About from 'pack/screens/about'
-import { buildAboutRoute, buildProfileRoute, normalizePath } from './route-state'
+import { buildAboutRoute, buildProfileRoute, createModalIntent, normalizePath, resolveRoutePresentation } from './route-state'
+import { useRouteState } from './use-route-state'
 
 export default function ProfileScreen(props) {
 
-  const { profileId } = props
+  const { profileId, modalIntent: propModalIntent } = props
 
   const { act, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
   const { user, users, posts } = store.get('user', 'users', 'posts')
 
   const router = handle.useRouter()
-  const { id, post: routePostId = false } = router.query || {}
-  const path = normalizePath(router.asPath)
+  const initialProfilePath = buildProfileRoute(profileId || router.query?.id)
+  const { currentPath, modalIntent, hasClientPath } = useRouteState({
+    router,
+    initialPath: initialProfilePath || router.pathname,
+    initialModalIntent: propModalIntent,
+  })
+  const routeParams = new URLSearchParams(currentPath.split('?')[1] || '')
+  const { id } = router.query || {}
+  const routePostId = router.query?.post || routeParams.get('post') || false
+  const path = normalizePath(currentPath)
 
   const url = path?.replace(/\/$/, '')
   const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
@@ -31,16 +40,22 @@ export default function ProfileScreen(props) {
   const [postId, setPostId] = useState(false)
 
   const aboutPath = buildAboutRoute(resolvedProfileId)
+  const routePresentation = resolveRoutePresentation({
+    path: currentPath,
+    profileId: resolvedProfileId,
+    postId: routePostId,
+    modalIntent,
+  })
 
   useEffect(() => {
-    path === aboutPath 
+    routePresentation.overlay?.kind === 'about'
       ? setMode('about')
       : setMode(false)
-  }, [path === aboutPath])
+  }, [routePresentation.overlay?.kind])
 
   useEffect(() => {
-    setPostId(routePostId || false)
-  }, [routePostId])
+    setPostId(routePresentation.overlay?.kind === 'post' ? routePostId || false : false)
+  }, [routePresentation.overlay?.kind, routePostId])
 
   useEffect(() => {
     setLoadPosts(filteredPosts)
@@ -63,6 +78,10 @@ export default function ProfileScreen(props) {
       profile={profile}
       profileId={resolvedProfileId}
       href={buildProfileRoute(resolvedProfileId, { postId: item.id })}
+      modalIntent={createModalIntent({
+        kind: 'post',
+        ownerPath: buildProfileRoute(resolvedProfileId)
+      })}
       shallow
       scroll={false}
       onPost={() => setPostId(item.id)}
@@ -74,6 +93,50 @@ export default function ProfileScreen(props) {
     scrolled > 264
       ? setChangeNav(true)
       : setChangeNav(false)
+  }
+
+  if (!hasClientPath && path.includes('[')) {
+    return (
+      <Profile.Container mode="profile-loading">
+        <Comps.Placeholder
+          flatlist
+          icon="yin-yang"
+          spin
+          title="Balancing" />
+      </Profile.Container>
+    )
+  }
+
+  if (routePresentation.page === 'about' && path === aboutPath) {
+    return (
+      <About
+        act={act}
+        store={store}
+        router={router}
+        path={path}
+        id={resolvedProfileId}
+        profileId={resolvedProfileId}
+        user={user}
+        users={users}
+      />
+    )
+  }
+
+  if (routePresentation.page === 'post' && routePostId) {
+    return (
+      <Post
+        act={act}
+        id={routePostId}
+        user={user}
+        users={users}
+        posts={posts}
+        router={router}
+        path={path}
+        onClose={() => router.replace(routePresentation.closeHref)}
+        profileId={resolvedProfileId}
+        mode={false}
+        setMode={setMode} />
+    )
   }
 
   return (
@@ -147,10 +210,10 @@ export default function ProfileScreen(props) {
           setMode={setMode} />
       }
 
-      {postId && 
+      {routePresentation.overlay?.kind === 'post' && routePostId && 
         <Post 
           act={act}
-          postId={postId}
+          postId={routePostId}
           id={resolvedProfileId}
           user={user}
           users={users}

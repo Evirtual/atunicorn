@@ -4,7 +4,7 @@ import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import Actstore from 'pack/store/actstore'
-import { buildAboutRoute, buildProfileRoute, normalizePath } from '../../screens/route-state'
+import { buildAboutRoute, buildProfileRoute, createModalIntent, normalizePath, saveModalIntent } from '../../screens/route-state'
 
 const Nav = Actheme.create({
 
@@ -113,6 +113,17 @@ const Nav = Actheme.create({
 
       setSearch(nextSearch)
       setPosts(filter)
+    }
+
+    const handleAboutOpen = () => {
+      if (isProfilePath && resolvedProfileId) {
+        saveModalIntent(buildAboutRoute(profile?.id || resolvedProfileId), createModalIntent({
+          kind: 'about',
+          ownerPath: buildProfileRoute(profile?.id || resolvedProfileId)
+        }))
+      }
+
+      setMode && setMode('about')
     }
 
     return (
@@ -255,7 +266,7 @@ const Nav = Actheme.create({
                       ? buildAboutRoute(profile?.id || resolvedProfileId)
                       : '/about/'
                   }
-                  onClick={() => setMode && setMode('about')}
+                  onClick={handleAboutOpen}
                   style={actionLinkStyle}
                 >
                   <Elems.Icon
@@ -350,7 +361,7 @@ const Nav = Actheme.create({
                     ? buildAboutRoute(profileId || profile?.id || resolvedProfileId)
                     : '/about/'
                 }
-                onClick={() => setMode && setMode('about')}
+                onClick={handleAboutOpen}
                 text="About" />
             </Nav.Wrap>
           }

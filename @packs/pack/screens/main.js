@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Actheme, Comps } from 'pack'
 import Post from 'pack/screens/post'
 import Profile from 'pack/screens/profile'
 import About from 'pack/screens/about'
 import Actstore from 'pack/store/actstore'
-import { buildHomeRoute, normalizePath } from './route-state'
+import { buildHomeRoute, createModalIntent, normalizePath, resolveRoutePresentation } from './route-state'
+import { useRouteState } from './use-route-state'
 
 const filterPostsBySearch = (posts, query) => {
   const normalizedQuery = (query || '').trim().toLowerCase()
@@ -24,8 +25,12 @@ function MainScreen() {
   const { user, users, posts } = store.get('user', 'users', 'posts')
 
   const router = handle.useRouter()
-  const { id, search: routeSearch = '', post: routePostId = false } = router.query || {}
-  const path = normalizePath(router.asPath)
+  const { currentPath, modalIntent } = useRouteState({ router })
+  const routeParams = new URLSearchParams(currentPath.split('?')[1] || '')
+  const { id } = router.query || {}
+  const routeSearch = router.query?.search || routeParams.get('search') || ''
+  const routePostId = router.query?.post || routeParams.get('post') || false
+  const path = normalizePath(currentPath)
   
   const [search, setSearch] = useState(routeSearch)
   const [login, setLogin] = useState()
@@ -63,6 +68,12 @@ function MainScreen() {
     setSearch(routeSearch)
   }, [routeSearch])
 
+  const routePresentation = resolveRoutePresentation({
+    path: currentPath,
+    postId: routePostId,
+    modalIntent,
+  })
+
   const handleSearchChange = (value) => {
     const nextSearch = value || ''
     const nextQuery = { ...router.query }
@@ -98,11 +109,31 @@ function MainScreen() {
   }
 
   const visiblePosts = filterPostsBySearch(posts, search)
+  const hasLoadedPosts = Array.isArray(posts)
+  const showEmptySearch = hasLoadedPosts && !visiblePosts?.length && !!search.trim()
+
+  if (routePresentation.page === 'post' && routePostId) {
+    return (
+      <Post
+        act={act}
+        id={routePostId}
+        user={user}
+        users={users}
+        posts={posts}
+        router={router}
+        path={path}
+        onClose={() => router.replace(routePresentation.closeHref)}
+        setProfileId={setProfileId}
+        mode={false}
+        setMode={setMode} />
+    )
+  }
 
   const renderItem = ({item}) => 
     <Comps.Post
       post={item}
       href={buildHomeRoute({ search, postId: item.id })}
+      modalIntent={createModalIntent({ kind: 'post', ownerPath: '/' })}
       shallow
       scroll={false}
       profile={users?.find(user => user.id === item.userId)}
@@ -139,9 +170,10 @@ function MainScreen() {
         placeholder={
           <Comps.Placeholder
             flatlist
-            icon="yin-yang"
-            spin
-            title="Balancing" />
+            icon={showEmptySearch ? 'image-polaroid' : 'yin-yang'}
+            spin={!showEmptySearch}
+            title={showEmptySearch ? 'No results' : 'Balancing'}
+            desc={showEmptySearch ? `No posts matched "${search}".` : undefined} />
         }
       />
 
@@ -166,10 +198,10 @@ function MainScreen() {
           setMode={setMode} />
       }
       
-      {postId && 
+      {routePresentation.overlay?.kind === 'post' && routePostId && 
         <Post 
           act={act}
-          postId={postId}
+          postId={routePostId}
           id={id}
           user={user}
           users={users}

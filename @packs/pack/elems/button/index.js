@@ -62,7 +62,6 @@ const Button = Actheme.create({
         close={close}
         edit={edit}
         inline={inline}
-        disabled={disabled}
         onPress={!disabled ? onPress : null}
         style={style}
         {...rest}>

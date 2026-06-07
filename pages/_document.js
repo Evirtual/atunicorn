@@ -35,9 +35,19 @@ export default class MyDocument extends Document {
         rnStyles,
         sheet.getStyleElement(),
         <style key="nextStyle" dangerouslySetInnerHTML={{ __html: nextStyle }} />
-      ]
+      ].flatMap((style) => React.Children.toArray(style))
 
-      return { ...initialProps, styles: React.Children.toArray(styles) }
+      const keyedStyles = styles.map((style, index) => {
+        if (!React.isValidElement(style)) {
+          return style
+        }
+
+        return React.cloneElement(style, {
+          key: style.key ?? `head-style-${index}`
+        })
+      })
+
+      return { ...initialProps, styles: keyedStyles }
     } finally {
       sheet.seal()
     }

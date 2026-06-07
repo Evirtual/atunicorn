@@ -1,5 +1,7 @@
 import React from 'react'
 
+const isBrowser = typeof window === 'object'
+
 // Minimal local replacement for `actstore`.
 // Keeps the subset of the API used by this repo:
 //   const { act, store, handle, action } = Actstore(Settings, watchKeys)
@@ -126,6 +128,27 @@ const useSubscription = (watchKeys) => {
 }
 
 export default function Actstore(args = {}, watchKeys = []) {
+  if (!isBrowser) {
+    const shouldInitServerStore = Boolean(args.actions || args.handlers || args.configs || args.config)
+
+    if (shouldInitServerStore) {
+      initialized = false
+      actions = {}
+      handlers = {}
+      configs = {}
+      state = {}
+      initFromArgs(args)
+    }
+
+    return {
+      act,
+      action,
+      store: storeApi,
+      handle: buildHandle(),
+      configs,
+    }
+  }
+
   initFromArgs(args)
   useSubscription(watchKeys)
 
