@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Comps, Elems, Actheme } from 'pack'
 import Actstore from 'pack/store/actstore'
 import Markdown from 'markdown-to-jsx';
+import { buildAboutRoute, getAboutCloseRoute, normalizePath } from './route-state'
 
 const DEFAULT_ABOUT_DESC = [
   '**A place to express your uniqueness**',
@@ -153,7 +154,7 @@ export default function AboutScreen(props) {
   const { store, handle } = Actstore({}, ['user', 'users'])
   const router = propRouter || handle.useRouter()
   const { id: routeId } = router?.query || {}
-  const path = propPath || router?.asPath || null
+  const path = normalizePath(propPath || router?.asPath)
   const user = typeof propUser !== 'undefined' ? propUser : store.get('user')
   const users = typeof propUsers !== 'undefined' ? propUsers : store.get('users')
 
@@ -164,8 +165,9 @@ export default function AboutScreen(props) {
 
   const profile = users?.find(item => item.id === resolvedProfileId) || {}
 
-  const aboutProfilePath = resolvedProfileId ? `/profile/${resolvedProfileId}/about/` : null
+  const aboutProfilePath = resolvedProfileId ? buildAboutRoute(resolvedProfileId) : null
   const isProfileAboutPage = path === aboutProfilePath
+  const closeHref = getAboutCloseRoute(isProfileAboutPage ? resolvedProfileId : null)
   const markdownOptions = isProfileAboutPage ? PROFILE_ABOUT_MARKDOWN_OPTIONS : MAIN_ABOUT_MARKDOWN_OPTIONS
   const placeholderTitle =
     (profile?.id || (path === aboutProfilePath && resolvedProfileId))
@@ -199,7 +201,7 @@ export default function AboutScreen(props) {
         stickyHeaderIndices={!mode && [0]}
         contentContainerStyle={Actheme.style(`jc,ai:c ${!mode ? 'pt:s66' : 'fg:1 pt:s2.5'}`)}
       >
-        {!mode && <Comps.Nav changeNav={changeNav} />}
+        {!mode && <Comps.Nav changeNav={changeNav} backHref={closeHref} />}
 
         <About.Wrap mode={mode}>
           <About.Options>
@@ -215,7 +217,7 @@ export default function AboutScreen(props) {
                 option
                 close
                 icon="times"
-                onPress={() => router.back()}
+                onPress={() => router.replace(closeHref)}
                 style={Actheme.style('ml:s1')} />
             }
             </About.Options>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Elems, Comps, Actheme } from 'pack'
 import Actstore from 'pack/store/actstore'
+import { buildProfileRoute } from './route-state'
 
 export default function PostScreen(props) {
 
@@ -16,6 +17,7 @@ export default function PostScreen(props) {
     id: propId,
     profileId,
     setProfileId,
+    onClose,
   } = props
 
   const { act: storeAct, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
@@ -30,6 +32,8 @@ export default function PostScreen(props) {
   const id = propId || routeId
   const resolvedPostId = postId || id
   const setCurrentMode = setMode || (() => null)
+  const backHref = profileId ? buildProfileRoute(profileId) : '/'
+  const closePost = onClose || (() => router.replace(backHref))
 
   const post = posts?.find(post => String(post.id) === String(resolvedPostId)) || {}
 
@@ -54,6 +58,7 @@ export default function PostScreen(props) {
             post={post}
             mode={mode}
             setMode={setCurrentMode}
+            backHref={backHref}
             changeNav />
         }
 
@@ -104,7 +109,7 @@ export default function PostScreen(props) {
                         icon="recycle"
                         onPress={() => 
                           act('APP_DELETEPOST', { userId: user?.id, postId: post?.id , url: post.url })
-                            .then(setRecycling(true), setTimeout(() => router.back(), 2000))}
+                            .then(setRecycling(true), setTimeout(() => closePost(), 2000))}
                         style={Actheme.style('ml:s2')} />
                     </>
                   }
@@ -113,7 +118,7 @@ export default function PostScreen(props) {
                       option
                       close
                       icon="times"
-                      onPress={() => router.back()}
+                      onPress={closePost}
                       style={Actheme.style('ml:s2')} />
                   }
                 </Post.Options>

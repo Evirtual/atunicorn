@@ -4,6 +4,7 @@ import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import Actstore from 'pack/store/actstore'
+import { buildAboutRoute, buildProfileRoute, normalizePath } from '../../screens/route-state'
 
 const Nav = Actheme.create({
 
@@ -33,7 +34,18 @@ const Nav = Actheme.create({
 
   Comp: (props) => {
 
-    const { posts, setPosts, setMode, setLogin, changeNav = false, profileId, onProfile } = props
+    const {
+      posts,
+      setPosts,
+      setMode,
+      setLogin,
+      changeNav = false,
+      profileId,
+      onProfile,
+      search: controlledSearch,
+      onSearchChange,
+      backHref,
+    } = props
     
     const { act, store, action, handle } = Actstore({}, ['user', 'users', 'uploading'])
     const { user, users, uploading } = store.get('user', 'users', 'uploading')
@@ -41,13 +53,17 @@ const Nav = Actheme.create({
     const router = handle.useRouter()
     const { id } = router?.query || {}
 
-    const profile = users?.find(user => user.id === (profileId || id))
+    const resolvedProfileId = profileId || id
 
-    const path = router.asPath
+    const profile = users?.find(user => user.id === resolvedProfileId)
+
+    const path = normalizePath(router.asPath)
     const homePath = '/'
-    const profilePath = `/profile/${profileId || id}/`
+    const profilePath = resolvedProfileId ? buildProfileRoute(resolvedProfileId) : null
     const postPath = `/post/${profileId || id}/`
-    const profileAboutPath = `/profile/${profileId || id}/about/`
+    const profileAboutPath = resolvedProfileId ? buildAboutRoute(resolvedProfileId) : null
+    const isProfilePath = !!profilePath && path === profilePath
+    const isProfileAboutPath = !!profileAboutPath && path === profileAboutPath
 
     const { width } = useWindowDimensions()
     const [hasHydrated, setHasHydrated] = useState(false)
@@ -57,9 +73,17 @@ const Nav = Actheme.create({
     const [username, setUsername] = useState()
     const [search, setSearch] = useState()
 
+    const resolvedSearch = typeof controlledSearch === 'string'
+      ? controlledSearch
+      : (search || '')
+
     useEffect(() => {
       setHasHydrated(true)
     }, [])
+
+    useEffect(() => {
+      controlledSearch && setActive(true)
+    }, [controlledSearch])
 
     const isWide = hasHydrated && width > 768
     const actionIconSize = 's7.5'
@@ -70,12 +94,24 @@ const Nav = Actheme.create({
       alignItems: 'center',
       justifyContent: 'center'
     }
+    const handleBack = () => {
+      setMode && setMode(null)
+      router.back()
+    }
 
-    const onSearch = (result) => {
+    const handleSearch = (result) => {
+      const nextSearch = result || ''
+
+      if (typeof onSearchChange === 'function') {
+        onSearchChange(nextSearch)
+        return
+      }
+
       const filter = posts?.filter(post =>
-        (post.username.toLowerCase() || '').includes(result.toLowerCase()) ||
-        (post.desc.toLowerCase() || '').includes(result.toLowerCase()))
-      setSearch(result)
+        (post?.username || '').toLowerCase().includes(nextSearch.toLowerCase()) ||
+        (post?.desc || '').toLowerCase().includes(nextSearch.toLowerCase()))
+
+      setSearch(nextSearch)
       setPosts(filter)
     }
 
@@ -107,15 +143,15 @@ const Nav = Actheme.create({
               </Nav.Wrap>
               {isWide &&
                 <Nav.Wrap>
-                  {(path === profilePath || path === profileAboutPath) && (profile?.id || user?.id === (profile?.id ||  id))
-                    ? <Elems.Button text={`@${profile?.username || profile?.id || id}`} />
+                  {(isProfilePath || isProfileAboutPath) && (profile?.id || user?.id === (profile?.id ||  resolvedProfileId))
+                    ? <Elems.Button text={`@${profile?.username || profile?.id || resolvedProfileId}`} />
                     : <Elems.Link href="/" text="@unicorn" />
                   }
                 </Nav.Wrap>
               }
             </Nav.Wrap>
           }
-          {(active || (!user && !changeNav && path === homePath)) &&
+          {(active || resolvedSearch || (!user && !changeNav && path === homePath)) &&
             <Nav.Wrap 
               important={!changeNav || !isWide}
               medium={changeNav && isWide}
@@ -125,7 +161,7 @@ const Nav = Actheme.create({
                 max={isWide || !changeNav}
               >
                 <Nav.Wrap option>
-                  {!search && !active && !changeNav
+                  {!resolvedSearch && !active && !changeNav
                     ? <Elems.Button
                         input
                         icon="search"
@@ -135,18 +171,18 @@ const Nav = Actheme.create({
                         input
                         icon="times-circle"
                         iconSize="s6"
-                        onPress={() => search ? onSearch('') : setActive(false)} />
+                        onPress={() => resolvedSearch ? handleSearch('') : setActive(false)} />
                   }
                 </Nav.Wrap>
                 <Elems.Input
                   style={Actheme.style(`ph:s10 ${changeNav && 'bg:grey'}`)}
                   placeholder={
-                    (profile?.id || id)
-                      ? `Search @${profile?.username || profile?.id || id}`
+                    (profile?.id || resolvedProfileId)
+                      ? `Search @${profile?.username || profile?.id || resolvedProfileId}`
                       : 'Search @unicorn'
                   }
-                  onChange={(e) => onSearch(e.target.value)}
-                  value={search || ''} />
+                  onChange={(e) => handleSearch(e.target.value)}
+                  value={resolvedSearch} />
               </Nav.Wrap>
             </Nav.Wrap>
           }
@@ -157,11 +193,23 @@ const Nav = Actheme.create({
           >
             {changeNav && path !== homePath &&
               <Nav.Wrap action>
-                <Elems.Button
-                  icon="arrow-circle-left"
-                  iconSize={actionIconSize}
-                  iconColor="black"
-                  onPress={() => router.back()} />
+                {backHref
+                  ? <Elems.Link
+                      href={backHref}
+                      onClick={() => setMode && setMode(null)}
+                      style={actionLinkStyle}
+                    >
+                      <Elems.Icon
+                        icon="arrow-circle-left"
+                        iconSize={actionIconSize}
+                        iconColor="black" />
+                    </Elems.Link>
+                  : <Elems.Button
+                      icon="arrow-circle-left"
+                      iconSize={actionIconSize}
+                      iconColor="black"
+                      onPress={handleBack} />
+                }
               </Nav.Wrap>
             }
             {path !== homePath &&
@@ -174,7 +222,7 @@ const Nav = Actheme.create({
                 </Elems.Link>
               </Nav.Wrap>
             }
-            {(path === homePath || path === profilePath) &&
+            {(path === homePath || isProfilePath) &&
               <Nav.Wrap action>
                 <Elems.Button
                   icon="search"
@@ -189,7 +237,7 @@ const Nav = Actheme.create({
                     iconSize={actionIconSize}
                     onPress={() => setLogin(true)} />
                 </Nav.Wrap>
-              : changeNav && user && (path === homePath || (path === profilePath && user?.id === (profile?.id))) &&
+              : changeNav && user && (path === homePath || (isProfilePath && user?.id === (profile?.id))) &&
                 <Nav.Wrap action>
                   <Elems.Button
                     disabled={!user.approved}
@@ -203,13 +251,13 @@ const Nav = Actheme.create({
               <Nav.Wrap action>
                 <Elems.Link
                   href={
-                    (path === profilePath) && !profileId
-                      ? `/profile/[id]?id=${profile?.id || id}`
+                    isProfilePath && !profileId
+                      ? `/profile/[id]?id=${profile?.id || resolvedProfileId}`
                       : '/'
                   }
                   as={
-                    path === profilePath
-                      ? `/profile/${profile?.id || id}/about`
+                    isProfilePath
+                      ? `/profile/${profile?.id || resolvedProfileId}/about`
                       : '/about/'
                   }
                   onClick={() => setMode('about')}
@@ -222,7 +270,7 @@ const Nav = Actheme.create({
                 </Elems.Link>
               </Nav.Wrap>
             }
-            {user && user?.id === (profile?.id || id)
+            {user && user?.id === (profile?.id || resolvedProfileId)
               ? <Nav.Wrap action>
                   <Elems.Button
                     icon="power-off"
@@ -233,7 +281,7 @@ const Nav = Actheme.create({
                 <Nav.Wrap action>
                   <Elems.Link
                   href={'/'}
-                  as={ `/profile/${user?.id || id}`}
+                  as={ `/profile/${user?.id || resolvedProfileId}`}
                   onClick={onProfile}
                   style={actionLinkStyle}>
                     {user?.url
@@ -255,19 +303,24 @@ const Nav = Actheme.create({
                 ? <Elems.Button
                     text="Login"
                     onPress={() => setLogin(true)} />
-                :  user && (path === homePath || (path === profilePath && user?.id === (profile?.id ||  id)))
+                :  user && (path === homePath || (isProfilePath && user?.id === (profile?.id ||  resolvedProfileId)))
                   ? <Elems.Button
                       disabled={!user.approved}
                       text="Upload"
                       textColor="mediumseagreen"
                       onPress={() => setMode('upload')} />
-                  :  <Elems.Button
+                    : backHref
+                    ? <Elems.Link
+                      href={backHref}
+                      onClick={() => setMode && setMode(null)}
+                      text="Back" />
+                    : <Elems.Button
                       text="Back"
                       textColor="black"
-                      onPress={() => (setMode && setMode(null), router.back())} />
+                      onPress={handleBack} />
               }
               <Nav.Wrap image>
-                {user && user?.id === (profile?.id ||  id)
+                {user && user?.id === (profile?.id ||  resolvedProfileId)
                   ? <Nav.File action={files => act('APP_UPLOAD', files, 'profile').then(url => act('APP_USER', { url }))}>
                       <Nav.Touch>
                           {uploading == 'profile'
@@ -299,13 +352,13 @@ const Nav = Actheme.create({
               </Nav.Wrap>
               <Elems.Link
                 href={
-                  (path === profilePath) && !profileId
-                    ? `/profile/[id]?id=${profile?.id || id}`
+                  isProfilePath && !profileId
+                    ? `/profile/[id]?id=${profile?.id || resolvedProfileId}`
                     : '/'
                 }
                 as={
-                  path === profilePath
-                    ? `/profile/${profileId || profile?.id || id}/about`
+                  isProfilePath
+                    ? `/profile/${profileId || profile?.id || resolvedProfileId}/about`
                     : '/about/'
                 }
                 onClick={() => setMode('about')}
@@ -314,7 +367,7 @@ const Nav = Actheme.create({
           }
           {!changeNav && 
             <Nav.Wrap row>
-              {user && user?.id === (profile?.id || profileId || id)
+              {user && user?.id === (profile?.id || resolvedProfileId)
                 ? editUsername || !profile?.username
                   ? <Nav.Wrap row search max>
                       <Nav.Wrap option>

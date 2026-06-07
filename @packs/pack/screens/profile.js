@@ -3,6 +3,7 @@ import Actstore from 'pack/store/actstore'
 import { Comps, Actheme } from 'pack' 
 import Post from 'pack/screens/post'
 import About from 'pack/screens/about'
+import { buildAboutRoute, buildProfileRoute, normalizePath } from './route-state'
 
 export default function ProfileScreen(props) {
 
@@ -12,8 +13,8 @@ export default function ProfileScreen(props) {
   const { user, users, posts } = store.get('user', 'users', 'posts')
 
   const router = handle.useRouter()
-  const { id } = router.query || {}
-  const path = router.asPath || null
+  const { id, post: routePostId = false } = router.query || {}
+  const path = normalizePath(router.asPath)
 
   const url = path?.replace(/\/$/, '')
   const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
@@ -29,8 +30,7 @@ export default function ProfileScreen(props) {
   const [mode, setMode] = useState(false)
   const [postId, setPostId] = useState(false)
 
-  const aboutPath = `/profile/${resolvedProfileId}/about/`
-  const postPath = `/post/${postId || resolvedProfileId}/`
+  const aboutPath = buildAboutRoute(resolvedProfileId)
 
   useEffect(() => {
     path === aboutPath 
@@ -39,14 +39,21 @@ export default function ProfileScreen(props) {
   }, [path === aboutPath])
 
   useEffect(() => {
-    path === postPath 
-      ? setPostId(postId || id || urlLastId)
-      : setPostId(false)
-  }, [path === postPath])
+    setPostId(routePostId || false)
+  }, [routePostId])
 
   useEffect(() => {
     setLoadPosts(filteredPosts)
   }, [posts, resolvedProfileId, mode, edit])
+
+  const handlePostClose = () => {
+    setPostId(false)
+
+    router.replace(buildProfileRoute(resolvedProfileId), undefined, {
+      shallow: true,
+      scroll: false
+    })
+  }
 
   const renderItem = ({item}) => 
     <Comps.Post
@@ -55,6 +62,9 @@ export default function ProfileScreen(props) {
       user={user}
       profile={profile}
       profileId={resolvedProfileId}
+      href={buildProfileRoute(resolvedProfileId, { postId: item.id })}
+      shallow
+      scroll={false}
       onPost={() => setPostId(item.id)}
       onEdit={() => setEdit((loadPosts.find(post => String(post.id) === String(item.id))) || {})}
       onRemove={() => setMode(!mode)} />
@@ -85,6 +95,7 @@ export default function ProfileScreen(props) {
                 profileId={resolvedProfileId}
                 mode={mode}
                 setMode={setMode}
+                backHref="/"
                 posts={filteredPosts}
                 setPosts={setLoadPosts}
                 changeNav={changeNav} />
@@ -106,6 +117,7 @@ export default function ProfileScreen(props) {
             <Comps.Nav 
               mode={mode}
               setMode={setMode}
+              backHref="/"
               changeNav /> 
             <Profile.Content>
               <Profile.Wrap>
@@ -145,7 +157,7 @@ export default function ProfileScreen(props) {
           posts={posts}
           router={router}
           path={path}
-          setPostId={setPostId}
+          onClose={handlePostClose}
           profileId={resolvedProfileId}
           mode={mode} 
           setMode={setMode} />

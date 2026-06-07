@@ -4,6 +4,19 @@ import Post from 'pack/screens/post'
 import Profile from 'pack/screens/profile'
 import About from 'pack/screens/about'
 import Actstore from 'pack/store/actstore'
+import { buildHomeRoute, normalizePath } from './route-state'
+
+const filterPostsBySearch = (posts, query) => {
+  const normalizedQuery = (query || '').trim().toLowerCase()
+
+  if (!normalizedQuery) {
+    return posts
+  }
+
+  return posts?.filter(post =>
+    (post?.username || '').toLowerCase().includes(normalizedQuery) ||
+    (post?.desc || '').toLowerCase().includes(normalizedQuery))
+}
 
 function MainScreen() {
 
@@ -11,10 +24,10 @@ function MainScreen() {
   const { user, users, posts } = store.get('user', 'users', 'posts')
 
   const router = handle.useRouter()
-  const { id } = router.query || {}
-  const path = router.asPath || null
+  const { id, search: routeSearch = '', post: routePostId = false } = router.query || {}
+  const path = normalizePath(router.asPath)
   
-  const [loadPosts, setLoadPosts] = useState(posts)
+  const [search, setSearch] = useState(routeSearch)
   const [login, setLogin] = useState()
   const [changeNav, setChangeNav] = useState()
 
@@ -26,7 +39,6 @@ function MainScreen() {
   const urlLastId = url?.substring(url.lastIndexOf('/') + 1)
 
   const aboutPath = '/about/'
-  const postPath = `/post/${postId || id || urlLastId}/`
   const profilePath = `/profile/${profileId || id || urlLastId}/`
   const profileAboutPath = `/profile/${profileId || id || urlLastId}/about/`
 
@@ -37,10 +49,8 @@ function MainScreen() {
   }, [path === aboutPath])
 
   useEffect(() => {
-    path === postPath 
-      ? setPostId(postId || id || !profileId && urlLastId)
-      : setPostId(false)
-  }, [path === postPath])
+    setPostId(routePostId || false)
+  }, [routePostId])
 
   useEffect(() => {
     path === '/'
@@ -50,13 +60,51 @@ function MainScreen() {
   }, [path])
 
   useEffect(() => {
-    setLoadPosts(posts)
-  }, [posts, user, mode, path])
+    setSearch(routeSearch)
+  }, [routeSearch])
+
+  const handleSearchChange = (value) => {
+    const nextSearch = value || ''
+    const nextQuery = { ...router.query }
+
+    setSearch(nextSearch)
+
+    if (nextSearch) {
+      nextQuery.search = nextSearch
+    } else {
+      delete nextQuery.search
+    }
+
+    router.replace(buildHomeRoute({
+      search: nextQuery.search,
+      postId: nextQuery.post,
+    }), undefined, {
+      shallow: true,
+      scroll: false
+    })
+  }
+
+  const handlePostClose = () => {
+    const nextQuery = { ...router.query }
+
+    delete nextQuery.post
+
+    setPostId(false)
+
+    router.replace(buildHomeRoute({ search }), undefined, {
+      shallow: true,
+      scroll: false
+    })
+  }
+
+  const visiblePosts = filterPostsBySearch(posts, search)
 
   const renderItem = ({item}) => 
     <Comps.Post
       post={item}
-      onPost={() => setPostId(item.id)}
+      href={buildHomeRoute({ search, postId: item.id })}
+      shallow
+      scroll={false}
       profile={users?.find(user => user.id === item.userId)}
       onProfile={() => setProfileId(item.userId)} />
 
@@ -73,7 +121,7 @@ function MainScreen() {
         <Comps.Meta />
       }
       <Comps.List
-        data={loadPosts}
+        data={visiblePosts}
         item={renderItem}
         onScroll={handleNav}
         navigation={
@@ -83,7 +131,8 @@ function MainScreen() {
             login={login} 
             setLogin={setLogin} 
             posts={posts}
-            setPosts={setLoadPosts}
+            search={search}
+            onSearchChange={handleSearchChange}
             onProfile={() => setProfileId(user?.id)}
             changeNav={changeNav} />
         }
@@ -127,7 +176,7 @@ function MainScreen() {
           posts={posts}
           router={router}
           path={path}
-          setPostId={setPostId}
+            onClose={handlePostClose}
           setProfileId={setProfileId}
           mode={mode} 
           setMode={setMode} />
