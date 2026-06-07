@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import Actstore from 'pack/store/actstore'
 import { Comps, Actheme } from 'pack' 
-import Post from 'pack/screens/post'
 import About from 'pack/screens/about'
-import { buildAboutRoute, buildProfileRoute, createModalIntent, normalizePath, resolveRoutePresentation } from './route-state'
+import { buildAboutRoute, buildPostRoute, buildProfileRoute, normalizePath } from './route-state'
 import { useRouteState } from './use-route-state'
 
 export default function ProfileScreen(props) {
 
-  const { profileId, modalIntent: propModalIntent } = props
+  const { profileId } = props
 
   const { act, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
   const { user, users, posts } = store.get('user', 'users', 'posts')
 
   const router = handle.useRouter()
   const initialProfilePath = buildProfileRoute(profileId || router.query?.id)
-  const { currentPath, modalIntent, hasClientPath } = useRouteState({
+  const { currentPath, hasClientPath } = useRouteState({
     router,
     initialPath: initialProfilePath || router.pathname,
-    initialModalIntent: propModalIntent,
   })
-  const routeParams = new URLSearchParams(currentPath.split('?')[1] || '')
   const { id } = router.query || {}
-  const routePostId = router.query?.post || routeParams.get('post') || false
   const path = normalizePath(currentPath)
 
   const url = path?.replace(/\/$/, '')
@@ -37,38 +33,16 @@ export default function ProfileScreen(props) {
   const [changeNav, setChangeNav] = useState()
 
   const [mode, setMode] = useState(false)
-  const [postId, setPostId] = useState(false)
 
   const aboutPath = buildAboutRoute(resolvedProfileId)
-  const routePresentation = resolveRoutePresentation({
-    path: currentPath,
-    profileId: resolvedProfileId,
-    postId: routePostId,
-    modalIntent,
-  })
 
   useEffect(() => {
-    routePresentation.overlay?.kind === 'about'
-      ? setMode('about')
-      : setMode(false)
-  }, [routePresentation.overlay?.kind])
-
-  useEffect(() => {
-    setPostId(routePresentation.overlay?.kind === 'post' ? routePostId || false : false)
-  }, [routePresentation.overlay?.kind, routePostId])
+    setMode(false)
+  }, [path])
 
   useEffect(() => {
     setLoadPosts(filteredPosts)
   }, [posts, resolvedProfileId, mode, edit])
-
-  const handlePostClose = () => {
-    setPostId(false)
-
-    router.replace(buildProfileRoute(resolvedProfileId), undefined, {
-      shallow: true,
-      scroll: false
-    })
-  }
 
   const renderItem = ({item}) => 
     <Comps.Post
@@ -77,14 +51,7 @@ export default function ProfileScreen(props) {
       user={user}
       profile={profile}
       profileId={resolvedProfileId}
-      href={buildProfileRoute(resolvedProfileId, { postId: item.id })}
-      modalIntent={createModalIntent({
-        kind: 'post',
-        ownerPath: buildProfileRoute(resolvedProfileId)
-      })}
-      shallow
-      scroll={false}
-      onPost={() => setPostId(item.id)}
+      href={buildPostRoute(item.id)}
       onEdit={() => setEdit((loadPosts.find(post => String(post.id) === String(item.id))) || {})}
       onRemove={() => setMode(!mode)} />
 
@@ -107,7 +74,7 @@ export default function ProfileScreen(props) {
     )
   }
 
-  if (routePresentation.page === 'about' && path === aboutPath) {
+  if (path === aboutPath) {
     return (
       <About
         act={act}
@@ -122,32 +89,13 @@ export default function ProfileScreen(props) {
     )
   }
 
-  if (routePresentation.page === 'post' && routePostId) {
-    return (
-      <Post
-        act={act}
-        id={routePostId}
-        user={user}
-        users={users}
-        posts={posts}
-        router={router}
-        path={path}
-        onClose={() => router.replace(routePresentation.closeHref)}
-        profileId={resolvedProfileId}
-        mode={false}
-        setMode={setMode} />
-    )
-  }
-
   return (
     <Profile.Container mode={profile?.username || resolvedProfileId}>
-      {(!mode || !postId || resolvedProfileId) &&
-        <Comps.Meta
-          title={profile?.username || resolvedProfileId}
-          desc="profile"
-          url={`https://atunicorn.io/profile/${resolvedProfileId}`}
-          cover={profile?.url} />
-      }
+      <Comps.Meta
+        title={profile?.username || resolvedProfileId}
+        desc="profile"
+        url={`https://atunicorn.io/profile/${resolvedProfileId}`}
+        cover={profile?.url} />
       {(profile?.id || user?.id === resolvedProfileId)
         ? <Comps.List
             data={loadPosts}
@@ -206,22 +154,6 @@ export default function ProfileScreen(props) {
           profileId={resolvedProfileId}
           user={user}
           users={users}
-          mode={mode} 
-          setMode={setMode} />
-      }
-
-      {routePresentation.overlay?.kind === 'post' && routePostId && 
-        <Post 
-          act={act}
-          postId={routePostId}
-          id={resolvedProfileId}
-          user={user}
-          users={users}
-          posts={posts}
-          router={router}
-          path={path}
-          onClose={handlePostClose}
-          profileId={resolvedProfileId}
           mode={mode} 
           setMode={setMode} />
       }

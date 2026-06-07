@@ -4,7 +4,7 @@ import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import Actstore from 'pack/store/actstore'
-import { buildAboutRoute, buildProfileRoute, createModalIntent, normalizePath, saveModalIntent } from '../../screens/route-state'
+import { buildAboutRoute, buildProfileRoute, normalizePath } from '../../screens/route-state'
 
 const Nav = Actheme.create({
 
@@ -116,14 +116,7 @@ const Nav = Actheme.create({
     }
 
     const handleAboutOpen = () => {
-      if (isProfilePath && resolvedProfileId) {
-        saveModalIntent(buildAboutRoute(profile?.id || resolvedProfileId), createModalIntent({
-          kind: 'about',
-          ownerPath: buildProfileRoute(profile?.id || resolvedProfileId)
-        }))
-      }
-
-      setMode && setMode('about')
+      setMode && setMode(null)
     }
 
     return (

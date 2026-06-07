@@ -52,7 +52,7 @@ export default function PostScreen(props) {
           url={`https://atunicorn.io/post/${resolvedPostId || ''}`}
           cover={post?.url} />
       }
-      <Post.ScrollView stickyHeaderIndices={postId && [0]}>
+      <Post.ScrollView stickyHeaderIndices={postId ? undefined : [0]}>
         {!postId &&
           <Comps.Nav 
             post={post}

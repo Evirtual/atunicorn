@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { consumeModalIntent, normalizePath } from './route-state'
+import { normalizePath } from './route-state'
 
 const readBrowserPath = () => {
   if (typeof window === 'undefined') {
@@ -12,9 +12,8 @@ const readBrowserPath = () => {
 const resolveInitialPath = (router, initialPath) =>
   normalizePath(initialPath || router?.pathname || '/')
 
-export const useRouteState = ({ router, initialPath, initialModalIntent = null } = {}) => {
+export const useRouteState = ({ router, initialPath } = {}) => {
   const [currentPath, setCurrentPath] = useState(resolveInitialPath(router, initialPath))
-  const [modalIntent, setModalIntent] = useState(initialModalIntent || null)
   const [hasClientPath, setHasClientPath] = useState(false)
 
   useEffect(() => {
@@ -28,19 +27,5 @@ export const useRouteState = ({ router, initialPath, initialModalIntent = null }
     setCurrentPath(prevPath => prevPath === nextPath ? prevPath : nextPath)
   }, [router?.asPath])
 
-  useEffect(() => {
-    if (!hasClientPath) {
-      return
-    }
-
-    if (initialModalIntent) {
-      setModalIntent(initialModalIntent)
-
-      return
-    }
-
-    setModalIntent(consumeModalIntent(currentPath))
-  }, [currentPath, initialModalIntent])
-
-  return { currentPath, modalIntent, hasClientPath }
+  return { currentPath, hasClientPath }
 }

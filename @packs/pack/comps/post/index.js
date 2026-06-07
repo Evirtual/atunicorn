@@ -3,7 +3,7 @@ import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import Actstore from 'pack/store/actstore'
-import { buildProfileRoute, saveModalIntent } from '../../screens/route-state'
+import { buildPostRoute, buildProfileRoute } from '../../screens/route-state'
 
 const Post = Actheme.create({
 
@@ -33,19 +33,10 @@ const Post = Actheme.create({
       as,
       shallow,
       scroll,
-      modalIntent,
     } = props
-    const { act, handle } = Actstore({}, [])
+    const { act } = Actstore({}, [])
 
-    const router = handle.useRouter()
-
-    const path = (router.asPath || '').split('?')[0]
-    const profilePath = `/profile/${profileId || id}/`
-    const postHref = href || (
-      path === profilePath && !profileId
-        ? `/profile/[id]?id=${profile?.id || id}`
-        : `/`
-    )
+    const postHref = href || buildPostRoute(post?.id)
     const postAs = as || postHref
     
     const [active, setActive] = useState()
@@ -84,7 +75,6 @@ const Post = Actheme.create({
           shallow={shallow}
           scroll={scroll}
           onClick={() => {
-            modalIntent && saveModalIntent(postHref, modalIntent)
             onPost && onPost()
           }}
         >
