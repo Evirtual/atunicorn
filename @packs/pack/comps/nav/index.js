@@ -251,16 +251,11 @@ const Nav = Actheme.create({
               <Nav.Wrap action>
                 <Elems.Link
                   href={
-                    isProfilePath && !profileId
-                      ? `/profile/[id]?id=${profile?.id || resolvedProfileId}`
-                      : '/'
-                  }
-                  as={
-                    isProfilePath
-                      ? `/profile/${profile?.id || resolvedProfileId}/about`
+                    (isProfilePath || isProfileAboutPath)
+                      ? buildAboutRoute(profile?.id || resolvedProfileId)
                       : '/about/'
                   }
-                  onClick={() => setMode('about')}
+                  onClick={() => setMode && setMode('about')}
                   style={actionLinkStyle}
                 >
                   <Elems.Icon
@@ -280,8 +275,7 @@ const Nav = Actheme.create({
               : user && path === '/' &&
                 <Nav.Wrap action>
                   <Elems.Link
-                  href={'/'}
-                  as={ `/profile/${user?.id || resolvedProfileId}`}
+                  href={buildProfileRoute(user?.id || resolvedProfileId)}
                   onClick={onProfile}
                   style={actionLinkStyle}>
                     {user?.url
@@ -352,16 +346,11 @@ const Nav = Actheme.create({
               </Nav.Wrap>
               <Elems.Link
                 href={
-                  isProfilePath && !profileId
-                    ? `/profile/[id]?id=${profile?.id || resolvedProfileId}`
-                    : '/'
-                }
-                as={
-                  isProfilePath
-                    ? `/profile/${profileId || profile?.id || resolvedProfileId}/about`
+                  (isProfilePath || isProfileAboutPath)
+                    ? buildAboutRoute(profileId || profile?.id || resolvedProfileId)
                     : '/about/'
                 }
-                onClick={() => setMode('about')}
+                onClick={() => setMode && setMode('about')}
                 text="About" />
             </Nav.Wrap>
           }

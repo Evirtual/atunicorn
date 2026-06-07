@@ -3,6 +3,7 @@ import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import Actstore from 'pack/store/actstore'
+import { buildProfileRoute } from '../../screens/route-state'
 
 const Post = Actheme.create({
 
@@ -66,8 +67,7 @@ const Post = Actheme.create({
             </Post.Profile>
             {active &&
               <Elems.Link
-                href="/"
-                as={ `/profile/${profile?.id || id}`}
+                href={buildProfileRoute(profile?.id || id)}
                 onClick={onProfile}
               >
                 <Post.User>

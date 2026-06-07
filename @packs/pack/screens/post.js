@@ -67,8 +67,7 @@ export default function PostScreen(props) {
               <Post.Content>
                 {profile?.id !== (profileId || id) &&
                   <Elems.Link 
-                    href={'/'}
-                    as={ `/profile/${post?.userId || id}`}
+                    href={buildProfileRoute(post?.userId || id)}
                     onClick={() => setProfileId && setProfileId(post?.userId)}
                   >
                     <Post.Profile>
