@@ -4,20 +4,17 @@ import Actstore from 'pack/store/actstore'
 import Markdown from 'markdown-to-jsx';
 
 const DEFAULT_ABOUT_DESC = [
-  'It\'s a place to express',
-  'your uniqueness',
+  '**A place to express your uniqueness**',
   '',
-  'in ways that inspire us',
-  'to feel more confident',
-  'in our everyday life',
+  'in ways that inspire us to feel more confident in our everyday life.',
   '',
-  '*****',
+  '---',
   '',
-  'Inspired by',
+  '### Inspired by',
   '',
   '[Unicorn Art](https://dribbble.com/shots/4409254-Scenarium-icons-vol-9)',
   '',
-  'Developed using',
+  '### Developed using',
   '',
   '[Next.js](https://nextjs.org/) [React](https://reactjs.org/) [React Native](https://reactnative.dev/) [Firebase](https://firebase.google.com/)'
 ].join('\n')
@@ -54,12 +51,13 @@ const createAboutMarkdownOptions = ({ centered = false, compactLinks = false } =
     h3: {
       props: {
         style: {
-          margin: '0 0 16px',
+          margin: centered ? '0 0 12px' : '0 0 16px',
           color: 'rgb(34, 34, 34)',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-          fontSize: '20px',
+          fontSize: centered ? '17px' : '20px',
           fontWeight: 600,
           lineHeight: 1.4,
+          letterSpacing: centered ? '0.01em' : '0',
           textAlign: centered ? 'center' : 'left'
         }
       }
@@ -67,13 +65,25 @@ const createAboutMarkdownOptions = ({ centered = false, compactLinks = false } =
     p: {
       props: {
         style: {
-          margin: centered ? '0 0 10px' : '0 0 16px',
+          margin: centered ? '0 auto 14px' : '0 0 16px',
           color: 'rgba(34, 34, 34, 0.9)',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
           fontSize: '16px',
           fontWeight: 400,
           lineHeight: 1.7,
+          maxWidth: centered ? '430px' : 'none',
           textAlign: centered ? 'center' : 'left'
+        }
+      }
+    },
+    hr: {
+      props: {
+        style: {
+          border: 0,
+          borderTop: '1px solid rgba(34, 34, 34, 0.25)',
+          margin: centered ? '22px auto 18px' : '22px 0 18px',
+          maxWidth: centered ? '430px' : 'none',
+          width: '100%'
         }
       }
     },
@@ -103,7 +113,8 @@ const createAboutMarkdownOptions = ({ centered = false, compactLinks = false } =
       props: {
         style: {
           fontWeight: 600,
-          color: 'rgb(34, 34, 34)'
+          color: 'rgb(34, 34, 34)',
+          fontSize: centered ? '17px' : 'inherit'
         }
       }
     },
@@ -113,6 +124,7 @@ const createAboutMarkdownOptions = ({ centered = false, compactLinks = false } =
           color: 'rgb(52, 113, 235)',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
           fontSize: '16px',
+          fontWeight: 500,
           lineHeight: 1.7,
           textDecoration: 'none',
           display: compactLinks ? 'inline-block' : 'inline',
@@ -208,14 +220,14 @@ export default function AboutScreen(props) {
             }
             </About.Options>
           {profile?.about
-            ? <About.Markdown>
+            ? <About.Markdown main={!isProfileAboutPage}>
                 <Markdown options={markdownOptions}>
                   {profile?.about}
                 </Markdown>
               </About.Markdown>
             : <About.Empty>
                 <About.Title>{placeholderTitle}</About.Title>
-                <About.Markdown>
+                <About.Markdown main={!isProfileAboutPage}>
                   <Markdown options={markdownOptions}>
                     {placeholderDesc}
                   </Markdown>
@@ -245,6 +257,8 @@ const About = Actheme.create({
   }],
   Empty: ['View', 'w:100% ai,jc:c p:s5'],
   Title: ['Text', 'fs:s4 fb:500 ta:c c:black400'],
-  Markdown: ['View', 'w:100% pv:s2 ph:s5'],
+  Markdown: ['View', 'w:100% pv:s2 ph:s5', {
+    main: 'xw:s80'
+  }],
   Options: ['View', 'fd:row ps:ab t,r:s1.5 ai,jc:c z:3'],
 })

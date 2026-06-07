@@ -14,6 +14,7 @@ const Nav = Actheme.create({
   Wrap: ['View', 'jc,ai:c', {
     image: 'w,h,br:s25 bg:white mh:s6 mv:s3 bw:2 bc:grey of:hd',
     imageSmall: 'w,h,br:s11 bg:white mh:s2 bw:2 bc:grey of:hd',
+    action: 'w:s11 h:s10 mh:s0.5',
     row: 'fd:row',
     user: 'w,h,br:s8 bw:2 bc:black of:hd',
     logo: 'bw:0',
@@ -61,6 +62,14 @@ const Nav = Actheme.create({
     }, [])
 
     const isWide = hasHydrated && width > 768
+    const actionIconSize = 's7.5'
+    const actionLinkStyle = {
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
 
     const onSearch = (result) => {
       const filter = posts?.filter(post =>
@@ -147,79 +156,97 @@ const Nav = Actheme.create({
             medium={changeNav && isWide}
           >
             {changeNav && path !== homePath &&
-              <Elems.Button
-                icon="arrow-circle-left"
-                iconSize="s7.5"
-                iconColor="black"
-                onPress={() => router.back()} />
+              <Nav.Wrap action>
+                <Elems.Button
+                  icon="arrow-circle-left"
+                  iconSize={actionIconSize}
+                  iconColor="black"
+                  onPress={() => router.back()} />
+              </Nav.Wrap>
             }
             {path !== homePath &&
-              <Elems.Link href="/">
-                <Elems.Icon
-                  icon="home"
-                  iconSize="s7.5"
-                  iconColor="black" />
-              </Elems.Link>
+              <Nav.Wrap action>
+                <Elems.Link href="/" style={actionLinkStyle}>
+                  <Elems.Icon
+                    icon="home"
+                    iconSize={actionIconSize}
+                    iconColor="black" />
+                </Elems.Link>
+              </Nav.Wrap>
             }
             {(path === homePath || path === profilePath) &&
-              <Elems.Button
-                icon="search"
-                iconSize="s7"
-                onPress={() => setActive(true)} />
+              <Nav.Wrap action>
+                <Elems.Button
+                  icon="search"
+                  iconSize={actionIconSize}
+                  onPress={() => setActive(true)} />
+              </Nav.Wrap>
             }
             {changeNav && !user && path === homePath
-              ? <Elems.Button
-                  icon="user-circle"
-                  iconSize="s7.5"
-                  onPress={() => setLogin(true)} />
+              ? <Nav.Wrap action>
+                  <Elems.Button
+                    icon="user-circle"
+                    iconSize={actionIconSize}
+                    onPress={() => setLogin(true)} />
+                </Nav.Wrap>
               : changeNav && user && (path === homePath || (path === profilePath && user?.id === (profile?.id))) &&
-                <Elems.Button
-                  disabled={!user.approved}
-                  icon="arrow-circle-up"
-                  iconSize="s7.5"
-                  iconColor="mediumseagreen"
-                  onPress={() => setMode('upload')} />
+                <Nav.Wrap action>
+                  <Elems.Button
+                    disabled={!user.approved}
+                    icon="arrow-circle-up"
+                    iconSize={actionIconSize}
+                    iconColor="mediumseagreen"
+                    onPress={() => setMode('upload')} />
+                </Nav.Wrap>
             }
             {changeNav && path !== postPath &&
-              <Elems.Link
-                href={
-                  (path === profilePath) && !profileId
-                    ? `/profile/[id]?id=${profile?.id || id}`
-                    : '/'
-                }
-                as={
-                  path === profilePath
-                    ? `/profile/${profile?.id || id}/about`
-                    : '/about/'
-                }
-                onClick={() => setMode('about')}
-              >
-                <Elems.Icon
-                  icon="info-circle"
-                  iconSize="s7.5"
-                  iconColor="black" />
-              </Elems.Link>
+              <Nav.Wrap action>
+                <Elems.Link
+                  href={
+                    (path === profilePath) && !profileId
+                      ? `/profile/[id]?id=${profile?.id || id}`
+                      : '/'
+                  }
+                  as={
+                    path === profilePath
+                      ? `/profile/${profile?.id || id}/about`
+                      : '/about/'
+                  }
+                  onClick={() => setMode('about')}
+                  style={actionLinkStyle}
+                >
+                  <Elems.Icon
+                    icon="info-circle"
+                    iconSize={actionIconSize}
+                    iconColor="black" />
+                </Elems.Link>
+              </Nav.Wrap>
             }
             {user && user?.id === (profile?.id || id)
-              ? <Elems.Button
-                  icon="power-off"
-                  iconSize="s7"
-                  onPress={action('APP_LOGOUT')} />
+              ? <Nav.Wrap action>
+                  <Elems.Button
+                    icon="power-off"
+                    iconSize={actionIconSize}
+                    onPress={action('APP_LOGOUT')} />
+                </Nav.Wrap>
               : user && path === '/' &&
-                <Elems.Link
-                href={'/'}
-                as={ `/profile/${user?.id || id}`}
-                onClick={onProfile}>
-                  {user?.url
-                    ? <Nav.Wrap user>
-                        <Nav.Image source={user?.url || null} />
-                      </Nav.Wrap>
-                    : <Elems.Icon
-                      icon="user-circle"
-                      iconSize="s7.5"
-                      iconColor="black" />
-                  }
-                </Elems.Link>
+                <Nav.Wrap action>
+                  <Elems.Link
+                  href={'/'}
+                  as={ `/profile/${user?.id || id}`}
+                  onClick={onProfile}
+                  style={actionLinkStyle}>
+                    {user?.url
+                      ? <Nav.Wrap user>
+                          <Nav.Image source={user?.url || null} />
+                        </Nav.Wrap>
+                      : <Elems.Icon
+                        icon="user-circle"
+                        iconSize={actionIconSize}
+                        iconColor="black" />
+                    }
+                  </Elems.Link>
+                </Nav.Wrap>
             }
           </Nav.Wrap>
           {!changeNav && 
