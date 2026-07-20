@@ -1,0 +1,8 @@
+# @unicorn
+
+> A visual social platform for expressing individuality and sharing inspiring posts.
+
+## Main pages
+
+- [Home and public feed](https://atunicorn.io/)
+- [About @unicorn](https://atunicorn.io/about/)
