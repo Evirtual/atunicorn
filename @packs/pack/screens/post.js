@@ -3,6 +3,11 @@ import { Elems, Comps, Actheme } from 'pack'
 import Actstore from 'pack/store/actstore'
 import { buildProfileRoute } from './route-state'
 
+const cloudinaryDeliveryUrl = (source, transformation) => {
+  if (!source?.includes('res.cloudinary.com/') || !source.includes('/image/upload/')) return source
+  return source.replace('/image/upload/', `/image/upload/${transformation}/`)
+}
+
 export default function PostScreen(props) {
 
   const {
@@ -72,7 +77,11 @@ export default function PostScreen(props) {
                     <Post.Profile>
                       <Post.Wrap profile>
                         {profile?.url
-                          ? <Post.Image source={profile.url} />
+                          ? <Post.Image
+                              source={cloudinaryDeliveryUrl(
+                                profile.url,
+                                'f_auto,q_auto,c_fill,w_128,h_128'
+                              )} />
                           : <Elems.Icon icon="user-circle" solid iconColor="black100" iconSize="s15" />
                         }
                       </Post.Wrap>
@@ -84,7 +93,13 @@ export default function PostScreen(props) {
                   {post?.url
                     ? <Post.Image 
                         profile={profile?.id === (profileId || id)}
-                        source={[post.url, 'image'].join('#')} />
+                        source={[
+                          cloudinaryDeliveryUrl(
+                            post.url,
+                            'f_auto,q_auto,c_limit,w_1200,h_1200'
+                          ),
+                          'image'
+                        ].join('#')} />
                     : <Comps.Placeholder icon="yin-yang" spin />
                   }
                 </Post.Wrap>

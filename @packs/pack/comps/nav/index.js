@@ -179,6 +179,7 @@ const Nav = Actheme.create({
                   }
                 </Nav.Wrap>
                 <Elems.Input
+                  nativeID="search"
                   style={Actheme.style(`ph:s10 ${changeNav && 'bg:grey'}`)}
                   placeholder={
                     (profile?.id || resolvedProfileId)
