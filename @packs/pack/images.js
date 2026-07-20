@@ -8,3 +8,8 @@ export const cloudinarySquareUrl = (source, size) =>
 
 export const cloudinaryFitUrl = (source, size) =>
   cloudinaryDeliveryUrl(source, `f_auto,q_auto,c_limit,w_${size},h_${size}`)
+
+export const cloudinaryFeedUrl = (source, size) =>
+  /\.gif(?:$|[?#])/i.test(source || '')
+    ? cloudinaryFitUrl(source, size)
+    : cloudinarySquareUrl(source, size)

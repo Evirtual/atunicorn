@@ -3,7 +3,7 @@ import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import Actstore from 'pack/store/actstore'
-import { cloudinarySquareUrl } from '../../images'
+import { cloudinaryFeedUrl, cloudinarySquareUrl } from '../../images'
 import { buildPostRoute, buildProfileRoute } from '../../screens/route-state'
 
 const Post = Actheme.create({
@@ -89,7 +89,7 @@ const Post = Actheme.create({
         >
           <Post.Content>
             {post?.url &&
-              <Post.Image source={cloudinarySquareUrl(post.url, 760)} />
+              <Post.Image source={cloudinaryFeedUrl(post.url, 760)} />
             }
             {recycling &&
               <Post.Cover onPress={() => setNsfw(true)}>
