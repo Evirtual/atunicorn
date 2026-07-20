@@ -10,11 +10,11 @@ export default function ProfileScreen(props) {
   const { profileId } = props
 
   const { act, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
-  const { user, users, posts } = store.get('user', 'users', 'posts')
+  const { ready, user, users, posts } = store.get('ready', 'user', 'users', 'posts')
 
   const router = handle.useRouter()
   const initialProfilePath = buildProfileRoute(profileId || router.query?.id)
-  const { currentPath, hasClientPath } = useRouteState({
+  const { currentPath } = useRouteState({
     router,
     initialPath: initialProfilePath || router.pathname,
   })
@@ -62,7 +62,9 @@ export default function ProfileScreen(props) {
       : setChangeNav(false)
   }
 
-  if (!hasClientPath && path.includes('[')) {
+  const loadingProfile = !resolvedProfileId || !ready
+
+  if (loadingProfile) {
     return (
       <Profile.Container mode="profile-loading">
         <Comps.Placeholder
@@ -169,5 +171,5 @@ const Profile = Actheme.create({
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 w:100% ai,jc:c')}]],
   Content: ['View', 'f:1 ai,jc:c mh:s5 mv:s22.5'],
-  Wrap: ['View', 'as:c jc,ai:c bw:1 bc:grey br:s5 bg:white of:hd w:90vw nh,xw:s95']
+  Wrap: ['View', 'as:c jc,ai:c bw:1 bc:border br:s5 bg:white of:hd w:90vw nh,xw:s95']
 })

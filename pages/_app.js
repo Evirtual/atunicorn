@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Actstore from 'pack/store/actstore'
 import Settings from 'pack/store'
 import Layout from 'pack/comps/layout'
@@ -7,14 +7,22 @@ import { ThemeProvider } from 'pack/theme'
 import '../styles/icons.css'
 
 const App = ({ Component, pageProps }) => {
-
-  const { act } = Actstore(Settings, ['ready'])
-  
-  useServiceWorker()
+  const { act } = Actstore(Settings)
 
   React.useEffect(() => {
-		act('APP_INIT')
-	}, [])
+    let cleanup
+    let active = true
+
+    act('APP_INIT').then(dispose => {
+      if (active) cleanup = dispose
+      else dispose()
+    }).catch(() => {})
+
+    return () => {
+      active = false
+      cleanup?.()
+    }
+  }, [act])
 
   return (
     <ThemeProvider>
@@ -22,19 +30,7 @@ const App = ({ Component, pageProps }) => {
         <Component {...pageProps} />
       </Layout>
     </ThemeProvider>
-	)
-}
-
-const useServiceWorker = () => {
-  useEffect(() => {
-    if(typeof document !== 'object') return
-    
-    if('serviceWorker' in window.navigator)
-      window.navigator.serviceWorker.register('/sw.js').then( 
-        ({ scope }) => process.env.NODE_ENV !== 'production' && console.log('ServiceWorker registered ', scope),
-        (err) =>  process.env.NODE_ENV !== 'production' && console.log('ServiceWorker failed: ', err)
-      )
-  }, [])
+  )
 }
 
 export default App

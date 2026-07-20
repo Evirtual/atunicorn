@@ -25,6 +25,7 @@ const LIGHT_COLORS = {
   white: 'rgba(255, 255, 255, 1)',
   black: 'rgba(34, 34, 34, 1)',
   grey: 'rgba(242, 242, 242, 1)',
+  border: 'rgba(34, 34, 34, 0.2)',
   red: 'rgba(255, 99, 71, 1)',
   green: 'rgba(60, 179, 113, 1)',
   blue: 'rgba(70, 130, 180, 1)'
@@ -34,6 +35,7 @@ const DARK_COLORS = {
   white: 'rgba(34, 34, 34, 1)',
   black: 'rgba(242, 242, 242, 1)',
   grey: 'rgba(20, 20, 20, 1)',
+  border: 'rgba(242, 242, 242, 0.2)',
   red: 'rgba(255, 99, 71, 1)',
   green: 'rgba(60, 179, 113, 1)',
   blue: 'rgba(70, 130, 180, 1)'

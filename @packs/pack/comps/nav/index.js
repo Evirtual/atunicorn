@@ -10,11 +10,11 @@ const Nav = Actheme.create({
 
   Container: ['View', 'jc,ai:c w:100vw z:2'],
   Content: ['View', 'ps:ab t:-s60 l,r:0 pv:s3 ph:s5 ai,jc:c', {
-    changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:grey t:-1'
+    changeNav: 'bg:white fd:row ai:c jc:sb bbw:1 bbc:border t:-1'
   }],
   Wrap: ['View', 'jc,ai:c', {
-    image: 'w,h,br:s25 bg:white mh:s6 mv:s3 bw:2 bc:grey of:hd',
-    imageSmall: 'w,h,br:s11 bg:white mh:s2 bw:2 bc:grey of:hd',
+    image: 'w,h,br:s25 bg:white mh:s6 mv:s3 bw:2 bc:border of:hd',
+    imageSmall: 'w,h,br:s11 bg:white mh:s2 bw:2 bc:border of:hd',
     action: 'w:s11 h:s10 mh:s0.5',
     row: 'fd:row',
     user: 'w,h,br:s8 bw:2 bc:black of:hd',

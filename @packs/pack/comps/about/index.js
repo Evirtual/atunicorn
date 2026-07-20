@@ -6,7 +6,7 @@ import Actstore from 'pack/store/actstore'
 const About = Actheme.create({
   Container: ['ScrollView', ['f:1 ps:fixed l,r,t,b:0 z:99 bg:black300 of:hd', {
     contentContainerStyle: Actheme.style('fg:1 ai,jc:c p:s5')}]],
-  Content: ['View', 'w:90vw xw:s95 p:s3 bg:grey bw:1 bc:grey br:s5'],
+  Content: ['View', 'w:90vw xw:s95 p:s3 bg:grey bw:1 bc:border br:s5'],
   Close: ['View', 'ps:ab t,r:s1.5 ai,jc:c z:3'],
 
   Comp: (props) => {

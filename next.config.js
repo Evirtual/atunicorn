@@ -1,5 +1,3 @@
-const withTM = require('next-transpile-modules')(['pack'])
-
 const CLIENT_ENV_KEYS = [
   // Used by pack/store/configs.js and RN-web AppRegistry name.
   'version',
@@ -22,9 +20,16 @@ const clientEnv = CLIENT_ENV_KEYS.reduce((acc, key) => {
   return acc
 }, {})
 
-module.exports = withTM({
+module.exports = {
   trailingSlash: true,
   output: 'export',
+  transpilePackages: ['pack'],
+  compiler: {
+    styledComponents: {
+      ssr: true,
+      displayName: false
+    }
+  },
   devIndicators: false,
   // Only expose explicitly used env vars to the client bundle.
   env: { ...clientEnv, ENV: process.env.NODE_ENV },
@@ -36,4 +41,4 @@ module.exports = withTM({
     config.resolve.extensions = [ '.web.js', ...config.resolve.extensions ]
     return config
   }
-});
+}

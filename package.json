@@ -10,64 +10,34 @@
     ]
   },
   "scripts": {
-    "start": "ENV=test next -p 8080 --webpack",
+    "dev": "next dev --webpack -p 8080",
+    "start": "firebase emulators:start --only hosting --project unicorn-ee877",
     "build": "next build --webpack",
-    "export": "next build --webpack",
-    "serve": "serve -s ./out -p 8080",
-    "static": "next build --webpack && yarn serve",
-    "deploy": "next build --webpack && firebase deploy --project unicorn-ee877",
+    "export": "yarn build",
+    "serve": "yarn start",
+    "static": "yarn build && yarn start",
+    "deploy": "yarn build && firebase deploy --project unicorn-ee877",
     "storage:worker:dev": "wrangler dev --config workers/cloudinary-storage/wrangler.toml",
     "storage:worker:deploy": "wrangler deploy --config workers/cloudinary-storage/wrangler.toml"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
-    "firebase": "12.6.0",
-    "markdown-to-jsx": "9.3.5",
-    "next": "16.2.7",
+    "firebase": "12.16.0",
+    "markdown-to-jsx": "9.9.0",
+    "next": "16.2.10",
     "pack": "0.0.0",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
     "react-image-file-resizer": "0.4.8",
     "react-native-web": "0.21.2",
-    "styled-components": "^6.1.19"
-  },
-  "babel": {
-    "presets": [
-      "next/babel"
-    ],
-    "plugins": [
-      [
-        "styled-components",
-        {
-          "ssr": true,
-          "displayName": false
-        }
-      ]
-    ]
+    "styled-components": "^6.4.4"
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^2.1.4",
-    "firebase-tools": "^15.19.1",
-    "next-transpile-modules": "^10.0.1",
-    "serve": "^14.2.5",
-    "wrangler": "^4.98.0"
+    "firebase-tools": "^15.24.0",
+    "wrangler": "^4.112.0"
   },
   "resolutions": {
-    "**/minimist": "^1.2.8",
-    "**/glob": "^10.5.0",
-    "isomorphic-fetch/node-fetch": "2.6.7",
-    "**/isomorphic-fetch/node-fetch": "2.6.7",
-    "minimatch@3.1.2/brace-expansion": "1.1.12",
-    "firebase-tools/js-yaml": "3.14.2",
-    "@apidevtools/json-schema-ref-parser/js-yaml": "4.1.1",
-    "**/@apidevtools/json-schema-ref-parser/js-yaml": "4.1.1",
-    "@modelcontextprotocol/sdk/body-parser": "2.2.1",
-    "**/@modelcontextprotocol/sdk/express/body-parser": "2.2.1",
-    "**/jws": "^4.0.1",
-    "jsonwebtoken/jws": "^3.2.3",
-    "**/@modelcontextprotocol/sdk": "^1.24.0",
-    "next/postcss": "8.5.10",
-    "**/gaxios/uuid": "11.1.1"
+    "next/postcss": "8.5.10"
   },
   "author": "",
   "license": "ISC",

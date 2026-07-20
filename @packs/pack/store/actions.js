@@ -63,16 +63,27 @@ const actions = ({ store, configs }) => ({
   APP_INIT: async () => {
     !firebase.apps.length && await firebase.initializeApp(configs.firebase)
 
-    firebase.database().ref('posts').on('value', snapshot => {
+    const database = firebase.database()
+    const auth = firebase.auth()
+    const postsRef = database.ref('posts')
+    const usersRef = database.ref('users')
+    let active = true
+    let markAuthReady
+    const authReady = new Promise(resolve => { markAuthReady = resolve })
+
+    const handlePosts = snapshot => {
       const posts = snapshot?.val() &&  Object.values(snapshot?.val())
         .reduce((arr, items) => arr.concat(Object.values(items)), [])
         .sort((a, b) => b.id - a.id)
       store.set({ posts })
-    })
+    }
 
-    firebase.database().ref('users').on('value', async snapshot => {
+    const handleUsers = async snapshot => {
       const users = snapshot?.val() && Object.values(snapshot?.val()) || []
-      const user = await new Promise(resolve => firebase.auth().onAuthStateChanged(resolve))
+      await authReady
+      if (!active) return
+
+      const user = auth.currentUser
       await store.set({ users, ready: true, user: user && {
         name: user.displayName,
         email: user.email,
@@ -80,11 +91,14 @@ const actions = ({ store, configs }) => ({
         id: user.uid,
         ...(users.find(item => item.id === user.uid) || {})
       } })
-    })
+    }
 
-    firebase.auth().onAuthStateChanged(async user => {
+    const stopAuth = auth.onAuthStateChanged(async user => {
+      markAuthReady()
+      if (!active) return
+
       if (user && user.emailVerified) {
-        user && await store.set({
+        await store.set({
           user: {
             name: user.displayName,
             email: user.email,
@@ -94,9 +108,19 @@ const actions = ({ store, configs }) => ({
           }
         })
       } else {
-        firebase.auth().signOut();
+        auth.signOut()
       }
     })
+
+    postsRef.on('value', handlePosts)
+    usersRef.on('value', handleUsers)
+
+    return () => {
+      active = false
+      postsRef.off('value', handlePosts)
+      usersRef.off('value', handleUsers)
+      stopAuth()
+    }
   },
 
   APP_SIGNUP_EMAIL_PASSWORD: async (email, password) => {
@@ -241,28 +265,41 @@ const actions = ({ store, configs }) => ({
   },
 
   APP_USER: async data => {
-    const { id, username } = store.get('user')
+    const { id, username } = store.get('user') || {}
+    const hasUsername = Object.prototype.hasOwnProperty.call(data, 'username')
+    const usernameChanged = hasUsername && data.username !== username
+
     try {
-      if(data.username && !data.username.match(/^[a-z0-9]{3,15}$/))
+      const users = store.get('users') || []
+
+      if(hasUsername && !data.username?.match(/^[a-z0-9]{3,15}$/))
         throw new Error('Username should have only lowercase letters, numbers, no spaces and 3 - 15 characters long')
-      if(data.username && data.username !== username && (store.get('users').find(user => user.username === data.username)) || data.username === 'unicorn')
+      if(usernameChanged && (data.username === 'unicorn' || users.some(user => user.username === data.username)))
         throw new Error('Username already taken')
 
-      const user = store.get('users').find(user => user.id === id) || {}
-      const key = ['users', id].join('/')
-
-      return firebase.database().ref(key).update({
+      const user = users.find(user => user.id === id) || {}
+      const profile = {
         id,
         updated: new Date().getTime(),
         ...data,
-        approved: data.approved || user.approved || false,
-      })
-      .then(function () {
-        store.set({ success: { message: 'Done! Your profile was successfully updated' } })
-        return data.username
-      })
+        approved: user.approved === true,
+      }
+      const updates = Object.entries(profile).reduce((result, [field, value]) => {
+        if(value !== undefined) result[`users/${id}/${field}`] = value
+        return result
+      }, {})
+
+      if(usernameChanged) {
+        updates[`usernames/${data.username}`] = id
+        if(username) updates[`usernames/${username}`] = null
+      }
+
+      await firebase.database().ref().update(updates)
+      store.set({ success: { message: 'Done! Your profile was successfully updated' } })
+      return data.username
     } catch(error) {
-      store.set({ error: { type: 'username', message: error.message }})
+      const usernameTaken = usernameChanged && /permission[-_ ]denied/i.test(`${error.code || ''} ${error.message || ''}`)
+      store.set({ error: { type: 'username', message: usernameTaken ? 'Username already taken' : error.message }})
       return null
     }
   },

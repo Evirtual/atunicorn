@@ -20,7 +20,7 @@ export default function PostScreen(props) {
     onClose,
   } = props
 
-  const { act: storeAct, store, handle } = Actstore({}, ['ready', 'user', 'users', 'posts'])
+  const { act: storeAct, store, handle } = Actstore({}, ['user', 'users', 'posts'])
   const router = propRouter || handle.useRouter()
   const { id: routeId } = router?.query || {}
 
@@ -28,7 +28,6 @@ export default function PostScreen(props) {
   const user = typeof propUser !== 'undefined' ? propUser : store.get('user')
   const users = typeof propUsers !== 'undefined' ? propUsers : store.get('users')
   const posts = typeof propPosts !== 'undefined' ? propPosts : store.get('posts')
-  const ready = store.get('ready')
   const id = propId || routeId
   const resolvedPostId = postId || id
   const setCurrentMode = setMode || (() => null)
@@ -38,7 +37,7 @@ export default function PostScreen(props) {
   const post = posts?.find(post => String(post.id) === String(resolvedPostId)) || {}
 
   const profile = users?.find(user => user.id === (post?.userId)) || {}
-  const loadingPost = !post?.id && (!resolvedPostId || !ready || typeof posts === 'undefined')
+  const loadingPost = !resolvedPostId || typeof posts === 'undefined'
   
   const [edit, setEdit] = useState()
   const [recycling, setRecycling] = useState()
@@ -165,7 +164,7 @@ const Post = Actheme.create({
   }],
   ScrollView: ['ScrollView', ['f:1', {
     contentContainerStyle: Actheme.style('fg:1 ai,jc:c')}]],
-  Content: ['View', 'bw:1 bc:grey br:s5 bg:white of:hd w:90vw xw:s150', {
+  Content: ['View', 'bw:1 bc:border br:s5 bg:white of:hd w:90vw xw:s150', {
     placeholder: 'nh,xw:s95'
   }],
   Wrap: ['View', 'w:100%', {

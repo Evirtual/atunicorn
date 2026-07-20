@@ -254,7 +254,7 @@ const About = Actheme.create({
     mode: 'ps:fixed t,b,l,r:0 z:10 bg:black400'
   }],
   ScrollView: ['ScrollView', ['f:1']],
-  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:grey mt:s2.5 mh:s5 mb:s22.5', {
+  Wrap: ['View', 'bg:white br:s5 w:90vw nh,xw:s95 ai,jc:c bw:1 bc:border mt:s2.5 mh:s5 mb:s22.5', {
     mode: 'mb:s5'
   }],
   Empty: ['View', 'w:100% ai,jc:c p:s5'],
