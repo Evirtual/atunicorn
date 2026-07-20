@@ -8,9 +8,14 @@ const nextStyle = `
   a {color: inherit; text-decoration: inherit;}
   img[class^="css-"][src*="#image"] { opacity: 1 !important; position: relative !important; height: auto !important; align-self:center; }
   div[class*="r-backgroundSize-"][class*="r-backgroundPosition-"][style*="#image"] { opacity: 0; }
-  textarea:focus {outline: none; outlineStyle: none;}
-  input:focus {outline: none; outlineStyle: none;}
-  button:focus {outline: none; outlineStyle: none;}
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid #2276d2 !important;
+    outline-offset: 2px;
+  }
 `
 
 export default class MyDocument extends Document {
@@ -55,7 +60,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html suppressHydrationWarning style={{backgroundColor: "grey", height: "100vh"}}>
+      <Html lang="en" suppressHydrationWarning style={{backgroundColor: "grey", height: "100vh"}}>
         <Head />
         <body suppressHydrationWarning style={{backgroundColor: "grey", height: "100vh"}}>
           <Main />

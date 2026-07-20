@@ -27,7 +27,9 @@ const App = ({ Component, pageProps }) => {
   return (
     <ThemeProvider>
       <Layout>
-        <Component {...pageProps} />
+        <main style={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}>
+          <Component {...pageProps} />
+        </main>
       </Layout>
     </ThemeProvider>
   )

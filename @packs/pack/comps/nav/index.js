@@ -176,6 +176,7 @@ const Nav = Actheme.create({
                         input
                         icon="times-circle"
                         iconSize="s6"
+                        accessibilityLabel={resolvedSearch ? 'Clear search' : 'Close search'}
                         onPress={() => resolvedSearch ? handleSearch('') : setActive(false)} />
                   }
                 </Nav.Wrap>
@@ -202,6 +203,7 @@ const Nav = Actheme.create({
                 {backHref
                   ? <Elems.Link
                       href={backHref}
+                      aria-label="Back"
                       onClick={() => setMode && setMode(null)}
                       style={actionLinkStyle}
                     >
@@ -214,13 +216,14 @@ const Nav = Actheme.create({
                       icon="arrow-circle-left"
                       iconSize={actionIconSize}
                       iconColor="black"
+                      accessibilityLabel="Back"
                       onPress={handleBack} />
                 }
               </Nav.Wrap>
             }
             {path !== homePath &&
               <Nav.Wrap action>
-                <Elems.Link href="/" style={actionLinkStyle}>
+                <Elems.Link href="/" aria-label="Home" style={actionLinkStyle}>
                   <Elems.Icon
                     icon="home"
                     iconSize={actionIconSize}
@@ -233,6 +236,7 @@ const Nav = Actheme.create({
                 <Elems.Button
                   icon="search"
                   iconSize={actionIconSize}
+                  accessibilityLabel="Open search"
                   onPress={() => setActive(true)} />
               </Nav.Wrap>
             }
@@ -241,6 +245,7 @@ const Nav = Actheme.create({
                   <Elems.Button
                     icon="user-circle"
                     iconSize={actionIconSize}
+                    accessibilityLabel="Log in"
                     onPress={() => setLogin(true)} />
                 </Nav.Wrap>
               : changeNav && user && (path === homePath || (isProfilePath && user?.id === (profile?.id))) &&
@@ -250,12 +255,14 @@ const Nav = Actheme.create({
                     icon="arrow-circle-up"
                     iconSize={actionIconSize}
                     iconColor="mediumseagreen"
+                    accessibilityLabel="Upload a post"
                     onPress={() => setMode('upload')} />
                 </Nav.Wrap>
             }
             {changeNav && path !== postPath &&
               <Nav.Wrap action>
                 <Elems.Link
+                  aria-label="About"
                   href={
                     (isProfilePath || isProfileAboutPath)
                       ? buildAboutRoute(profile?.id || resolvedProfileId)
@@ -276,14 +283,16 @@ const Nav = Actheme.create({
                   <Elems.Button
                     icon="power-off"
                     iconSize={actionIconSize}
+                    accessibilityLabel="Log out"
                     onPress={action('APP_LOGOUT')} />
                 </Nav.Wrap>
               : user && path === '/' &&
                 <Nav.Wrap action>
                   <Elems.Link
-                  href={buildProfileRoute(user?.id || resolvedProfileId)}
-                  onClick={onProfile}
-                  style={actionLinkStyle}>
+                    href={buildProfileRoute(user?.id || resolvedProfileId)}
+                    aria-label="View your profile"
+                    onClick={onProfile}
+                    style={actionLinkStyle}>
                     {user?.url
                       ? <Nav.Wrap user>
                           <Nav.Image source={cloudinarySquareUrl(user.url, 96)} />
@@ -371,6 +380,7 @@ const Nav = Actheme.create({
                           icon="times-circle"
                           iconColor="black"
                           iconSize="s6"
+                          accessibilityLabel="Cancel username editing"
                           onPress={() => setEditUsername(false)}
                           style={Actheme.style('bg:white')}/>
                       </Nav.Wrap>
@@ -386,6 +396,7 @@ const Nav = Actheme.create({
                             icon="save"
                             iconColor="mediumseagreen"
                             iconSize="s6"
+                            accessibilityLabel="Save username"
                             style={Actheme.style('bg:white')}
                             onPress={() => act('APP_USER', { username }).then(username => !!username && setEditUsername(false))} />
                         </Nav.Wrap>

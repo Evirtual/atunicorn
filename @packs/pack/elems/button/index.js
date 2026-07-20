@@ -49,7 +49,11 @@ const Button = Actheme.create({
       iconSize,
       fontSize,
       textColor,
+      accessibilityLabel,
+      accessibilityState,
       ...rest} = props
+
+    const interactive = typeof onPress === 'function' || disabled
 
     return (
       <Button.Touch
@@ -62,7 +66,14 @@ const Button = Actheme.create({
         close={close}
         edit={edit}
         inline={inline}
+        disabled={disabled}
+        focusable={!!interactive && !disabled}
         onPress={!disabled ? onPress : null}
+        accessibilityRole={interactive ? 'button' : undefined}
+        accessibilityLabel={accessibilityLabel}
+        accessibilityState={interactive
+          ? { ...accessibilityState, disabled: !!disabled }
+          : accessibilityState}
         style={style}
         {...rest}>
         {source &&

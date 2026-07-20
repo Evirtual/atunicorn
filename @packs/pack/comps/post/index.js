@@ -39,6 +39,7 @@ const Post = Actheme.create({
 
     const postHref = href || buildPostRoute(post?.id)
     const postAs = as || postHref
+    const postAuthor = profile?.username || profile?.id || post?.userId || 'unknown user'
     
     const [active, setActive] = useState()
     const [nsfw, setNsfw] = useState()
@@ -48,7 +49,11 @@ const Post = Actheme.create({
       <Post.Container>
         {!id && !profileId &&
           <Post.Wrap>
-            <Post.Profile onPress={() => setActive(!active)}>
+            <Post.Profile
+              accessibilityRole="button"
+              accessibilityLabel={`Show profile for @${postAuthor}`}
+              accessibilityState={{ expanded: !!active }}
+              onPress={() => setActive(!active)}>
               {!!profile?.url 
                 ? <Post.Image source={cloudinarySquareUrl(profile.url, 128)} />
                 : <Elems.Icon
@@ -75,6 +80,9 @@ const Post = Actheme.create({
           as={postAs}
           shallow={shallow}
           scroll={scroll}
+          aria-label={post?.nsfw && !nsfw
+            ? `View NSFW post by @${postAuthor}`
+            : `View post by @${postAuthor}${post?.desc ? `: ${post.desc}` : ''}`}
           onClick={() => {
             onPost && onPost()
           }}
@@ -100,12 +108,14 @@ const Post = Actheme.create({
               edit
               regular
               icon="pencil"
+              accessibilityLabel="Edit post"
               onPress={onEdit} />
             <Elems.Button
               option
               recycle
               regular
               icon="recycle"
+              accessibilityLabel="Delete post"
               onPress={
                 () => 
                   act('APP_DELETEPOST', { userId: user?.id , postId: post?.id , url: post?.url })
@@ -116,7 +126,10 @@ const Post = Actheme.create({
           </Post.Options>
         }
         {post.nsfw && !nsfw &&
-          <Post.Cover onPress={() => setNsfw(true)}>
+          <Post.Cover
+            accessibilityRole="button"
+            accessibilityLabel="Reveal NSFW post"
+            onPress={() => setNsfw(true)}>
             <Placeholder
               icon="eye-slash"
               title="NSFW" />
