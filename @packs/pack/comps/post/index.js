@@ -5,12 +5,20 @@ import Placeholder from '../placeholder'
 import Actstore from 'pack/store/actstore'
 import { buildPostRoute, buildProfileRoute } from '../../screens/route-state'
 
+const cloudinaryDeliveryUrl = (source, size) => {
+  if (!source?.includes('res.cloudinary.com/') || !source.includes('/image/upload/')) return source
+  return source.replace(
+    '/image/upload/',
+    `/image/upload/f_auto,q_auto,c_fill,w_${size},h_${size}/`
+  )
+}
+
 const Post = Actheme.create({
 
   Container: ['View', 'm:s2.5'],
   Content: ['View', 'w,h:90vw xw,xh:s95 br:s5 of:hd bg:white bw:1 bc:border'],
   Wrap: ['View', 'ps:ab t,l:s2 z:3 fd:row ai:c'],
-  Image: ['Image', 'w,h:100% br:s5'],
+  Image: ['LazyImage', 'w,h:100% br:s5'],
   Profile: ['TouchableOpacity', 'w,h,br:s12 of:hd bg:black200 bw:2 bc:white400 ai,jc:c z:2'],
   User: ['View', 'ml:-s7 bg:white400 pv:s2 ph:s4 pl:s8 br:s6 bw:2 bc:border'],
   Name: ['Text', 'c:black fb:500'],
@@ -49,7 +57,7 @@ const Post = Actheme.create({
           <Post.Wrap>
             <Post.Profile onPress={() => setActive(!active)}>
               {!!profile?.url 
-                ? <Post.Image source={profile.url} />
+                ? <Post.Image source={cloudinaryDeliveryUrl(profile.url, 128)} />
                 : <Elems.Icon
                     icon="user-circle" 
                     iconSize="s12" 
@@ -80,7 +88,7 @@ const Post = Actheme.create({
         >
           <Post.Content>
             {post?.url &&
-              <Post.Image source={post.url || null} />
+              <Post.Image source={cloudinaryDeliveryUrl(post.url, 760)} />
             }
             {recycling &&
               <Post.Cover onPress={() => setNsfw(true)}>
