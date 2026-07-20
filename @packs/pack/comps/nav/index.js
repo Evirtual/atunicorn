@@ -4,6 +4,7 @@ import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import Actstore from 'pack/store/actstore'
+import { cloudinarySquareUrl } from '../../images'
 import { buildAboutRoute, buildProfileRoute, normalizePath } from '../../screens/route-state'
 
 const Nav = Actheme.create({
@@ -135,7 +136,7 @@ const Nav = Actheme.create({
                 {profile
                   ? profile?.url
                     ? <Nav.Image
-                        source={profile.url || null} />
+                        source={cloudinarySquareUrl(profile.url, 128)} />
                     : <Elems.Icon 
                         icon="user-circle"
                         solid
@@ -285,7 +286,7 @@ const Nav = Actheme.create({
                   style={actionLinkStyle}>
                     {user?.url
                       ? <Nav.Wrap user>
-                          <Nav.Image source={user?.url || null} />
+                          <Nav.Image source={cloudinarySquareUrl(user.url, 96)} />
                         </Nav.Wrap>
                       : <Elems.Icon
                         icon="user-circle"
@@ -329,7 +330,7 @@ const Nav = Actheme.create({
                                 spin
                                 title="Uploading" />
                             : profile?.url
-                              ? <Nav.Image source={profile.url || null} />
+                              ? <Nav.Image source={cloudinarySquareUrl(profile.url, 256)} />
                               : <Elems.Icon 
                                   icon="camera"
                                   solid
@@ -340,7 +341,7 @@ const Nav = Actheme.create({
                     </Nav.File>
                   : profile
                     ? profile?.url
-                      ? <Nav.Image source={profile.url || null} />
+                      ? <Nav.Image source={cloudinarySquareUrl(profile.url, 256)} />
                       : <Elems.Icon 
                           icon="user-circle"
                           solid

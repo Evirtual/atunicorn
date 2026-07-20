@@ -3,15 +3,8 @@ import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
 import Actstore from 'pack/store/actstore'
+import { cloudinarySquareUrl } from '../../images'
 import { buildPostRoute, buildProfileRoute } from '../../screens/route-state'
-
-const cloudinaryDeliveryUrl = (source, size) => {
-  if (!source?.includes('res.cloudinary.com/') || !source.includes('/image/upload/')) return source
-  return source.replace(
-    '/image/upload/',
-    `/image/upload/f_auto,q_auto,c_fill,w_${size},h_${size}/`
-  )
-}
 
 const Post = Actheme.create({
 
@@ -57,7 +50,7 @@ const Post = Actheme.create({
           <Post.Wrap>
             <Post.Profile onPress={() => setActive(!active)}>
               {!!profile?.url 
-                ? <Post.Image source={cloudinaryDeliveryUrl(profile.url, 128)} />
+                ? <Post.Image source={cloudinarySquareUrl(profile.url, 128)} />
                 : <Elems.Icon
                     icon="user-circle" 
                     iconSize="s12" 
@@ -88,7 +81,7 @@ const Post = Actheme.create({
         >
           <Post.Content>
             {post?.url &&
-              <Post.Image source={cloudinaryDeliveryUrl(post.url, 760)} />
+              <Post.Image source={cloudinarySquareUrl(post.url, 760)} />
             }
             {recycling &&
               <Post.Cover onPress={() => setNsfw(true)}>
