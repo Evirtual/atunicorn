@@ -99,7 +99,19 @@ const verifyFirebaseToken = async (request, env) => {
   if (!payload.sub) throw new Error('Invalid token subject')
   if (payload.exp <= now) throw new Error('Expired token')
 
-  return { uid: payload.sub, email: payload.email || null }
+  return { uid: payload.sub, email: payload.email || null, token }
+}
+
+const assertApprovedUser = async (user, env) => {
+  if (!env.FIREBASE_DATABASE_URL) throw new Error('Missing FIREBASE_DATABASE_URL')
+
+  const databaseUrl = new URL(env.FIREBASE_DATABASE_URL)
+  const approvalUrl = new URL(`users/${encodeURIComponent(user.uid)}/approved.json`, `${databaseUrl.toString().replace(/\/$/, '')}/`)
+  approvalUrl.searchParams.set('auth', user.token)
+
+  const response = await fetch(approvalUrl)
+  if (!response.ok) throw new Error('Unable to verify upload permission')
+  if (await response.json() !== true) throw new Error('Your account is not approved for uploads')
 }
 
 const sha1Hex = async (value) => {
@@ -187,6 +199,7 @@ const deleteFromCloudinary = async (env, publicId) => {
 
 const upload = async (request, env) => {
   const user = await verifyFirebaseToken(request, env)
+  await assertApprovedUser(user, env)
   const form = await request.formData()
   const file = form.get('file')
   const kind = String(form.get('kind') || 'upload').replace(/[^a-z0-9-]/gi, '').toLowerCase()

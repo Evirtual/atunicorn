@@ -2,6 +2,9 @@ name = "atunicorn-storage"
 main = "src/index.js"
 compatibility_date = "2026-06-01"
 
+[vars]
+FIREBASE_DATABASE_URL = "https://unicorn-ee877-default-rtdb.firebaseio.com"
+
 # Set these before deploying:
 # wrangler secret put FIREBASE_PROJECT_ID --config workers/cloudinary-storage/wrangler.toml
 # wrangler secret put CLOUDINARY_CLOUD_NAME --config workers/cloudinary-storage/wrangler.toml
