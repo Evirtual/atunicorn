@@ -234,11 +234,6 @@ const actions = ({ store, configs }) => ({
     store.set({ success: { message: 'Done! Your image was successfully removed' } })
   },
 
-  APP_DELETEDRAFTIMAGE: async url => {
-    if (isCloudinaryStorage(configs) && isCloudinaryUrl(url))
-      await deleteFromCloudinary({ configs, url })
-  },
-
   APP_UPLOAD: async ([ file ], uploading = true) => {
     store.set({ uploading })
 

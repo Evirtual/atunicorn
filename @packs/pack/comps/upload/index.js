@@ -24,25 +24,6 @@ const Upload = Actheme.create({
     const [desc, setDesc] = useState(post?.desc || null)
     const [nsfw, setNsfw] = useState(post?.nsfw || false)
 
-    const isDraftImage = url && url !== post?.url
-    const closeUpload = async () => {
-      if (isDraftImage) {
-        try {
-          await act('APP_DELETEDRAFTIMAGE', url)
-        } catch {
-          // Closing the modal should still work if cleanup is temporarily unavailable.
-        }
-      }
-      onClose()
-    }
-
-    const selectImage = async files => {
-      const nextUrl = await act('APP_UPLOAD', files, 'post')
-      if (!nextUrl) return
-      if (isDraftImage && url !== nextUrl) await act('APP_DELETEDRAFTIMAGE', url)
-      setUrl(nextUrl)
-    }
-
     return (
       <Upload.Container>
         <Upload.Content>
@@ -51,9 +32,9 @@ const Upload = Actheme.create({
               option
               close
               icon="times"
-              onPress={closeUpload} />
+              onPress={onClose} />
           </Upload.Close>
-          <Upload.File action={selectImage}>
+          <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
             <Upload.Touch>
               {uploading == 'post'
                 ? <Placeholder
