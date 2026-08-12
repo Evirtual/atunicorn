@@ -24,7 +24,7 @@
     "@phosphor-icons/react": "^2.1.10",
     "firebase": "12.16.0",
     "markdown-to-jsx": "9.9.0",
-    "next": "16.2.10",
+    "next": "16.2.11",
     "pack": "0.0.0",
     "react": "19.2.7",
     "react-dom": "19.2.7",
@@ -37,7 +37,10 @@
     "wrangler": "^4.112.0"
   },
   "resolutions": {
-    "next/postcss": "8.5.10"
+    "next/postcss": "8.5.23",
+    "sharp": "0.35.3",
+    "nanoid": "3.3.17",
+    "protobufjs": "7.6.5"
   },
   "author": "",
   "license": "ISC",
