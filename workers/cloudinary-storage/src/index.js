@@ -1,5 +1,8 @@
 const FIREBASE_JWKS_URL = 'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com'
 const CLOUDINARY_API_BASE = 'https://api.cloudinary.com/v1_1'
+const MAX_UPLOAD_REQUEST_BYTES = 8 * 1024 * 1024
+const MAX_GIF_BYTES = 2 * 1024 * 1024
+const MAX_IMAGE_BYTES = 7 * 1024 * 1024
 
 let jwksCache = null
 let jwksCacheExpiresAt = 0
@@ -134,11 +137,58 @@ const assertCloudinaryEnv = (env) => {
   if (!env.CLOUDINARY_API_SECRET) throw new Error('Missing CLOUDINARY_API_SECRET')
 }
 
-const assertImage = (file) => {
+const hasSignature = (bytes, signature) => signature.every((value, index) => bytes[index] === value)
+
+const hasValidImageSignature = (type, bytes) => {
+  if (type === 'image/jpeg') return hasSignature(bytes, [0xff, 0xd8, 0xff])
+  if (type === 'image/png') return hasSignature(bytes, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
+  if (type === 'image/gif') return hasSignature(bytes, [0x47, 0x49, 0x46, 0x38, 0x37, 0x61]) || hasSignature(bytes, [0x47, 0x49, 0x46, 0x38, 0x39, 0x61])
+  return hasSignature(bytes, [0x52, 0x49, 0x46, 0x46]) && hasSignature(bytes.slice(8), [0x57, 0x45, 0x42, 0x50])
+}
+
+const assertImage = async (file) => {
   if (!file || typeof file !== 'object') throw new Error('Missing file')
-  if (!file.type?.startsWith('image/')) throw new Error('File that you are uploading is not an image')
-  if (file.type === 'image/gif' && file.size >= 2 * 1024 * 1024) throw new Error('GIF size is too big (maximum size: 2MB)')
-  if (file.type !== 'image/gif' && file.size >= 7 * 1024 * 1024) throw new Error('File size is too big (maximum size: 7MB)')
+  const type = String(file.type || '').toLowerCase()
+  if (!['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(type))
+    throw new Error('Only JPEG, PNG, GIF, and WebP images are allowed')
+  if (type === 'image/gif' && file.size > MAX_GIF_BYTES) throw new Error('GIF size is too big (maximum size: 2MB)')
+  if (type !== 'image/gif' && file.size > MAX_IMAGE_BYTES) throw new Error('File size is too big (maximum size: 7MB)')
+
+  const header = new Uint8Array(await file.slice(0, 12).arrayBuffer())
+  if (!hasValidImageSignature(type, header)) throw new Error('File contents do not match its image type')
+}
+
+const parseUploadFormData = async (request) => {
+  const contentLength = request.headers.get('content-length')
+  if (contentLength && (!/^\d+$/.test(contentLength) || Number(contentLength) > MAX_UPLOAD_REQUEST_BYTES))
+    throw new Error('Upload request is too large (maximum size: 8MB)')
+  if (!request.body) throw new Error('Missing upload body')
+
+  const reader = request.body.getReader()
+  const chunks = []
+  let bytesRead = 0
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      bytesRead += value.byteLength
+      if (bytesRead > MAX_UPLOAD_REQUEST_BYTES) {
+        await reader.cancel('Upload request is too large')
+        throw new Error('Upload request is too large (maximum size: 8MB)')
+      }
+      chunks.push(value)
+    }
+  } finally {
+    reader.releaseLock()
+  }
+
+  const body = new Uint8Array(bytesRead)
+  let offset = 0
+  for (const chunk of chunks) {
+    body.set(chunk, offset)
+    offset += chunk.byteLength
+  }
+  return new Response(body, { headers: { 'content-type': request.headers.get('content-type') || '' } }).formData()
 }
 
 const uploadToCloudinary = async (env, file, params) => {
@@ -200,10 +250,10 @@ const deleteFromCloudinary = async (env, publicId) => {
 const upload = async (request, env) => {
   const user = await verifyFirebaseToken(request, env)
   await assertApprovedUser(user, env)
-  const form = await request.formData()
+  const form = await parseUploadFormData(request)
   const file = form.get('file')
   const kind = String(form.get('kind') || 'upload').replace(/[^a-z0-9-]/gi, '').toLowerCase()
-  assertImage(file)
+  await assertImage(file)
 
   const timestamp = String(Math.floor(Date.now() / 1000))
   const folder = `atunicorn/${user.uid}`
