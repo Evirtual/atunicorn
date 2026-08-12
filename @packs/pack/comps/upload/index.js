@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Actheme } from '../../theme'
 import Elems from '../../elems'
 import Placeholder from '../placeholder'
@@ -21,8 +21,31 @@ const Upload = Actheme.create({
     const { uploading } = store.get('user', 'users', 'uploading')
     
     const [url, setUrl] = useState(post?.url || null)
+    const [file, setFile] = useState(null)
+    const [previewUrl, setPreviewUrl] = useState(null)
     const [desc, setDesc] = useState(post?.desc || null)
     const [nsfw, setNsfw] = useState(post?.nsfw || false)
+
+    useEffect(() => () => {
+      if (previewUrl?.startsWith('blob:')) URL.revokeObjectURL(previewUrl)
+    }, [previewUrl])
+
+    const selectImage = files => {
+      const nextFile = files?.[0]
+      if (!nextFile) return
+      if (previewUrl?.startsWith('blob:')) URL.revokeObjectURL(previewUrl)
+      setFile(nextFile)
+      setPreviewUrl(typeof URL !== 'undefined' && URL.createObjectURL ? URL.createObjectURL(nextFile) : nextFile.uri || null)
+    }
+
+    const publish = async () => {
+      const uploadedUrl = file ? await act('APP_UPLOAD', [file], 'post') : url
+      if (!uploadedUrl) return
+      const saved = await act('APP_POST', { id: post?.id, url: uploadedUrl, desc, nsfw })
+      if (saved) onClose()
+    }
+
+    const imageUrl = previewUrl || url || post?.url
 
     return (
       <Upload.Container>
@@ -34,22 +57,22 @@ const Upload = Actheme.create({
               icon="times"
               onPress={onClose} />
           </Upload.Close>
-          <Upload.File action={files => act('APP_UPLOAD', files, 'post').then(setUrl)}>
+          <Upload.File action={selectImage}>
             <Upload.Touch>
               {uploading == 'post'
                 ? <Placeholder
                     icon="yin-yang"
                     spin
                     title="Uploading" />
-                : (url || post?.url)
-                  ? <Upload.Image source={url || profile.url || null} />
+                : imageUrl
+                  ? <Upload.Image source={imageUrl} />
                   : <Placeholder
                       icon="plus-circle"
                       title="Upload Image" />
               }
             </Upload.Touch>
           </Upload.File>
-          {(url || post?.url) &&
+          {imageUrl &&
             <Elems.Input
               multiline
               numberOfLines={3}
@@ -58,7 +81,7 @@ const Upload = Actheme.create({
               placeholder="Type your description"
               style={Actheme.style('mt:s4')} />
           }
-          {(url || post?.url) && (desc) &&
+          {imageUrl && desc &&
             <Elems.Button
               inline
               icon={nsfw ? 'check-circle': 'circle'} 
@@ -68,10 +91,10 @@ const Upload = Actheme.create({
               text="NSFW (not suitable for work)"
               style={Actheme.style('mt:s3')} />
           }
-          {(url || post?.url) && desc &&
+          {imageUrl && desc &&
             <Elems.Button 
               submit 
-              onPress={() => act('APP_POST', { id: post?.id, url, desc, nsfw }).then(onClose)} 
+              onPress={publish}
               text={ post?.id ? 'Update' : 'Ready to make it public?'}
               style={Actheme.style('mt:s3')} />
           }

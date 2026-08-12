@@ -210,6 +210,7 @@ const actions = ({ store, configs }) => ({
       })
       .then(function () {
         store.set({ success: { message: 'Done! You successfully updated post' } })
+        return true
       })
 
     return firebase.database().ref(key).set({
@@ -223,8 +224,12 @@ const actions = ({ store, configs }) => ({
     })
     .then(function () {
       store.set({ success: { message: 'Done! You successfully uploaded a new image' } })
+      return true
     })
-    .catch(error => store.set({ error: { type: 'post', message: error.message } }))
+    .catch(error => {
+      store.set({ error: { type: 'post', message: error.message } })
+      throw error
+    })
   },
 
   APP_DELETEPOST: async post => {
