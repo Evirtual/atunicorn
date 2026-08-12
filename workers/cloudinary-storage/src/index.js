@@ -1,15 +1,5 @@
 const FIREBASE_JWKS_URL = 'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com'
 const CLOUDINARY_API_BASE = 'https://api.cloudinary.com/v1_1'
-const MAX_UPLOAD_REQUEST_BYTES = 8 * 1024 * 1024
-const MAX_GIF_BYTES = 2 * 1024 * 1024
-const MAX_IMAGE_BYTES = 7 * 1024 * 1024
-
-class HTTPError extends Error {
-  constructor(status, message) {
-    super(message)
-    this.status = status
-  }
-}
 
 let jwksCache = null
 let jwksCacheExpiresAt = 0
@@ -23,29 +13,17 @@ const json = (body, init = {}) =>
     }
   })
 
-const allowedOrigins = (env) => String(env.ALLOWED_ORIGINS || '')
-  .split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean)
-
 const corsHeaders = (request, env) => {
+  const allowedOrigin = env.ALLOWED_ORIGIN || '*'
   const requestOrigin = request.headers.get('origin')
-  if (!requestOrigin || !allowedOrigins(env).includes(requestOrigin)) return {}
+  const origin = allowedOrigin === '*' ? '*' : requestOrigin === allowedOrigin ? requestOrigin : allowedOrigin
+
   return {
-    'access-control-allow-origin': requestOrigin,
-    'vary': 'Origin',
+    'access-control-allow-origin': origin,
     'access-control-allow-methods': 'POST, OPTIONS',
     'access-control-allow-headers': 'authorization, content-type',
     'access-control-max-age': '86400'
   }
-}
-
-const assertAllowedOrigin = (request, env) => {
-  const origins = allowedOrigins(env)
-  if (origins.length === 0) throw new HTTPError(500, 'Storage service is not configured')
-  const requestOrigin = request.headers.get('origin')
-  if (requestOrigin && !origins.includes(requestOrigin))
-    throw new HTTPError(403, 'Origin is not allowed')
 }
 
 const withCors = (request, env, response) => {
@@ -85,19 +63,19 @@ const getJwks = async () => {
 const verifyFirebaseToken = async (request, env) => {
   const auth = request.headers.get('authorization') || ''
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : null
-  if (!token) throw new HTTPError(401, 'Missing authorization token')
-  if (!env.FIREBASE_PROJECT_ID) throw new HTTPError(500, 'Storage service is not configured')
+  if (!token) throw new Error('Missing authorization token')
+  if (!env.FIREBASE_PROJECT_ID) throw new Error('Missing FIREBASE_PROJECT_ID')
 
   const [encodedHeader, encodedPayload, encodedSignature] = token.split('.')
-  if (!encodedHeader || !encodedPayload || !encodedSignature) throw new HTTPError(401, 'Invalid token')
+  if (!encodedHeader || !encodedPayload || !encodedSignature) throw new Error('Invalid token')
 
   const header = decodeJwtPart(encodedHeader)
   const payload = decodeJwtPart(encodedPayload)
-  if (header.alg !== 'RS256') throw new HTTPError(401, 'Invalid token')
+  if (header.alg !== 'RS256') throw new Error('Invalid token algorithm')
 
   const jwks = await getJwks()
   const jwk = jwks.keys?.find((key) => key.kid === header.kid)
-  if (!jwk) throw new HTTPError(401, 'Invalid token')
+  if (!jwk) throw new Error('Unknown token key')
 
   const key = await crypto.subtle.importKey(
     'jwk',
@@ -113,41 +91,15 @@ const verifyFirebaseToken = async (request, env) => {
     base64UrlToBytes(encodedSignature),
     new TextEncoder().encode(`${encodedHeader}.${encodedPayload}`)
   )
-  if (!valid) throw new HTTPError(401, 'Invalid token')
+  if (!valid) throw new Error('Invalid token signature')
 
   const now = Math.floor(Date.now() / 1000)
-  if (payload.aud !== env.FIREBASE_PROJECT_ID) throw new HTTPError(401, 'Invalid token')
-  if (payload.iss !== `https://securetoken.google.com/${env.FIREBASE_PROJECT_ID}`) throw new HTTPError(401, 'Invalid token')
-  if (!payload.sub || typeof payload.sub !== 'string') throw new HTTPError(401, 'Invalid token')
-  if (!Number.isFinite(payload.exp) || payload.exp <= now) throw new HTTPError(401, 'Expired token')
+  if (payload.aud !== env.FIREBASE_PROJECT_ID) throw new Error('Invalid token audience')
+  if (payload.iss !== `https://securetoken.google.com/${env.FIREBASE_PROJECT_ID}`) throw new Error('Invalid token issuer')
+  if (!payload.sub) throw new Error('Invalid token subject')
+  if (payload.exp <= now) throw new Error('Expired token')
 
-  return {
-    uid: payload.sub,
-    email: payload.email || null,
-    emailVerified: payload.email_verified === true,
-    token
-  }
-}
-
-const assertApprovedUser = async (user, env) => {
-  if (!user.emailVerified) throw new HTTPError(403, 'Verify your email before uploading')
-  if (!env.FIREBASE_DATABASE_URL) throw new HTTPError(500, 'Storage service is not configured')
-
-  let databaseUrl
-  try {
-    databaseUrl = new URL(env.FIREBASE_DATABASE_URL)
-  } catch {
-    throw new HTTPError(500, 'Storage service is not configured')
-  }
-
-  if (databaseUrl.protocol !== 'https:' || !/\.(firebaseio\.com|firebasedatabase\.app)$/.test(databaseUrl.hostname))
-    throw new HTTPError(500, 'Storage service is not configured')
-
-  const approvalUrl = new URL(`users/${encodeURIComponent(user.uid)}/approved.json`, `${databaseUrl.toString().replace(/\/$/, '')}/`)
-  approvalUrl.searchParams.set('auth', user.token)
-  const response = await fetch(approvalUrl)
-  if (!response.ok) throw new HTTPError(503, 'Unable to verify upload permission')
-  if (await response.json() !== true) throw new HTTPError(403, 'Your account is not approved for uploads')
+  return { uid: payload.sub, email: payload.email || null }
 }
 
 const sha1Hex = async (value) => {
@@ -165,65 +117,16 @@ const signCloudinaryParams = async (params, apiSecret) => {
 }
 
 const assertCloudinaryEnv = (env) => {
-  if (!env.CLOUDINARY_CLOUD_NAME) throw new HTTPError(500, 'Storage service is not configured')
-  if (!env.CLOUDINARY_API_KEY) throw new HTTPError(500, 'Storage service is not configured')
-  if (!env.CLOUDINARY_API_SECRET) throw new HTTPError(500, 'Storage service is not configured')
+  if (!env.CLOUDINARY_CLOUD_NAME) throw new Error('Missing CLOUDINARY_CLOUD_NAME')
+  if (!env.CLOUDINARY_API_KEY) throw new Error('Missing CLOUDINARY_API_KEY')
+  if (!env.CLOUDINARY_API_SECRET) throw new Error('Missing CLOUDINARY_API_SECRET')
 }
 
-const hasSignature = (bytes, signature) => signature.every((value, index) => bytes[index] === value)
-
-const hasValidImageSignature = (type, bytes) => {
-  if (type === 'image/jpeg') return hasSignature(bytes, [0xff, 0xd8, 0xff])
-  if (type === 'image/png') return hasSignature(bytes, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
-  if (type === 'image/gif') return hasSignature(bytes, [0x47, 0x49, 0x46, 0x38, 0x37, 0x61]) || hasSignature(bytes, [0x47, 0x49, 0x46, 0x38, 0x39, 0x61])
-  return hasSignature(bytes, [0x52, 0x49, 0x46, 0x46]) && hasSignature(bytes.slice(8), [0x57, 0x45, 0x42, 0x50])
-}
-
-const assertImage = async (file) => {
-  if (!file || typeof file !== 'object') throw new HTTPError(400, 'Missing file')
-  const type = String(file.type || '').toLowerCase()
-  if (!['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(type))
-    throw new HTTPError(400, 'Only JPEG, PNG, GIF, and WebP images are allowed')
-  if (type === 'image/gif' && file.size > MAX_GIF_BYTES)
-    throw new HTTPError(400, 'GIF size is too big (maximum size: 2MB)')
-  if (type !== 'image/gif' && file.size > MAX_IMAGE_BYTES)
-    throw new HTTPError(400, 'File size is too big (maximum size: 7MB)')
-
-  const header = new Uint8Array(await file.slice(0, 12).arrayBuffer())
-  if (!hasValidImageSignature(type, header)) throw new HTTPError(400, 'File contents do not match its image type')
-}
-
-const parseFormData = async (request) => {
-  const contentLength = request.headers.get('content-length')
-  if (contentLength && (!/^\d+$/.test(contentLength) || Number(contentLength) > MAX_UPLOAD_REQUEST_BYTES))
-    throw new HTTPError(413, 'Upload request is too large')
-  if (!request.body) throw new HTTPError(400, 'Missing upload body')
-
-  const reader = request.body.getReader()
-  const chunks = []
-  let bytesRead = 0
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      bytesRead += value.byteLength
-      if (bytesRead > MAX_UPLOAD_REQUEST_BYTES) {
-        await reader.cancel('Upload request is too large')
-        throw new HTTPError(413, 'Upload request is too large')
-      }
-      chunks.push(value)
-    }
-  } finally {
-    reader.releaseLock()
-  }
-
-  const body = new Uint8Array(bytesRead)
-  let offset = 0
-  for (const chunk of chunks) {
-    body.set(chunk, offset)
-    offset += chunk.byteLength
-  }
-  return new Response(body, { headers: { 'content-type': request.headers.get('content-type') || '' } }).formData()
+const assertImage = (file) => {
+  if (!file || typeof file !== 'object') throw new Error('Missing file')
+  if (!file.type?.startsWith('image/')) throw new Error('File that you are uploading is not an image')
+  if (file.type === 'image/gif' && file.size >= 2 * 1024 * 1024) throw new Error('GIF size is too big (maximum size: 2MB)')
+  if (file.type !== 'image/gif' && file.size >= 7 * 1024 * 1024) throw new Error('File size is too big (maximum size: 7MB)')
 }
 
 const uploadToCloudinary = async (env, file, params) => {
@@ -240,7 +143,7 @@ const uploadToCloudinary = async (env, file, params) => {
     body: form
   })
   const body = await response.json().catch(() => ({}))
-  if (!response.ok) throw new HTTPError(502, 'Image upload failed')
+  if (!response.ok) throw new Error(body.error?.message || 'Cloudinary upload failed')
   return body
 }
 
@@ -278,17 +181,16 @@ const deleteFromCloudinary = async (env, publicId) => {
     body: form
   })
   const body = await response.json().catch(() => ({}))
-  if (!response.ok) throw new HTTPError(502, 'Image deletion failed')
+  if (!response.ok) throw new Error(body.error?.message || 'Cloudinary delete failed')
   return body
 }
 
 const upload = async (request, env) => {
   const user = await verifyFirebaseToken(request, env)
-  await assertApprovedUser(user, env)
-  const form = await parseFormData(request)
+  const form = await request.formData()
   const file = form.get('file')
   const kind = String(form.get('kind') || 'upload').replace(/[^a-z0-9-]/gi, '').toLowerCase()
-  await assertImage(file)
+  assertImage(file)
 
   const timestamp = String(Math.floor(Date.now() / 1000))
   const folder = `atunicorn/${user.uid}`
@@ -306,8 +208,8 @@ const deleteObject = async (request, env) => {
   const user = await verifyFirebaseToken(request, env)
   const body = await request.json().catch(() => ({}))
   const publicId = parseCloudinaryPublicId(env, body.publicId || body.url)
-  if (!publicId) throw new HTTPError(400, 'Missing image id')
-  if (!publicId.startsWith(`atunicorn/${user.uid}/`)) throw new HTTPError(403, 'You can only delete your own uploads')
+  if (!publicId) throw new Error('Missing image id')
+  if (!publicId.startsWith(`atunicorn/${user.uid}/`)) throw new Error('You can only delete your own uploads')
 
   await deleteFromCloudinary(env, publicId)
   return json({ ok: true })
@@ -315,18 +217,16 @@ const deleteObject = async (request, env) => {
 
 export default {
   async fetch(request, env) {
-    try {
-      assertAllowedOrigin(request, env)
-      if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(request, env) })
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders(request, env) })
 
-      const url = new URL(request.url)
+    const url = new URL(request.url)
+    try {
       if (request.method === 'POST' && url.pathname === '/upload') return withCors(request, env, await upload(request, env))
       if (request.method === 'POST' && url.pathname === '/delete') return withCors(request, env, await deleteObject(request, env))
       return withCors(request, env, json({ error: 'Not found' }, { status: 404 }))
     } catch (error) {
-      const status = error instanceof HTTPError ? error.status : 500
-      const message = error instanceof HTTPError ? error.message : 'Internal server error'
-      return withCors(request, env, json({ error: message }, { status }))
+      const status = /token|authorization|permission|secret/i.test(error.message) ? 401 : 400
+      return withCors(request, env, json({ error: error.message }, { status }))
     }
   }
 }

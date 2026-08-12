@@ -2,15 +2,9 @@ name = "atunicorn-storage"
 main = "src/index.js"
 compatibility_date = "2026-06-01"
 
-[vars]
-ALLOWED_ORIGINS = "https://atunicorn.io,http://localhost:8080"
-FIREBASE_DATABASE_URL = "https://unicorn-ee877-default-rtdb.firebaseio.com"
-
 # Set these before deploying:
 # wrangler secret put FIREBASE_PROJECT_ID --config workers/cloudinary-storage/wrangler.toml
 # wrangler secret put CLOUDINARY_CLOUD_NAME --config workers/cloudinary-storage/wrangler.toml
 # wrangler secret put CLOUDINARY_API_KEY --config workers/cloudinary-storage/wrangler.toml
 # wrangler secret put CLOUDINARY_API_SECRET --config workers/cloudinary-storage/wrangler.toml
-#
-# Before deploying, create a Cloudflare WAF rate-limiting rule for POST requests
-# to /upload and /delete. Limit by IP (and, where available, JA3/JA4 fingerprint).
+# wrangler secret put ALLOWED_ORIGIN --config workers/cloudinary-storage/wrangler.toml

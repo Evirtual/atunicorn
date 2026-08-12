@@ -5,8 +5,8 @@
     "users": {
       ".read": true,
       "$uid": {
-          ".write": "auth != null && $uid === auth.uid && ((!data.child('approved').exists() && (!newData.child('approved').exists() || newData.child('approved').val() === false)) || newData.child('approved').val() === data.child('approved').val())",
-          ".validate": "newData.hasChildren(['id', 'approved', 'updated']) && newData.child('id').val() === $uid && newData.child('approved').isBoolean() && newData.child('updated').isNumber() && (!newData.child('username').exists() || newData.child('username').val() === data.child('username').val() || newData.parent().parent().child('usernames').child(newData.child('username').val()).val() === $uid) && (!data.child('username').exists() || data.child('username').val() === newData.child('username').val() || !newData.parent().parent().child('usernames').child(data.child('username').val()).exists()) && (!newData.child('url').exists() || (newData.child('url').isString() && newData.child('url').val().length <= 2048 && newData.child('url').val().matches(/^https:\\/\\/res\\.cloudinary\\.com\\/[^\\/]+\\/image\\/upload\\/.+/))) && (!newData.child('about').exists() || (newData.child('about').isString() && newData.child('about').val().length <= 5000))",
+        ".write": "auth != null && $uid === auth.uid && ((!data.child('approved').exists() && (!newData.child('approved').exists() || newData.child('approved').val() === false)) || newData.child('approved').val() === data.child('approved').val())",
+        ".validate": "newData.hasChildren(['id', 'approved']) && newData.child('id').val() === $uid && newData.child('approved').isBoolean() && (!newData.child('username').exists() || newData.child('username').val() === data.child('username').val() || newData.parent().parent().child('usernames').child(newData.child('username').val()).val() === $uid) && (!data.child('username').exists() || data.child('username').val() === newData.child('username').val() || !newData.parent().parent().child('usernames').child(data.child('username').val()).exists())",
         "id": {
           ".validate": "newData.val() === $uid"
         },
@@ -15,18 +15,6 @@
         },
         "username": {
           ".validate": "newData.isString() && newData.val() !== 'unicorn' && newData.val().matches(/^[a-z0-9]{3,15}$/)"
-        },
-        "updated": {
-          ".validate": "newData.isNumber()"
-        },
-        "url": {
-          ".validate": "newData.isString() && newData.val().length <= 2048 && newData.val().matches(/^https:\\/\\/res\\.cloudinary\\.com\\/[^\\/]+\\/image\\/upload\\/.+/)"
-        },
-        "about": {
-          ".validate": "newData.isString() && newData.val().length <= 5000"
-        },
-        "$other": {
-          ".validate": false
         }
       }
     },
@@ -41,34 +29,7 @@
       "$uid": {
         "$postId": {
           ".write": "auth != null && $uid === auth.uid && (!newData.exists() || root.child('users').child(auth.uid).child('approved').val() === true)",
-          ".validate": "newData.hasChildren(['id', 'userId', 'updated', 'username', 'url', 'desc', 'nsfw']) && newData.child('id').isNumber() && newData.child('id').val() + '' === $postId && newData.child('userId').val() === auth.uid && newData.child('updated').isNumber() && newData.child('username').isString() && newData.child('username').val().length <= 15 && ((root.child('users').child(auth.uid).child('username').exists() && newData.child('username').val() === root.child('users').child(auth.uid).child('username').val()) || (!root.child('users').child(auth.uid).child('username').exists() && newData.child('username').val() === auth.uid)) && newData.child('url').isString() && newData.child('url').val().length <= 2048 && newData.child('url').val().matches(/^https:\\/\\/res\\.cloudinary\\.com\\/[^\\/]+\\/image\\/upload\\/.+/) && newData.child('desc').isString() && newData.child('desc').val().length > 0 && newData.child('desc').val().length <= 2000 && (!newData.child('avatar').exists() || (newData.child('avatar').isString() && newData.child('avatar').val().length <= 2048 && newData.child('avatar').val().matches(/^https:\\/\\/res\\.cloudinary\\.com\\/[^\\/]+\\/image\\/upload\\/.+/))) && newData.child('nsfw').isBoolean()",
-          "id": {
-            ".validate": "newData.isNumber() && newData.val() + '' === $postId"
-          },
-          "userId": {
-            ".validate": "newData.val() === auth.uid"
-          },
-          "updated": {
-            ".validate": "newData.isNumber()"
-          },
-          "username": {
-            ".validate": "newData.isString() && newData.val().length <= 15 && ((root.child('users').child(auth.uid).child('username').exists() && newData.val() === root.child('users').child(auth.uid).child('username').val()) || (!root.child('users').child(auth.uid).child('username').exists() && newData.val() === auth.uid))"
-          },
-          "avatar": {
-            ".validate": "newData.isString() && newData.val().length <= 2048 && newData.val().matches(/^https:\\/\\/res\\.cloudinary\\.com\\/[^\\/]+\\/image\\/upload\\/.+/)"
-          },
-          "url": {
-            ".validate": "newData.isString() && newData.val().length <= 2048 && newData.val().matches(/^https:\\/\\/res\\.cloudinary\\.com\\/[^\\/]+\\/image\\/upload\\/.+/)"
-          },
-          "desc": {
-            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 2000"
-          },
-          "nsfw": {
-            ".validate": "newData.isBoolean()"
-          },
-          "$other": {
-            ".validate": false
-          }
+          ".validate": "newData.hasChildren(['id', 'userId', 'updated', 'username', 'nsfw']) && newData.child('id').isNumber() && newData.child('id').val() + '' === $postId && newData.child('userId').val() === auth.uid && newData.child('updated').isNumber() && newData.child('username').isString() && newData.child('nsfw').isBoolean()"
         }
       }
     }
